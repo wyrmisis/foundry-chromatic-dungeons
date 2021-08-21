@@ -3,4 +3,6 @@ Hooks.once("init", () => {
 
   Actors.unregisterSheet("core", ActorSheet);
   Items.unregisterSheet("core", ItemSheet);
+
+  // @todo register system sheets
 });

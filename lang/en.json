@@ -1,4 +1,4 @@
 {
-  "ACTOR.TypePc": "Player Character",
-  "ACTOR.TypeNpc": "Creature"
+  "ACTOR.TypePC": "Player Character",
+  "ACTOR.TypeNPC": "Creature"
 }

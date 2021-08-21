@@ -1,12 +1,13 @@
 {
   "Actor": {
-    "types": ["pc", "npc"],
+    "types": ["PC", "NPC"],
     "templates": {
       "base": {
-        "name" {"value": ""},
         "hp": {"value": 10, "min": 0, "max": 10},
         "ac": {"value": 10},
         "speed": {"value": 30, "min": 0},
+      },
+      "abilities": {
         "abilities": {
           "str": {"value": 10},
           "dex": {"value": 10},
@@ -14,24 +15,25 @@
           "int": {"value": 10},
           "wis": {"value": 10},
           "cha": {"value": 10},
-        },
-        "wealth": {
-
         }
-      },
-      "pc": {
-        "templates": ["base"],
-        "classes": [
-          {
-            "level": {"value": 1, "min": 1, "max": 20},
-            "name": {"value": ""},
-            "xp": {"value": 0, "min": 0}
-          }
-        ],
-      },
-      "npc": {
-        "templates": ["base"]
       }
+    },
+    "PC": {
+      "templates": ["base", "abilities"]
+    },
+    "NPC": {
+      "templates": ["base", "abilities"]
+    }
+  },
+  "Item": {
+    "types": ["weapon"],
+    "templates": {
+      "base": {
+        "description": ""
+      }
+    },
+    "weapon": {
+      "templates": ["weapon"]
     }
   }
 }
