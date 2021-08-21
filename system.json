@@ -1,0 +1,27 @@
+{
+  "name": "chromatic-dungeons",
+  "title": "Chromatic Dungeons",
+  "description": "An implementation of Izegrim Creations' Chromatic Dungeons (https://izegrimcreations.com/gaming-related)",
+  "version": "0.0.4",
+  "templateVersion": 1,
+  "minimumCoreVersion": "0.8.8",
+  "compatibleCoreVersion": "0.8.8",
+  "author": "wyrmisis",
+  "esmodules": ["scripts/index.mjs"],
+  "styles": [
+    "style/vars.css"
+  ],
+  "packs": [],
+  "languages": [{
+    "lang": "en",
+    "name": "English",
+    "path": "lang/en.json"
+  }],
+  "gridDistance": "5",
+  "gridUnits": "ft",
+  "primaryTokenAttribute": "hp",
+  "url": "https://github.com/wyrmisis/foundry-chromatic-dungeons",
+  "manifest": "",
+  "download": "",
+  "license": "LICENSE.txt"
+}
