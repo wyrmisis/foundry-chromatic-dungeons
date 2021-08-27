@@ -1,0 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&family=Roboto&display=swap');
+
+body {
+  --sheet-bg-color: #fff;
+  --sheet-body-color: #444;
+  --sheet-clickable-color: #DB1C1C;
+
+  --sheet-heading-font: 'Crimson Pro', serif;
+  --sheet-body-font: 'Roboto', sans-serif;
+}

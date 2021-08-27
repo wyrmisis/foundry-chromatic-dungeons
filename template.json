@@ -1,39 +1,46 @@
 {
   "Actor": {
-    "types": ["PC", "NPC"],
+    "types": ["pc", "npc"],
     "templates": {
-      "base": {
-        "hp": {"value": 10, "min": 0, "max": 10},
-        "ac": {"value": 10},
-        "speed": {"value": 30, "min": 0},
+      "attributes": {
+        "attributes": { "str": 3, "int": 3, "wis": 3, "dex": 3, "con": 3, "cha": 3 }
       },
-      "abilities": {
-        "abilities": {
-          "str": {"value": 10},
-          "dex": {"value": 10},
-          "con": {"value": 10},
-          "int": {"value": 10},
-          "wis": {"value": 10},
-          "cha": {"value": 10},
-        }
+      "meta": {
+        "alignment": "",
+        "description": "",
+        "bio": ""
+      },
+      "wealth": {
+        "wealth": { "cp": 0, "sp": 0, "ep": 0, "gp": 0, "pp": 0 }
+      },
+      "saveMods": {
+        "saveMods": { "reflex": 0, "poison": 0, "creature": 0, "spell": 0 }
       }
     },
-    "PC": {
-      "templates": ["base", "abilities"]
+    "pc": {
+      "templates": ["attributes", "wealth", "meta", "saveMods"],
+      "acMod": 0,
+      "moveMod": 0,
+      "hp": { "value": 10, "min": 0, "max": 10 }
     },
-    "NPC": {
-      "templates": ["base", "abilities"]
-    }
-  },
-  "Item": {
-    "types": ["weapon"],
-    "templates": {
-      "base": {
-        "description": ""
-      }
-    },
-    "weapon": {
-      "templates": ["weapon"]
+    "npc": {
+      "templates": ["attributes", "meta"],
+      "type": "",
+      "numberAppearing": "",
+      "numberAppearingInLair": "",
+      "size": "",
+      "perceptionMod": 0,
+      "treasure": "",
+      "hitDieFace": "d8",
+      "hitDieNumber": { "value": 1, "min": 0 },
+      "hitDieMod": 0,
+      "ac": 10,
+      "specialDefenses": "",
+      "magicResistance": 0,
+      "attacks": "",
+      "specialAttacks": "",
+      "move": 0,
+      "xp": 0
     }
   }
 }

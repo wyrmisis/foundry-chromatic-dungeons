@@ -1,0 +1,15 @@
+<div class="attribute">
+  <label
+    class="rollable"
+    for="data.attributes.{{key}}.value"
+    data-roll="d20ms>=@attributes.{{key}}"
+    data-label="{{localize (concat "ATTRIBUTE." key) }}">
+    {{localize (concat "ATTRIBUTE." key) }}
+  </label>
+  <input
+    type="number"
+    min="0"
+    name="data.attributes.{{key}}"
+    value="{{attribute}}"
+    data-dtype="Number"/>
+</div>

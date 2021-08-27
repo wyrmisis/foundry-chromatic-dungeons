@@ -1,4 +1,57 @@
 {
-  "ACTOR.TypePC": "Player Character",
-  "ACTOR.TypeNPC": "Creature"
+  "ACTOR.TypePc": "Player Character",
+  "ACTOR.TypeNpc": "NPC/Monster",
+
+  "ATTRIBUTE.str": "Strength",
+  "ATTRIBUTE.con": "Constitution",
+  "ATTRIBUTE.dex": "Dexterity",
+  "ATTRIBUTE.int": "Intelligence",
+  "ATTRIBUTE.wis": "Wisdom",
+  "ATTRIBUTE.cha": "Charisma",
+
+  "SHEET.hp": "Hit Points",
+  "SHEET.name": "Name",
+  "SHEET.class": "Class",
+  "SHEET.ancestry": "Ancestry",
+  "SHEET.level": "Level",
+  "SHEET.alignment": "Alignment",
+  "SHEET.heritage": "Heritage",
+  "SHEET.movement": "Movement",
+  "SHEET.xp": "Experience Points",
+  "SHEET.ac": "Armor Class",
+  
+  "SHEET.saves": "Saving Throws",
+  "SHEET.saveReflex": "Reflex",
+  "SHEET.savePoison": "Poison/Venom/Disease",
+  "SHEET.saveCreature": "Creature Ability",
+  "SHEET.saveSpell": "Magic Item/Spell",
+
+  "ATTRIBUTE.StrAbbr": "str",
+  "ATTRIBUTE.ConAbbr": "con",
+  "ATTRIBUTE.DexAbbr": "dex",
+  "ATTRIBUTE.IntAbbr": "int",
+  "ATTRIBUTE.WisAbbr": "wis",
+  "ATTRIBUTE.ChaAbbr": "cha",
+
+
+  "BOILERPLATE.AbilityStr": "Strength",
+  "BOILERPLATE.AbilityCon": "Constitution",
+  "BOILERPLATE.AbilityDex": "Dexterity",
+  "BOILERPLATE.AbilityInt": "Intelligence",
+  "BOILERPLATE.AbilityWis": "Wisdom",
+  "BOILERPLATE.AbilityCha": "Charisma",
+
+  "BOILERPLATE.AbilityStrAbbr": "str",
+  "BOILERPLATE.AbilityConAbbr": "con",
+  "BOILERPLATE.AbilityDexAbbr": "dex",
+  "BOILERPLATE.AbilityIntAbbr": "int",
+  "BOILERPLATE.AbilityWisAbbr": "wis",
+  "BOILERPLATE.AbilityChaAbbr": "cha",
+
+  "BOILERPLATE.EffectCreate": "Create Effect",
+  "BOILERPLATE.EffectToggle": "Toggle Effect",
+  "BOILERPLATE.EffectEdit": "Edit Effect",
+  "BOILERPLATE.EffectDelete": "Delete Effect",
+
+  "BOILERPLATE.Add": "Add"
 }

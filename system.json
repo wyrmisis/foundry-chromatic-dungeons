@@ -7,9 +7,10 @@
   "minimumCoreVersion": "0.8.8",
   "compatibleCoreVersion": "0.8.8",
   "author": "wyrmisis",
-  "esmodules": ["scripts/index.mjs"],
+  "esmodules": ["module/index.mjs"],
   "styles": [
-    "style/vars.css"
+    "style/vars.css",
+    "style/pc-sheet.css"
   ],
   "packs": [],
   "languages": [{
@@ -17,7 +18,7 @@
     "name": "English",
     "path": "lang/en.json"
   }],
-  "gridDistance": "5",
+  "gridDistance": 5,
   "gridUnits": "ft",
   "primaryTokenAttribute": "hp",
   "url": "https://github.com/wyrmisis/foundry-chromatic-dungeons",

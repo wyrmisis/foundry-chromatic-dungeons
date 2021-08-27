@@ -1,0 +1,13 @@
+.chromatic-dungeons .window-content {
+  background: var(--sheet-bg-color);
+  font-family: var(--sheet-body-font);
+  color: var(--sheet-body-color);
+}
+
+.sheet-tab__attributes {
+  display:  flex;
+}
+
+.sheet-tab__attribute {
+  width: calc(100% / 6);
+}
