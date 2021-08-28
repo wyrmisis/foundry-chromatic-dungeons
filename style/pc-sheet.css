@@ -4,10 +4,36 @@
   color: var(--sheet-body-color);
 }
 
-.sheet-tab__attributes {
+
+.sheet-header {
+  margin-bottom: 1rem;
+  flex-basis: 32px;
+}
+
+
+
+.sheet-body {}
+
+.sheet-footer {}
+
+.attributes {
   display:  flex;
 }
 
-.sheet-tab__attribute {
+.attributes__item {
   width: calc(100% / 6);
+  text-align: center;
+}
+
+.attributes__item label {
+  font-family: var(--sheet-heading-font);
+  font-size:  1.2rem;
+}
+
+.attributes__item input {
+  border: none;
+  border-bottom: 1px solid var(--sheet-body-color);
+  background-color: transparent;
+  font-size: 1.5rem;
+  padding: .6em;
 }

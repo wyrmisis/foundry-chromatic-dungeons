@@ -6,7 +6,8 @@ import { BoilerplateActorSheet } from "./sheets/actor-sheet.mjs";
 import { BoilerplateItemSheet } from "./sheets/item-sheet.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
-import { BOILERPLATE } from "./helpers/config.mjs";
+import { CHROMATIC } from "./helpers/config.mjs";
+import setupHandlebarsHelpers from './helpers/handlebarsHelpers.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -28,7 +29,7 @@ Hooks.once('init', async function() {
   };
 
   // Add custom constants for configuration.
-  CONFIG.BOILERPLATE = BOILERPLATE;
+  CONFIG.CHROMATIC = CHROMATIC;
 
   /**
    * Set an initiative formula for the system
@@ -48,6 +49,9 @@ Hooks.once('init', async function() {
   Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, { makeDefault: true });
+
+  // Setup custom Handlebars helpers
+  setupHandlebarsHelpers();
 
   // Preload Handlebars templates.
   return preloadHandlebarsTemplates();

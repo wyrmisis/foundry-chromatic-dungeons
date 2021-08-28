@@ -13,7 +13,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       template: "systems/chromatic-dungeons/templates/actor/actor-sheet.html",
       width: 600,
       height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "summary" }]
     });
   }
 
@@ -40,7 +40,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.flags = actorData.flags;
 
     // Prepare character data and items.
-    if (actorData.type == 'character') {
+    if (actorData.type == 'pc') {
       this._prepareItems(context);
       this._prepareCharacterData(context);
     }
@@ -68,9 +68,9 @@ export class BoilerplateActorSheet extends ActorSheet {
    */
   _prepareCharacterData(context) {
     // Handle ability scores.
-    for (let [k, v] of Object.entries(context.data.abilities)) {
-      v.label = game.i18n.localize(CONFIG.BOILERPLATE.abilities[k]) ?? k;
-    }
+    // for (let [k, v] of Object.entries(context.data.attributes)) {
+    //   v.label = game.i18n.localize(CONFIG.CHROMATIC.attributeLabels[k]) ?? k;
+    // }
   }
 
   /**
@@ -157,7 +157,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     html.find('.rollable').click(this._onRoll.bind(this));
 
     // Drag events for macros.
-    if (this.actor.owner) {
+    if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
       html.find('li.item').each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
