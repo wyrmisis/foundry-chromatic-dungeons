@@ -13,8 +13,6 @@ import setupHandlebarsHelpers from './helpers/handlebarsHelpers.mjs';
 /*  Init Hook                                   */
 /* -------------------------------------------- */
 
-console.warn(CONFIG.debug);
-
 Hooks.once('init', async function() {
 
   console.info('Chromatic Dungeons | Initializing');
@@ -34,6 +32,8 @@ Hooks.once('init', async function() {
   /**
    * Set an initiative formula for the system
    * @type {String}
+   * @todo settings for group vs. individual initiative
+   * @todo settings for weapon speed factor
    */
   CONFIG.Combat.initiative = {
     formula: "1d20 + @abilities.dex.mod",
@@ -58,31 +58,60 @@ Hooks.once('init', async function() {
 });
 
 /* -------------------------------------------- */
-/*  Handlebars Helpers                          */
-/* -------------------------------------------- */
-
-// If you need to add Handlebars helpers, here are a few useful examples:
-Handlebars.registerHelper('concat', function() {
-  var outStr = '';
-  for (var arg in arguments) {
-    if (typeof arguments[arg] != 'object') {
-      outStr += arguments[arg];
-    }
-  }
-  return outStr;
-});
-
-Handlebars.registerHelper('toLowerCase', function(str) {
-  return str.toLowerCase();
-});
-
-/* -------------------------------------------- */
 /*  Ready Hook                                  */
 /* -------------------------------------------- */
 
 Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+  Hooks.on('dropActorSheetData', (actor, sheet, {id}) => {
+    const droppedItem = game.items.find((item) => item.id === id);
+
+    // Check if Actor is not a PC,
+    // Check if dropped item is an ancestry, heritage, or class,
+    // Return false if both are met
+
+    if (actor.type !== 'pc') {
+      if (
+        droppedItem.type === 'ancestry' ||
+        droppedItem.type === 'heritage' ||
+        droppedItem.type === 'class'
+      ) {
+        console.warn('Chromatic Dungeons | Only PCs can have an ancestry, heritage, or class');
+        return false;
+      }
+    }
+
+    if (droppedItem.type === 'ancestry') {
+      const actorAncestry = actor.items.find(item => item.type === 'ancestry');
+
+      if (actorAncestry) {
+        console.warn(`Chromatic Dungeons | Actor ${actor.id} already has an ancestry`);
+        return false;
+      }
+    }
+
+    // @todo Add a setting for number of heritages
+    if (droppedItem.type === 'heritage') {
+      const actorHeritages = actor.items.filter(item => item.type === 'heritage');
+
+      if (actorHeritages.length >= 2) {
+        console.warn(`Chromatic Dungeons | Actor ${actor.id} already has two heritages`);
+        return false;
+      }
+
+      if (actorHeritages.find(({name}) => name === droppedItem.name)) {
+        console.warn(`Chromatic Dungeons | Actor ${actor.id} already has the ${droppedItem.name} heritage`);
+        return false;
+      }
+    }
+
+    // @todo Add a setting for class stat requirements
+    if (droppedItem.type === 'class') {
+      // Check actor attributes against class requirements
+      // If unmet, return false
+    }
+  });
 });
 
 /* -------------------------------------------- */

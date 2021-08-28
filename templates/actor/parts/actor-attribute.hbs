@@ -1,0 +1,17 @@
+{{#each data.attributes as |attribute key|}}
+  <div class="attributes__item">
+    <input
+      type="number"
+      min="0"
+      name="data.attributes.{{key}}"
+      value="{{attribute}}"
+      data-dtype="Number"/>
+    <label
+      class="rollable"
+      for="data.attributes.{{key}}.value"
+      data-roll="1d20cs<=@attributes.{{key}}"
+      data-label="{{localizeAttr key}}">
+      {{localizeAttr key}}
+    </label>
+  </div>
+{{/each}}

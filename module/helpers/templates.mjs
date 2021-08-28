@@ -7,9 +7,11 @@
   return loadTemplates([
 
     // Actor partials.
-    "systems/chromatic-dungeons/templates/actor/parts/actor-features.html",
-    "systems/chromatic-dungeons/templates/actor/parts/actor-items.html",
-    "systems/chromatic-dungeons/templates/actor/parts/actor-spells.html",
-    "systems/chromatic-dungeons/templates/actor/parts/actor-effects.html",
+    "systems/chromatic-dungeons/templates/actor/parts/actor-attribute.hbs",
+    "systems/chromatic-dungeons/templates/actor/parts/actor-features.hbs",
+    "systems/chromatic-dungeons/templates/actor/parts/actor-items.hbs",
+    "systems/chromatic-dungeons/templates/actor/parts/actor-spells.hbs",
+    "systems/chromatic-dungeons/templates/actor/parts/actor-effects.hbs",
+    "systems/chromatic-dungeons/templates/actor/parts/actor-biography.hbs",
   ]);
 };

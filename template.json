@@ -42,5 +42,94 @@
       "move": 0,
       "xp": 0
     }
+  },
+  "Item": {
+    "types": ["weapon", "armor", "gear", "goods", "treasure", "ancestry", "heritage", "class", "spell"],
+    "templates": {
+      "item": {
+        "quantity": {"value": 1, "min": 0},
+        "weight": {"value": 0, "min": 0},
+        "cost": {"pp": 0, "gp": 0, "ep": 0, "sp": 0, "pp": 0},
+        "description": ""
+      }
+    },
+    "weapon": {
+      "templates": ["item"],
+      "damageType": "",
+      "damage": "1d6",
+      "isRanged": false,
+      "isThrown": false,
+      "range": 0,
+      "reach": 0,
+      "modDamage": 0,
+      "modToHit": 0,
+      "speedFactor": 0
+    },
+    "armor": {
+      "templates": ["item"],
+      "ac": 0,
+      "isHelmet": false
+    },
+    "gear": {
+      "templates": ["item"]
+    },
+    "goods": {
+      "templates": ["item"]
+    },
+    "treasure": {
+      "templates": ["item"]
+    },
+    "spell": {
+      "level": 1,
+      "school": "",
+      "range": 0,
+      "duration: "",
+      "areaOfEffect": "",
+      "castingTime": "",
+      "save": "",
+      "hasVerbalComponent": false,
+      "hasVerbalComponent": false,
+      "hasMaterialComponent": false,
+      "isClericSpell": false,
+      "isDruidSpell": false,
+      "isWizardSpell": false,
+      "isSorcererSpell": false
+    },
+    "ancestry": {
+      "movement": 30,
+      "infravision": 30,
+      "minHeight": 60,
+      "maxHeight": 66,
+      "minWeight": 150,
+      "maxWeight": 300,
+      "lifespan": 80,
+      "languages": "",
+      "features": "",
+      "description": ""
+    },
+    "heritage": {
+      "trait": ""
+    },
+    "class": {
+    "label": "",
+    "classGroup": "",
+    "xp": 0,
+    "requirements": {
+        "str": 0,
+        "int": 0,
+        "wis": 0,
+        "dex": 0,
+        "con": 0,
+        "cha": 0
+    },
+    "levels": {
+        "1": { ... } // features, per class
+    },
+    "weaponProf": "",
+    "armorProf": "",
+    "statBonus": "",
+    "isPrimary": true,
+    "isSelectedSaveTable": true
+    }
   }
 }

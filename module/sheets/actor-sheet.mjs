@@ -76,51 +76,101 @@ export class BoilerplateActorSheet extends ActorSheet {
   /**
    * Organize and classify Items for Character sheets.
    *
+   * @todo Add default images per type (https://game-icons.net/)
+   * 
    * @param {Object} actorData The actor to prepare.
-   *
+   * 
    * @return {undefined}
    */
   _prepareItems(context) {
-    // Initialize containers.
-    const gear = [];
-    const features = [];
-    const spells = {
-      0: [],
-      1: [],
-      2: [],
-      3: [],
-      4: [],
-      5: [],
-      6: [],
-      7: [],
-      8: [],
-      9: []
-    };
+    // // Initialize containers.
+    // const gear = [];
+    // const features = [];
+    // const spells = {
+    //   0: [],
+    //   1: [],
+    //   2: [],
+    //   3: [],
+    //   4: [],
+    //   5: [],
+    //   6: [],
+    //   7: [],
+    //   8: [],
+    //   9: []
+    // };
 
-    // Iterate through items, allocating to containers
-    for (let i of context.items) {
-      i.img = i.img || DEFAULT_TOKEN;
-      // Append to gear.
-      if (i.type === 'item') {
-        gear.push(i);
-      }
-      // Append to features.
-      else if (i.type === 'feature') {
-        features.push(i);
-      }
-      // Append to spells.
-      else if (i.type === 'spell') {
-        if (i.data.spellLevel != undefined) {
-          spells[i.data.spellLevel].push(i);
-        }
-      }
-    }
+    // console.info('CHROMATIC DUNGEONS | ACTOR ITEMS', context.items);
 
-    // Assign and return
-    context.gear = gear;
-    context.features = features;
-    context.spells = spells;
-   }
+    // // Iterate through items, allocating to containers
+    // for (let i of context.items) {
+    //   i.img = i.img || DEFAULT_TOKEN;
+    //   // Append to gear.
+    //   if (i.type === 'item') {
+    //     gear.push(i);
+    //   }
+    //   // Append to features.
+    //   else if (i.type === 'feature') {
+    //     features.push(i);
+    //   }
+    //   // Append to spells.
+    //   else if (i.type === 'spell') {
+    //     if (i.data.spellLevel != undefined) {
+    //       spells[i.data.spellLevel].push(i);
+    //     }
+    //   }
+    // }
+
+    // // Assign and return
+    // context.gear = gear;
+    // context.features = features;
+    // context.spells = spells;
+
+    // Init containers
+    let weapons = [],
+      armor = [],
+      gear = [],
+      goods = [],
+      treasure = [],
+      ancestry = {},
+      heritages = [],
+      classes = [],
+      spells = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: [],
+        7: [],
+        8: [],
+        9: []
+      };
+
+      // Divide the items out
+      context.items.forEach(item => {
+        item.img = item.img || DEFAULT_TOKEN;
+
+        if (item.type === 'weapon') weapons.push(item);
+        if (item.type === 'armor') armor.push(item);
+        if (item.type === 'gear') gear.push(item);
+        if (item.type === 'goods') goods.push(item);
+        if (item.type === 'treasure') treasure.push(item);
+        if (item.type === 'ancestry') ancestry = item;
+        if (item.type === 'heritage') heritages.push(item);
+        if (item.type === 'class') classes.push(item);
+        if (item.type === 'spell' && item.data.level) spells[item.data.level].push(item);
+      });
+
+      context.weapons = weapons;
+      context.armor = armor;
+      context.gear = gear;
+      context.goods = goods;
+      context.treasure = treasure;
+      context.ancestry = ancestry;
+      context.heritages = heritages;
+      context.classes = classes;
+      context.spells = spells;
+  }
 
   /* -------------------------------------------- */
 
