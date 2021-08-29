@@ -10,13 +10,23 @@
   "esmodules": ["module/index.mjs"],
   "styles": [
     "style/vars.css",
-    "style/pc-sheet.css"
+    "style/shared.css",
+    "style/pc-sheet.css",
+    "style/npc-sheet.css",
+    "style/item-sheet.css",
+    "style/spell-sheet.css",
+    "style/ancestry-sheet.css",
+    "style/heritage-sheet.css",
+    "style/character-class-sheet.css"
   ],
   "packs": [],
   "languages": [{
     "lang": "en",
     "name": "English",
     "path": "lang/en.json"
+  }],
+  "dependencies": [{
+    "name": "markdown-editor"
   }],
   "gridDistance": 5,
   "gridUnits": "ft",

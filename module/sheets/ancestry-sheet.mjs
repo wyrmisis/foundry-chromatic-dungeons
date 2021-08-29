@@ -2,15 +2,15 @@
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class BoilerplateItemSheet extends ItemSheet {
+export default class AncestrySheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
-      classes: ["chromatic-dungeons", "sheet", "item", "object"],
+      classes: ["chromatic-dungeons", "sheet", "item", "ancestry"],
       width: 520,
       height: 480,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "attributes" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
   }
 
@@ -53,11 +53,34 @@ export class BoilerplateItemSheet extends ItemSheet {
 
   /** @override */
   activateListeners(html) {
+    console.info('Chromatic Dungeons | Registering events on the Ancestry sheet');
+
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
     // Roll handlers, click handlers, etc. would go here.
+
+    html.find('.feature__add').click(() => {
+      this.item.update({
+        _id: this.item.id,
+        [`data.features.${randomID()}`]: 'New Feature'
+      });
+    });
+
+    html.find('.feature__delete').click((evt) => {
+      const targetFeature = $(evt.target)
+        .parents('.feature__list-item')
+        .data('id');
+
+      this.item.update({
+        _id: this.item.id,
+        'data.features': {
+          [`-=${targetFeature}`]: null
+        }
+      });
+    });
+
   }
 }

@@ -1,0 +1,6 @@
+.feature__list-item {
+  display: grid;
+  grid-template-columns: 6fr 1fr;
+  grid-gap:  1rem;
+  align-items: flex-start;
+}

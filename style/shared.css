@@ -1,0 +1,57 @@
+/**
+ * Set some defaults
+ */
+.chromatic-dungeons .window-content {
+  background: var(--sheet-bg-color);
+  font-family: var(--sheet-body-font);
+  color: var(--sheet-body-color);
+}
+
+.chromatic-dungeons .window-content h1,
+.chromatic-dungeons .window-content h2,
+.chromatic-dungeons .window-content h3,
+.chromatic-dungeons .window-content h4 {
+  font-family:  var(--sheet-heading-font);
+  color: var(--sheet-heading-color);
+}
+
+
+/**
+ * Utility classes
+ */
+.sr-only {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}
+
+.rollable {}
+
+label[title] {
+  border-bottom: 1px dotted var(--sheet-heading-color);
+}
+
+.sheet-body {
+  min-height: 300px;
+}
+
+.tab.description {
+  margin: 0;
+}
+
+.tab .editor {
+  height: 100%;
+}
+
+.tox .tox-editor-container {
+  background: var(--sheet-bg-color);
+}
+
+.tox .tox-edit-area {
+  padding: 0 8px;
+}

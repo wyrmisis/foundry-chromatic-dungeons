@@ -1,24 +1,27 @@
-.chromatic-dungeons .window-content {
-  background: var(--sheet-bg-color);
-  font-family: var(--sheet-body-font);
-  color: var(--sheet-body-color);
-}
+/**
+ * @todo Split out common sheet styles (sheet header/footer/etc)
+ * @todo Split off helpers (.rollable, .sr-only, etc)
+ * @todo Split out item sheet styles
+ * @todo Typography variables (font size/line height/etc)
+ */
 
 
-.sheet header.sheet-header {
+
+
+.actor header.sheet-header {
   margin-bottom: 1rem;
   flex: 0 0 32px;
   flex-direction: column;
 }
 
-.sheet-header .vital {
+.actor .sheet-header .vital {
   display: flex;
   justify-content: space-between;
   width: 100%;
   margin-bottom: 1.4rem;
 }
 
-.sheet-header .vital input {
+.actor .sheet-header .vital input {
   font-family:  var(--sheet-heading-font);
   font-size: 2rem;
   padding: .6em;
@@ -27,32 +30,23 @@
   background-color:  transparent;
 }
 
-.sheet-header .hp {
+.actor .sheet-body {
   display: flex;
-  align-items: center;
-  margin-left: 2rem;
 }
-.sheet-header .hp input {
-  max-width: 6rem;
+
+.actor .attributes {
+  flex: 1;
+  margin-right: 1rem;
+}
+.actor .attributes__item {
   text-align: center;
+  margin-bottom: 1rem;
 }
-
-
-.attributes {
-  display:  flex;
-}
-
-.attributes__item {
-  width: calc(100% / 6);
-  text-align: center;
-}
-
-.attributes__item label {
+.actor .attributes__item label {
   font-family: var(--sheet-heading-font);
   font-size:  1.2rem;
 }
-
-.attributes__item input {
+.actor .attributes__item input {
   border: none;
   border-bottom: 1px solid var(--sheet-body-color);
   background-color: transparent;
@@ -62,59 +56,43 @@
   align-self: center;
 }
 
-.sheet-body {}
-
-.sheet-body h1,
-.sheet-body h2,
-.sheet-body h3,
-.sheet-body h4 {
-  font-family:  var(--sheet-heading-font);
+.actor .sheet-body .tab-group {
+  flex: 6;
 }
 
-.sheet-footer {}
-.sheet-footer > *:last-child {
+.actor .sheet-footer {}
+.actor .sheet-footer > *:last-child {
   justify-content: flex-end;
 }
 
-.sheet-footer .hp {
+.actor .hp {
   display: flex;
   align-items: center;
   margin-right: 2rem;
 }
-.sheet-footer .hp input {
+.actor .hp input {
   font-family:  var(--sheet-heading-font);
   font-size: 1.5rem;
   padding: .6em;
   border:  none;
   border-bottom: 1px solid var(--sheet-body-color);
   background-color:  transparent;
-  max-width: 5rem;
+  width: 5rem;
   text-align: center;
 }
 
-.sheet-footer .ac {
+.actor .ac {
   display: flex;
   align-items: center;
   margin-left: 2rem;
 }
-.sheet-footer .ac input {
+.actor .ac input {
   font-family:  var(--sheet-heading-font);
   font-size: 2rem;
-  padding: .6em;
+  padding: .6em .3em;
   border:  none;
   border-bottom: 1px solid var(--sheet-body-color);
   background-color:  transparent;
-  max-width: 6rem;
+  max-width: 3.2rem;
   text-align: center;
-}
-
-.sr-only {
-  clip: rect(1px, 1px, 1px, 1px);
-  clip-path: inset(50%);
-  height: 1px;
-  width: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
 }

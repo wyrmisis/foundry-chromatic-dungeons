@@ -49,7 +49,7 @@
       "item": {
         "quantity": {"value": 1, "min": 0},
         "weight": {"value": 0, "min": 0},
-        "cost": {"pp": 0, "gp": 0, "ep": 0, "sp": 0, "pp": 0},
+        "cost": {"pp": 0, "gp": 0, "ep": 0, "sp": 0, "cp": 0},
         "description": ""
       }
     },
@@ -70,20 +70,14 @@
       "ac": 0,
       "isHelmet": false
     },
-    "gear": {
-      "templates": ["item"]
-    },
-    "goods": {
-      "templates": ["item"]
-    },
-    "treasure": {
-      "templates": ["item"]
-    },
+    "gear": { "templates": ["item"] },
+    "goods": { "templates": ["item"] },
+    "treasure": { "templates": ["item"] },
     "spell": {
       "level": 1,
       "school": "",
       "range": 0,
-      "duration: "",
+      "duration": "",
       "areaOfEffect": "",
       "castingTime": "",
       "save": "",
@@ -98,38 +92,33 @@
     "ancestry": {
       "movement": 30,
       "infravision": 30,
-      "minHeight": 60,
-      "maxHeight": 66,
-      "minWeight": 150,
-      "maxWeight": 300,
+      "height": { "min": 60, "max": 66 },
+      "weight": { "min": 150, "max": 300},
       "lifespan": 80,
-      "languages": "",
-      "features": "",
+      "features": {},
       "description": ""
     },
     "heritage": {
       "trait": ""
     },
     "class": {
-    "label": "",
-    "classGroup": "",
-    "xp": 0,
-    "requirements": {
-        "str": 0,
-        "int": 0,
-        "wis": 0,
-        "dex": 0,
-        "con": 0,
-        "cha": 0
-    },
-    "levels": {
-        "1": { ... } // features, per class
-    },
-    "weaponProf": "",
-    "armorProf": "",
-    "statBonus": "",
-    "isPrimary": true,
-    "isSelectedSaveTable": true
+      "classGroup": "",
+      "xp": 0,
+      "requirements": {
+          "str": 0,
+          "int": 0,
+          "wis": 0,
+          "dex": 0,
+          "con": 0,
+          "cha": 0
+      },
+      "levelListProps": ["level"],
+      "levelList": [],
+      "weaponProf": "",
+      "armorProf": "",
+      "statBonus": "",
+      "isPrimary": true,
+      "isSelectedSaveTable": true
     }
   }
 }

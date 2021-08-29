@@ -13,7 +13,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       template: "systems/chromatic-dungeons/templates/actor/actor-sheet.html",
       width: 600,
       height: 600,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "summary" }]
+      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".tab-group__container", initial: "summary" }]
     });
   }
 

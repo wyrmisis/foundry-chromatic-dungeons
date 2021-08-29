@@ -1,0 +1,58 @@
+.object .sheet-body .attributes {
+  display: flex;
+}
+
+.item-attributes {
+  flex: 1;
+  margin-right:  1.5rem;
+}
+.item-attributes__group {
+  margin-bottom: 1.5rem;
+}
+.item-attributes__item {
+  border: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+.item-attributes__item:last-of-type {
+  margin-bottom: 0;
+}
+.item-attributes__item label {}
+.item-attributes__item input {}
+
+.item-attributes__item--compact {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.item-attributes__item--compact label {
+  flex: 1;
+}
+.item-attributes__item--compact input {
+  flex: 3;
+}
+
+.item-attributes__range {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.item-attributes__item--range .item-attributes__separator {
+  flex: 0;
+  margin: 0 1em;
+  display: inline-block;
+}
+.item-attributes__item--range input {
+  flex: 3;
+}
+
+
+
+.item-description {
+  flex: 3;
+  margin: 0;
+}
+
+.item-description .editor {
+
+}

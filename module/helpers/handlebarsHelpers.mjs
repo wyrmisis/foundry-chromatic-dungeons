@@ -40,6 +40,17 @@ const setupHandlebarsHelpers = () => {
    * Return the requested derived stat.
    */
   Handlebars.registerHelper('derivedStat', getDerivedStat);
+
+  /**
+   * optionalAttr
+   * 
+   * @param {string} key The HTML attribute to set
+   * @param {string|number} value The value to use, if the value exists.
+   */
+  Handlebars.registerHelper('optionalAttr', (key, value) =>
+    (!Handlebars.Utils.isEmpty(value)) &&
+      new Handlebars.SafeString(`${key}="${Handlebars.escapeExpression(value)}"`)
+  );
 };
 
 export default setupHandlebarsHelpers;

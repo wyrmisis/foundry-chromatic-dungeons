@@ -4,6 +4,7 @@ import { BoilerplateItem } from "./documents/item.mjs";
 // Import sheet classes.
 import { BoilerplateActorSheet } from "./sheets/actor-sheet.mjs";
 import { BoilerplateItemSheet } from "./sheets/item-sheet.mjs";
+import CDAncestrySheet from "./sheets/ancestry-sheet.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
 import { CHROMATIC } from "./helpers/config.mjs";
@@ -48,7 +49,22 @@ Hooks.once('init', async function() {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, { makeDefault: true });
+  Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, {
+    // types: ['weapon', 'armor', 'goods', 'gear', 'treasure'],
+    makeDefault: true
+  });
+  // Items.registerSheet("chromatic-dungeons", BoilerplateClassSheet, { 
+  //   types: ['class'],
+  //   makeDefault: true 
+  // });
+  // Items.registerSheet("chromatic-dungeons", BoilerplateSpellSheet, { 
+  //   types: ['spell'],
+  //   makeDefault: true 
+  // });
+  Items.registerSheet("chromatic-dungeons", CDAncestrySheet, { 
+    types: ['ancestry'],
+    makeDefault: true 
+  });
 
   // Setup custom Handlebars helpers
   setupHandlebarsHelpers();
