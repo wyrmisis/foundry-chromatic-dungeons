@@ -15,10 +15,6 @@ import setupHandlebarsHelpers from './helpers/handlebarsHelpers.mjs';
 /* -------------------------------------------- */
 
 Hooks.once('init', async function() {
-
-  console.info('Chromatic Dungeons | Initializing');
-
-
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.boilerplate = {
@@ -29,6 +25,9 @@ Hooks.once('init', async function() {
 
   // Add custom constants for configuration.
   CONFIG.CHROMATIC = CHROMATIC;
+
+  console.info(CONFIG.CHROMATIC.ascii);
+  console.info(CONFIG.CHROMATIC.logPrefix, 'initializing');
 
   /**
    * Set an initiative formula for the system
