@@ -83,48 +83,6 @@ export class BoilerplateActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareItems(context) {
-    // // Initialize containers.
-    // const gear = [];
-    // const features = [];
-    // const spells = {
-    //   0: [],
-    //   1: [],
-    //   2: [],
-    //   3: [],
-    //   4: [],
-    //   5: [],
-    //   6: [],
-    //   7: [],
-    //   8: [],
-    //   9: []
-    // };
-
-    // console.info('CHROMATIC DUNGEONS | ACTOR ITEMS', context.items);
-
-    // // Iterate through items, allocating to containers
-    // for (let i of context.items) {
-    //   i.img = i.img || DEFAULT_TOKEN;
-    //   // Append to gear.
-    //   if (i.type === 'item') {
-    //     gear.push(i);
-    //   }
-    //   // Append to features.
-    //   else if (i.type === 'feature') {
-    //     features.push(i);
-    //   }
-    //   // Append to spells.
-    //   else if (i.type === 'spell') {
-    //     if (i.data.spellLevel != undefined) {
-    //       spells[i.data.spellLevel].push(i);
-    //     }
-    //   }
-    // }
-
-    // // Assign and return
-    // context.gear = gear;
-    // context.features = features;
-    // context.spells = spells;
-
     // Init containers
     let weapons = [],
       armor = [],
@@ -160,6 +118,14 @@ export class BoilerplateActorSheet extends ActorSheet {
         if (item.type === 'class') classes.push(item);
         if (item.type === 'spell' && item.data.level) spells[item.data.level].push(item);
       });
+
+      context.totalItemWeight = []
+        .concat(weapons, armor, gear, goods, treasure)
+        .reduce((prev, curr) => prev + curr.data.weight.value, 0)
+      context.ac = armor.reduce(
+        (prev, curr) => prev + curr.data.ac,
+        10 + this.actor.data.data.acMod
+      );
 
       context.weapons = weapons;
       context.armor = armor;

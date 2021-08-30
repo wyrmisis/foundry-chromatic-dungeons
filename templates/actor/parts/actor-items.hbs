@@ -1,18 +1,122 @@
 <section class="items">
   <div class="items__carry-weight">
     <label for="">Carry weight:</label>
-    <input value="{{derivedStat "str" data.attributes.str "carryWeight"}}" readonly />
+    <input value="{{totalItemWeight}}" readonly /> / <input value="{{derivedStat "str" data.attributes.str "carryWeight"}}" readonly />
   </div>
 
   <h3>Weapons</h3>
+  <ul class="items__list items__list--weapons">
+    <li class="items__list-item items__list-item--header">
+      <div class="items__list-column items__list-column--qty">
+        Qty.
+      </div>
+
+      <div class="items__list-column items__list-column--name">
+        Name
+      </div>
+
+      <div class="items__list-column items__list-column--damage">
+        Damage
+      </div>
+
+      <div class="items__list-column items__list-column--to-hit">
+        To Hit
+      </div>
+    </li>
   {{#each weapons as |item id|}}
-    {{item}}
+    <li class="items__list-item items__list-item" data-id="{{id}}">
+      <div class="items__list-column items__list-column--qty">
+        {{item.data.quantity.value}}
+      </div>
+
+      <div class="items__list-column items__list-column--name">
+        <span
+          class="rollable"
+          data-roll="{{item.data.damage}}
+          {{signedString
+            item.data.modDamage
+            (derivedStat "str" ../data.attributes.str "modMeleeDamage")
+          }}"
+          data-label="{{item.name}}">
+          {{item.name}}
+        </span>
+      </div>
+
+      <div class="items__list-column items__list-column--damage">
+        {{item.data.damage}}
+        {{signedString
+          item.data.modDamage
+          (derivedStat "str" ../data.attributes.str "modMeleeDamage")
+        }}
+      </div>
+
+      <div class="items__list-column items__list-column--to-hit">
+        {{signedString
+          item.data.modToHit
+          (derivedStat "str" ../data.attributes.str "modToHit")
+        }}
+      </div>
+
+      <div class="items__list-column items__list-column--actions">
+        <button>
+          <i class="fa fa-edit">
+            <span class="sr-only">Edit</span>
+          </i>
+        </button>
+        <button>
+          <i class="fa fa-trash">
+            <span class="sr-only">Delete</span>
+          </i>
+        </button>
+      </div>
+    </li>
   {{/each}}
+  </ul>
 
   <h3>Armor</h3>
-  {{#each armor as |item id|}}
-    {{item}}
-  {{/each}}
+    <ul class="items__list items__list--armor">
+      <li class="items__list-item items__list-item--header">
+        <div class="items__list-column items__list-column--qty">
+          Qty.
+        </div>
+
+        <div class="items__list-column items__list-column--name">
+          Name
+        </div>
+
+        <div class="items__list-column items__list-column--ac">
+          AC
+        </div>
+      </li>
+    {{#each armor as |item id|}}
+      <li class="items__list-item items__list-item" data-id="{{id}}">
+        <div class="items__list-column items__list-column--qty">
+          {{item.data.quantity.value}}
+        </div>
+
+        <div class="items__list-column items__list-column--name">
+          {{item.name}}
+        </div>
+
+        <div class="items__list-column items__list-column--ac">
+          {{signedString item.data.ac}}
+        </div>
+
+        <div class="items__list-column items__list-column--actions">
+          <button>
+            <i class="fa fa-edit">
+              <span class="sr-only">Edit</span>
+            </i>
+          </button>
+          <button>
+            <i class="fa fa-trash">
+              <span class="sr-only">Delete</span>
+            </i>
+          </button>
+        </div>
+      </li>
+    {{/each}}
+  </ul>
 
   <h3>Gear</h3>
   {{#each gear as |item id|}}

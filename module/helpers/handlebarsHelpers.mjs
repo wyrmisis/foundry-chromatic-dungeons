@@ -31,6 +31,22 @@ const setupHandlebarsHelpers = () => {
   );
 
   /**
+   * signedString
+   * 
+   * Return a number with a preceeding +/-
+   */
+  Handlebars.registerHelper(
+    'signedString',
+    (...values) => {
+      const total = values
+        .filter(v => typeof v === 'number')
+        .reduce((prev, curr) => prev + curr, 0);
+
+      return total >= 0 ? `+${total}` : `${total}`
+    }
+   );
+
+  /**
    * derivedStat
    * 
    * @param {String} attrAbbr The attribute abbreviation

@@ -32,6 +32,17 @@
   flex: 3;
 }
 
+.item-attributes__group--damage {}
+.item-attributes__group--damage .damage-container,
+.item-attributes__group--damage .modifier-container {
+  display: flex;
+  align-items: space-between;
+}
+
+.item-attributes__group--damage .damage-container > div {
+
+}
+
 .item-attributes__range {
   display: flex;
   align-items: center;

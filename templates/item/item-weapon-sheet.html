@@ -35,14 +35,16 @@
               key="data.quantity.value"
               value=data.quantity.value
               label="Quantity"
-              type="Number"
+              type="number"
+              dataType="Number"
             }}
 
             {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.weight.value"
               value=data.weight.value
               label="Weight"
-              type="Number"
+              type="number"
+              dataType="Number"
             }}
           </div>
 
@@ -54,7 +56,8 @@
               value=data.cost.pp
               label="pp"
               hoverLabel="Platinum Pieces"
-              type="Number"
+              type="number"
+              dataType="Number"
               compact=true
             }}
 
@@ -63,7 +66,8 @@
               value=data.cost.gp
               label="gp"
               hoverLabel="Gold Pieces"
-              type="Number"
+              type="number"
+              dataType="Number"
               compact=true
             }}
 
@@ -72,7 +76,8 @@
               value=data.cost.ep
               label="ep"
               hoverLabel="Electrum Pieces"
-              type="Number"
+              type="number"
+              dataType="Number"
               compact=true
 
             }}
@@ -82,7 +87,8 @@
               value=data.cost.sp
               label="sp"
               hoverLabel="Silver Pieces"
-              type="Number"
+              type="number"
+              dataType="Number"
               compact=true
             }}
 
@@ -91,13 +97,87 @@
               value=data.cost.cp
               label="cp"
               hoverLabel="Copper Pieces"
-              type="Number"
+              type="number"
+              dataType="Number"
               compact=true
             }}
           </div>
         </section>
 
         <section class="item-description">
+          <div class="item-attributes__group--damage">
+            <h2>Damage and Modifiers</h2>
+
+            <div class="damage-container">
+              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key="data.damage"
+                value=data.damage
+                label="Damage"
+                type="text"
+                dataType="String"
+              }}
+
+              <div class="item-attributes__item">
+                <label for="data.damageType">Damage Type</label>
+                <select
+                  data-dtype="String"
+                  name="data.damageType">
+                  {{#select data.damageType}}
+                  <option value="Slashing">Slashing</option>
+                  <option value="Piercing">Piercing</option>
+                  <option value="Bludgeoning">Bludgeoning</option>
+                  {{/select}}
+                </select>
+              </div>
+            </div>
+
+            <div class="modifier-container">
+              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key="data.modDamage"
+                value=data.modDamage
+                label="Damage Modifier"
+                type="number"
+                dataType="Number"
+              }}
+
+              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key="data.modToHit"
+                value=data.modToHit
+                label="To Hit Modifier"
+                type="number"
+                dataType="Number"
+              }}
+
+              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key="data.speedFactor"
+                value=data.speedFactor
+                label="Speed Factor"
+                type="number"
+                dataType="Number"
+              }}
+            </div>
+          </div>
+
+          <div class="item-attributes__group">
+            <h2>Weapon Type</h2>
+
+            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              key="data.range"
+              value=data.range
+              label="Range (ft)"
+              type="number"
+              dataType="Number"
+            }}
+
+            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              key="data.reach"
+              value=data.reach
+              label="Reach (ft)"
+              type="number"
+              dataType="Number"
+            }}
+          </div>
+
           <h2>Description</h2>
           {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
         </section>

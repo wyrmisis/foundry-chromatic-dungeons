@@ -1,12 +1,7 @@
 /**
  * @todo Split out common sheet styles (sheet header/footer/etc)
- * @todo Split off helpers (.rollable, .sr-only, etc)
- * @todo Split out item sheet styles
  * @todo Typography variables (font size/line height/etc)
  */
-
-
-
 
 .actor header.sheet-header {
   margin-bottom: 1rem;
@@ -95,4 +90,34 @@
   background-color:  transparent;
   max-width: 3.2rem;
   text-align: center;
+}
+
+.actor .items__list {
+  padding-left: 0;
+}
+.actor .items__list-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap:  1rem;
+  align-items: center;
+}
+.actor .items__list-item--header {
+  font-weight: 600;
+}
+.items__list-column--actions {
+  justify-self: end;
+  display: flex;
+}
+.items__list-column--actions button {
+  display: inline-block;
+  width: auto;
+  height: auto;
+}
+
+.actor .items__list--weapons .items__list-item {
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+}
+
+.actor .items__list--armor .items__list-item {
+  grid-template-columns: 1fr 2fr 1fr 1fr;
 }

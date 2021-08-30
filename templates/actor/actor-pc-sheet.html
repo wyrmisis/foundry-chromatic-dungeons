@@ -89,10 +89,14 @@
     <div class="hp">
       <label 
         for="data.hp.value"
-        class="hp__label sr-only">
-        {{localize "SHEET.hp"}}
+        class="hp__label">
+        <i class="fa fa-heart">
+          <span class="sr-only">
+            {{localize "SHEET.hp"}}
+          </span>
+        </i>
       </label>
-      <i class="fa fa-heart" aria-hidden="true"></i>
+      
       <input
         type="number"
         name="data.hp.value"
@@ -111,14 +115,17 @@
     <div class="ac">
       <label 
         for="data.ac"
-        class="hp__label">
-        {{localize "SHEET.ac"}}
+        class="ac__label">
+        <i class="fa fa-universal-access">
+          <span class="sr-only">
+            {{localize "SHEET.ac"}}
+          </span>
+        </i>
       </label>
-      <i class="fa fa-shield" aria-hidden="true"></i>
       <input
         type="number"
-        name="data.ac"
-        value="10"
+        name="ac"
+        value="{{ac}}"
         readonly
         data-dtype="Number"/>
     </div>
