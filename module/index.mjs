@@ -5,6 +5,7 @@ import { BoilerplateItem } from "./documents/item.mjs";
 import { BoilerplateActorSheet } from "./sheets/actor-sheet.mjs";
 import { BoilerplateItemSheet } from "./sheets/item-sheet.mjs";
 import CDAncestrySheet from "./sheets/ancestry-sheet.mjs";
+import CDClassSheet from "./sheets/class-sheet.mjs";
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
 import { CHROMATIC } from "./helpers/config.mjs";
@@ -52,10 +53,10 @@ Hooks.once('init', async function() {
     // types: ['weapon', 'armor', 'goods', 'gear', 'treasure'],
     makeDefault: true
   });
-  // Items.registerSheet("chromatic-dungeons", BoilerplateClassSheet, { 
-  //   types: ['class'],
-  //   makeDefault: true 
-  // });
+  Items.registerSheet("chromatic-dungeons", CDClassSheet, { 
+    types: ['class'],
+    makeDefault: true 
+  });
   // Items.registerSheet("chromatic-dungeons", BoilerplateSpellSheet, { 
   //   types: ['spell'],
   //   makeDefault: true 
@@ -82,50 +83,65 @@ Hooks.once("ready", async function() {
   Hooks.on('dropActorSheetData', (actor, sheet, {id}) => {
     const droppedItem = game.items.find((item) => item.id === id);
 
-    // Check if Actor is not a PC,
-    // Check if dropped item is an ancestry, heritage, or class,
-    // Return false if both are met
-
-    if (actor.type !== 'pc') {
-      if (
-        droppedItem.type === 'ancestry' ||
-        droppedItem.type === 'heritage' ||
-        droppedItem.type === 'class'
-      ) {
-        console.warn('Chromatic Dungeons | Only PCs can have an ancestry, heritage, or class');
-        return false;
-      }
+    const reportAndQuit = (msg) => {
+      ui.notifications.error(msg);
+      return false;
     }
+    
+    if (
+      actor.type !== 'pc' && (
+      droppedItem.type === 'ancestry' ||
+      droppedItem.type === 'heritage' ||
+      droppedItem.type === 'class'
+    )) 
+      return reportAndQuit('Only PCs can have an ancestry, heritage, or class');
 
     if (droppedItem.type === 'ancestry') {
       const actorAncestry = actor.items.find(item => item.type === 'ancestry');
 
-      if (actorAncestry) {
-        console.warn(`Chromatic Dungeons | Actor ${actor.id} already has an ancestry`);
-        return false;
-      }
+      if (actorAncestry)
+        return reportAndQuit(`${actor.name} already has an ancestry`);
     }
 
     // @todo Add a setting for number of heritages
     if (droppedItem.type === 'heritage') {
       const actorHeritages = actor.items.filter(item => item.type === 'heritage');
 
-      if (actorHeritages.length >= 2) {
-        console.warn(`Chromatic Dungeons | Actor ${actor.id} already has two heritages`);
-        return false;
-      }
+      if (actorHeritages.length >= 2)
+        return reportAndQuit(`${actor.name} already has two heritages`);
 
-      if (actorHeritages.find(({name}) => name === droppedItem.name)) {
-        console.warn(`Chromatic Dungeons | Actor ${actor.id} already has the ${droppedItem.name} heritage`);
-        return false;
-      }
+      if (actorHeritages.find(({name}) => name === droppedItem.name))
+        return reportAndQuit(`${actor.name} already has the ${droppedItem.name} heritage`);
     }
 
     // @todo Add a setting for class stat requirements
     if (droppedItem.type === 'class') {
-      // Check actor attributes against class requirements
-      // If unmet, return false
+      const actorClasses = actor.items.filter(item => item.type === 'class');
+
+      if (actorClasses.find(({name}) => name === droppedItem.name))
+        return reportAndQuit(`${actor.name} already has the ${droppedItem.name} class`);
+
+      const reqs = droppedItem.data.data.requirements
+      const attributes = actor.data.data.attributes;
+      const missedReqs = Object.keys(reqs).filter(
+        (reqKey) => attributes[reqKey] < reqs[reqKey]
+      );
+
+      if (missedReqs.length)
+        return reportAndQuit(`${actor.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
     }
+  });
+  Hooks.on('renderChatMessage', (message, html, data) => {
+    console.info(
+      message,
+      html.children('.message-content'),
+      data
+    );
+
+    // data.author.targets: get the list of targeted actors
+    // data.message.speaker.actor: get the acting actor
+    // data.message.roll: get the roll
+    // html.children('.message-content'): get the body of the die roll card
   });
 });
 

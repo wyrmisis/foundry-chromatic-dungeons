@@ -46,6 +46,10 @@ export class BoilerplateItemSheet extends ItemSheet {
     context.data = itemData.data;
     context.flags = itemData.flags;
 
+    // Add some constants for easier lookup
+    if (context.item.type === 'weapon') context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
+    if (context.item.type === 'armor') context.armorTypes = CONFIG.CHROMATIC.armorTypes;
+
     return context;
   }
 

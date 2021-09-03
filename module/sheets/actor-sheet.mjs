@@ -1,10 +1,16 @@
 import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
+import {
+  getDerivedStat,
+  getLevelFromXP,
+  getClassGroupAtLevel
+} from '../helpers/utils.mjs';
 
 /**
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
 export class BoilerplateActorSheet extends ActorSheet {
+  itemMenu = null;
 
   /** @override */
   static get defaultOptions() {
@@ -115,17 +121,56 @@ export class BoilerplateActorSheet extends ActorSheet {
         if (item.type === 'treasure') treasure.push(item);
         if (item.type === 'ancestry') ancestry = item;
         if (item.type === 'heritage') heritages.push(item);
-        if (item.type === 'class') classes.push(item);
+        if (item.type === 'class') classes.push(this._formatClassForUse(item));
         if (item.type === 'spell' && item.data.level) spells[item.data.level].push(item);
       });
 
       context.totalItemWeight = []
         .concat(weapons, armor, gear, goods, treasure)
-        .reduce((prev, curr) => prev + curr.data.weight.value, 0)
-      context.ac = armor.reduce(
-        (prev, curr) => prev + curr.data.ac,
-        10 + this.actor.data.data.acMod
+        .reduce((prev, curr) => prev + curr.data.weight.value, 0);
+
+      Object.keys(this.actor.data.data.wealth).forEach(
+        (coinType) => context.totalItemWeight += (
+          this.actor.data.data.wealth[coinType] / 10
+        )
       );
+
+      let baseAC = 10 + 
+        this.actor.data.data.modAC + 
+        getDerivedStat(
+          'dex',
+          this.actor.data.data.attributes.dex,
+          'modAgility'
+        );
+
+      context.ac = armor.reduce((prev, curr) => {
+        return !curr.data.equipped ? prev : prev + curr.data.ac
+      }, baseAC);
+
+      context.move = this.actor.data.data.modMove + ancestry.data.movement;
+      context.primaryClass = classes.find(obj => obj.isPrimary);
+      context.saves = classes.find(obj => obj.isSaveSelectedTable)?.data.saves || context.primaryClass.saves;
+
+      context.hasSpellcasting = !!classes.filter(obj => obj.hasSpellcasting).length;
+
+      context.meleeToHitMod = this.actor.data.data.modToHit +
+        context.primaryClass.modToHit +
+        getDerivedStat(
+          'str',
+          this.actor.data.data.attributes.str,
+          'modToHit'
+        );
+
+      context.meleeDamageMod = this.actor.data.data.modDamage +
+        getDerivedStat(
+          'str',
+          this.actor.data.data.attributes.str,
+          'modMeleeDamage'
+        );
+
+      context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
+
+      console.info(context.meleeDamageMod);
 
       context.weapons = weapons;
       context.armor = armor;
@@ -136,6 +181,21 @@ export class BoilerplateActorSheet extends ActorSheet {
       context.heritages = heritages;
       context.classes = classes;
       context.spells = spells;
+
+      context.armorTypes = CONFIG.CHROMATIC.armorTypes;
+  }
+
+  _formatClassForUse({_id, name, data}) {
+    const level = getLevelFromXP(data.xp);
+    const classGroupData = getClassGroupAtLevel(data.classGroup, level)
+    
+    return {
+      id: _id,
+      name,
+      ...data,
+      level,
+      ...getClassGroupAtLevel(data.classGroup, level)
+    }
   }
 
   /* -------------------------------------------- */
@@ -144,10 +204,26 @@ export class BoilerplateActorSheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    const itemClass = '.items__list-item';
+
+    this.itemMenu = new ContextMenu(
+      $(itemClass).parent('ul'),
+      itemClass,
+      [
+        { name: 'Edit', icon: '<i class="fa fa-edit" />', callback: this._editOwnedItem },
+        { name: 'Delete', icon: '<i class="fa fa-trash" />', callback: this._deleteOwnedItem },
+      ]
+    );
+
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
+      const li = $(ev.currentTarget).parents(itemClass);
       const item = this.actor.items.get(li.data("itemId"));
+      item.sheet.render(true);
+    });
+
+    html.find('.class__name').click(ev => {
+      const item = this.actor.items.get(ev.target.dataset.itemId);
       item.sheet.render(true);
     });
 
@@ -160,10 +236,23 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Delete Inventory Item
     html.find('.item-delete').click(ev => {
-      const li = $(ev.currentTarget).parents(".item");
+      const li = $(ev.currentTarget).parents(itemClass);
       const item = this.actor.items.get(li.data("itemId"));
       item.delete();
       li.slideUp(200, () => this.render(false));
+    });
+
+    html.find('.items__list-column--equipped input[type="checkbox"]').change(ev => {
+      ev.preventDefault();
+      ev.stopPropagation();
+      
+      const li = $(ev.currentTarget).parents(itemClass);
+      const item = this.actor.items.get(li.data("itemId"));
+
+      if (item.type === 'armor')
+        return this._validateEquippedArmor(li, item, ev);
+      else if (item.type === 'weapon')
+        return this._validateEquippedWeapon(li, item, ev);
     });
 
     // Active Effect management
@@ -175,12 +264,76 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
-      html.find('li.item').each((i, li) => {
+      html.find(itemClass).each((i, li) => {
         if (li.classList.contains("inventory-header")) return;
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
       });
     }
+  }
+
+  _editOwnedItem(itemNode) {
+
+  }
+
+  _deleteOwnedItem(itemNode) {
+
+  }
+
+  _validateEquippedArmor(li, item, ev) {
+    const siblings = li
+      .siblings()
+      .filter((_, node) => node.dataset.armorType === item.data.data.armorType)
+      .not('.items__list-item--header');
+
+    const overlappingArmorTypes = !!siblings.filter((_, node) => {
+      const siblingItem = this.actor.items.get(node.dataset.itemId);
+
+      return (siblingItem.data.data.armorType === item.data.data.armorType) &&
+        siblingItem.data.data.equipped
+    }).length;
+
+    if (overlappingArmorTypes) {
+      siblings
+        .children('.items__list-column--equipped input[type="checkbox"]')
+        .prop('checked', false);
+
+      siblings.each((_, node) => {
+        const siblingItem = this.actor.items.get(node.dataset.itemId);
+
+        siblingItem.update({
+          _id: siblingItem.id,
+          'data.equipped': false
+        });
+      });
+    }
+
+    return item.update({
+      _id: item.id,
+      'data.equipped': ev.target.checked
+    });
+  }
+
+  _validateEquippedWeapon(li, item, ev) {
+    ev.preventDefault();
+    ev.stopPropagation();
+    
+    const equippedItems = li
+      .parent('ul')
+      .children('li')
+      .not('.items__list-item--header')
+      .children('.items__list-column--equipped')
+      .find('input:checked')
+
+    if (equippedItems.length >= 3) {
+      ev.target.checked = false;
+      return false;
+    }
+
+    return item.update({
+      _id: item.id,
+      'data.equipped': ev.target.checked
+    });
   }
 
   /**
@@ -223,7 +376,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Handle item rolls.
     if (dataset.rollType) {
       if (dataset.rollType == 'item') {
-        const itemId = element.closest('.item').dataset.itemId;
+        const itemId = element.closest('.items__list-item').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();
       }

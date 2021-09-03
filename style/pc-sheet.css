@@ -115,9 +115,21 @@
 }
 
 .actor .items__list--weapons .items__list-item {
-  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+  grid-template-columns: 1fr 5fr 2fr 1fr 2fr;
 }
 
 .actor .items__list--armor .items__list-item {
-  grid-template-columns: 1fr 2fr 1fr 1fr;
+  grid-template-columns: 1fr 6fr 1fr 1fr 2fr;
+}
+
+.actor .items__list--gear .items__list-item,
+.actor .items__list--wealth .items__list-item {
+  grid-template-columns: 1fr 8fr 2fr;
+}
+
+.actor .items__currency {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-column-gap: 1em;
+  text-align: center;
 }

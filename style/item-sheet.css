@@ -26,10 +26,11 @@
   justify-content: space-between;
 }
 .item-attributes__item--compact label {
-  flex: 1;
+  flex: 2;
+  margin-right: .5em;
 }
 .item-attributes__item--compact input {
-  flex: 3;
+  flex: 1;
 }
 
 .item-attributes__group--damage {}
@@ -39,8 +40,15 @@
   align-items: space-between;
 }
 
+.item-attributes__group--damage .modifier-container > div,
 .item-attributes__group--damage .damage-container > div {
+  margin-bottom: 1em;
+  margin-right: 1em;
+}
 
+.item-attributes__group--damage .modifier-container > div:last-of-type,
+.item-attributes__group--damage .damage-container > div:last-of-type {
+  margin-right: 0;
 }
 
 .item-attributes__range {

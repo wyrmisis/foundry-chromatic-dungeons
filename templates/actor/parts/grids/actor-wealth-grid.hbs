@@ -1,0 +1,48 @@
+<ul class="items__list items__list--wealth">
+  <li class="items__list-item items__list-item--header">
+    <div class="items__list-column items__list-column--quantity">
+      Qty.
+    </div>
+
+    <div class="items__list-column items__list-column--name">
+      Name
+    </div>
+  </li>
+  {{#each treasure as |item id|}}
+    <li
+      class="items__list-item items__list-item"
+      data-item-id="{{item._id}}">
+      <div class="items__list-column items__list-column--quantity">
+        <input
+          type="text"
+          readonly
+          name="data.quantity" />
+      </div>
+
+      <div class="items__list-column items__list-column--name">
+        {{item.name}}
+      </div>
+
+      {{> "systems/chromatic-dungeons/templates/actor/parts/grids/item-grid-actions.hbs"}}
+    </li>
+  {{/each}}
+
+  {{#each goods as |item id|}}
+    <li
+      class="items__list-item items__list-item"
+      data-item-id="{{item._id}}">
+      <div class="items__list-column items__list-column--quantity">
+        <input
+          type="text"
+          readonly
+          name="data.quantity" />
+      </div>
+
+      <div class="items__list-column items__list-column--name">
+        {{item.name}}
+      </div>
+
+      {{> "systems/chromatic-dungeons/templates/actor/parts/grids/item-grid-actions.hbs"}}
+    </li>
+  {{/each}}
+</ul>

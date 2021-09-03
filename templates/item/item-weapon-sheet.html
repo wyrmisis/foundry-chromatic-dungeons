@@ -30,14 +30,6 @@
         <section class="item-attributes">
           <div class="item-attributes__group">
             <h2>Attributes</h2>
-            
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
-              key="data.quantity.value"
-              value=data.quantity.value
-              label="Quantity"
-              type="number"
-              dataType="Number"
-            }}
 
             {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.weight.value"
@@ -105,8 +97,9 @@
         </section>
 
         <section class="item-description">
-          <div class="item-attributes__group--damage">
-            <h2>Damage and Modifiers</h2>
+          <div class="item-attributes__group item-attributes__group--damage">
+
+            <h2>Damage</h2>
 
             <div class="damage-container">
               {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
@@ -115,10 +108,11 @@
                 label="Damage"
                 type="text"
                 dataType="String"
+                compact=true
               }}
 
-              <div class="item-attributes__item">
-                <label for="data.damageType">Damage Type</label>
+              <div class="item-attributes__item item-attributes__item--compact">
+                <label for="data.damageType">Type</label>
                 <select
                   data-dtype="String"
                   name="data.damageType">
@@ -131,21 +125,25 @@
               </div>
             </div>
 
+            <h2>Modifiers</h2>
+
             <div class="modifier-container">
               {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
                 key="data.modDamage"
                 value=data.modDamage
-                label="Damage Modifier"
+                label="Damage"
                 type="number"
                 dataType="Number"
+                compact=true
               }}
 
               {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
                 key="data.modToHit"
                 value=data.modToHit
-                label="To Hit Modifier"
+                label="To Hit"
                 type="number"
                 dataType="Number"
+                compact=true
               }}
 
               {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
@@ -154,6 +152,7 @@
                 label="Speed Factor"
                 type="number"
                 dataType="Number"
+                compact=true
               }}
             </div>
           </div>
@@ -161,21 +160,29 @@
           <div class="item-attributes__group">
             <h2>Weapon Type</h2>
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
-              key="data.range"
-              value=data.range
-              label="Range (ft)"
-              type="number"
-              dataType="Number"
-            }}
+            <div class="type-container">
+              {{radioBoxes "data.weaponType" weaponTypes checked=data.weaponType localize=true}}
+            </div>
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
-              key="data.reach"
-              value=data.reach
-              label="Reach (ft)"
-              type="number"
-              dataType="Number"
-            }}
+            {{#unless (equals data.weaponType "ranged")}}
+              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key="data.reach"
+                value=data.reach
+                label="Reach (ft)"
+                type="number"
+                dataType="Number"
+              }}
+            {{/unless}}
+
+            {{#unless (equals data.weaponType "melee")}}
+              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key="data.range"
+                value=data.range
+                label="Range (ft)"
+                type="number"
+                dataType="Number"
+              }}
+            {{/unless}}
           </div>
 
           <h2>Description</h2>

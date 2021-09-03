@@ -16,6 +16,11 @@ const setupHandlebarsHelpers = () => {
     return outStr;
   });
 
+  Handlebars.registerHelper(
+    'equals',
+    (...args) => args.every(val => val === args[0]) 
+  );
+
   Handlebars.registerHelper('toLowerCase', function(str) {
     return str.toLowerCase();
   });
@@ -67,6 +72,16 @@ const setupHandlebarsHelpers = () => {
     (!Handlebars.Utils.isEmpty(value)) &&
       new Handlebars.SafeString(`${key}="${Handlebars.escapeExpression(value)}"`)
   );
+
+  /**
+   * equals
+   */
+  Handlebars.registerHelper('equals', (a, b) => a === b);
+
+  /**
+   * dynamicProp
+   */
+  Handlebars.registerHelper('dynamicProp', (obj, key) => obj[key])
 };
 
 export default setupHandlebarsHelpers;

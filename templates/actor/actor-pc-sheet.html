@@ -9,6 +9,19 @@
           value="{{actor.name}}"
           placeholder="Name"/>
       </div>
+      <div class="classes">
+        {{#each classes as |class key|}}
+          <span class="class__name" data-item-id="{{class.id}}">{{class.name}} {{class.level}}</span>
+          {{#if 
+            (equals
+              key 
+              (lookup ../classes "length")
+            )
+          }}
+            <span class="class__separator">/</span>
+          {{/if}}
+        {{/each}}
+      </div>
     </div>
   </header>
 
@@ -23,7 +36,9 @@
         {{!-- Default tab is specified in actor-sheet.mjs --}}
         <a class="item" data-tab="summary">Summary</a>
         <a class="item" data-tab="items">Items</a>
-        <a class="item" data-tab="spells">Spells</a>
+        {{#if hasSpellcasting}}
+          <a class="item" data-tab="spells">Spells</a>
+        {{/if}}
         <a class="item" data-tab="effects">Effects</a>
         <a class="item" data-tab="features">Features</a>
         <a class="item" data-tab="description">Description</a>
@@ -31,7 +46,83 @@
 
       <div class="tab-group__container">
         <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
-          
+          <div class="hp">
+            <label 
+              for="data.hp.value"
+              class="hp__label">
+              <i class="fa fa-heart">
+                <span class="sr-only">
+                  {{localize "SHEET.hp"}}
+                </span>
+              </i>
+            </label>
+            
+            <input
+              type="number"
+              name="data.hp.value"
+              value="{{data.hp.value}}"
+              max="{{data.hp.max}}"
+              data-dtype="Number"/>
+            <span>/</span>
+            <input
+              type="number"
+              name="data.hp.max"
+              min="{{data.hp.value}}"
+              value="{{data.hp.max}}"
+              data-dtype="Number" />
+          </div>
+
+          <div class="ac">
+            <label 
+              for="ac"
+              class="ac__label">
+              <i class="fa fa-universal-access">
+                <span class="sr-only">
+                  {{localize "SHEET.ac"}}
+                </span>
+              </i>
+            </label>
+            <input
+              type="number"
+              name="ac"
+              value="{{ac}}"
+              readonly
+              data-dtype="Number"/>
+          </div>
+
+          <div class="move">
+            <label 
+              for="move"
+              class="move__label">
+              <i class="fa fa-forward">
+                Move Speed
+              </i>
+            </label>
+            <input
+              type="number"
+              name="move"
+              value="{{move}}"
+              readonly
+              data-dtype="Number"/>
+          </div>
+
+          <div class="saves">
+            <h2>Saves</h2>
+            {{#each saves as |save key|}}
+              {{log ../data.saveMods}}
+              {{key}}: {{save}}
+              {{signedString (lookup ../data.saveMods key)}}
+              
+            {{/each}}
+          </div>
+
+          <div class="quickAccessEquipment">
+            <h2>Equipped Items</h2>
+
+            {{#each equippedItems}}
+              <span>{{name}}</span>
+            {{/each}}
+          </div>
         </div>
 
         {{!-- Owned Features Tab --}}
@@ -86,48 +177,6 @@
   </main>
 
   <footer class="sheet-footer">
-    <div class="hp">
-      <label 
-        for="data.hp.value"
-        class="hp__label">
-        <i class="fa fa-heart">
-          <span class="sr-only">
-            {{localize "SHEET.hp"}}
-          </span>
-        </i>
-      </label>
-      
-      <input
-        type="number"
-        name="data.hp.value"
-        value="{{data.hp.value}}"
-        max="{{data.hp.max}}"
-        data-dtype="Number"/>
-      <span>/</span>
-      <input
-        type="number"
-        name="data.hp.max"
-        min="{{data.hp.value}}"
-        value="{{data.hp.max}}"
-        data-dtype="Number" />
-    </div>
-
-    <div class="ac">
-      <label 
-        for="data.ac"
-        class="ac__label">
-        <i class="fa fa-universal-access">
-          <span class="sr-only">
-            {{localize "SHEET.ac"}}
-          </span>
-        </i>
-      </label>
-      <input
-        type="number"
-        name="ac"
-        value="{{ac}}"
-        readonly
-        data-dtype="Number"/>
-    </div>
+    
   </footer>
 </form>

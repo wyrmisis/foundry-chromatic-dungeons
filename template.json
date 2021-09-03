@@ -19,8 +19,10 @@
     },
     "pc": {
       "templates": ["attributes", "wealth", "meta", "saveMods"],
-      "acMod": 0,
-      "moveMod": 0,
+      "modAC": 0,
+      "modMove": 0,
+      "modToHit": 0,
+      "modDamage": 0,
       "hp": { "value": 10, "min": 0, "max": 10 }
     },
     "npc": {
@@ -44,33 +46,45 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "gear", "goods", "treasure", "ancestry", "heritage", "class", "spell"],
+    "types": ["weapon", "armor", "ammunition", "gear", "goods", "treasure", "ancestry", "heritage", "class", "spell"],
     "templates": {
       "item": {
         "quantity": {"value": 1, "min": 0},
         "weight": {"value": 0, "min": 0},
         "cost": {"pp": 0, "gp": 0, "ep": 0, "sp": 0, "cp": 0},
         "description": ""
+      },
+      "consumable": {
+        "consumable": false,
+        "charges": 1
+      },
+      "equipment": {
+        "equipped": false
       }
     },
     "weapon": {
-      "templates": ["item"],
+      "templates": ["item", "equipment"],
       "damageType": "",
       "damage": "1d6",
-      "isRanged": false,
-      "isThrown": false,
+      "weaponType": "melee",
       "range": 0,
-      "reach": 0,
+      "reach": 5,
       "modDamage": 0,
       "modToHit": 0,
-      "speedFactor": 0
+      "speedFactor": 0,
+      "ammunition": ""
     },
     "armor": {
-      "templates": ["item"],
+      "templates": ["item", "equipment"],
       "ac": 0,
-      "isHelmet": false
+      "armorType": "armor"
     },
-    "gear": { "templates": ["item"] },
+    "accessory": {
+      "templates": ["item", "equipment"],
+      "features": {}
+    },
+    "ammunition": { "templates": ["item"] },
+    "gear": { "templates": ["item", "consumable"] },
     "goods": { "templates": ["item"] },
     "treasure": { "templates": ["item"] },
     "spell": {
@@ -102,6 +116,7 @@
       "trait": ""
     },
     "class": {
+      "description": "",
       "classGroup": "",
       "xp": 0,
       "requirements": {
@@ -112,8 +127,10 @@
           "con": 0,
           "cha": 0
       },
-      "levelListProps": ["level"],
-      "levelList": [],
+      "features": {},
+      "skills": null,
+      "spellSlots": null,
+      "hasSpellcasting": false,
       "weaponProf": "",
       "armorProf": "",
       "statBonus": "",

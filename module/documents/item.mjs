@@ -1,3 +1,5 @@
+import { getDerivedStat } from '../helpers/utils.mjs';
+
 /**
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
@@ -38,6 +40,11 @@ export class BoilerplateItem extends Item {
     const rollMode = game.settings.get('core', 'rollMode');
     const label = `[${item.type}] ${item.name}`;
 
+    console.info(item.type, item.data);
+
+    if (item.type === 'weapon')
+      this._weaponRoll();
+
     // If there's no roll data, send a chat message.
     if (!this.data.data.formula) {
       ChatMessage.create({
@@ -54,6 +61,7 @@ export class BoilerplateItem extends Item {
 
       // Invoke the roll and submit it to chat.
       const roll = new Roll(rollData.item.formula, rollData).roll();
+      roll.CHAT_TEMPLATE = `${CONFIG.CHROMATIC.templateDir}/item/rolls/weapon-roll.hbs`;
       roll.toMessage({
         speaker: speaker,
         rollMode: rollMode,
@@ -61,5 +69,26 @@ export class BoilerplateItem extends Item {
       });
       return roll;
     }
+  }
+
+  _weaponRoll() {
+    const { data: item } = this.data.document;
+    const { data: actor } = this.data.document.actor;
+
+    let toHitMod = 0, damageMod = 0;
+
+    // console.info(actor, item);
+
+    if (item.data.weaponType === 'ranged') {
+      toHitMod += getDerivedStat('dex', actor.data.attributes.dex, 'modAgility');
+    } else {
+      toHitMod += getDerivedStat('str', actor.data.attributes.str, 'modToHit');
+      damageMod += getDerivedStat('str', actor.data.attributes.str, 'modMeleeDamage');
+    }
+
+    toHitMod += item.data.modToHit;
+    damageMod += item.data.modDamage;
+
+    console.info(toHitMod, damageMod);
   }
 }

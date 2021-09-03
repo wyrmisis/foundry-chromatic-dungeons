@@ -1,6 +1,7 @@
 // Data Tables
 import xp from '../../systemData/xp.mjs';
 import toHitMods from '../../systemData/toHitMods.mjs';
+import classGroups from '../../systemData/classGroups/index.mjs';
 import str from '../../systemData/attributes/strength.mjs';
 import int from '../../systemData/attributes/intelligence.mjs';
 import wis from '../../systemData/attributes/wisdom.mjs';
@@ -36,6 +37,34 @@ CHROMATIC.attributeAbbreviations = {
 
 CHROMATIC.xp = xp;
 CHROMATIC.toHitMods = toHitMods;
+
+CHROMATIC.weaponTypes = {melee: "Melee", thrown: 'Thrown', ranged: 'Ranged'};
+CHROMATIC.armorTypes = {armor: 'Armor', shield: 'Shield', helmet: 'Helmet'};
+CHROMATIC.classGroups = classGroups;
+
+CHROMATIC.templateDir = 'systems/chromatic-dungeons/templates';
+
+CHROMATIC.mapClassGroupToToHit = (group, className) => {
+  let groupClone = { ... classGroups[group] };
+
+  groupClone.levels = Object.keys(groupClone.levels).map((level) => ({
+    ...groupClone.levels[level],
+    modToHit: toHitMods[className][level]
+  }));
+
+  return JSON.stringify(groupClone);
+};
+
+CHROMATIC.spellSchools = {
+  abjuration: "Abjuration",
+  alteration: "Alteration",
+  conjuration: "Conjuration",
+  divination: "Divination",
+  enchantment: "Enchantment",
+  evocation: "Evocation",
+  necromancy: "Necromancy",
+  illusion: "Illusion"
+};
 
 CHROMATIC.ascii = '  ### #   #    # # ####     ##      #   #     ##    ######    #      ### # \n ##  #   ##   #   ##   #   ## #    ### ##    ## #     #      ##     ##  #  \n##       ##   #   ##   #  ##   #   ######   ##   #   ##      ##    ##      \n##       ######   #####   ##   #   ## # #   ######   ##      ##    ##      \n##       ##   #   ## #    ##   #   ##   #   ##   #   ##      ##    ##      \n##   #   ##   #   ##  #   ##   #   ##   #   ##   #   ##  #   ##    ##   #  \n### ##   #    #   #   ##   ## #    #    #   #    #   ### #   #     ### ##  \n #### # #    ### #     #    ##    #    ### #    ###   ###   #       #### # \n#####    ##    #   #   #    ### #   ### #   ##      #   #    ### #  \n #  ##    #   #   ##   #   ##  #   ##  #   ## #    ##   #   ##  #   \n #   ##  ##   #   ###  #  ##      ##      ##   #   ###  #   ##      \n #   ##  ##   #   #### #  ## #### ####    ##   #   #### #    ####   \n #   ##  ##   #   ## ###  ##   #  ##      ##   #   ## ###      ###  \n #   ##  ##   #   ##  ##  ##   #  ##   #  ##   #   ##  ##   #   ##  \n ## ##    ## #    #    #  ### ##  ### ##   ## #    #    #   ## ###  \n# ###      ##    #     #   #### #  #### #   ##    #     #  # ####';
 CHROMATIC.logPrefix = 'Chromatic Dungeons | ';

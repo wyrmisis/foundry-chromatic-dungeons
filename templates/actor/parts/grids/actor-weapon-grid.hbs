@@ -1,0 +1,57 @@
+<ul class="items__list items__list--weapons">
+  <li class="items__list-item items__list-item--header">
+    <div class="items__list-column items__list-column--equipped">
+      Eq.
+    </div>
+    <div class="items__list-column items__list-column--name">
+      Name
+    </div>
+
+    <div class="items__list-column items__list-column--damage">
+      Damage
+    </div>
+
+    <div class="items__list-column items__list-column--to-hit">
+      To Hit
+    </div>
+  </li>
+  {{#each weapons as |item id|}}
+    <li
+      class="items__list-item"
+      data-item-id="{{item._id}}">
+      <div class="items__list-column items__list-column--equipped">
+        <input
+          type="checkbox"
+          name="data.equipped"
+          {{checked item.data.equipped}} />
+      </div>
+
+      <div class="items__list-column items__list-column--name">
+        <span
+          class="rollable"
+          data-roll-type="item"
+          data-label="{{item.name}}">
+          {{item.name}}
+        </span>
+      </div>
+
+      <div class="items__list-column items__list-column--damage">
+        {{item.data.damage}}
+        {{signedString
+          item.data.modDamage
+          ../meleeDamageMod
+        }}
+      </div>
+
+      <div class="items__list-column items__list-column--to-hit">
+        {{signedString
+          item.data.modToHit
+          meleeToHitMod
+          ../primaryClass.modToHit
+        }}
+      </div>
+
+      {{> "systems/chromatic-dungeons/templates/actor/parts/grids/item-grid-actions.hbs"}}
+    </li>
+  {{/each}}
+</ul>
