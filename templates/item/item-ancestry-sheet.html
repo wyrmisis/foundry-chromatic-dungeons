@@ -76,20 +76,20 @@
     <div class="tab" data-group="primary" data-tab="features">
       <div class="feature__container">
         <ul class="feature__list">
-        {{#each data.features as |feature id|}}
-          <li class="feature__list-item" data-id="{{id}}">
-            <div class="feature__body">
-              <textarea name="data.features.{{id}}">{{feature}}</textarea>
-            </div>
-            <div class="feature__controls">
-              <button class="feature__delete">
-                <i class="fa fa-trash">
-                  <span class="sr-only">Delete</span>
-                </i>
-              </button>
-            </div>
-          </li>
-        {{/each}}
+          {{#each data.features as |feature id|}}
+            <li class="feature__list-item" data-id="{{id}}">
+              <div class="feature__body">
+                <textarea name="data.features.{{id}}">{{feature}}</textarea>
+              </div>
+              <div class="feature__controls">
+                <button class="feature__delete">
+                  <i class="fa fa-trash">
+                    <span class="sr-only">Delete</span>
+                  </i>
+                </button>
+              </div>
+            </li>
+          {{/each}}
         </ul>
 
         <button class="feature__add">Add Feature</button>

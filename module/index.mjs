@@ -11,6 +11,7 @@ import CDSpellSheet from './sheets/spell-sheet.mjs';
 import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
 import { CHROMATIC } from "./helpers/config.mjs";
 import setupHandlebarsHelpers from './helpers/handlebarsHelpers.mjs';
+import { hasThisAlready, reportAndQuit } from './helpers/utils.mjs';
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */
@@ -51,7 +52,7 @@ Hooks.once('init', async function() {
   Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, {
-    types: ['weapon', 'armor', 'goods', 'gear', 'treasure'],
+    types: ['weapon', 'armor', 'goods', 'gear', 'treasure', "heritage"],
     makeDefault: true
   });
   Items.registerSheet("chromatic-dungeons", CDClassSheet, { 
@@ -85,18 +86,6 @@ Hooks.once("ready", async function() {
   Hooks.on('dropActorSheetData', (actor, sheet, {id}) => {
     const droppedItem = game.items.find((item) => item.id === id);
 
-    const reportAndQuit = (msg) => {
-      ui.notifications.error(msg);
-      return false;
-    }
-
-    const hasThisAlready = (type, dropped, actorItems) => {
-      const actorItemsOfType = actorItems.filter(item => item.type === type);
-
-      if (actorItemsOfType.find( ({name}) => name === droppedItem.name))
-        return true;
-    }
-    
     if (
       actor.type !== 'pc' && (
       droppedItem.type === 'ancestry' ||

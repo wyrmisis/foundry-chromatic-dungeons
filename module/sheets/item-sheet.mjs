@@ -63,5 +63,26 @@ export class BoilerplateItemSheet extends ItemSheet {
     if (!this.isEditable) return;
 
     // Roll handlers, click handlers, etc. would go here.
+
+    html.find('.feature__add').click(() => {
+      this.item.update({
+        _id: this.item.id,
+        [`data.features.${randomID()}`]: 'New Feature'
+      });
+    });
+
+    html.find('.feature__delete').click((evt) => {
+      const targetFeature = $(evt.target)
+        .parents('.feature__list-item')
+        .data('id');
+
+      this.item.update({
+        _id: this.item.id,
+        'data.features': {
+          [`-=${targetFeature}`]: null
+        }
+      });
+    });
+    
   }
 }

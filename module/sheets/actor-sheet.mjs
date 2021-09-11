@@ -2,7 +2,10 @@ import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/ef
 import {
   getDerivedStat,
   getLevelFromXP,
-  getClassGroupAtLevel
+  getNextLevelXP,
+  getClassGroupAtLevel,
+  reportAndQuit,
+  hasThisAlready
 } from '../helpers/utils.mjs';
 
 /**
@@ -216,7 +219,8 @@ export class BoilerplateActorSheet extends ActorSheet {
       name,
       ...data,
       level,
-      ...getClassGroupAtLevel(data.classGroup, level)
+      ...getClassGroupAtLevel(data.classGroup, level),
+      xpNext: getNextLevelXP(data.xp)
     }
   }
 
@@ -344,6 +348,16 @@ export class BoilerplateActorSheet extends ActorSheet {
       const item = this.actor.items.get(li.data("itemId"));
       item.delete();
       li.slideUp(200, () => this.render(false));
+    });
+    
+    html.find('[data-item-action]').click(ev => {
+      const {itemId, itemAction} = ev.currentTarget.dataset;
+      const item = this.actor.items.get(itemId);
+
+      switch (itemAction) {
+        case 'edit': item.sheet.render(true); break;
+        case 'delete': item.delete(); break;
+      }
     });
 
     html.find('.items__list-column--equipped input[type="checkbox"]').change(ev => {

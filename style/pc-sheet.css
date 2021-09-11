@@ -149,3 +149,25 @@
   grid-column-gap: 1em;
   text-align: center;
 }
+
+
+.actor .features__title {
+  display: flex;
+  justify-content: space-between;
+}
+
+.actor .features__title button {
+  width: auto;
+  line-height: 1em;
+  border: none;
+  background: none;
+}
+
+.actor .features--class {
+  padding:  0;
+}
+
+.actor .features--class .feature__item {
+  display:  grid;
+  grid-template-columns: 1fr 7fr;
+}

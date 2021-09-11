@@ -28,6 +28,18 @@ const getNextLevelXP = (xp) =>
     (xpRow) => xp < xpRow.xp
   ).xp;
 
+const reportAndQuit = (msg) => {
+  ui.notifications.error(msg);
+  return false;
+};
+
+const hasThisAlready = (type, droppedItem, actorItems) => {
+  const actorItemsOfType = actorItems.filter(item => item.type === type);
+
+  if (actorItemsOfType.find( ({name}) => name === droppedItem.name))
+    return true;
+};
+
 const range = (start, end, length = end - start + 1) =>
   Array.from({ length }, (_, i) => start + i)
 
@@ -36,5 +48,7 @@ export {
   getNextLevelXP,
   getClassGroupAtLevel,
   getDerivedStat,
+  reportAndQuit,
+  hasThisAlready,
   range
 };
