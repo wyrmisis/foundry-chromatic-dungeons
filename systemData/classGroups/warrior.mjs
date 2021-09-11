@@ -10,7 +10,7 @@ const warrior = {
         "creature": 17,
         "spell": 19
       },
-      "addsConModToHP": true
+      "addsFullConModToHP": true
     },
     {
       "hitDieCount": 1,
@@ -21,7 +21,7 @@ const warrior = {
         "creature": 15,
         "spell": 17
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 1
     },
     {
@@ -33,7 +33,7 @@ const warrior = {
         "creature": 15,
         "spell": 17
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 2
     },
     {
@@ -45,7 +45,7 @@ const warrior = {
         "creature": 14,
         "spell": 16
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 3
     },
     {
@@ -57,7 +57,7 @@ const warrior = {
         "creature": 14,
         "spell": 16
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 4
     },
     {
@@ -69,7 +69,7 @@ const warrior = {
         "creature": 12,
         "spell": 14
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 5
     },
     {
@@ -81,7 +81,7 @@ const warrior = {
         "creature": 12,
         "spell": 14
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 6
     },
     {
@@ -93,7 +93,7 @@ const warrior = {
         "creature": 11,
         "spell": 13
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 7
     },
     {
@@ -105,7 +105,7 @@ const warrior = {
         "creature": 11,
         "spell": 13
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 8
     },
     {
@@ -117,7 +117,7 @@ const warrior = {
         "creature": 9,
         "spell": 11
       },
-      "addsConModToHP": true,
+      "addsFullConModToHP": true,
       "modToHit": 9
     },
     {
@@ -129,7 +129,7 @@ const warrior = {
         "creature": 9,
         "spell": 11
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 10
     },
     {
@@ -141,7 +141,7 @@ const warrior = {
         "creature": 8,
         "spell": 10
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 11
     },
     {
@@ -153,7 +153,7 @@ const warrior = {
         "creature": 8,
         "spell": 10
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 12
     },
     {
@@ -165,7 +165,7 @@ const warrior = {
         "creature": 6,
         "spell": 8
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 13
     },
     {
@@ -177,7 +177,7 @@ const warrior = {
         "creature": 6,
         "spell": 8
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 14
     },
     {
@@ -189,7 +189,7 @@ const warrior = {
         "creature": 5,
         "spell": 7
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 15
     },
     {
@@ -201,7 +201,7 @@ const warrior = {
         "creature": 5,
         "spell": 7
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 16
     },
     {
@@ -213,7 +213,7 @@ const warrior = {
         "creature": 4,
         "spell": 6
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 17
     },
     {
@@ -225,7 +225,7 @@ const warrior = {
         "creature": 4,
         "spell": 6
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 18
     },
     {
@@ -237,7 +237,7 @@ const warrior = {
         "creature": 3,
         "spell": 5
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 19
     },
     {
@@ -249,7 +249,7 @@ const warrior = {
         "creature": 3,
         "spell": 5
       },
-      "addsConModToHP": false,
+      "addsFullConModToHP": false,
       "modToHit": 20
     }
   ]
@@ -262,7 +262,7 @@ const warrior = {
   hitDieCount: 1,
   hitDieMod: 0,
   saves: { reflex: 18, poison: 16, creature: 17, spell: 19 },
-  addsConModToHP: true,
+  addsFullConModToHP: true,
   modToHit: 20
 }
 

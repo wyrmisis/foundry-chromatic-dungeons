@@ -66,14 +66,13 @@ export default class ClassSheet extends ItemSheet {
     context.level = getLevelFromXP(itemData.data.xp);
     context.xpToNextLevel = getNextLevelXP(itemData.data.xp);
 
-    if (itemData.data.classGroup)
+    if (itemData.data.classGroup) {
       context.classGroupAll = CONFIG.CHROMATIC.classGroups[itemData.data.classGroup];
       context.classGroup = getClassGroupAtLevel(
         itemData.data.classGroup,
         context.level
       );
-
-    console.info(context.xpToNextLevel);
+    }
 
     return context;
   }

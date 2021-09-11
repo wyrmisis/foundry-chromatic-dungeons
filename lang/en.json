@@ -44,6 +44,11 @@
   "ATTRIBUTE.WisAbbr": "wis",
   "ATTRIBUTE.ChaAbbr": "cha",
 
+  "CLASSGROUP.warrior": "Warrior",
+  "CLASSGROUP.arcane": "Arcane",
+  "CLASSGROUP.divine": "Divine",
+  "CLASSGROUP.rogue": "Rogue",
+
 
   "BOILERPLATE.AbilityStr": "Strength",
   "BOILERPLATE.AbilityCon": "Constitution",
