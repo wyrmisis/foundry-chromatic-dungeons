@@ -77,6 +77,9 @@ export class BoilerplateActorSheet extends ActorSheet {
     // for (let [k, v] of Object.entries(context.data.attributes)) {
     //   v.label = game.i18n.localize(CONFIG.CHROMATIC.attributeLabels[k]) ?? k;
     // }
+
+    // Constants for the template
+    context.armorTypes = CONFIG.CHROMATIC.armorTypes;
   }
 
   /**
@@ -110,79 +113,98 @@ export class BoilerplateActorSheet extends ActorSheet {
         9: []
       };
 
-      // Divide the items out
-      context.items.forEach(item => {
-        item.img = item.img || DEFAULT_TOKEN;
+    // Divide the items out
+    context.items.forEach(item => {
+      item.img = item.img || DEFAULT_TOKEN;
 
-        if (item.type === 'weapon') weapons.push(item);
-        if (item.type === 'armor') armor.push(item);
-        if (item.type === 'gear') gear.push(item);
-        if (item.type === 'goods') goods.push(item);
-        if (item.type === 'treasure') treasure.push(item);
-        if (item.type === 'ancestry') ancestry = item;
-        if (item.type === 'heritage') heritages.push(item);
-        if (item.type === 'class') classes.push(this._formatClassForUse(item));
-        if (item.type === 'spell' && item.data.level) spells[item.data.level].push(item);
-      });
+      switch (item.type) {
+        case 'weapon':
+          weapons.push(item);
+          break;
+        case 'armor':
+          armor.push(item);
+          break;
+        case 'gear':
+          gear.push(item);
+          break;
+        case 'goods':
+          goods.push(item);
+          break;
+        case 'treasure': 
+          treasure.push(item);
+          break;
+        case 'ancestry': 
+          ancestry = item;
+          break;
+        case 'heritage': 
+          heritages.push(item);
+          break;
+        case 'class': 
+          classes.push(this._formatClassForUse(item));
+          break;
+        case 'spell': 
+          if (item.data.level)
+            spells[item.data.level].push(item);
+          break;
+      }
+    });
 
-      context.totalItemWeight = []
-        .concat(weapons, armor, gear, goods, treasure)
-        .reduce((prev, curr) => prev + curr.data.weight.value, 0);
+    // Stuff that relies on knowing the character classes
+    const primaryClass = classes.find(obj => obj.isPrimary);
+    const classForSaves = classes.find(obj => obj.isSelectedSaveTable) || context.primaryClass;
+    const combatMods = this._getContextCombatMods(primaryClass);
 
-      Object.keys(this.actor.data.data.wealth).forEach(
-        (coinType) => context.totalItemWeight += (
-          this.actor.data.data.wealth[coinType] / 10
-        )
-      );
+    // gear
+    context.weapons = weapons.map((item) => 
+      this._formatWeaponForUse(
+        item,
+        this.actor.data,
+        combatMods
+      )
+    );
+    context.armor = armor;
+    context.gear = gear;
+    context.goods = goods;
+    context.treasure = treasure;
+    context.spells = spells;
+    context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
+    // character traits
+    context.ancestry = ancestry;
+    context.heritages = heritages;
+    context.classes = classes;
+    // computed/derived stats
+    context.move = this._getContextMoveSpeed(ancestry);
+    context.hasSpellcasting = !!classes.filter(obj => obj.hasSpellcasting).length;
+    context.saves = classForSaves && this._getContextSaves(classForSaves);
+    context.saveMods = this._getContextSaveMods();
+    context.totalItemWeight = this._getContextCarryWeight(
+      [].concat(weapons, armor, gear, goods, treasure)
+    );
+    context.ac = this._getContextAC(armor);
 
-      let baseAC = 10 + 
-        this.actor.data.data.modAC + 
-        getDerivedStat(
-          'dex',
-          this.actor.data.data.attributes.dex,
-          'modAgility'
-        );
+    console.info(classes);
+  }
 
-      context.ac = armor.reduce((prev, curr) => {
-        return !curr.data.equipped ? prev : prev + curr.data.ac
-      }, baseAC);
-
-      context.move = this.actor.data.data.modMove + ancestry.data.movement;
-      context.primaryClass = classes.find(obj => obj.isPrimary);
-      context.saves = classes.find(obj => obj.isSaveSelectedTable)?.data.saves || context.primaryClass.saves;
-
-      context.hasSpellcasting = !!classes.filter(obj => obj.hasSpellcasting).length;
-
-      context.meleeToHitMod = this.actor.data.data.modToHit +
-        context.primaryClass.modToHit +
-        getDerivedStat(
-          'str',
-          this.actor.data.data.attributes.str,
-          'modToHit'
-        );
-
-      context.meleeDamageMod = this.actor.data.data.modDamage +
-        getDerivedStat(
-          'str',
-          this.actor.data.data.attributes.str,
-          'modMeleeDamage'
-        );
-
-      context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
-
-      console.info(context.meleeDamageMod);
-
-      context.weapons = weapons;
-      context.armor = armor;
-      context.gear = gear;
-      context.goods = goods;
-      context.treasure = treasure;
-      context.ancestry = ancestry;
-      context.heritages = heritages;
-      context.classes = classes;
-      context.spells = spells;
-
-      context.armorTypes = CONFIG.CHROMATIC.armorTypes;
+  _formatWeaponForUse(item, actor, {
+    modMeleeToHit,
+    modRangedToHit,
+    modStrengthDamage,
+    modRangedDamage
+  }) {
+    if (item.data.weaponType === 'melee') {
+      item.data.modToHit += modMeleeToHit;
+      item.data.modDamage += modStrengthDamage;
+    }
+    if (item.data.weaponType === 'ranged') {
+      item.data.modToHit += modRangedToHit;
+      item.data.modDamage += modStrengthDamage;
+    }
+    if (item.data.weaponType === 'thrown') {
+      item.data.modToHit += modRangedToHit;
+      item.data.modDamage += modRangedDamage;
+    }
+    
+    return item;
   }
 
   _formatClassForUse({_id, name, data}) {
@@ -198,6 +220,88 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
   }
 
+  _getContextCarryWeight(items) {
+    let totalItemWeight = items.reduce(
+      (prev, curr) => prev + curr.data.weight.value,
+      0
+    );
+
+    Object.keys(this.actor.data.data.wealth).forEach(
+      (coinType) => totalItemWeight += (
+        this.actor.data.data.wealth[coinType] / 10
+      )
+    );
+
+    return totalItemWeight;
+  }
+
+  _getContextMoveSpeed(ancestry) {
+    return this.actor.data.data.modMove + (ancestry?.data?.movement || 0)
+  }
+
+  _getContextAC(armor) {
+    let baseAC = 10 + 
+      this.actor.data.data.modAC + 
+      getDerivedStat(
+        'dex',
+        this.actor.data.data.attributes.dex,
+        'modAgility'
+      );
+
+    return armor.reduce((prev, curr) => {
+      return !curr.data.equipped ? prev : prev + curr.data.ac
+    }, baseAC);
+  }
+
+  _getContextSaves({ saves }) {
+    return {
+      ...saves
+    }
+  }
+
+  _getContextSaveMods() {
+    const { saveMods, attributes } = this.actor.data.data;
+
+    return {
+      ...saveMods,
+      reflex: saveMods.reflex + getDerivedStat('dex', attributes.dex, 'modAgility')
+    }
+  }
+
+  _getContextCombatMods(characterClass) {
+    const modMeleeToHit = this.actor.data.data.modToHit +
+        (characterClass?.modToHit || 0) +
+        getDerivedStat(
+          'str',
+          this.actor.data.data.attributes.str,
+          'modToHit'
+        );
+
+    const modRangedToHit = this.actor.data.data.modToHit +
+        (characterClass?.modToHit || 0) +
+        getDerivedStat(
+          'dex',
+          this.actor.data.data.attributes.dex,
+          'modAgility'
+        );
+
+    const modStrengthDamage = this.actor.data.data.modDamage +
+        getDerivedStat(
+          'str',
+          this.actor.data.data.attributes.str,
+          'modMeleeDamage'
+        );
+
+    const modRangedDamage = this.actor.data.data.modDamage;
+
+    return {
+      modStrengthDamage,
+      modRangedDamage,
+      modMeleeToHit,
+      modRangedToHit
+    };
+  }
+
   /* -------------------------------------------- */
 
   /** @override */
@@ -208,7 +312,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     this.itemMenu = new ContextMenu(
       $(itemClass).parent('ul'),
-      itemClass,
+      `${itemClass}:not(${itemClass}--header)`,
       [
         { name: 'Edit', icon: '<i class="fa fa-edit" />', callback: this._editOwnedItem },
         { name: 'Delete', icon: '<i class="fa fa-trash" />', callback: this._deleteOwnedItem },
@@ -265,7 +369,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
       html.find(itemClass).each((i, li) => {
-        if (li.classList.contains("inventory-header")) return;
+        if (li.classList.contains("items__list-item--header")) return;
         li.setAttribute("draggable", true);
         li.addEventListener("dragstart", handler, false);
       });
@@ -384,7 +488,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Handle rolls that supply the formula directly.
     if (dataset.roll) {
-      let label = dataset.label ? `[ability] ${dataset.label}` : '';
+      let label = dataset.label ? `[${dataset.rollType ? dataset.rollType : ''}] ${dataset.label}` : '';
       let roll = new Roll(dataset.roll, this.actor.getRollData()).roll();
       roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: this.actor }),

@@ -51,6 +51,22 @@
   align-self: center;
 }
 
+.actor .saves-list__item {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+.actor .effects-list__list-item {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+}
+
+.actor .effects-list__controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+} 
+
+
 .actor .sheet-body .tab-group {
   flex: 6;
 }

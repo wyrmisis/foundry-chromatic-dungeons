@@ -46,6 +46,14 @@
 
       <div class="tab-group__container">
         <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
+          <pouch-accordion>
+            <pouch-accordion-item title="Test">
+              Test content
+            </pouch-accordion-item>
+            <pouch-accordion-item title="Test 2">
+              Test content 2
+            </pouch-accordion-item>
+          </pouch-accordion>
           <div class="hp">
             <label 
               for="data.hp.value"
@@ -107,13 +115,37 @@
           </div>
 
           <div class="saves">
-            <h2>Saves</h2>
-            {{#each saves as |save key|}}
-              {{log ../data.saveMods}}
-              {{key}}: {{save}}
-              {{signedString (lookup ../data.saveMods key)}}
-              
-            {{/each}}
+            <h2>{{localize 'SHEET.saves'}}</h2>
+            <ul>
+              <li class="saves-list__item saves-list__item--header">
+                <div class="saves-list__name"></div>
+                <div class="saves-list__score">
+                  {{localize 'SHEET.listheadings.saves.value'}}
+                </div>
+                <div class="saves-list__modifier">
+                  {{localize 'SHEET.listheadings.saves.modifier'}}
+                </div>
+              </li>
+              {{#each saves as |save key|}}
+                <li class="saves-list__item">
+                  <div
+                    class="saves-list__name rollable"
+                    data-label="{{localize (concat 'SHEET.save.' key)}}"
+                    data-roll-type="Save"
+                    data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+                    {{localize (concat 'SHEET.save.' key)}}
+                  </div>
+                  <div class="saves-list__score">{{save}}</div>
+                  <div class="saves-list__modifier">
+                    <input type="text" readonly value="{{signedString (lookup ../saveMods key)}}" />
+                  </div>
+                </li>
+              {{/each}}
+              <li>
+                {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
+                  Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.
+                {{/if}}
+              </li>
           </div>
 
           <div class="quickAccessEquipment">
@@ -127,30 +159,7 @@
 
         {{!-- Owned Features Tab --}}
         <div class="tab features" data-group="primary" data-tab="features">
-          <section class="grid grid-3col">
-            <aside class="sidebar">
-
-              {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-              use both the "grid" and "grid-Ncol" class where "N" can be any number
-              from 1 to 12 and will create that number of columns.  --}}
-              <div class="abilities flexcol">
-                {{#each data.abilities as |ability key|}}
-                <div class="ability flexrow flex-group-center">
-                  <label for="data.abilities.{{key}}.value" class="resource-label rollable flexlarge align-left" data-roll="d20+@abilities.{{key}}.mod" data-label="{{ability.label}}">{{ability.label}}</label>
-                  <input type="text" name="data.abilities.{{key}}.value" value="{{ability.value}}" data-dtype="Number"/>
-                  <span class="ability-mod rollable" data-roll="d20+@abilities.{{key}}.mod" data-label="{{ability.label}}">{{numberFormat ability.mod decimals=0 sign=true}}</span>
-                </div>
-                {{/each}}
-              </div>
-            </aside>
-
-            {{!-- For the main features list, span the right two columns --}}
-            <section class="main grid-span-2">
-              {{!-- This is a Handlebars partial. They're stored in the `/parts` folder next to this sheet, and defined in module/helpers/templates.mjs --}}
-              {{> "systems/chromatic-dungeons/templates/actor/parts/actor-features.hbs"}}
-            </section>
-
-          </section>
+          {{> "systems/chromatic-dungeons/templates/actor/parts/actor-features.hbs"}}
         </div>
 
         {{!-- Biography Tab --}}

@@ -9,6 +9,17 @@
   "ATTRIBUTE.wis": "Wisdom",
   "ATTRIBUTE.cha": "Charisma",
 
+  "SHEET.listheadings.saves.value": "Value",
+  "SHEET.listheadings.saves.modifier": "Modifier",
+  "SHEET.listheadings.weapon.damage": "Damage",
+  "SHEET.listheadings.weapon.toHitMod": "To-Hit",
+  "SHEET.listheadings.weapon.type": "Weapon Type",
+  "SHEET.listheadings.armor.ac": "AC",
+  "SHEET.listheadings.armor.type": "Armor Type",
+  "SHEET.listheadings.shared.name": "Name",
+  "SHEET.listheadings.shared.equipped": "Eq.",
+  "SHEET.listheadings.shared.quantity": "Qty.",
+
   "SHEET.hp": "Hit Points",
   "SHEET.name": "Name",
   "SHEET.class": "Class",
@@ -21,10 +32,10 @@
   "SHEET.ac": "Armor Class",
   
   "SHEET.saves": "Saving Throws",
-  "SHEET.saveReflex": "Reflex",
-  "SHEET.savePoison": "Poison/Venom/Disease",
-  "SHEET.saveCreature": "Creature Ability",
-  "SHEET.saveSpell": "Magic Item/Spell",
+  "SHEET.save.reflex": "Reflex",
+  "SHEET.save.poison": "Poison/Venom/Disease",
+  "SHEET.save.creature": "Creature Ability",
+  "SHEET.save.spell": "Magic Item/Spell",
 
   "ATTRIBUTE.StrAbbr": "str",
   "ATTRIBUTE.ConAbbr": "con",

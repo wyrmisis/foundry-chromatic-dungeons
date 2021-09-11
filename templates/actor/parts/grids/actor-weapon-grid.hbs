@@ -37,18 +37,11 @@
 
       <div class="items__list-column items__list-column--damage">
         {{item.data.damage}}
-        {{signedString
-          item.data.modDamage
-          ../meleeDamageMod
-        }}
+        {{signedString item.data.modDamage}}
       </div>
 
       <div class="items__list-column items__list-column--to-hit">
-        {{signedString
-          item.data.modToHit
-          meleeToHitMod
-          ../primaryClass.modToHit
-        }}
+        {{signedString item.data.modToHit}}
       </div>
 
       {{> "systems/chromatic-dungeons/templates/actor/parts/grids/item-grid-actions.hbs"}}

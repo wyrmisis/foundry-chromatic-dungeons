@@ -6,6 +6,7 @@ import { BoilerplateActorSheet } from "./sheets/actor-sheet.mjs";
 import { BoilerplateItemSheet } from "./sheets/item-sheet.mjs";
 import CDAncestrySheet from "./sheets/ancestry-sheet.mjs";
 import CDClassSheet from "./sheets/class-sheet.mjs";
+import CDSpellSheet from './sheets/spell-sheet.mjs';
 // Import helper/utility classes and constants.
 import { preloadHandlebarsTemplates } from "./helpers/templates.mjs";
 import { CHROMATIC } from "./helpers/config.mjs";
@@ -50,17 +51,17 @@ Hooks.once('init', async function() {
   Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, {
-    // types: ['weapon', 'armor', 'goods', 'gear', 'treasure'],
+    types: ['weapon', 'armor', 'goods', 'gear', 'treasure'],
     makeDefault: true
   });
   Items.registerSheet("chromatic-dungeons", CDClassSheet, { 
     types: ['class'],
     makeDefault: true 
   });
-  // Items.registerSheet("chromatic-dungeons", BoilerplateSpellSheet, { 
-  //   types: ['spell'],
-  //   makeDefault: true 
-  // });
+  Items.registerSheet("chromatic-dungeons", CDSpellSheet, { 
+    types: ['spell'],
+    makeDefault: true 
+  });
   Items.registerSheet("chromatic-dungeons", CDAncestrySheet, { 
     types: ['ancestry'],
     makeDefault: true 
@@ -80,12 +81,20 @@ Hooks.once('init', async function() {
 Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
+
   Hooks.on('dropActorSheetData', (actor, sheet, {id}) => {
     const droppedItem = game.items.find((item) => item.id === id);
 
     const reportAndQuit = (msg) => {
       ui.notifications.error(msg);
       return false;
+    }
+
+    const hasThisAlready = (type, dropped, actorItems) => {
+      const actorItemsOfType = actorItems.filter(item => item.type === type);
+
+      if (actorItemsOfType.find( ({name}) => name === droppedItem.name))
+        return true;
     }
     
     if (
@@ -107,18 +116,18 @@ Hooks.once("ready", async function() {
     if (droppedItem.type === 'heritage') {
       const actorHeritages = actor.items.filter(item => item.type === 'heritage');
 
+      if (hasThisAlready('heritage', droppedItem, actorHeritages))
+        return reportAndQuit(`${actor.name} already has the ${droppedItem.name} heritage`);
+
       if (actorHeritages.length >= 2)
         return reportAndQuit(`${actor.name} already has two heritages`);
-
-      if (actorHeritages.find(({name}) => name === droppedItem.name))
-        return reportAndQuit(`${actor.name} already has the ${droppedItem.name} heritage`);
     }
 
     // @todo Add a setting for class stat requirements
     if (droppedItem.type === 'class') {
       const actorClasses = actor.items.filter(item => item.type === 'class');
 
-      if (actorClasses.find(({name}) => name === droppedItem.name))
+      if (hasThisAlready('class', droppedItem, actorClasses))
         return reportAndQuit(`${actor.name} already has the ${droppedItem.name} class`);
 
       const reqs = droppedItem.data.data.requirements
@@ -131,6 +140,7 @@ Hooks.once("ready", async function() {
         return reportAndQuit(`${actor.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
     }
   });
+
   Hooks.on('renderChatMessage', (message, html, data) => {
     console.info(
       message,
