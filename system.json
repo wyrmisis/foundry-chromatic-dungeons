@@ -1,11 +1,10 @@
 {
-  "name": "chromatic-dungeons",
+  "name": "foundry-chromatic-dungeons",
   "title": "Chromatic Dungeons",
   "description": "An implementation of Izegrim Creations' Chromatic Dungeons (https://izegrimcreations.com/gaming-related)",
   "version": "0.0.4",
   "templateVersion": 1,
   "minimumCoreVersion": "0.8.8",
-  "compatibleCoreVersion": "0.8.8",
   "author": "wyrmisis",
   "esmodules": ["module/index.mjs"],
   "styles": [
