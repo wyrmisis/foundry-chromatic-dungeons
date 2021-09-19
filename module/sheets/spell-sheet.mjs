@@ -50,7 +50,13 @@ export default class SpellSheet extends ItemSheet {
     context.spellSchools = CONFIG.CHROMATIC.spellSchools;
     context.saves = CONFIG.CHROMATIC.saves;
 
-    console.info(context.rollData);
+    context.castingClasses = 
+      game.items
+        .filter(item => item.data.data.hasSpellcasting)
+        .reduce((list, classObj) => 
+          ({ ...list, [classObj.id]: classObj.name }),
+          {}
+        );
 
     return context;
   }
@@ -65,5 +71,21 @@ export default class SpellSheet extends ItemSheet {
     if (!this.isEditable) return;
 
     // Roll handlers, click handlers, etc. would go here.
+
+    $('[data-action="add-spell-level"]').click((evt) => {
+      this.item.update({
+        [`data.spellLevels.${randomID()}`]: { "class": "", "level": 1 }
+      });
+    });
+
+    $('[data-action="delete-spell-level"]').click((evt) => {
+      const levelItem = evt.currentTarget.dataset.class;
+
+      this.item.update({
+        'data.spellLevels': {
+          [`-=${levelItem}`]: null
+        }
+      });
+    });
   }
 }

@@ -31,14 +31,6 @@
           <div class="item-attributes__group">
             <h2>Basic Information</h2>
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
-              key="data.level"
-              value=data.level
-              label="Spell Level"
-              type="number"
-              dataType="Number"
-            }}
-
             <div class="item-attributes__item item-attributes__item--compact">
               <label for="data.school">School</label>
               <select
@@ -51,7 +43,48 @@
                 {{/select}}
               </select>
             </div>
+
+            <h3 class="action-header">
+              <span>Spell Levels</span>
+              <span>
+                <button type="button" data-action="add-spell-level">
+                  <i class="fa fa-plus">
+                    <span class="sr-only">Add Casting Class</span>
+                  </i>
+                </button>
+              </span>
+            </h2>
+
+            {{log this}}
+
+            {{#each data.spellLevels as |levelItem key| }}
+              <div class="item-attributes__item item-attributes__item--grid item-attributes__item--spell-levels">
+                <select
+                  data-dtype="String"
+                  name="data.spellLevels.{{key}}.class">
+                  {{#select levelItem.class }}
+                    {{#each ../castingClasses as |class key|}}
+                      <option value="{{class}}">{{class}}</option>
+                    {{/each}}
+                  {{/select}}
+                </select>
+
+                <input
+                  type="number"
+                  data-dtype="Number"
+                  name="data.spellLevels.{{key}}.level"
+                  value="{{levelItem.level}}" />
+
+                <button type="button" data-class="{{key}}" data-action="delete-spell-level">
+                  <i class="fa fa-trash">
+                    <span class="sr-only">Remove {{key}}</span>
+                  </i>
+                </button>
+              </div>
+            {{/each}}
           </div>
+
+          {{log data.spellLevels}}
 
           <div class="item-attributes__group">
             <h2>Spell Details</h2>
@@ -59,8 +92,8 @@
               key="data.range"
               value=data.range
               label="Range (ft)"
-              type="number"
-              dataType="Number"
+              type="text"
+              dataType="String"
             }}
 
             {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"

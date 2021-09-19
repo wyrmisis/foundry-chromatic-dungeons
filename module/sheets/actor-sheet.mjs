@@ -155,15 +155,10 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Stuff that relies on knowing the character classes
     const primaryClass = classes.find(obj => obj.isPrimary);
     const classForSaves = classes.find(obj => obj.isSelectedSaveTable) || context.primaryClass;
-    const combatMods = this._getContextCombatMods(primaryClass);
-
+    
     // gear
     context.weapons = weapons.map((item) => 
-      this._formatWeaponForUse(
-        item,
-        this.actor.data,
-        combatMods
-      )
+      this._formatWeaponForUse(item, this.actor.data)
     );
     context.armor = armor;
     context.gear = gear;
@@ -171,41 +166,24 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.treasure = treasure;
     context.spells = spells;
     context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
+
     // character traits
     context.ancestry = ancestry;
     context.heritages = heritages;
     context.classes = classes;
+    
     // computed/derived stats
-    context.move = this._getContextMoveSpeed(ancestry);
+    context.move = this.actor.data.data.move;
     context.hasSpellcasting = !!classes.filter(obj => obj.hasSpellcasting).length;
-    context.saves = classForSaves && this._getContextSaves(classForSaves);
-    context.saveMods = this._getContextSaveMods();
-    context.totalItemWeight = this._getContextCarryWeight(
-      [].concat(weapons, armor, gear, goods, treasure)
-    );
-    context.ac = this._getContextAC(armor);
-
-    console.info(classes);
+    context.saves = this.actor.data.data.saves.targets;
+    context.saveMods = this.actor.data.data.saves.mods;
+    context.carryWeight = this.actor.data.data.carryWeight
+    context.ac = this.actor.data.data.ac;
   }
 
-  _formatWeaponForUse(item, actor, {
-    modMeleeToHit,
-    modRangedToHit,
-    modStrengthDamage,
-    modRangedDamage
-  }) {
-    if (item.data.weaponType === 'melee') {
-      item.data.modToHit += modMeleeToHit;
-      item.data.modDamage += modStrengthDamage;
-    }
-    if (item.data.weaponType === 'ranged') {
-      item.data.modToHit += modRangedToHit;
-      item.data.modDamage += modStrengthDamage;
-    }
-    if (item.data.weaponType === 'thrown') {
-      item.data.modToHit += modRangedToHit;
-      item.data.modDamage += modRangedDamage;
-    }
+  _formatWeaponForUse(item, actor) {
+    item.data.modToHit += actor.data.toHitMods[item.data.weaponType];
+    item.data.modDamage += actor.data.damageMods[item.data.weaponType];
     
     return item;
   }
@@ -214,96 +192,22 @@ export class BoilerplateActorSheet extends ActorSheet {
     const level = getLevelFromXP(data.xp);
     const classGroupData = getClassGroupAtLevel(data.classGroup, level)
     
+    const filteredFeatures = Object.keys(data.features)
+      .filter(key => data.features?.[key].level <= level)
+      .reduce((features, key) => ({ ...features, [key]: data.features[key]}), {});
+
+    console.info(filteredFeatures);
+
     return {
       id: _id,
       name,
       ...data,
       level,
       ...getClassGroupAtLevel(data.classGroup, level),
+      spellSlots: data?.spellSlots?.[level],
+      features: filteredFeatures,
       xpNext: getNextLevelXP(data.xp)
     }
-  }
-
-  _getContextCarryWeight(items) {
-    let totalItemWeight = items.reduce(
-      (prev, curr) => prev + curr.data.weight.value,
-      0
-    );
-
-    Object.keys(this.actor.data.data.wealth).forEach(
-      (coinType) => totalItemWeight += (
-        this.actor.data.data.wealth[coinType] / 10
-      )
-    );
-
-    return totalItemWeight;
-  }
-
-  _getContextMoveSpeed(ancestry) {
-    return this.actor.data.data.modMove + (ancestry?.data?.movement || 0)
-  }
-
-  _getContextAC(armor) {
-    let baseAC = 10 + 
-      this.actor.data.data.modAC + 
-      getDerivedStat(
-        'dex',
-        this.actor.data.data.attributes.dex,
-        'modAgility'
-      );
-
-    return armor.reduce((prev, curr) => {
-      return !curr.data.equipped ? prev : prev + curr.data.ac
-    }, baseAC);
-  }
-
-  _getContextSaves({ saves }) {
-    return {
-      ...saves
-    }
-  }
-
-  _getContextSaveMods() {
-    const { saveMods, attributes } = this.actor.data.data;
-
-    return {
-      ...saveMods,
-      reflex: saveMods.reflex + getDerivedStat('dex', attributes.dex, 'modAgility')
-    }
-  }
-
-  _getContextCombatMods(characterClass) {
-    const modMeleeToHit = this.actor.data.data.modToHit +
-        (characterClass?.modToHit || 0) +
-        getDerivedStat(
-          'str',
-          this.actor.data.data.attributes.str,
-          'modToHit'
-        );
-
-    const modRangedToHit = this.actor.data.data.modToHit +
-        (characterClass?.modToHit || 0) +
-        getDerivedStat(
-          'dex',
-          this.actor.data.data.attributes.dex,
-          'modAgility'
-        );
-
-    const modStrengthDamage = this.actor.data.data.modDamage +
-        getDerivedStat(
-          'str',
-          this.actor.data.data.attributes.str,
-          'modMeleeDamage'
-        );
-
-    const modRangedDamage = this.actor.data.data.modDamage;
-
-    return {
-      modStrengthDamage,
-      modRangedDamage,
-      modMeleeToHit,
-      modRangedToHit
-    };
   }
 
   /* -------------------------------------------- */

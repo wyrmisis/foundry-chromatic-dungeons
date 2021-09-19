@@ -130,11 +130,9 @@ Hooks.once("ready", async function() {
     }
   });
 
-  Hooks.on('renderChatMessage', (message, html, data) => {
+  Hooks.on('createChatMessage', () => {
     console.info(
-      message,
-      html.children('.message-content'),
-      data
+      arguments
     );
 
     // data.author.targets: get the list of targeted actors

@@ -171,3 +171,23 @@
   display:  grid;
   grid-template-columns: 1fr 7fr;
 }
+
+.actor .spell-slots {
+  display: grid;
+  grid-template-columns: repeat(1fr, 9);
+  padding: 0;
+  grid-gap: .5em;
+}
+
+.actor .spell-slots__level {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.actor .spell-slots__values {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

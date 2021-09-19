@@ -141,6 +141,29 @@ export default class ClassSheet extends ItemSheet {
         _id: this.item.id,
         'data.spellSlots': slots
       })
+    });
+
+    html.find('[name="data.hasSpellPoints"]').change(evt => {
+      const hasSpellPoints = evt.target.checked;
+      let spellPoints;
+
+      if (hasSpellPoints) {
+        const levelRange = range(1, 20);
+
+        // @todo This could be a util with recursion
+        spellPoints = levelRange.reduce(
+          (levelObj, level) => ({
+            ...levelObj,
+            [level]: { spellsKnown: 0, maxSpellLevel: 0, maxSpellPoints: 0 }
+          }), {});
+      } else {
+        spellPoints = null;
+      }
+
+      this.item.update({
+        _id: this.item.id,
+        'data.spellPoints': spellPoints
+      })
     })
 
     html.find('.class__delete').click(evt => {

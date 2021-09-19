@@ -1,0 +1,22 @@
+.spellcasting-table {
+  padding: 0;
+}
+
+.spellcasting-table__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-gap: .5em;
+  margin-bottom: .5em;
+  align-items: center;
+}
+.spellcasting-table__row--header {
+  font-weight: bold;
+}
+
+.spellcasting-table__cell {
+  text-align: center;
+}
+.spellcasting-table__cell--level {
+  text-align: right;
+  font-weight: bold;
+}

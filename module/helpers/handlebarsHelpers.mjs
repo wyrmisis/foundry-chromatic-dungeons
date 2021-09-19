@@ -81,7 +81,12 @@ const setupHandlebarsHelpers = () => {
   /**
    * dynamicProp
    */
-  Handlebars.registerHelper('dynamicProp', (obj, key) => obj[key])
+  Handlebars.registerHelper('dynamicProp', (obj, key) => obj[key]);
+
+  /**
+   * stringify
+   */
+  Handlebars.registerHelper('stringify', (obj) => JSON.stringify(obj));
 };
 
 export default setupHandlebarsHelpers;

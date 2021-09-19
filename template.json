@@ -23,7 +23,8 @@
       "modMove": 0,
       "modToHit": 0,
       "modDamage": 0,
-      "hp": { "value": 10, "min": 0, "max": 10 }
+      "hp": { "value": 10, "min": 0, "max": 10 },
+      "preparedSpells": {}
     },
     "npc": {
       "templates": ["attributes", "meta"],
@@ -31,18 +32,17 @@
       "numberAppearing": "",
       "numberAppearingInLair": "",
       "size": "",
-      "perceptionMod": 0,
+      "perceptionMod": "",
       "treasure": "",
-      "hitDieFace": "d8",
-      "hitDieNumber": { "value": 1, "min": 0 },
-      "hitDieMod": 0,
-      "ac": 10,
+      "hitDice": "",
+      "hitDiceBonus": "",
+      "ac": "10",
       "specialDefenses": "",
-      "magicResistance": 0,
+      "magicResistance": "",
       "attacks": "",
       "specialAttacks": "",
-      "move": 0,
-      "xp": 0
+      "move": "",
+      "xp": ""
     }
   },
   "Item": {
@@ -72,7 +72,12 @@
       "modDamage": 0,
       "modToHit": 0,
       "speedFactor": 0,
-      "ammunition": ""
+      "light": false,
+      "versatile": false,
+      "twoHanded": false,
+      "silvered": false,
+      "isAmmunition": false,
+      "ammunitionType": ""
     },
     "armor": {
       "templates": ["item", "equipment"],
@@ -88,9 +93,8 @@
     "goods": { "templates": ["item"] },
     "treasure": { "templates": ["item"] },
     "spell": {
-      "level": 1,
       "school": "",
-      "range": 0,
+      "range": "",
       "duration": "",
       "areaOfEffect": "",
       "castingTime": "",
@@ -98,14 +102,12 @@
       "hasVerbalComponent": false,
       "hasMaterialComponent": false,
       "hasSomaticComponent": false,
-      "isClericSpell": false,
-      "isDruidSpell": false,
-      "isWizardSpell": false,
-      "isSorcererSpell": false
+      "spellLevels": {},
+      "description": ""
     },
     "ancestry": {
       "movement": 30,
-      "infravision": 30,
+      "infravision": 0,
       "height": { "min": 60, "max": 66 },
       "weight": { "min": 150, "max": 300},
       "lifespan": 80,
@@ -129,8 +131,12 @@
       },
       "features": {},
       "skills": null,
+      "spellPoints": null,
       "spellSlots": null,
       "hasSpellcasting": false,
+      "hasSpellPoints": false,
+      "hasFullSpellList": false,
+      "hasWisdomBonusSlots": false,
       "weaponProf": "",
       "armorProf": "",
       "statBonus": "",

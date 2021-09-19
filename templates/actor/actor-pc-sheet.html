@@ -9,19 +9,6 @@
           value="{{actor.name}}"
           placeholder="Name"/>
       </div>
-      <div class="classes">
-        {{#each classes as |class key|}}
-          <span class="class__name" data-item-id="{{class.id}}">{{class.name}} {{class.level}}</span>
-          {{#if 
-            (equals
-              key 
-              (lookup ../classes "length")
-            )
-          }}
-            <span class="class__separator">/</span>
-          {{/if}}
-        {{/each}}
-      </div>
     </div>
   </header>
 
@@ -46,14 +33,6 @@
 
       <div class="tab-group__container">
         <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
-          <pouch-accordion>
-            <pouch-accordion-item title="Test">
-              Test content
-            </pouch-accordion-item>
-            <pouch-accordion-item title="Test 2">
-              Test content 2
-            </pouch-accordion-item>
-          </pouch-accordion>
           <div class="hp">
             <label 
               for="data.hp.value"

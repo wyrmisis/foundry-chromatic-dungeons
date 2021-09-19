@@ -15,6 +15,43 @@
   color: var(--sheet-heading-color);
 }
 
+/**
+ *  Default button styles
+ */
+
+.chromatic-dungeons button[data-action] {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  width: auto;
+  background: transparent;
+  border: none;
+}
+
+/**
+ * Action Headers
+ */
+
+.chromatic-dungeons .action-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+/**
+ * Grid Lists
+ */
+.chomatic-dungeons li.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 1fr);
+  grid-gap: .25em;
+  align-items: center;
+  margin-bottom: .5em;
+}
+
+.chomatic-dungeons li.grid-list:last-of-type {
+  margin-bottom: 0;
+}
+
 
 /**
  * Utility classes
@@ -40,6 +77,9 @@ label[title] {
   min-height: 300px;
 }
 
+/**
+ * Tabs
+ */
 .tab.description {
   margin: 0;
 }

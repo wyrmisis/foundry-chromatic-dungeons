@@ -1,4 +1,22 @@
-<ol class="items-list">
+{{#each classes}}
+  {{#if hasSpellcasting}}
+    <h2>{{name}}</h2>
+
+    <ul class="spell-slots">
+      {{#each spellSlots as |slot key|}}
+        <li class="spell-slots__level">
+          <label>{{key}}</label>
+          <span class="spell-slots__values">
+            <input for="" value="{{slot}}" type="number" data-dtype="Number" /> /
+            <input readonly for="slot" value="{{slot}}" type="number" data-dtype="Number" />
+          </span>
+        </li>
+      {{/each}}
+    </ul>
+  {{/if}}
+{{/each}}
+
+{{!-- <ol class="items-list">
   {{#each spells as |spells spellLevel|}}
     <li class="item flexrow items-header">
       <div class="item-name">Level {{spellLevel}} Spells</div>
@@ -21,4 +39,4 @@
       </li>
     {{/each}}
   {{/each}}
-</ol>
+</ol> --}}

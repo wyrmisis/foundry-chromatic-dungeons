@@ -1,6 +1,13 @@
 const getDerivedStat = (attrAbbr, attrValue, derivedKey) =>
   CONFIG.CHROMATIC.attributes[attrAbbr][attrValue][derivedKey];
 
+const getDerivedStatWithContext = (attrAbbr, derivedKey, context) =>
+  CONFIG.CHROMATIC.attributes[attrAbbr][context.attributes[attrAbbr]][derivedKey];
+
+const getSelf = () => game.users.find(user => user.id === game.userId);
+
+const getFirstTargetOfSelf = () => getSelf()?.targets?.values()?.next()?.value?.actor;
+
 const getLevelFromXP = (xp) =>
   CONFIG.CHROMATIC.xp.reduce(
     (level, xpRow) =>
@@ -41,14 +48,17 @@ const hasThisAlready = (type, droppedItem, actorItems) => {
 };
 
 const range = (start, end, length = end - start + 1) =>
-  Array.from({ length }, (_, i) => start + i)
+  Array.from({ length }, (_, i) => start + i);
 
 export {
   getLevelFromXP,
   getNextLevelXP,
   getClassGroupAtLevel,
   getDerivedStat,
+  getDerivedStatWithContext,
   reportAndQuit,
   hasThisAlready,
-  range
+  range,
+  getSelf,
+  getFirstTargetOfSelf
 };

@@ -1,8 +1,24 @@
+import {
+  getDerivedStat,
+  getDerivedStatWithContext,
+  getLevelFromXP,
+  getNextLevelXP,
+  getClassGroupAtLevel,
+  reportAndQuit,
+  hasThisAlready
+} from '../helpers/utils.mjs';
+
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
 export class BoilerplateActor extends Actor {
+
+  _getItemsOfType(filterType, filterFn = null) {
+    return this.items
+      .filter(({type}) => type === filterType)
+      .filter(filterFn ? filterFn : () => true);
+  }
 
   /** @override */
   prepareData() {
@@ -53,6 +69,29 @@ export class BoilerplateActor extends Actor {
     //   // Calculate the modifier using d20 rules.
     //   ability.mod = Math.floor((ability.value - 10) / 2);
     // }
+
+    data.ac = this._getAC();
+
+    data.toHitMods = {
+      melee: this._getMeleeToHitMod(),
+      thrown: this._getRangedToHitMod(),
+      ranged: this._getRangedToHitMod()
+    };
+    
+    data.damageMods = {
+      melee: this._getStrDamageMod(),
+      thrown: this._getStrDamageMod(),
+      ranged: this._getRangedDamageMod()
+    };
+
+    data.saves = {
+      targets: this._getSaves(),
+      mods: this._getSaveMods()
+    };
+
+    data.carryWeight = this._getCarryWeight();
+
+    data.move = this._getMoveSpeed();
   }
 
   /**
@@ -77,6 +116,106 @@ export class BoilerplateActor extends Actor {
     this._getNpcRollData(data);
 
     return data;
+  }
+
+  _getCarryWeight() {
+    let items = [].concat(
+      this._getItemsOfType('weapons'),
+      this._getItemsOfType('armor'),
+      this._getItemsOfType('gear'),
+      this._getItemsOfType('goods'),
+      this._getItemsOfType('treasure')
+    );
+
+    let totalItemWeight = items.reduce(
+      (prev, curr) => prev + curr.data.data.weight.value,
+      0
+    );
+
+    Object.keys(this.data.data.wealth).forEach(
+      (coinType) => totalItemWeight += (
+        this.data.data.wealth[coinType] / 10
+      )
+    );
+
+    return {
+      value: totalItemWeight,
+      min: 0,
+      max: getDerivedStatWithContext('str', 'carryWeight', this.data.data)
+    }
+  }
+
+  _getMoveSpeed() {
+    return this.data.data.modMove + (this._getItemsOfType('ancestry')[0]?.data?.data?.movement || 0)
+  }
+
+  _getAC() {
+    const baseAC = 10 + 
+      this.data.data.modAC + 
+      getDerivedStatWithContext('dex', 'modAgility', this.data.data);
+
+    return this
+      ._getItemsOfType('armor', ({data}) => data.data.equipped)
+      .reduce((prev, {data}) => prev + data.data.ac, baseAC);
+  }
+
+  _getSaves() {
+    const worstSaves = {reflex: 20, creature: 20, spell: 20, poison: 20 };
+
+    let savingClass = this
+      ._getItemsOfType('class', ({data}) => data.data.isSelectedSaveTable)[0];
+
+    if (!savingClass) savingClass = this._getItemsOfType('class')[0];
+
+    if (!savingClass?.data?.data) {
+      ui?.notifications?.warn(`Actor ${this.name} doesn't have a class!`);
+      return worstSaves;
+    }
+
+    if (!savingClass.data.data.classGroup) {
+      ui?.notifications?.warn(`Class ${savingClass.name} doesn't have a class group!`)
+      return worstSaves;
+    }
+
+    const level = getLevelFromXP(savingClass.data.data.xp);
+
+    return {
+      ...getClassGroupAtLevel(savingClass.data.data.classGroup, level).saves
+    }
+  }
+
+  _getSaveMods() {
+    const { saveMods, attributes } = this.data.data;
+
+    return {
+      ...saveMods,
+      reflex: saveMods.reflex + getDerivedStatWithContext('dex', 'modAgility', this.data.data)
+    }
+  }
+
+  _getMeleeToHitMod() {
+    const classToHit = this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.modToHit || 0;
+
+    const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.data.data);
+
+    return classToHit + attrToHit + this.data.data.modToHit;
+  }
+
+  _getRangedToHitMod() {
+    const classToHit = this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.modToHit || 0;
+
+    const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.data.data);
+
+    return classToHit + attrToHit + this.data.data.modToHit;
+  }
+
+  _getStrDamageMod() {
+    return this.data.data.modDamage +
+      getDerivedStatWithContext('str', 'modMeleeDamage', this.data.data);
+  }
+
+  _getRangedDamageMod() {
+    return this.data.data.modDamage;
   }
 
   /**

@@ -33,6 +33,16 @@
   flex: 1;
 }
 
+.item-attributes__item--grid {
+  display: grid;
+  align-items: center;
+  grid-column-gap: .25em;
+  
+}
+.item-attributes__item--spell-levels {
+  grid-template-columns: 3fr 1fr 1fr;
+}
+
 .item-attributes__group--damage {}
 .item-attributes__group--damage .damage-container,
 .item-attributes__group--damage .modifier-container {
