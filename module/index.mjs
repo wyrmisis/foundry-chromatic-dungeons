@@ -51,7 +51,7 @@ Hooks.once('init', async function() {
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, {
+  Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, '', {
     types: ['weapon', 'armor', 'goods', 'gear', 'treasure', "heritage"],
     makeDefault: true
   });
@@ -83,15 +83,25 @@ Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
 
-  Hooks.on('dropActorSheetData', (actor, sheet, {id}) => {
-    const droppedItem = game.items.find((item) => item.id === id);
+  Hooks.on('dropActorSheetData', async (actor, sheet, dropped) => {
+
+    const [droppedItem, droppedSourceId] = await 
+      !dropped.pack
+        ? [dropped.data, dropped.sourceId]
+        : game.packs
+          .get(dropped.pack)
+          .getDocument(dropped.id)
+          .then((item) => [
+            item,
+            item.getFlag('core', 'sourceId')
+          ]);
 
     if (
-      actor.type !== 'pc' && (
+      actor.type === 'pc' && (
       droppedItem.type === 'ancestry' ||
       droppedItem.type === 'heritage' ||
       droppedItem.type === 'class'
-    )) 
+    ))
       return reportAndQuit('Only PCs can have an ancestry, heritage, or class');
 
     if (droppedItem.type === 'ancestry') {
@@ -112,7 +122,7 @@ Hooks.once("ready", async function() {
         return reportAndQuit(`${actor.name} already has two heritages`);
     }
 
-    // @todo Add a setting for class stat requirements
+    // // @todo Add a setting for class stat requirements
     if (droppedItem.type === 'class') {
       const actorClasses = actor.items.filter(item => item.type === 'class');
 
@@ -127,6 +137,25 @@ Hooks.once("ready", async function() {
 
       if (missedReqs.length)
         return reportAndQuit(`${actor.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
+    }
+
+    if (droppedItem.type === 'spell') {
+      const actorSpells = actor.items
+        .filter(item => item.type === 'spell')
+        .map(item => item.data);
+
+      // if(hasThisAlready('spell', droppedItem, actorSpells))
+      //   actor.prepareSpell(droppedItem);
+
+      if (hasThisAlready('spell', droppedItem, actorSpells))
+        return reportAndQuit(`${actor.name} already has the ${droppedItem.name} spell`);
+
+      // const castingClasses = actor.items.filter(item => item.type === 'class' && item.data.hasSpellcasting);
+      
+      // console.info(castingClasses)
+
+
+      return false;
     }
   });
 

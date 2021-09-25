@@ -19,7 +19,7 @@ export class BoilerplateActorSheet extends ActorSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["chromatic-dungeons", "sheet", "actor"],
-      template: "systems/chromatic-dungeons/templates/actor/actor-sheet.html",
+      template: `${CONFIG.CHROMATIC.templateDir}/actor/actor-sheet.html`,
       width: 600,
       height: 600,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".tab-group__container", initial: "summary" }]
@@ -28,7 +28,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `systems/chromatic-dungeons/templates/actor/actor-${this.actor.data.type}-sheet.html`;
+    return `systems/foundry-chromatic-dungeons/templates/actor/actor-${this.actor.data.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
@@ -83,13 +83,19 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Constants for the template
     context.armorTypes = CONFIG.CHROMATIC.armorTypes;
+    
+    // computed/derived stats
+    context.move = this.actor.data.data.move;
+    context.hasSpellcasting = !!context.classes.filter(obj => obj.hasSpellcasting).length;
+    context.saves = this.actor.data.data.saves.targets;
+    context.saveMods = this.actor.data.data.saves.mods;
+    context.carryWeight = this.actor.data.data.carryWeight
+    context.ac = this.actor.data.data.ac;
   }
 
   /**
    * Organize and classify Items for Character sheets.
    *
-   * @todo Add default images per type (https://game-icons.net/)
-   * 
    * @param {Object} actorData The actor to prepare.
    * 
    * @return {undefined}
@@ -104,17 +110,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       ancestry = {},
       heritages = [],
       classes = [],
-      spells = {
-        1: [],
-        2: [],
-        3: [],
-        4: [],
-        5: [],
-        6: [],
-        7: [],
-        8: [],
-        9: []
-      };
+      spells = [];
 
     // Divide the items out
     context.items.forEach(item => {
@@ -146,18 +142,13 @@ export class BoilerplateActorSheet extends ActorSheet {
           classes.push(this._formatClassForUse(item));
           break;
         case 'spell': 
-          if (item.data.level)
-            spells[item.data.level].push(item);
+          spells.push(item);
           break;
       }
     });
 
-    // Stuff that relies on knowing the character classes
-    const primaryClass = classes.find(obj => obj.isPrimary);
-    const classForSaves = classes.find(obj => obj.isSelectedSaveTable) || context.primaryClass;
-    
     // gear
-    context.weapons = weapons.map((item) => 
+    context.weapons = weapons.map(item => 
       this._formatWeaponForUse(item, this.actor.data)
     );
     context.armor = armor;
@@ -165,20 +156,14 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.goods = goods;
     context.treasure = treasure;
     context.spells = spells;
-    context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
 
     // character traits
     context.ancestry = ancestry;
     context.heritages = heritages;
     context.classes = classes;
-    
-    // computed/derived stats
-    context.move = this.actor.data.data.move;
-    context.hasSpellcasting = !!classes.filter(obj => obj.hasSpellcasting).length;
-    context.saves = this.actor.data.data.saves.targets;
-    context.saveMods = this.actor.data.data.saves.mods;
-    context.carryWeight = this.actor.data.data.carryWeight
-    context.ac = this.actor.data.data.ac;
+
+    // Equipped gear
+    context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
   }
 
   _formatWeaponForUse(item, actor) {
@@ -196,14 +181,12 @@ export class BoilerplateActorSheet extends ActorSheet {
       .filter(key => data.features?.[key].level <= level)
       .reduce((features, key) => ({ ...features, [key]: data.features[key]}), {});
 
-    console.info(filteredFeatures);
-
     return {
       id: _id,
       name,
       ...data,
       level,
-      ...getClassGroupAtLevel(data.classGroup, level),
+      ...classGroupData,
       spellSlots: data?.spellSlots?.[level],
       features: filteredFeatures,
       xpNext: getNextLevelXP(data.xp)
@@ -217,15 +200,6 @@ export class BoilerplateActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     const itemClass = '.items__list-item';
-
-    this.itemMenu = new ContextMenu(
-      $(itemClass).parent('ul'),
-      `${itemClass}:not(${itemClass}--header)`,
-      [
-        { name: 'Edit', icon: '<i class="fa fa-edit" />', callback: this._editOwnedItem },
-        { name: 'Delete', icon: '<i class="fa fa-trash" />', callback: this._deleteOwnedItem },
-      ]
-    );
 
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => {
@@ -242,6 +216,37 @@ export class BoilerplateActorSheet extends ActorSheet {
     // -------------------------------------------------------------
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
+
+    this.itemMenu = new ContextMenu(
+      $(itemClass).parent('ul'),
+      `${itemClass}:not(${itemClass}--header)`,
+      [
+        { name: 'Edit', icon: '<i class="fa fa-edit" />', callback: this._editOwnedItem },
+        { name: 'Delete', icon: '<i class="fa fa-trash" />', callback: this._deleteOwnedItem },
+      ]
+    );
+
+    this.knownSpellMenu = new ContextMenu(
+      $('.known-spells'),
+      '.known-spell',
+      [
+        {
+          name: 'Prepare',
+          icon: '<i class="fa fa-book" />',
+          condition: (node) => this._canPrepareSpell(node),
+          callback: (node) => this._prepareSpell(node)
+        },
+        {
+          name: 'Edit',
+          icon: '<i class="fa fa-edit" />',
+          callback: this._editOwnedItem
+        },
+        {
+          name: 'Delete',
+          icon: '<i class="fa fa-trash" />',
+          callback: this._deleteOwnedItem },
+      ]
+    );
 
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
@@ -264,6 +269,15 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
     });
 
+    html.find('[data-edit-item]').change(ev => {
+      const {itemId, itemField} = ev.currentTarget.dataset;
+      const item = this.actor.items.get(itemId)
+
+      item.update({
+        [itemField]: ev.target.value
+      }).then(console.info);
+    })
+
     html.find('.items__list-column--equipped input[type="checkbox"]').change(ev => {
       ev.preventDefault();
       ev.stopPropagation();
@@ -283,6 +297,14 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
 
+    html.find('.prepared-spell__slot:not(prepared-spell__slot--empty)').click(async (ev) => {
+      const spellId = ev.currentTarget.dataset.itemId;
+      const spellLevel = ev.currentTarget.closest('.spell-level').dataset.spellLevel;
+      const classItem = this.actor.items.get(ev.currentTarget.closest('.spell-level').dataset.itemId);
+
+      classItem.castSpell(spellId, spellLevel)
+    })
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);
@@ -292,6 +314,25 @@ export class BoilerplateActorSheet extends ActorSheet {
         li.addEventListener("dragstart", handler, false);
       });
     }
+  }
+
+  _canPrepareSpell(itemNode) {
+    const {itemId: classId, spellLevel} = itemNode.parents('.spell-level').data();
+    const classItem = this.actor.items.get(classId);
+
+    const maxSlotsAtLevel = classItem.data.data.spellSlots[getLevelFromXP(classItem.data.data.xp)][spellLevel];
+    const preparedSpellsAtLevel = classItem.data.data.preparedSpells[spellLevel];
+
+    return maxSlotsAtLevel > preparedSpellsAtLevel;
+  }
+
+  _prepareSpell(itemNode) {
+    const {itemId: classId, spellLevel} = itemNode.parents('.spell-level').data();
+    const {itemId: spellId} = itemNode.data();
+    const classItem = this.actor.items.get(classId);
+    const spellItem = this.actor.items.get(spellId);
+
+    classItem.prepareSpell(spellItem, spellLevel);
   }
 
   _editOwnedItem(itemNode) {

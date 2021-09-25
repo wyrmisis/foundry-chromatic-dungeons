@@ -40,12 +40,16 @@ const reportAndQuit = (msg) => {
   return false;
 };
 
-const hasThisAlready = (type, droppedItem, actorItems) => {
-  const actorItemsOfType = actorItems.filter(item => item.type === type);
+const hasThisAlready = (type, droppedItem, actorItems) => !!(
+  actorItems
+    .filter(item => item.type === type)
+    .find((item) => sourceId(item) === sourceId(droppedItem))
+);
 
-  if (actorItemsOfType.find( ({name}) => name === droppedItem.name))
-    return true;
-};
+const sourceId = (item) =>
+  item.getFlag 
+    ? item.getFlag('core', 'sourceId')
+    : item.flags.core.sourceId;
 
 const range = (start, end, length = end - start + 1) =>
   Array.from({ length }, (_, i) => start + i);
@@ -59,6 +63,7 @@ export {
   reportAndQuit,
   hasThisAlready,
   range,
+  sourceId,
   getSelf,
   getFirstTargetOfSelf
 };

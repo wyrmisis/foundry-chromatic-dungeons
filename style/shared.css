@@ -19,7 +19,7 @@
  *  Default button styles
  */
 
-.chromatic-dungeons button[data-action] {
+.chromatic-dungeons button {
   padding: 0;
   margin: 0;
   min-width: 0;

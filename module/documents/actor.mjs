@@ -5,7 +5,8 @@ import {
   getNextLevelXP,
   getClassGroupAtLevel,
   reportAndQuit,
-  hasThisAlready
+  hasThisAlready,
+  sourceId
 } from '../helpers/utils.mjs';
 
 /**
@@ -60,6 +61,7 @@ export class BoilerplateActor extends Actor {
    */
   _prepareCharacterData(actorData) {
     if (actorData.type !== 'pc') return;
+    if (this.name.includes('#')) return;
 
     // Make modifications to data here. For example:
     const data = actorData.data;
@@ -92,6 +94,8 @@ export class BoilerplateActor extends Actor {
     data.carryWeight = this._getCarryWeight();
 
     data.move = this._getMoveSpeed();
+
+    data.spellcasting = this._getSpellSlots();
   }
 
   /**
@@ -160,7 +164,7 @@ export class BoilerplateActor extends Actor {
   }
 
   _getSaves() {
-    const worstSaves = {reflex: 20, creature: 20, spell: 20, poison: 20 };
+    const worstSaves = { reflex: 18, poison: 16, creature: 17, spell: 19 };
 
     let savingClass = this
       ._getItemsOfType('class', ({data}) => data.data.isSelectedSaveTable)[0];
@@ -172,8 +176,8 @@ export class BoilerplateActor extends Actor {
       return worstSaves;
     }
 
-    if (!savingClass.data.data.classGroup) {
-      ui?.notifications?.warn(`Class ${savingClass.name} doesn't have a class group!`)
+    if (!savingClass?.data?.data?.classGroup) {
+      ui?.notifications?.warn(`${this.name}'s class doesn't have a class group!`)
       return worstSaves;
     }
 
@@ -216,6 +220,135 @@ export class BoilerplateActor extends Actor {
 
   _getRangedDamageMod() {
     return this.data.data.modDamage;
+  }
+
+  _getSpellSlots() {
+    const wisScore = this.data.data.attributes.wis;
+    const wisTable = CONFIG.CHROMATIC.attributes.wis;
+
+    const bonusSlots = (wisScore) => Object
+      .keys(CONFIG.CHROMATIC.attributes.wis)
+      .filter(key => parseInt(key) <= wisScore) // Get scores equal to or below the character's score
+      .reduce((extraSlots, key) => // Pick out bonus divine spell levels
+        [...extraSlots, wisTable[key].bonusDivineSpellLevel],
+        []
+      )
+      .filter(val => val) // Prune off undefineds
+      .reduce((bonus, value, key) => // Accumulate total extra slots per level
+        (bonus[key])
+          ? ({ ...bonus, [value]: bonus[value] + 1 })
+          : ({ ...bonus, [value]: 1 }),
+        {}
+      );
+
+    const addBonusSlots = (slots, addsBonusSlots) => {
+      const bonus = bonusSlots(wisScore);
+      return addsBonusSlots 
+        ? Object
+          .keys(slots)
+          .reduce((finishedObj, slot) => ({
+              ...finishedObj,
+              [slot]: (slots[slot])
+                ? slots[slot] + (bonus[slot] || 0)
+                : 0
+          }), {})
+        : slots;
+    }
+
+    const slotsFormat = (classname) => ({
+      id: classname.id,
+      sourceId: sourceId(classname),
+      slots: addBonusSlots(
+        classname.data.data.spellSlots[
+          getLevelFromXP(classname.data.data.xp)
+        ],
+        classname.data.data.hasWisdomBonusSlots
+      ),
+      name: classname.name,
+      preparedSpells: classname.data.data.preparedSpells
+    });
+
+    const slotsTemplate = ({id, sourceId, name, slots, preparedSpells}) => ({
+      [id]: {
+        name,
+        sourceId,
+        slots: {
+          1: { max: slots[1], preparedSpells: preparedSpells?.[1] || [] },
+          2: { max: slots[2], preparedSpells: preparedSpells?.[2] || [] },
+          3: { max: slots[3], preparedSpells: preparedSpells?.[3] || [] },
+          4: { max: slots[4], preparedSpells: preparedSpells?.[4] || [] },
+          5: { max: slots[5], preparedSpells: preparedSpells?.[5] || [] },
+          6: { max: slots[6], preparedSpells: preparedSpells?.[6] || [] },
+          7: { max: slots[7], preparedSpells: preparedSpells?.[7] || [] },
+          8: { max: slots[8], preparedSpells: preparedSpells?.[8] || [] },
+          9: { max: slots[9], preparedSpells: preparedSpells?.[9] || [] }
+        }
+      }
+    });
+
+    const pointsFormat = (classname) => {
+      const {
+        maxSpellPoints,
+        maxSpellLevel,
+        spellsKnown
+      } = classname.data.data.spellPoints[
+        getLevelFromXP(classname.data.data.xp)
+      ];
+      const { currentSpellPoints } = classname.data.data;
+
+      return ({
+        id: classname.id,
+        name: classname.name,
+        sourceId: sourceId(classname),
+        maxSpellPoints,
+        currentSpellPoints,
+        maxSpellLevel,
+        spellsKnown
+      })
+    };
+
+    const pointsTemplate = ({
+      id,
+      name,
+      sourceId,
+      maxSpellPoints,
+      currentSpellPoints,
+      maxSpellLevel,
+      spellsKnown
+    }) => ({
+      [id]: {
+        name,
+        value: currentSpellPoints || 0,
+        min: 0, 
+        sourceId,
+        max: maxSpellPoints,
+        spellsKnown,
+        maxSpellLevel
+      }
+    });
+
+    const castingClasses = this
+      ._getItemsOfType(
+        'class',
+        ({data}) => data.data.hasSpellcasting && !data.data.hasSpellPoints
+      )
+      .map(slotsFormat)
+      .map(slotsTemplate);
+
+    const pointsClasses = this
+    ._getItemsOfType(
+      'class',
+      ({data}) => data.data.hasSpellcasting && data.data.hasSpellPoints
+    )
+    .map(pointsFormat)
+    .map(pointsTemplate);
+
+    return [...castingClasses, ...pointsClasses]
+      .reduce((obj, classname) => ({ ...obj, ...classname }), {});
+  }
+
+  prepareSpell(...args) {
+    console.info(args);
   }
 
   /**

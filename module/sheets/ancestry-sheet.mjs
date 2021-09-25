@@ -16,7 +16,7 @@ export default class AncestrySheet extends ItemSheet {
 
   /** @override */
   get template() {
-    const path = "systems/chromatic-dungeons/templates/item";
+    const path = `${CONFIG.CHROMATIC.templateDir}/item`;
     // Return a single sheet for all item types.
     // return `${path}/item-sheet.html`;
 

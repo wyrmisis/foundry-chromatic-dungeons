@@ -34,7 +34,7 @@ export default class ClassSheet extends ItemSheet {
 
   /** @override */
   get template() {
-    const path = "systems/chromatic-dungeons/templates/item";
+    const path = `${CONFIG.CHROMATIC.templateDir}/item`;
     // Return a single sheet for all item types.
     // return `${path}/item-sheet.html`;
 
@@ -74,6 +74,8 @@ export default class ClassSheet extends ItemSheet {
       );
     }
 
+    context.skillAttributes = CONFIG.CHROMATIC.attributeLabels
+
     return context;
   }
 
@@ -92,7 +94,6 @@ export default class ClassSheet extends ItemSheet {
 
     html.find('.feature__add').click(() => {
       this.item.update({
-        _id: this.item.id,
         [`data.features.${randomID()}`]: {
           level: 1,
           title: '',
@@ -107,9 +108,30 @@ export default class ClassSheet extends ItemSheet {
         .data('itemId');
 
       this.item.update({
-        _id: this.item.id,
         'data.features': {
           [`-=${targetFeature}`]: null
+        }
+      });
+    });
+
+    html.find('.skill__add').click(() => {
+      this.item.update({
+        [`data.skills.${randomID()}`]: {
+          name: '',
+          attribute: '',
+          bonus: 0
+        }
+      });
+    });
+
+    html.find('.skill__delete').click((evt) => {
+      const targetSkill = $(evt.target)
+        .parents('.skill')
+        .data('itemId');
+
+      this.item.update({
+        'data.skills': {
+          [`-=${targetSkill}`]: null
         }
       });
     });
@@ -138,7 +160,6 @@ export default class ClassSheet extends ItemSheet {
       }
 
       this.item.update({
-        _id: this.item.id,
         'data.spellSlots': slots
       })
     });
@@ -161,7 +182,6 @@ export default class ClassSheet extends ItemSheet {
       }
 
       this.item.update({
-        _id: this.item.id,
         'data.spellPoints': spellPoints
       })
     })

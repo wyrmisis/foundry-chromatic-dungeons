@@ -87,6 +87,34 @@ const setupHandlebarsHelpers = () => {
    * stringify
    */
   Handlebars.registerHelper('stringify', (obj) => JSON.stringify(obj));
+
+  Handlebars.registerHelper('paddedTo', (arr = [], minimum) =>
+    (arr.length >= minimum)
+      ? arr
+      : Array.from({...arr, length: minimum})
+  );
+
+  Handlebars.registerHelper('spellsAtLevel', (spells, classname, level) => {
+    const filtered = spells
+      .filter(spell => {
+        const { spellLevels } = spell.data;
+        const spellClasses = Object.keys(spellLevels);
+
+        // @todo Do this with source IDs
+        return !!spellClasses.find(spellClass => 
+          spellLevels[spellClass].class === classname.name &&
+          spellLevels[spellClass].level === parseInt(level)
+        );
+      })
+
+    return filtered;
+  });
+
+  Handlebars.registerHelper('getFeatureContentKey', (key) => `data.features.${key}.content`);
+
+  Handlebars.registerHelper('getClassPreparedSpellsAtLevel',
+    (classes, key, level) => classes.find( ({id}) => id === key)?.preparedSpellSlots?.[parseInt(level) - 1]
+  );
 };
 
 export default setupHandlebarsHelpers;

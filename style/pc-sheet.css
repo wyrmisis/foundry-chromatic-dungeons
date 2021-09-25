@@ -173,21 +173,46 @@
 }
 
 .actor .spell-slots {
+  
+}
+
+.actor .prepared-spells {
   display: grid;
-  grid-template-columns: repeat(1fr, 9);
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: .5em;
   padding: 0;
-  grid-gap: .5em;
+  margin-bottom: 1em;
 }
 
-.actor .spell-slots__level {
-  list-style-type: none;
+.actor .prepared-spell__slot {
+  display: block;
+}
+
+.actor .prepared-spell__slot--empty {
+  color: #666;
+  font-style: italic;
+}
+
+.actor .known-spells {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5em;
+  padding: 0;
+  margin: 0 0 1em 0;
+}
+
+.actor .known-spell {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.actor .spell-slots__values {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.actor .known-spell img {
+  width: 32px;
+  height: 32px;
+}
+
+.actor .known-spell span {
+  margin-left: .5em;
+  margin-right: auto;
 }

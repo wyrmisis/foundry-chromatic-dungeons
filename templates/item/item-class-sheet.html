@@ -1,5 +1,5 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <header class="sheet-header">
+  <header class="sheet-header sheet-header--class">
     <img
       class="profile-img"
       src="{{item.img}}"
@@ -35,8 +35,6 @@
     </div>
   </header>
 
-  {{log this}}
-
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
@@ -44,7 +42,7 @@
     {{#if data.classGroup}}
       <a class="item" data-tab="saves">Saves</a>
     {{/if}}
-    {{#if data.skills}}
+    {{#if data.hasSkills}}
       <a class="item" data-tab="skills">Skills</a>
     {{/if}}
     {{#if data.hasSpellcasting}}
@@ -63,7 +61,73 @@
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
       <h2>Description</h2>
-      {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+      {{editor
+        content=data.description
+        target="data.description"
+        rollData=rollData
+        button=true
+        owner=owner
+        editable=editable
+      }}
+    </div>
+
+    {{!-- Skills Tab --}}
+    <div class="tab" data-group="primary" data-tab="skills">
+      <div class="features__header">
+        <h2 class="action-header">
+          <span>Class Skills</span>
+          <button type="button" class="skill__add">
+            <i class="fa fa-plus">
+              <span class="sr-only">Add Skill</span>
+            </i>
+          </button>
+        </h2>
+      </div>
+
+      <div class="skills__list">
+        <li class="skills__row skills__row--header">
+          <div class="skills__cell">Name</div>
+          <div class="skills__cell">Attribute</div>
+          <div class="skills__cell">Bonus</div>
+          <div class="skills__cell">Actions</div>
+        </li>
+        {{#each data.skills as |skill key|}}
+          <li class="skills__row skill" data-item-id="{{key}}">
+            <div class="skills__cell">
+              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key=(concat "data.skills." key ".name")
+                value=skill.name
+                type="text"
+                dataType="String"
+              }}
+            </div>
+            <div class="skills__cell">
+              <select name="data.skills.{{key}}.attribute" data-dtype="string">
+                {{#select skill.attribute}}
+                  {{#each ../skillAttributes as |attribute attrkey|}}
+                    <option value="{{attrkey}}">{{localize attribute}}</option>
+                  {{/each}}
+                {{/select}}
+              </select>
+            </div>
+            <div class="skills__cell">
+              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                key=(concat "data.skills." key ".bonus")
+                value=skill.bonus
+                type="number"
+                dataType="Number"
+              }}
+            </div>
+            <div class="skills__cell">
+              <button type="button" class="skill__delete">
+                <i class="fa fa-trash">
+                  <span class="sr-only">Delete Feature</span>
+                </i>
+              </button>
+            </div>
+          </li>
+        {{/each}}
+      </div>
     </div>
 
     {{!-- Configuration Tab --}}
@@ -87,7 +151,7 @@
               </select>
             </div>
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.statBonus"
               value=data.statBonus
               label="Stat Bonus"
@@ -153,7 +217,7 @@
 
           <div class="item-attributes__group">
             <h2>Proficiencies</h2>
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.weaponProf"
               value=data.weaponProf
               label="Weapons"
@@ -162,7 +226,7 @@
               compact=true
             }}
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.armorProf"
               value=data.armorProf
               label="Armor"
@@ -170,13 +234,21 @@
               dataType="String"
               compact=true
             }}
+
+            <div class="item-attributes__item item-attributes__item--compact">
+              <label for="data.hasSkills">Has class skills</label>
+              <input
+                type="checkbox"
+                name="data.hasSkills"
+                {{checked data.hasSkills}} />
+            </div>
           </div>
 
           <div class="item-attributes__group">
             <h2>Requirements</h2>
 
             {{#each data.requirements as |requirement key|}}
-              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
                 key=(concat "data.requirements." key)
                 value=requirement
                 label=key
@@ -197,47 +269,54 @@
     {{!-- Features Tab --}}
     <div class="tab" data-group="primary" data-tab="features">
       <div class="features__header">
-        <h2>Class Features</h2>
-        <button type="button" class="feature__add">
-          <i class="fa fa-plus">
-            <span class="sr-only">Add Feature</span>
-          </i>
-        </button>
+        <h2 class="action-header">
+          <span>Class Features</span>
+          <button type="button" class="feature__add">
+            <i class="fa fa-plus">
+              <span class="sr-only">Add Feature</span>
+            </i>
+          </button>
+        </h2>
       </div>
 
       <div class="features__list">
         {{#each data.features as |feature key|}}
-          <div
-            class="feature"
-            data-item-id="{{key}}">
+          <div class="feature" data-item-id="{{key}}">
             <header>
-              <h3>{{feature.title}}</h3>
-            </header>
-            <main>
-              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
                 key=(concat "data.features." key ".level")
                 value=feature.level
                 label="Level"
                 type="number"
                 dataType="Number"
-                compact=true
               }}
 
-              {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
                 key=(concat "data.features." key ".title")
                 value=feature.title
                 label="Title"
                 type="text"
                 dataType="String"
-                compact=true
               }}
 
+              <button type="button" class="feature__delete">
+                <i class="fa fa-trash">
+                  <span class="sr-only">Delete Feature</span>
+                </i>
+              </button>
+            </header>
+            <main>
               <label for="data.features.{{key}}.content">Feature Content</label>
-              <textarea name="data.features.{{key}}.content">{{feature.content}}</textarea>
+              {{editor
+                content=feature.content
+                target=(concat "data.features." key ".content")
+                rollData=../rollData
+                button=true
+                owner=../owner
+                editable=../editable
+              }}
+
             </main>
-            <footer>
-              <button type="button" class="feature__delete">Delete</button>
-            </footer>
           </div>
         {{/each}}
       </div>
@@ -276,35 +355,74 @@
     {{!-- Spellcasting Tab --}}
     <div class="tab" data-group="primary" data-tab="spellcasting">
       {{#if data.hasSpellPoints}}
-
-      {{else}}
-      <ul class="spellcasting-table">
-        <li class="spellcasting-table__row spellcasting-table__row--header">
-          <div class="spellcasting-table__cell spellcasting-table__cell--level">Level</div>
-          {{#each data.spellSlots.[1] as |slots key|}}
-            <div class="spellcasting-table__cell">{{key}}</div>
-          {{/each}}
-        </li>
-        
-        {{#each data.spellSlots as |level levelKey|}}
-          {{#if (equals levelKey (concat ../level '')) }}
-            <li class="spellcasting-table__row current-level">
-          {{else}}
-            <li class="spellcasting-table__row">
-          {{/if}}
-            <div class="spellcasting-table__cell spellcasting-table__cell--level">{{levelKey}}</div>
-            {{#each level as |slotLevel slotLevelKey|}}
+        <ul class="spellcasting-table spellcasting-table--points">
+          <li class="spellcasting-table__row spellcasting-table__row--header">
+            <div class="spellcasting-table__cell spellcasting-table__cell--level">Level</div>
+            <div class="spellcasting-table__cell">Spells Known</div>
+            <div class="spellcasting-table__cell">Max Spell Level</div>
+            <div class="spellcasting-table__cell">Max Spell Points</div>
+          </li>
+          {{#each data.spellPoints as |pointLevel key|}}
+            {{#if (equals levelKey (concat ../level '')) }}
+              <li class="spellcasting-table__row current-level">
+            {{else}}
+              <li class="spellcasting-table__row">
+            {{/if}}
+              <div class="spellcasting-table__cell spellcasting-table__cell--level">
+                {{key}}
+              </div>
               <div class="spellcasting-table__cell">
                 <input
                   type="number"
                   data-dtype="Number"
-                  name="data.spellSlots.{{levelKey}}.{{slotLevelKey}}"
-                  value="{{slotLevel}}" />
+                  name="data.spellSlots.{{key}}.spellsKnown"
+                  value="{{pointLevel.spellsKnown}}" />
               </div>
+              <div class="spellcasting-table__cell">
+                <input
+                  type="number"
+                  data-dtype="Number"
+                  name="data.spellSlots.{{key}}.maxSpellLevel"
+                  value="{{pointLevel.maxSpellLevel}}" />
+              </div>
+              <div class="spellcasting-table__cell">
+                <input
+                  type="number"
+                  data-dtype="Number"
+                  name="data.spellSlots.{{key}}.maxSpellPoints"
+                  value="{{pointLevel.maxSpellPoints}}" />
+              </div>
+            </li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <ul class="spellcasting-table">
+          <li class="spellcasting-table__row spellcasting-table__row--header">
+            <div class="spellcasting-table__cell spellcasting-table__cell--level">Level</div>
+            {{#each data.spellSlots.[1] as |slots key|}}
+              <div class="spellcasting-table__cell">{{key}}</div>
             {{/each}}
           </li>
-        {{/each}}
-      </ul>
+          
+          {{#each data.spellSlots as |level levelKey|}}
+            {{#if (equals levelKey (concat ../level '')) }}
+              <li class="spellcasting-table__row current-level">
+            {{else}}
+              <li class="spellcasting-table__row">
+            {{/if}}
+              <div class="spellcasting-table__cell spellcasting-table__cell--level">{{levelKey}}</div>
+              {{#each level as |slotLevel slotLevelKey|}}
+                <div class="spellcasting-table__cell">
+                  <input
+                    type="number"
+                    data-dtype="Number"
+                    name="data.spellSlots.{{levelKey}}.{{slotLevelKey}}"
+                    value="{{slotLevel}}" />
+                </div>
+              {{/each}}
+            </li>
+          {{/each}}
+        </ul>
 
       {{/if}}
     </div>

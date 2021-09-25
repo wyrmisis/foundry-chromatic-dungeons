@@ -16,7 +16,7 @@ export default class SpellSheet extends ItemSheet {
 
   /** @override */
   get template() {
-    const path = "systems/chromatic-dungeons/templates/item";
+    const path = `${CONFIG.CHROMATIC.templateDir}/item`;
     // Return a single sheet for all item types.
     // return `${path}/item-sheet.html`;
 
@@ -28,7 +28,7 @@ export default class SpellSheet extends ItemSheet {
   /* -------------------------------------------- */
 
   /** @override */
-  getData() {
+  async getData() {
     // Retrieve base data structure.
     const context = super.getData();
 
@@ -50,15 +50,26 @@ export default class SpellSheet extends ItemSheet {
     context.spellSchools = CONFIG.CHROMATIC.spellSchools;
     context.saves = CONFIG.CHROMATIC.saves;
 
-    context.castingClasses = 
-      game.items
-        .filter(item => item.data.data.hasSpellcasting)
-        .reduce((list, classObj) => 
-          ({ ...list, [classObj.id]: classObj.name }),
-          {}
-        );
+    context.castingClasses = await this._getClasses();
 
     return context;
+  }
+
+  async _getClasses () {
+    const classCompendium = game.packs.get('chromatic-dungeons-compendia.class');
+    const compendiumClasses = classCompendium.index
+      .filter(({name}) => !name.includes('#'));
+    const compendiumClassItems = await Promise.all(
+      compendiumClasses
+        .map(({_id}) => classCompendium.getDocument(_id))
+    );
+
+    return [...game.items, ...compendiumClassItems]
+      .filter(item => item.data.hasSpellcasting || item.data.data.hasSpellcasting)
+      .reduce((list, classObj) => 
+        ({ ...list, [classObj.data.flags.core.sourceId]: classObj.name }),
+        {}
+      );
   }
 
   /* -------------------------------------------- */

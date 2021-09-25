@@ -55,16 +55,14 @@
               </span>
             </h2>
 
-            {{log this}}
-
             {{#each data.spellLevels as |levelItem key| }}
               <div class="item-attributes__item item-attributes__item--grid item-attributes__item--spell-levels">
                 <select
                   data-dtype="String"
-                  name="data.spellLevels.{{key}}.class">
-                  {{#select levelItem.class }}
-                    {{#each ../castingClasses as |class key|}}
-                      <option value="{{class}}">{{class}}</option>
+                  name="data.spellLevels.{{key}}.sourceId">
+                  {{#select levelItem.sourceId }}
+                    {{#each ../castingClasses as |class classkey|}}
+                      <option value="{{classkey}}">{{class}}</option>
                     {{/each}}
                   {{/select}}
                 </select>
@@ -88,7 +86,7 @@
 
           <div class="item-attributes__group">
             <h2>Spell Details</h2>
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.range"
               value=data.range
               label="Range (ft)"
@@ -96,7 +94,7 @@
               dataType="String"
             }}
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.castingTime"
               value=data.castingTime
               label="Casting Time"
@@ -104,7 +102,7 @@
               dataType="String"
             }}
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.duration"
               value=data.duration
               label="Duration"
@@ -112,7 +110,7 @@
               dataType="String"
             }}
 
-            {{> "systems/chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
               key="data.areaOfEffect"
               value=data.areaOfEffect
               label="Area of Effect"

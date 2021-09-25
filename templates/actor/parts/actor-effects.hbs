@@ -13,6 +13,7 @@
       <div class="effects-list__duration">Duration</div>
       <div class="effects-list__controls">
         <button
+          type="button"
           class="effect-control"
           data-action="create"
           title="{{localize 'BOILERPLATE.EffectCreate'}}">
@@ -38,18 +39,21 @@
         <div class="effects-list__duration">{{effect.duration.label}}</div>
         <div class="effects-list__controls">
           <button
+            type="button"
             class="effect-control"
             data-action="toggle"
             title="{{localize 'BOILERPLATE.EffectToggle'}}">
             <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
           </button>
           <button
+            type="button"
             class="effect-control"
             data-action="edit"
             title="{{localize 'BOILERPLATE.EffectEdit'}}">
             <i class="fas fa-edit"></i>
           </button>
           <button
+            type="button"
             class="effect-control"
             data-action="delete"
             title="{{localize 'BOILERPLATE.EffectDelete'}}">

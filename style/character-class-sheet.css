@@ -1,3 +1,15 @@
+.sheet-header--class .header-xp .item-attributes__item-range {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.sheet-header--class .header-xp input:first-child {
+  margin-right: .5em;
+}
+.sheet-header--class .header-xp input:last-child {
+  margin-left: .5em;
+}
+
 .spellcasting-table {
   padding: 0;
 }
@@ -9,6 +21,9 @@
   margin-bottom: .5em;
   align-items: center;
 }
+.spellcasting-table--points .spellcasting-table__row {
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
 .spellcasting-table__row--header {
   font-weight: bold;
 }
@@ -19,4 +34,41 @@
 .spellcasting-table__cell--level {
   text-align: right;
   font-weight: bold;
+}
+
+.feature {
+  padding: 1em;
+  margin: 1em 0;
+  box-shadow: var(--elevation-1-shadow);
+}
+
+.feature header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: .5em;
+}
+.feature header > * {
+  flex: 0;
+  margin: 0;
+  min-width: 3em;
+}
+.feature header > :nth-child(2) {
+  flex: 1;
+  margin: 0 1em;
+}
+
+.feature main {
+  display: grid;
+  min-height: 130px;
+  align-items: start;
+  grid-template-rows: 1.4em auto;
+}
+
+.skills__row {
+  display: grid;
+  grid-template-columns: 3fr 2fr 1fr 1fr;
+  grid-gap: .5em;
+  margin-bottom: .5em;
+  align-items: flex-start; 
 }

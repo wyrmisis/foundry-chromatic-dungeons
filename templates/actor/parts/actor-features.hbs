@@ -4,12 +4,12 @@
       Ancestry: {{ancestry.name}}
     </span>
     <span>
-      <button data-item-id="{{ancestry._id}}" data-item-action="edit">
+      <button type="button" data-item-id="{{ancestry._id}}" data-item-action="edit">
         <i class="fa fa-eye">
           <span class="sr-only">Examine Ancestry</span>
         </i>
       </button>
-      <button data-item-id="{{ancestry._id}}" data-item-action="delete">
+      <button type="button" data-item-id="{{ancestry._id}}" data-item-action="delete">
         <i class="fa fa-trash">
           <span class="sr-only">Remove Ancestry</span>
         </i>
@@ -31,12 +31,12 @@
     <h3 class="features__title">
       <span>{{heritage.name}}</span>
       <span>
-        <button data-item-id="{{heritage._id}}" data-item-action="edit">
+        <button type="button" data-item-id="{{heritage._id}}" data-item-action="edit">
           <i class="fa fa-eye">
             <span class="sr-only">Examine Heritage</span>
           </i>
         </button>
-        <button data-item-id="{{heritage._id}}" data-item-action="delete">
+        <button type="button" data-item-id="{{heritage._id}}" data-item-action="delete">
           <i class="fa fa-trash">
             <span class="sr-only">Remove Heritage</span>
           </i>
@@ -59,12 +59,12 @@
     <h3 class="features__title">
       <span>Lv. {{class.level}} {{class.name}} ({{class.xp}}/{{class.xpNext}})</span>
       <span>
-        <button data-item-id="{{class.id}}" data-item-action="edit">
+        <button type="button" data-item-id="{{class.id}}" data-item-action="edit">
           <i class="fa fa-eye">
             <span class="sr-only">Examine Heritage</span>
           </i>
         </button>
-        <button data-item-id="{{class.id}}" data-item-action="delete">
+        <button type="button" data-item-id="{{class.id}}" data-item-action="delete">
           <i class="fa fa-trash">
             <span class="sr-only">Remove Heritage</span>
           </i>
@@ -77,29 +77,15 @@
         <div class="feature__cell feature__cell--level">Lv.</div>
         <div class="feature__cell feature__cell--feature">Feature</div>
       </li>
-      {{#each class.features as |feature|}}
+      {{#each class.features as |feature featurekey|}}
         <li class="feature__item">
           <div class="feature__cell feature__cell--level">{{feature.level}}</div>
           <div class="feature__cell feature__cell--feature">
             <h4>{{feature.title}}</h4>
-            <p>{{feature.content}}</p>
+            {{{feature.content}}}
           </div>
         </li>
       {{/each}}
     </ul>
   {{/each}}
 {{/if}}
-{{!-- 
-<ol class="items-list">
-  <li class="items-header">
-    <div class="item-name">Name</div>
-  </li>
-  {{log ancestry}}
-  {{log heritages}}
-  {{log classes}}
-  {{#each features as |item id|}}
-    <li data-item-id="{{item._id}}">
-      
-    </li>
-  {{/each}}
-</ol> --}}
