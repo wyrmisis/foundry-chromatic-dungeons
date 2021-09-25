@@ -10,7 +10,7 @@
   "ATTRIBUTE.cha": "Charisma",
 
   "SHEET.listheadings.saves.value": "Value",
-  "SHEET.listheadings.saves.modifier": "Modifier",
+  "SHEET.listheadings.saves.modifier": "Mod.",
   "SHEET.listheadings.weapon.damage": "Damage",
   "SHEET.listheadings.weapon.toHitMod": "To-Hit",
   "SHEET.listheadings.weapon.type": "Weapon Type",
@@ -33,9 +33,9 @@
   
   "SHEET.saves": "Saving Throws",
   "SHEET.save.reflex": "Reflex",
-  "SHEET.save.poison": "Poison/Venom/Disease",
+  "SHEET.save.poison": "Poison, Venom, or Disease",
   "SHEET.save.creature": "Creature Ability",
-  "SHEET.save.spell": "Magic Item/Spell",
+  "SHEET.save.spell": "Magic Item or Spell",
 
   "ATTRIBUTE.StrAbbr": "str",
   "ATTRIBUTE.ConAbbr": "con",

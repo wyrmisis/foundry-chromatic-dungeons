@@ -1,19 +1,47 @@
 <section class="items">
   <div class="items__carry-weight">
     <label for="">Carry weight:</label>
-    <input value="{{totalItemWeight}}" readonly /> / <input value="{{derivedStat "str" data.attributes.str "carryWeight"}}" readonly />
+    <input value="{{carryWeight.value}}" readonly /> / <input value="{{carryWeight.max}}" readonly />
   </div>
 
-  <h3>Weapons</h3>
+  <h3 class="action-header">
+    <span>Weapons</span>
+    <button type="button" data-item-action="create" data-item-type="weapon">
+      <i class="fa fa-plus">
+        <span class="sr-only">Add New Weapon</span>
+      </i>
+    </button>
+  </h3>
   {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-weapon-grid.hbs"}}
 
-  <h3>Armor</h3>
+  <h3 class="action-header">
+    <span>Armor</span>
+    <button type="button" data-item-action="create" data-item-type="armor">
+      <i class="fa fa-plus">
+        <span class="sr-only">Add New Armor</span>
+      </i>
+    </button>
+  </h3>
   {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-armor-grid.hbs"}}
 
-  <h3>Gear</h3>
+  <h3 class="action-header">
+    <span>Gear</span>
+    <button type="button" data-item-action="create" data-item-type="gear">
+      <i class="fa fa-plus">
+        <span class="sr-only">Add New Gear Item</span>
+      </i>
+    </button>
+  </h3>
   {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-gear-grid.hbs"}}
 
-  <h3>Wealth</h3>
+  <h3 class="action-header">
+    <span>Wealth</span>
+    <button type="button" data-item-action="create" data-item-type="treasure">
+      <i class="fa fa-plus">
+        <span class="sr-only">Add New Treasure Item</span>
+      </i>
+    </button>
+  </h3>
   {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-wealth-grid.hbs"}}
 
   <h3>Currency</h3>

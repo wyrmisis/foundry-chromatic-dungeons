@@ -1,29 +1,30 @@
 <ul class="items__list items__list--gear">
   <li class="items__list-item items__list-item--header">
-    <div class="items__list-column items__list-column--quantity">
-      Qty.
-    </div>
-
     <div class="items__list-column items__list-column--name">
       Name
+    </div>
+    <div class="items__list-column items__list-column--quantity">
+      Qty.
     </div>
   </li>
   {{#each gear as |item id|}}
     <li
       class="items__list-item items__list-item"
       data-item-id="{{item._id}}">
+      <div class="items__list-column items__list-column--name">
+        {{item.name}}
+      </div>
       <div class="items__list-column items__list-column--quantity">
         <input
           type="text"
           readonly
-          name="data.quantity" />
+          value="{{item.data.quantity.value}}"
+          name="data.quantity.value" />
       </div>
-
-      <div class="items__list-column items__list-column--name">
-        {{item.name}}
-      </div>
-
-      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/item-grid-actions.hbs"}}
+    </li>
+  {{else}}
+    <li class="items__list-item items__list-item--empty">
+      <span>Empty</span>
     </li>
   {{/each}}
 </ul>

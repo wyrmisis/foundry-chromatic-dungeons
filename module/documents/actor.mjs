@@ -124,12 +124,15 @@ export class BoilerplateActor extends Actor {
 
   _getCarryWeight() {
     let items = [].concat(
-      this._getItemsOfType('weapons'),
+      this._getItemsOfType('weapon'),
       this._getItemsOfType('armor'),
       this._getItemsOfType('gear'),
       this._getItemsOfType('goods'),
+      this._getItemsOfType('magicItems'),
       this._getItemsOfType('treasure')
     );
+
+    console.info(`${CONFIG.CHROMATIC.logPrefix}`, this.items)
 
     let totalItemWeight = items.reduce(
       (prev, curr) => prev + curr.data.data.weight.value,

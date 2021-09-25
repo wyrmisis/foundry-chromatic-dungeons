@@ -105,8 +105,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     let weapons = [],
       armor = [],
       gear = [],
-      goods = [],
-      treasure = [],
+      wealth = [],
       ancestry = {},
       heritages = [],
       classes = [],
@@ -127,10 +126,9 @@ export class BoilerplateActorSheet extends ActorSheet {
           gear.push(item);
           break;
         case 'goods':
-          goods.push(item);
-          break;
-        case 'treasure': 
-          treasure.push(item);
+        case 'treasure':
+        case 'magicItem':
+          wealth.push(item);
           break;
         case 'ancestry': 
           ancestry = item;
@@ -147,15 +145,30 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
     });
 
+    // weapons and ammunition
+    context.weapons = weapons
+      .filter(item =>item.data.weaponType !== 'ammunition')
+      .map(item => this._formatWeaponForUse(item, this.actor.data));
+    context.ammunition = weapons
+      .filter(item => item.data.weaponType === 'ammunition' && item.data.ammunitionType)
+      .reduce((types, ammo) => {
+        const currentAmmoType = ammo.data.ammunitionType;
+        return (types[currentAmmoType])
+          ? { ...types, [currentAmmoType]: [ ...types[currentAmmoType], ammo ] }
+          : { ...types, [currentAmmoType]: [ammo] };          
+      }, {});
+
     // gear
-    context.weapons = weapons.map(item => 
-      this._formatWeaponForUse(item, this.actor.data)
-    );
     context.armor = armor;
-    context.gear = gear;
-    context.goods = goods;
-    context.treasure = treasure;
+    context.gear = [
+      ...gear,
+      ...weapons.filter(item => item.data.weaponType === 'ammunition')
+    ];
+    context.wealth = wealth;
     context.spells = spells;
+    context.skills = classes
+      .filter(item => item?.skills)
+      .map(({name, id, skills}) => ({name, id, skills}));
 
     // character traits
     context.ancestry = ancestry;
@@ -169,7 +182,7 @@ export class BoilerplateActorSheet extends ActorSheet {
   _formatWeaponForUse(item, actor) {
     item.data.modToHit += actor.data.toHitMods[item.data.weaponType];
     item.data.modDamage += actor.data.damageMods[item.data.weaponType];
-    
+
     return item;
   }
 
@@ -219,10 +232,18 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     this.itemMenu = new ContextMenu(
       $(itemClass).parent('ul'),
-      `${itemClass}:not(${itemClass}--header)`,
+      `${itemClass}:not(${itemClass}--header):not(${itemClass}--empty)`,
       [
-        { name: 'Edit', icon: '<i class="fa fa-edit" />', callback: this._editOwnedItem },
-        { name: 'Delete', icon: '<i class="fa fa-trash" />', callback: this._deleteOwnedItem },
+        { 
+          name: 'Edit',
+          icon: '<i class="fa fa-edit" />', 
+          callback: (node) => this._editOwnedItem(node)
+        },
+        { 
+          name: 'Delete',
+          icon: '<i class="fa fa-trash" />', 
+          callback: (node) => this._deleteOwnedItem(node)
+        },
       ]
     );
 
@@ -239,12 +260,13 @@ export class BoilerplateActorSheet extends ActorSheet {
         {
           name: 'Edit',
           icon: '<i class="fa fa-edit" />',
-          callback: this._editOwnedItem
+          callback: (node) => this._editOwnedItem(node)
         },
         {
           name: 'Delete',
           icon: '<i class="fa fa-trash" />',
-          callback: this._deleteOwnedItem },
+          callback: (node) => this._deleteOwnedItem(node)
+        },
       ]
     );
 
@@ -260,10 +282,19 @@ export class BoilerplateActorSheet extends ActorSheet {
     });
     
     html.find('[data-item-action]').click(ev => {
-      const {itemId, itemAction} = ev.currentTarget.dataset;
-      const item = this.actor.items.get(itemId);
+      const {itemId, itemAction, itemType} = ev.currentTarget.dataset;
+      let item;
+
+      if (['edit', 'delete'].includes(itemAction))
+        item = this.actor.items.get(itemId);
 
       switch (itemAction) {
+        case 'create': Item.create({
+            name: `New ${itemType}`,
+            type: itemType,
+          }, {
+            parent: this.actor
+          }); break;
         case 'edit': item.sheet.render(true); break;
         case 'delete': item.delete(); break;
       }
@@ -336,11 +367,13 @@ export class BoilerplateActorSheet extends ActorSheet {
   }
 
   _editOwnedItem(itemNode) {
-
+    const {itemId: id} = itemNode.closest('[data-item-id]').data();
+    this.actor.items.get(id).sheet.render(true);
   }
 
   _deleteOwnedItem(itemNode) {
-
+    const {itemId: id} = itemNode.closest('[data-item-id]').data();
+    this.actor.items.get(id).delete();
   }
 
   _validateEquippedArmor(li, item, ev) {
@@ -439,23 +472,53 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Handle item rolls.
     if (dataset.rollType) {
       if (dataset.rollType == 'item') {
-        const itemId = element.closest('.items__list-item').dataset.itemId;
+        const itemId = element.closest('[data-item-id]').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();
       }
     }
 
     // Handle rolls that supply the formula directly.
-    if (dataset.roll) {
-      let label = dataset.label ? `[${dataset.rollType ? dataset.rollType : ''}] ${dataset.label}` : '';
-      let roll = new Roll(dataset.roll, this.actor.getRollData()).roll();
-      roll.toMessage({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        flavor: label,
-        rollMode: game.settings.get('core', 'rollMode'),
-      });
-      return roll;
+    if (dataset.roll){
+      return this._rollModal(dataset).render(true);
     }
   }
 
+  _rollModal({roll, rollType, label}) {
+    let rollLabel = label
+      ? `${rollType ? `[${rollType}] ` : ''}${label}`
+      : '';
+
+    let buttons = {
+      roll: {
+        label: 'Roll',
+        callback: (html) => {
+          const modifier = parseInt(html.find('[name="modifier"]').val() || 0);
+
+          let rollObject = new Roll(`${modifier} + ${roll}`, this.actor.getRollData()).roll();
+          rollObject.toMessage({
+            speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+            flavor: rollLabel,
+            rollMode: game.settings.get('core', 'rollMode'),
+          });
+          return rollObject;
+        }
+      },
+      cancel: {
+        label: 'Cancel'
+      }
+    };
+
+    return new Dialog({
+      title: `${this.actor.name} is rolling: ${rollLabel}`,
+      content: `
+        <div>
+          <label for="modifier">Modifier:</label>
+          <input name="modifier" placeholder="-2, 4, etc"  />
+        </div>
+      `,
+      buttons,
+      default: 'roll'
+    });
+  }
 }

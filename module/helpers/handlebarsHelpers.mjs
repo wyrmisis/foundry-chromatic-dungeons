@@ -76,7 +76,11 @@ const setupHandlebarsHelpers = () => {
   /**
    * equals
    */
-  Handlebars.registerHelper('equals', (a, b) => a === b);
+  Handlebars.registerHelper('equals', (a, ...b) =>
+    (Array.isArray(b))
+      ? b.every(i =>  i === a || i.name === 'equals')
+      : a === b
+  );
 
   /**
    * dynamicProp

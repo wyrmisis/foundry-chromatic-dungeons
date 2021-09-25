@@ -4,25 +4,36 @@
  */
 
 .actor header.sheet-header {
-  margin-bottom: 1rem;
   flex: 0 0 32px;
   flex-direction: column;
+  margin: -8px -8px 1rem -8px;
+  padding: .5rem;
+  box-shadow: var(--elevation-1-shadow);
 }
 
 .actor .sheet-header .vital {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
   width: 100%;
-  margin-bottom: 1.4rem;
+  grid-template-columns: 4fr 2fr 1fr 1fr;
+  grid-gap: 2rem;
+  align-items: center;
 }
 
 .actor .sheet-header .vital input {
   font-family:  var(--sheet-heading-font);
-  font-size: 2rem;
-  padding: .6em;
+  font-size: 1.5rem;
   border:  none;
   border-bottom: 1px solid var(--sheet-body-color);
   background-color:  transparent;
+  text-align: center;
+}
+.actor .sheet-header .vital .name input {
+  text-align: left;
+}
+
+.actor .vital > div {
+  display: flex;
+  align-items: center;
 }
 
 .actor .sheet-body {
@@ -51,9 +62,39 @@
   align-self: center;
 }
 
+.actor .sheet-tab--summary.active {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 1em;
+}
+
+.actor .saves-list {
+  padding-left: 0;
+}
 .actor .saves-list__item {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-gap: 2rem;
+  align-items: center;
+  grid-template-columns: 6fr 1fr 1fr;
+}
+
+.actor .skills-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 1em;
+}
+.actor .skills-list__item {
+  display: flex;
+  list-style-type: none;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.saves-list__score,
+.saves-list__modifier {
+  text-align: center;
 }
 
 .actor .effects-list__list-item {
@@ -71,51 +112,17 @@
   flex: 6;
 }
 
-.actor .sheet-footer {}
-.actor .sheet-footer > *:last-child {
-  justify-content: flex-end;
-}
-
-.actor .hp {
-  display: flex;
-  align-items: center;
-  margin-right: 2rem;
-}
-.actor .hp input {
-  font-family:  var(--sheet-heading-font);
-  font-size: 1.5rem;
-  padding: .6em;
-  border:  none;
-  border-bottom: 1px solid var(--sheet-body-color);
-  background-color:  transparent;
-  width: 5rem;
-  text-align: center;
-}
-
-.actor .ac {
-  display: flex;
-  align-items: center;
-  margin-left: 2rem;
-}
-.actor .ac input {
-  font-family:  var(--sheet-heading-font);
-  font-size: 2rem;
-  padding: .6em .3em;
-  border:  none;
-  border-bottom: 1px solid var(--sheet-body-color);
-  background-color:  transparent;
-  max-width: 3.2rem;
-  text-align: center;
-}
-
 .actor .items__list {
-  padding-left: 0;
+  padding: 1em;
+  margin: 0 0 1em;
+  box-shadow: var(--elevation-1-shadow);
 }
 .actor .items__list-item {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap:  1rem;
+  grid-column-gap: 1rem;
   align-items: center;
+  margin-bottom: .5em;
 }
 .actor .items__list-item--header {
   font-weight: 600;
@@ -131,16 +138,36 @@
 }
 
 .actor .items__list--weapons .items__list-item {
-  grid-template-columns: 1fr 5fr 2fr 1fr 2fr;
+  grid-template-columns: 5fr 2fr 1fr 1fr;
 }
 
 .actor .items__list--armor .items__list-item {
-  grid-template-columns: 1fr 6fr 1fr 1fr 2fr;
+  grid-template-columns: 6fr 1fr 1fr 1fr ;
 }
 
-.actor .items__list--gear .items__list-item,
+.actor .items__list--gear .items__list-item {
+  grid-template-columns: 8fr 1fr;
+}
+
 .actor .items__list--wealth .items__list-item {
-  grid-template-columns: 1fr 8fr 2fr;
+  grid-template-columns: 7fr 1fr 1fr;
+}
+
+.items__list-column--equipped,
+.items__list-column--quantity {
+  text-align: right;
+}
+
+.items__list-item--empty,
+.items__list-item .empty {
+  text-decoration: line-through;
+  color: #666;
+  font-style: italic;
+}
+
+.items__list-item--empty span {
+  color: #666;
+  font-style: italic;
 }
 
 .actor .items__currency {

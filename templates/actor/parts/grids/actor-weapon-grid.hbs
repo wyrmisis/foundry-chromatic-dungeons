@@ -1,8 +1,5 @@
 <ul class="items__list items__list--weapons">
   <li class="items__list-item items__list-item--header">
-    <div class="items__list-column items__list-column--equipped">
-      Eq.
-    </div>
     <div class="items__list-column items__list-column--name">
       Name
     </div>
@@ -14,37 +11,81 @@
     <div class="items__list-column items__list-column--to-hit">
       To Hit
     </div>
+
+    <div class="items__list-column items__list-column--equipped">
+      Eq.
+    </div>
   </li>
   {{#each weapons as |item id|}}
     <li
       class="items__list-item"
       data-item-id="{{item._id}}">
-      <div class="items__list-column items__list-column--equipped">
-        <input
-          type="checkbox"
-          name="data.equipped"
-          {{checked item.data.equipped}} />
-      </div>
-
       <div class="items__list-column items__list-column--name">
         <span
-          class="rollable"
+          {{#if item.data.quantity.value}}
+            class="rollable"
+          {{else}}
+            class="empty"
+          {{/if}}
           data-roll-type="item"
           data-label="{{item.name}}">
           {{item.name}}
+          {{#if (equals item.data.weaponType "thrown") }}
+            x{{item.data.quantity.value}}
+          {{/if}}
         </span>
       </div>
 
       <div class="items__list-column items__list-column--damage">
-        {{item.data.damage}}
-        {{signedString item.data.modDamage}}
+        {{#if item.data.damage}}
+          {{item.data.damage}}
+          {{signedString item.data.modDamage}}
+        {{else}}
+          --
+        {{/if}}
       </div>
 
       <div class="items__list-column items__list-column--to-hit">
         {{signedString item.data.modToHit}}
       </div>
 
-      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/item-grid-actions.hbs"}}
+      <div class="items__list-column items__list-column--equipped">
+        <input
+          type="checkbox"
+          name="data.equipped"
+          {{checked item.data.equipped}} />
+      </div>
+      
+      {{#if (equals item.data.weaponType "ranged")}}
+        </li>
+        {{#each (lookup ../ammunition item.data.ammunitionType)}}
+          <li
+            class="items__list-item items__list-item--{{#if data.quantity.value}}ammunition{{else}}empty{{/if}}"
+            data-item-id="{{_id}}">
+            <div class="items__list-column items__list-column--name">
+              - {{name}} x{{data.quantity.value}}
+            </div>
+
+            <div class="items__list-column items__list-column--damage">
+              {{#if data.damage}}
+                {{data.damage}}
+                {{signedString data.modDamage}}
+              {{else}}
+                --
+              {{/if}}
+            </div>
+
+            <div class="items__list-column items__list-column--to-hit">
+              {{data.modToHit}}
+            </div>
+          </li>
+        {{/each}}
+      {{else}}
+        </li>
+      {{/if}}
+  {{else}}
+    <li class="items__list-item items__list-item--empty">
+      <span>Empty</span>
     </li>
   {{/each}}
 </ul>

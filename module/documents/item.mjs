@@ -106,7 +106,7 @@ export class BoilerplateItem extends Item {
 
     switch (item.type) {
       case 'weapon':
-        this._generateWeaponDialog().render(true);
+        this._generateWeaponDialog()?.render(true);
         break;
       default:
         this._defaultRoll();
@@ -131,22 +131,92 @@ export class BoilerplateItem extends Item {
   _generateWeaponDialog() {
     const [item, actor] = this._getItemActorData();
 
+    let buttons = {};
+
+    const isItemAmmoAndAboveZeroQty = (ammo) => {
+      if (ammo.type !== 'weapon') return false;
+
+      return  ammo.data.data.quantity.value > 0 &&
+              ammo.data.data.weaponType === 'ammunition' &&
+              ammo.data.data.ammunitionType === item.data.ammunitionType;
+    }
+
+    const actorAmmunitionForWeapon = actor.items.filter(isItemAmmoAndAboveZeroQty);
+
+    switch (item.data.weaponType) {
+      case "melee":
+        buttons.attack = {
+          label: 'Attack',
+          callback: (html) => this._weaponRoll(html)
+        };
+        break;
+      case "ranged":
+        if (!actorAmmunitionForWeapon.length) {
+          return {
+            render: () => ui.notifications.warn(`You are out of ammunition for your ${item.name}!`)
+          };
+        }
+        buttons.attack = {
+          label: 'Fire',
+          callback: (html) => {
+            const ammoToUse = actor.items.get(html.find('[name="ammunition-item"]').val()).data;
+            this._weaponRoll(
+              html,
+              ammoToUse,
+              ['arrow', 'sling']
+                .includes(ammoToUse.data.ammunitionType)
+            );
+          }
+        };
+        break;
+      case "thrown":
+        buttons.attack = {
+          label: 'Attack',
+          callback: (html) => this._weaponRoll(html)
+        };
+        buttons.throw = {
+          label: 'Throw',
+          callback: (html) => this._weaponRoll(html, item)
+        };
+    }
+    
+    buttons.cancel = {
+      label: 'Cancel'
+    }
+
     return new Dialog({
       title: `Attacking with ${actor.name}'s ${item.name}`,
-      buttons: {
-        attack: {
-          label: 'Roll Attack',
-          callback: () => this._weaponRoll()
-        },
-        cancel: {
-          label: 'Cancel'
-        }
-      },
-      default: 'success'
+      content: `
+        <div>
+          <label for="attack-roll-modifier">Attack Modifier:</label>
+          <input name="attack-roll-modifier" placeholder="-2, 4, etc"  />
+        </div>
+
+        <div>
+          <label for="damage-roll-modifier">Damage Modifier:</label>
+          <input name="damage-roll-modifier" placeholder="-2, 4, etc"  />
+        </div>
+
+        ${actorAmmunitionForWeapon.length ? (`
+        <div>
+          <label for="ammunition-item">Ammunition to use:</label>
+          <select name="ammunition-item">
+            ${actorAmmunitionForWeapon.reduce((optionStr, ammo) => 
+              optionStr + `<option value=${ammo.id}>${ammo.name}</option>`, ''
+            )}
+          </select>
+        </div>
+        `) : ''}
+      `,
+      buttons,
+      default: 'attack'
     });
   }
 
-  _weaponRoll() {
+  _weaponRoll(html, ammoItem, useAmmoDamage) {
+    const circumstantialAttackMod = parseInt(html.find('[name="attack-roll-modifier"]').val() || 0);
+    const circumstantialDamageMod = parseInt(html.find('[name="damage-roll-modifier"]').val() || 0);
+
     const [item, actor] = this._getItemActorData();
     const rollData = this.getRollData();
 
@@ -155,10 +225,8 @@ export class BoilerplateItem extends Item {
 
     const target = getFirstTargetOfSelf();
 
-    const attackRoll = new Roll(`1d20+${toHitMod}`, rollData).roll();
-    const damageRoll = new Roll(`${item.data.damage}+${damageMod}`, rollData).roll();
-
-    console.info(getSelf());
+    const attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData).roll();
+    const damageRoll = new Roll(`${(useAmmoDamage ? ammoItem : item).data.damage}+${damageMod}+${circumstantialDamageMod}`, rollData).roll();
 
     // EMOTE: 3
     // IC: 2
@@ -174,6 +242,10 @@ export class BoilerplateItem extends Item {
       })
       .then(result => {
         // @TODO automate ammo usage?
+        console.info(ammoItem);
+        if (ammoItem) actor.items.get(ammoItem._id).update({
+          ['data.quantity.value']: ammoItem.data.quantity.value - 1
+        });
 
         if (target && attackRoll.total < target.data.data.ac) {
           ChatMessage.create({
@@ -190,7 +262,7 @@ export class BoilerplateItem extends Item {
             flavor: `Damage with ${item.name}`,
           });
       })
-      .then(damageResult => (!damageResult || !target)
+      .then(damageResult => (!damageResult || !target || damageRoll.total <= 0)
           ? null
           : target.update({
             ['data.hp.value']: target.data.data.hp.value - damageRoll.total

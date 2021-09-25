@@ -9,6 +9,68 @@
           value="{{actor.name}}"
           placeholder="Name"/>
       </div>
+
+      <div class="hp">
+        <label 
+          for="data.hp.value"
+          class="hp__label">
+          <i class="fa fa-heart">
+            <span class="sr-only">
+              {{localize "SHEET.hp"}}
+            </span>
+          </i>
+        </label>
+        
+        <input
+          type="number"
+          name="data.hp.value"
+          value="{{data.hp.value}}"
+          max="{{data.hp.max}}"
+          data-dtype="Number"/>
+        <span>/</span>
+        <input
+          type="number"
+          name="data.hp.max"
+          min="{{data.hp.value}}"
+          value="{{data.hp.max}}"
+          data-dtype="Number" />
+      </div>
+
+      <div class="ac">
+        <label 
+          for="ac"
+          class="ac__label">
+          <i class="fa fa-universal-access">
+            <span class="sr-only">
+              {{localize "SHEET.ac"}}
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="ac"
+          value="{{ac}}"
+          readonly
+          data-dtype="Number"/>
+      </div>
+
+      <div class="move">
+        <label 
+          for="move"
+          class="move__label">
+          <i class="fa fa-forward">
+            <span class="sr-only">
+              Move Speed
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="move"
+          value="{{move}}"
+          readonly
+          data-dtype="Number"/>
+      </div>
     </div>
   </header>
 
@@ -33,69 +95,9 @@
 
       <div class="tab-group__container">
         <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
-          <div class="hp">
-            <label 
-              for="data.hp.value"
-              class="hp__label">
-              <i class="fa fa-heart">
-                <span class="sr-only">
-                  {{localize "SHEET.hp"}}
-                </span>
-              </i>
-            </label>
-            
-            <input
-              type="number"
-              name="data.hp.value"
-              value="{{data.hp.value}}"
-              max="{{data.hp.max}}"
-              data-dtype="Number"/>
-            <span>/</span>
-            <input
-              type="number"
-              name="data.hp.max"
-              min="{{data.hp.value}}"
-              value="{{data.hp.max}}"
-              data-dtype="Number" />
-          </div>
-
-          <div class="ac">
-            <label 
-              for="ac"
-              class="ac__label">
-              <i class="fa fa-universal-access">
-                <span class="sr-only">
-                  {{localize "SHEET.ac"}}
-                </span>
-              </i>
-            </label>
-            <input
-              type="number"
-              name="ac"
-              value="{{ac}}"
-              readonly
-              data-dtype="Number"/>
-          </div>
-
-          <div class="move">
-            <label 
-              for="move"
-              class="move__label">
-              <i class="fa fa-forward">
-                Move Speed
-              </i>
-            </label>
-            <input
-              type="number"
-              name="move"
-              value="{{move}}"
-              readonly
-              data-dtype="Number"/>
-          </div>
-
           <div class="saves">
             <h2>{{localize 'SHEET.saves'}}</h2>
-            <ul>
+            <ul class="saves-list">
               <li class="saves-list__item saves-list__item--header">
                 <div class="saves-list__name"></div>
                 <div class="saves-list__score">
@@ -127,13 +129,54 @@
               </li>
           </div>
 
-          <div class="quickAccessEquipment">
-            <h2>Equipped Items</h2>
+          
 
+          <div class="quick-access__equipment">
+            <h2>Equipped Items</h2>
+            <ul>
             {{#each equippedItems}}
-              <span>{{name}}</span>
+              <li
+                data-item-id="{{_id}}"
+                data-roll-type="item"
+                data-label="{{item.name}}"
+                class="{{#if (equals type "weapon")}}rollable{{/if}}"
+              >
+              {{name}}</li>
+            {{/each}}
+            </ul>
+          </div>
+
+          {{#if skills.length}}
+          <div class="quick-access__class-skills">
+            <h2>Class Skills</h2>
+            {{#each skills}}
+              <h3 class="action-header">
+                <span>{{name}}</span>
+                <button type="button" data-item-action="edit" data-item-d="{{id}}">
+                  <i class="fa fa-edit">
+                    <span class="sr-only">Edit the {{name}} class</span>
+                  </i>
+                </button>
+              </h3>
+              <ul class="skills-list">
+                {{#each skills}}
+                <li class="skills-list__item">
+                  <span
+                    class="rollable"
+                    data-label="{{name}}"
+                    data-roll-type="Skill"
+                    data-roll="1d20-{{bonus}}">
+                    {{name}}
+                  </span>
+                  <span>
+                    {{bonus}}
+                  </span>
+                </li>
+                {{/each}}
+              </ul>
             {{/each}}
           </div>
+          {{/if}}
         </div>
 
         {{!-- Owned Features Tab --}}
