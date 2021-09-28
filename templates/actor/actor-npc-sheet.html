@@ -86,32 +86,90 @@
 
       <div class="tab-group__container">
         <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
-          
-            {{!--
-              attacks: "2 claws/1 bite"
-damageMods: {melee: 8, thrown: 8, ranged: 0}
-toHitMods: {melee: 14, thrown: 6, ranged: 6}
-              specialAttacks: "bear hug"
-              
-size: "huge"
-alignment: "n/a"
-xp: "600"
-              
-hitDice: "8*+20"
-hitDiceBonus: ""
-              ++shouldAutorollHP (if true, cannot set max HP, set on drop)
-              
-              move: "40ft"
-              
-numberAppearing: "1"
-              perceptionMod: "2"
+          <div class="stat-region stat-region--attacks">
+            <h2 class="action-header">
+              <span>Attacks</span>
+              <button type="button"  data-action="add-npc-attack">
+                <i class="fa fa-plus">
+                  <span class="sr-only">Add a new attack</span>
+                </i>
+              </button>
+            </h3>
+            <ul class="attack-list">
+                <li class="attack attack--header">
+                  <span></span>
+                  <span>Name</span>
+                  <span>Damage</span>
+                  <span>Atk. Mod</span>
+                  <span>Atk. Type</span>
+                </li>
+              {{#each data.attacks as |attack key|}}
+                <li class="attack">
+                  <span>
+                    <button type="button"  data-action="delete-npc-attack" data-index="{{key}}">
+                      <i class="fa fa-trash">
+                        <span class="sr-only">Delete Attack #{{@index}}</span>
+                      </i>
+                    </button>
+                  </span>
+                  <span>
+                    <input
+                      type="text"
+                      data-dtype="String"
+                      name="data.attacks.{{key}}.attack"
+                      value="{{attack.attack}}">
+                  </span>
+                  <span class="attack__damage">
+                    <input
+                      type="text"
+                      data-dtype="String"
+                      name="data.attacks.{{key}}.damage"
+                      value="{{attack.damage}}">
+                  {{
+                    signedString (
+                      lookup ../data.damageMods (
+                        default attack.attackType "melee"
+                      )
+                    )
+                  }}</span>
+                  <span class="attack__attack-mod">{{
+                    signedString (
+                      lookup ../data.toHitMods (
+                        default attackType "melee"
+                      )
+                    )
+                  }}</span>
+                  <span>
+                    <select name="data.attacks.{{key}}.weaponType" data-dtype="string">
+                      {{#select attack.weaponType}}
+                        {{#each ../weaponTypes as |name key|}}
+                          <option value="{{key}}">{{name}}</option>
+                        {{/each}}
+                      {{/select}}
+                    </select>
+                  </span>
+                  <span
+                  class="rollable"
+                  data-label="Attack {{@index}}: {{attack.attack}}"
+                  data-roll-type="natural-attack"
+                  data-damage="{{attack.damage}}">
+                    Roll
+                  </span>
+                </li>
+              {{/each}}
+            </ul>
+            
+            <div class="attacks__field attacks__field--special-attacks">
+              <label for="data.specialAttacks">Special Attacks</label>
+              <input
+                name="data.specialAttacks"
+                value="{{data.specialAttacks}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+          </div>
 
-              specialDefenses: "frenzy"
-              magicResistance: "n/a"
-
-            --}}
-
-          <div class="saves">
+          <div class="stat-region stat-region--saves">
             <h2>{{localize 'SHEET.saves'}}</h2>
             <ul class="saves-list">
               <li class="saves-list__item saves-list__item--header">
@@ -146,10 +204,41 @@ numberAppearing: "1"
             </ul>
           </div>
 
-          <div class="xp">
-            <h2>HP and XP{{#if data.canAutocalculateXP}}({{data.xp}}){{/if}}</h2>
+          <div class="stat-region stat-region--defenses">
+            <h2>Defenses</h2>
 
-            <div class="configuration__field configuration__field--xp">
+            <div class="configuration__field configuration__field--specialDefenses">
+              <label for="data.specialDefenses">Special Defenses</label>
+              <input
+                name="data.specialDefenses"
+                value="{{data.specialDefenses}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--magic-resistance">
+              <label for="data.magicResistance">Magic Resistance</label>
+              <input
+                name="data.magicResistance"
+                value="{{data.magicResistance}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--move">
+              <label for="data.move">Movement</label>
+              <input
+                name="data.move"
+                value="{{data.move}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+          </div>
+
+          <div class="stat-region stat-region--hp">
+            <h2>HP</h2>
+
+            <div class="configuration__field configuration__field--hit-dice">
               <label for="data.hitDice">Hit Dice</label>
               <input
                 name="data.hitDice"
@@ -158,13 +247,32 @@ numberAppearing: "1"
                 data-dtype="String" />
             </div>
 
-            <div class="configuration__field configuration__field--xp">
-              <label for="data.hitDiceBonus">HD Bonus</label>
+            <div class="configuration__field configuration__field--hit-dice-bonus">
+              <label for="data.hitDiceBonus">HP Bonus</label>
               <input
                 name="data.hitDiceBonus"
                 value="{{data.hitDiceBonus}}"
                 type="text"
                 data-dtype="String" />
+            </div>
+          </div>
+          
+          <div class="stat-region stat-region--xp">
+            {{#unless data.canAutocalculateXP}}
+              <h2>XP</h2>
+            {{else}}
+              <h2>
+                <span>XP</span>
+                <span>{{data.calculatedXP}}</span>  
+              </h2>
+            {{/unless}}
+
+            <div class="configuration__field configuration__field--can-autocalculate-xp">
+              <label for="data.canAutocalculateXP">Auto-Calculate</label>
+              <input
+                name="data.canAutocalculateXP"
+                type="checkbox"
+                {{checked data.canAutocalculateXP}} />
             </div>
 
             {{#unless data.canAutocalculateXP}}
@@ -177,66 +285,25 @@ numberAppearing: "1"
                   data-dtype="String" />
               </div>
             {{else}}
-              <div class="configuration__field configuration__field--xp">
-                <label for="data.calculatedXP">XP</label>
+              <div class="configuration__field configuration__field--has-special-ability">
+                <label for="data.hasSpecialAbility">Has Special Ability?</label>
                 <input
-                  name="data.calculatedXP"
-                  value="{{data.calculatedXP}}"
-                  readonly
-                  type="text"
-                  data-dtype="String" />
+                  name="data.hasSpecialAbility"
+                  type="checkbox"
+                  {{checked data.hasSpecialAbility}} />
+              </div>
+
+              <div class="configuration__field configuration__field--is-exceptional">
+                <label for="data.isExceptional">Is Exceptional?</label>
+                <input
+                  name="data.isExceptional"
+                  type="checkbox"
+                  {{checked data.isExceptional}} />
               </div>
             {{/unless}}
           </div>
 
-          <div class="attacks">
-            <h2>Attacks</h2>
-            {{log data.attacks}}
-            <ul>
-                <li>
-                  <span>Name</span>
-                  <span>Damage</span>
-                </li>
-              {{#each data.attacks}}
-                <li
-                  class="rollable"
-                  data-label="Attack {{@index}}: {{attack}}"
-                  data-roll-type="natural-attack"
-                  data-damage="{{damage}}">
-                  <span>{{attack}}</span>
-                  <span>{{damage}}</span>
-                  <span>{{default attackType "melee"}}</span>
-                </li>
-              {{/each}}
-            </ul>
-            
-            <div class="attacks__field attacks__field--special-attacks">
-              <label for="data.specialAttacks">Special Attacks</label>
-              <input
-                name="data.specialAttacks"
-                value="{{data.specialAttacks}}"
-                type="text"
-                data-dtype="String" />
-            </div>
-
-            <div class="attacks__field attacks__field--modifiers-to-hit">
-              <label>To Hit Modifiers</label>
-              <ul>
-                <li>Melee: {{signedString data.toHitMods.melee}}</li>
-                <li>Ranged: {{signedString data.toHitMods.ranged}}</li>
-              </ul>
-            </div>
-
-            <div class="attacks__field attacks__field--modifiers-damage">
-              <label>To Hit Modifiers</label>
-              <ul>
-                <li>Melee: {{signedString data.damageMods.melee}}</li>
-                <li>Ranged: {{signedString data.damageMods.ranged}}</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="configuration">
+          <div class="stat-region stat-region--configuration">
             <h2>Configuration</h2>
             <div class="configuration__field configuration__field--size">
               <label for="data.alignment">Size</label>
@@ -270,24 +337,6 @@ numberAppearing: "1"
               <input
                 name="data.perceptionMod"
                 value="{{data.perceptionMod}}"
-                type="text"
-                data-dtype="String" />
-            </div>
-
-            <div class="configuration__field configuration__field--specialDefenses">
-              <label for="data.specialDefenses">Special Defenses</label>
-              <input
-                name="data.specialDefenses"
-                value="{{data.specialDefenses}}"
-                type="text"
-                data-dtype="String" />
-            </div>
-
-            <div class="configuration__field configuration__field--magic-resistance">
-              <label for="data.magicResistance">Magic Resistance</label>
-              <input
-                name="data.magicResistance"
-                value="{{data.magicResistance}}"
                 type="text"
                 data-dtype="String" />
             </div>

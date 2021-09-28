@@ -8,6 +8,19 @@ const getSelf = () => game.users.find(user => user.id === game.userId);
 
 const getFirstTargetOfSelf = () => getSelf()?.targets?.values()?.next()?.value?.actor;
 
+const getMonsterXP = (
+  hd = 0,
+  isSpecial,
+  isExceptional
+) => {
+  const {base, special, exceptional} = 
+    CONFIG.CHROMATIC.monsterXP[(hd < 25) ? hd : 25];
+
+  if (isExceptional) return base + exceptional;
+  if (isSpecial) return base + special;
+  return base;
+}
+
 const getLevelFromXP = (xp) =>
   CONFIG.CHROMATIC.xp.reduce(
     (level, xpRow) =>
@@ -55,6 +68,7 @@ const range = (start, end, length = end - start + 1) =>
   Array.from({ length }, (_, i) => start + i);
 
 export {
+  getMonsterXP,
   getLevelFromXP,
   getNextLevelXP,
   getClassGroupAtLevel,

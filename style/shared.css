@@ -76,7 +76,7 @@
   cursor: pointer;
   color: var(--sheet-heading-color);
 }
-.rollable:not([data-roll-type='Attribute'])::before {
+.rollable:not(.rollable--no-icon)::before {
   /* Taken from FontAwesome's .fa class */
   font-weight: 900;
   font-family: "Font Awesome 5 Free";

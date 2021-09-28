@@ -114,8 +114,8 @@ export class BoilerplateActorSheet extends ActorSheet {
     // }
 
     // Constants for the template
-    // context.armorTypes = CONFIG.CHROMATIC.armorTypes;
     context.monsterTypes = CONFIG.CHROMATIC.monsterTypes;
+    context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
     
     // computed/derived stats
     // context.move = this.actor.data.data.move;
@@ -124,8 +124,6 @@ export class BoilerplateActorSheet extends ActorSheet {
     // context.carryWeight = this.actor.data.data.carryWeight
     // context.ac = this.actor.data.data.ac;
   }
-
-  
 
   /**
    * Organize and classify Items for Character sheets.
@@ -379,6 +377,21 @@ export class BoilerplateActorSheet extends ActorSheet {
         li.addEventListener("dragstart", handler, false);
       });
     }
+
+    html.find('[data-action="add-npc-attack"]').click(ev => {
+      this.actor.update({
+        [`data.attacks.${randomID()}`]: {attack: '', damage: '', attackType: 'melee'}
+      });
+    });
+    html.find('[data-action="delete-npc-attack"]').click(ev => {
+      const { index } = ev.currentTarget.dataset;
+
+      this.actor.update({
+        [`data.attacks`]: {
+          [`-=${index}`]: null
+        }
+      });
+    });
   }
 
   _canPrepareSpell(itemNode) {
@@ -511,7 +524,9 @@ export class BoilerplateActorSheet extends ActorSheet {
         if (item) return item.roll();
       }
       if (dataset.rollType === 'natural-attack') {
-        const {damage} = element.dataset;
+        let {damage} = element.dataset;
+        if (damage.indexOf (' ') >= 0)
+          damage = damage.split(' ')[0];
         return this.actor.naturalAttack(damage)
       }
     }

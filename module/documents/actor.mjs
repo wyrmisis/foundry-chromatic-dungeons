@@ -1,4 +1,5 @@
 import {
+  getMonsterXP,
   getDerivedStatWithContext,
   getLevelFromXP,
   getClassGroupAtLevel,
@@ -108,15 +109,15 @@ export class BoilerplateActor extends Actor {
   _prepareNpcData(actorData) {
     if (actorData.type !== 'npc') return;
 
-    // Make modifications to data here. For example:
     const data = actorData.data;
 
     data.ac = parseInt(data.ac);
 
-    data.hp = {
-      ...data.hp,
-      formula: `${parseInt(data.hitDice)}d6+${parseInt(data.hitDieBonus || 0)}`
-    };
+    data.calculatedXP = getMonsterXP(
+      data.hitDice,
+      data.hasSpecialAbility,
+      data.isExceptional
+    )
   }
 
   /**

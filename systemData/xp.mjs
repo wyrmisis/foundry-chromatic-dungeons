@@ -22,4 +22,33 @@ const xp = [
     { level: 21, xp: 2600000 }
 ];
 
+export const monsterXP = [
+    {"base": 5, "special": 3, "exceptional": 25},
+    {"base": 15, "special": 5, "exceptional": 35},
+    {"base": 30, "special": 10, "exceptional": 50},
+    {"base": 50, "special": 15, "exceptional": 60},
+    {"base": 75, "special": 30, "exceptional": 70},
+    {"base": 110, "special": 45, "exceptional": 80},
+    {"base": 150, "special": 70, "exceptional": 120},
+    {"base": 225, "special": 120, "exceptional": 200},
+    {"base": 350, "special": 200, "exceptional": 300},
+    {"base": 600, "special": 300, "exceptional": 400},
+    {"base": 700, "special": 400, "exceptional": 500},
+    {"base": 900, "special": 500, "exceptional": 600},
+    {"base": 1200, "special": 700, "exceptional": 850},
+    {"base": 1500, "special": 800, "exceptional": 1000},
+    {"base": 1800, "special": 950, "exceptional": 1200},
+    {"base": 2100, "special": 1100, "exceptional": 1400},
+    {"base": 2400, "special": 1250, "exceptional": 1600},
+    {"base": 2700, "special": 1400, "exceptional": 1800},
+    {"base": 3000, "special": 1550, "exceptional": 2000},
+    {"base": 3500, "special": 1800, "exceptional": 2250},
+    {"base": 4000, "special": 2100, "exceptional": 2500},
+    {"base": 4500, "special": 2500, "exceptional": 3000},
+    {"base": 5000, "special": 2800, "exceptional": 3500},
+    {"base": 5500, "special": 3300, "exceptional": 4000},
+    {"base": 6000, "special": 4000, "exceptional": 4500},
+    {"base": 7000, "special": 4500, "exceptional": 5000}
+];
+
 export default xp;

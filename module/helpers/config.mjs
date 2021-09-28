@@ -1,5 +1,5 @@
 // Data Tables
-import xp from '../../systemData/xp.mjs';
+import xp, {monsterXP} from '../../systemData/xp.mjs';
 import toHitMods from '../../systemData/toHitMods.mjs';
 import classGroups from '../../systemData/classGroups/index.mjs';
 import str from '../../systemData/attributes/strength.mjs';
@@ -36,6 +36,7 @@ CHROMATIC.attributeAbbreviations = {
 };
 
 CHROMATIC.xp = xp;
+CHROMATIC.monsterXP = monsterXP;
 CHROMATIC.toHitMods = toHitMods;
 
 CHROMATIC.weaponTypes = {melee: "Melee", thrown: 'Thrown', ranged: 'Ranged', ammunition: "Ammunition"};
