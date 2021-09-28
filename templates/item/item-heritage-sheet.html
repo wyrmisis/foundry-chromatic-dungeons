@@ -14,30 +14,12 @@
 
   {{!-- Sheet Body --}}
   <section class="sheet-body">
+    {{log data}}
 
     {{!-- Description Tab --}}
     <div class="tab" data-group="primary" data-tab="description">
-      <div class="feature__container">
-        <ul class="feature__list">
-        {{#each data.features as |feature id|}}
-          <li class="feature__list-item" data-id="{{id}}">
-            <div class="feature__body">
-              <textarea name="data.features.{{id}}">{{feature}}</textarea>
-            </div>
-            <div class="feature__controls">
-              <button type="button" class="feature__delete">
-                <i class="fa fa-trash">
-                  <span class="sr-only">Delete</span>
-                </i>
-              </button>
-            </div>
-          </li>
-        {{/each}}
-        </ul>
-
-        <button type="button" class="feature__add">Add Feature</button>
-      </div>
-
+      <h2>Description</h2>
+      {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
     </div>
 
     {{!-- Attributes Tab --}}

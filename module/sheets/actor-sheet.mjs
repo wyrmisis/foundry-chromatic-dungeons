@@ -57,7 +57,13 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Prepare NPC data and items.
     if (actorData.type == 'npc') {
       this._prepareItems(context);
+      this._prepareNpcData(context);
     }
+
+    // Common data
+    context.saves = this.actor.data.data.saves.targets;
+    context.saveMods = this.actor.data.data.saves.mods;
+    context.ac = this.actor.data.data.ac;
 
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
@@ -85,13 +91,41 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.armorTypes = CONFIG.CHROMATIC.armorTypes;
     
     // computed/derived stats
-    context.move = this.actor.data.data.move;
     context.hasSpellcasting = !!context.classes.filter(obj => obj.hasSpellcasting).length;
-    context.saves = this.actor.data.data.saves.targets;
-    context.saveMods = this.actor.data.data.saves.mods;
+    context.move = this.actor.data.data.move;
     context.carryWeight = this.actor.data.data.carryWeight
-    context.ac = this.actor.data.data.ac;
+    
+    if (this.actor.id === game.user.character.id) {
+      context.accentColor = game.user.color;
+    }
   }
+
+  /**
+   * Organize and classify Items for Character sheets.
+   *
+   * @param {Object} actorData The actor to prepare.
+   *
+   * @return {undefined}
+   */
+   _prepareNpcData(context) {
+    // Handle ability scores.
+    // for (let [k, v] of Object.entries(context.data.attributes)) {
+    //   v.label = game.i18n.localize(CONFIG.CHROMATIC.attributeLabels[k]) ?? k;
+    // }
+
+    // Constants for the template
+    // context.armorTypes = CONFIG.CHROMATIC.armorTypes;
+    context.monsterTypes = CONFIG.CHROMATIC.monsterTypes;
+    
+    // computed/derived stats
+    // context.move = this.actor.data.data.move;
+    // context.saves = this.actor.data.data.saves.targets;
+    // context.saveMods = this.actor.data.data.saves.mods;
+    // context.carryWeight = this.actor.data.data.carryWeight
+    // context.ac = this.actor.data.data.ac;
+  }
+
+  
 
   /**
    * Organize and classify Items for Character sheets.
@@ -306,7 +340,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
       item.update({
         [itemField]: ev.target.value
-      }).then(console.info);
+      })
     })
 
     html.find('.items__list-column--equipped input[type="checkbox"]').change(ev => {
@@ -352,7 +386,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     const classItem = this.actor.items.get(classId);
 
     const maxSlotsAtLevel = classItem.data.data.spellSlots[getLevelFromXP(classItem.data.data.xp)][spellLevel];
-    const preparedSpellsAtLevel = classItem.data.data.preparedSpells[spellLevel];
+    const preparedSpellsAtLevel = classItem.data.data.preparedSpells[spellLevel].length;
 
     return maxSlotsAtLevel > preparedSpellsAtLevel;
   }
@@ -475,6 +509,10 @@ export class BoilerplateActorSheet extends ActorSheet {
         const itemId = element.closest('[data-item-id]').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();
+      }
+      if (dataset.rollType === 'natural-attack') {
+        const {damage} = element.dataset;
+        return this.actor.naturalAttack(damage)
       }
     }
 

@@ -18,7 +18,8 @@ const xp = [
     { level: 17, xp: 1800000 },
     { level: 18, xp: 2000000 },
     { level: 19, xp: 2200000 },
-    { level: 20, xp: 2400000 }
+    { level: 20, xp: 2400000 },
+    { level: 21, xp: 2600000 }
 ];
 
 export default xp;

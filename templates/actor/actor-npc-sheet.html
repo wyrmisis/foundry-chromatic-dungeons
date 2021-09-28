@@ -1,76 +1,324 @@
-<form class="{{cssClass}} {{actor.type}} flexcol" autocomplete="off">
+<form class="{{cssClass}} sheet--npc {{actor.type}}" autocomplete="off">
 
   {{!-- Sheet Header --}}
-  <header class="sheet-header">
-    <img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}" height="100" width="100"/>
-    <div class="header-fields">
-      <h1 class="charname"><input name="name" type="text" value="{{actor.name}}" placeholder="Name"/></h1>
-      {{!-- The grid classes are defined in scss/global/_grid.scss. To use,
-      use both the "grid" and "grid-Ncol" class where "N" can be any number
-      from 1 to 12 and will create that number of columns.  --}}
-      <div class="resources grid grid-3col">
+  <header class="sheet-header npc-header">
+    <div class="vital">
+      <div class="name">
+        <input
+          name="name"
+          type="text"
+          value="{{actor.name}}"
+          placeholder="Name"/>
+          (
+            <select name="data.type" data-dtype="string">
+              {{#select data.type}}
+                {{#each monsterTypes as |name key|}}
+                  <option value="{{key}}">{{name}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+          )
+      </div>
+      
+      <div class="hp">
+        <label 
+          for="data.hp.value"
+          class="hp__label">
+          <i class="fa fa-heart">
+            <span class="sr-only">
+              {{localize "SHEET.hp"}}
+            </span>
+          </i>
+        </label>
+        
+        <input
+          type="number"
+          name="data.hp.value"
+          value="{{data.hp.value}}"
+          max="{{data.hp.max}}"
+          data-dtype="Number"/>
+        <span>/</span>
+        <input
+          type="number"
+          name="data.hp.max"
+          min="{{data.hp.value}}"
+          value="{{data.hp.max}}"
+          data-dtype="Number" />
+      </div>
 
-        {{!-- "flex-group-center" is also defined in the _grid.scss file
-        and it will add a small amount of padding, a border, and will
-        center all of its child elements content and text. --}}
-        <div class="resource flex-group-center">
-          <label for="data.health.value" class="resource-label">Health</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="text" name="data.health.value" value="{{data.health.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="text" name="data.health.max" value="{{data.health.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          <label for="data.power.value" class="resource-label">Power</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="text" name="data.power.value" value="{{data.power.value}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="text" name="data.power.max" value="{{data.power.max}}" data-dtype="Number"/>
-          </div>
-        </div>
-
-        <div class="resource flex-group-center">
-          <label for="data.cr" class="resource-label">CR / XP</label>
-          <div class="resource-content flexrow flex-center flex-between">
-            <input type="text" name="data.cr" value="{{data.cr}}" data-dtype="Number"/>
-            <span> / </span>
-            <input type="text" disabled="true" name="data.xp" value="{{data.xp}}" data-dtype="Number"/>
-          </div>
-        </div>
-
+      <div class="ac">
+        <label 
+          for="ac"
+          class="ac__label">
+          <i class="fa fa-universal-access">
+            <span class="sr-only">
+              {{localize "SHEET.ac"}}
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="ac"
+          value="{{data.ac}}"
+          readonly
+          data-dtype="Number"/>
       </div>
     </div>
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    {{!-- Default tab is specified in actor-sheet.mjs --}}
-    <a class="item" data-tab="description">Description</a>
-    <a class="item" data-tab="items">Items</a>
-    <a class="item" data-tab="effects">Effects</a>
-  </nav>
+  
 
   {{!-- Sheet Body --}}
-  <section class="sheet-body">
-
-    {{!-- Biography Tab --}}
-    <div class="tab biography" data-group="primary" data-tab="description">
-      {{!-- If you want TinyMCE editors to output inline rolls when rendered, you need to pass the actor's roll data to the rollData property. --}}
-      {{editor content=data.biography target="data.biography" rollData=rollData button=true owner=owner editable=editable}}
+  <main class="sheet-body">
+    <div class="attributes">
+      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-attribute.hbs"}}
     </div>
 
-    {{!-- Owned Items Tab --}}
-    <div class="tab items" data-group="primary" data-tab="items">
-       {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-items.hbs"}}
-    </div>
+    <div class="tab-group">
+      {{!-- Sheet Tab Navigation --}}
+      <nav class="sheet-tabs tabs" data-group="primary">
+        {{!-- Default tab is specified in actor-sheet.mjs --}}
+        <a class="item" data-tab="summary">Summary</a>
+        <a class="item" data-tab="description">Description</a>
+        <a class="item" data-tab="items">Items</a>
+        <a class="item" data-tab="effects">Effects</a>
+      </nav>
 
-    {{!-- Active Effects Tab --}}
-    <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-effects.hbs"}}
-    </div>
+      <div class="tab-group__container">
+        <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
+          
+            {{!--
+              attacks: "2 claws/1 bite"
+damageMods: {melee: 8, thrown: 8, ranged: 0}
+toHitMods: {melee: 14, thrown: 6, ranged: 6}
+              specialAttacks: "bear hug"
+              
+size: "huge"
+alignment: "n/a"
+xp: "600"
+              
+hitDice: "8*+20"
+hitDiceBonus: ""
+              ++shouldAutorollHP (if true, cannot set max HP, set on drop)
+              
+              move: "40ft"
+              
+numberAppearing: "1"
+              perceptionMod: "2"
 
-  </section>
+              specialDefenses: "frenzy"
+              magicResistance: "n/a"
+
+            --}}
+
+          <div class="saves">
+            <h2>{{localize 'SHEET.saves'}}</h2>
+            <ul class="saves-list">
+              <li class="saves-list__item saves-list__item--header">
+                <div class="saves-list__name"></div>
+                <div class="saves-list__score">
+                  {{localize 'SHEET.listheadings.saves.value'}}
+                </div>
+                <div class="saves-list__modifier">
+                  {{localize 'SHEET.listheadings.saves.modifier'}}
+                </div>
+              </li>
+              {{#each saves as |save key|}}
+                <li class="saves-list__item">
+                  <div
+                    class="saves-list__name rollable"
+                    data-label="{{localize (concat 'SHEET.save.' key)}}"
+                    data-roll-type="Save"
+                    data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+                    {{localize (concat 'SHEET.save.' key)}}
+                  </div>
+                  <div class="saves-list__score">{{save}}</div>
+                  <div class="saves-list__modifier">
+                    <input type="text" readonly value="{{signedString (lookup ../saveMods key)}}" />
+                  </div>
+                </li>
+              {{/each}}
+              <li>
+                {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
+                  Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.
+                {{/if}}
+              </li>
+            </ul>
+          </div>
+
+          <div class="xp">
+            <h2>HP and XP{{#if data.canAutocalculateXP}}({{data.xp}}){{/if}}</h2>
+
+            <div class="configuration__field configuration__field--xp">
+              <label for="data.hitDice">Hit Dice</label>
+              <input
+                name="data.hitDice"
+                value="{{data.hitDice}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--xp">
+              <label for="data.hitDiceBonus">HD Bonus</label>
+              <input
+                name="data.hitDiceBonus"
+                value="{{data.hitDiceBonus}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            {{#unless data.canAutocalculateXP}}
+              <div class="configuration__field configuration__field--xp">
+                <label for="data.xp">XP</label>
+                <input
+                  name="data.xp"
+                  value="{{data.xp}}"
+                  type="text"
+                  data-dtype="String" />
+              </div>
+            {{else}}
+              <div class="configuration__field configuration__field--xp">
+                <label for="data.calculatedXP">XP</label>
+                <input
+                  name="data.calculatedXP"
+                  value="{{data.calculatedXP}}"
+                  readonly
+                  type="text"
+                  data-dtype="String" />
+              </div>
+            {{/unless}}
+          </div>
+
+          <div class="attacks">
+            <h2>Attacks</h2>
+            {{log data.attacks}}
+            <ul>
+                <li>
+                  <span>Name</span>
+                  <span>Damage</span>
+                </li>
+              {{#each data.attacks}}
+                <li
+                  class="rollable"
+                  data-label="Attack {{@index}}: {{attack}}"
+                  data-roll-type="natural-attack"
+                  data-damage="{{damage}}">
+                  <span>{{attack}}</span>
+                  <span>{{damage}}</span>
+                  <span>{{default attackType "melee"}}</span>
+                </li>
+              {{/each}}
+            </ul>
+            
+            <div class="attacks__field attacks__field--special-attacks">
+              <label for="data.specialAttacks">Special Attacks</label>
+              <input
+                name="data.specialAttacks"
+                value="{{data.specialAttacks}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="attacks__field attacks__field--modifiers-to-hit">
+              <label>To Hit Modifiers</label>
+              <ul>
+                <li>Melee: {{signedString data.toHitMods.melee}}</li>
+                <li>Ranged: {{signedString data.toHitMods.ranged}}</li>
+              </ul>
+            </div>
+
+            <div class="attacks__field attacks__field--modifiers-damage">
+              <label>To Hit Modifiers</label>
+              <ul>
+                <li>Melee: {{signedString data.damageMods.melee}}</li>
+                <li>Ranged: {{signedString data.damageMods.ranged}}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="configuration">
+            <h2>Configuration</h2>
+            <div class="configuration__field configuration__field--size">
+              <label for="data.alignment">Size</label>
+              <input
+                name="data.size"
+                value="{{data.size}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--alignment">
+              <label for="data.alignment">Alignment</label>
+              <input
+                name="data.alignment"
+                value="{{data.alignment}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--number-appearing">
+              <label for="data.numberAppearing">Number Appearing</label>
+              <input
+                name="data.numberAppearing"
+                value="{{data.numberAppearing}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--perception-mod">
+              <label for="data.perceptionMod">Perception Mod</label>
+              <input
+                name="data.perceptionMod"
+                value="{{data.perceptionMod}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--specialDefenses">
+              <label for="data.specialDefenses">Special Defenses</label>
+              <input
+                name="data.specialDefenses"
+                value="{{data.specialDefenses}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+
+            <div class="configuration__field configuration__field--magic-resistance">
+              <label for="data.magicResistance">Magic Resistance</label>
+              <input
+                name="data.magicResistance"
+                value="{{data.magicResistance}}"
+                type="text"
+                data-dtype="String" />
+            </div>
+          </div>
+        </div>
+
+        <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
+          <div class="description">
+            <h2>Description</h2>
+            {{ editor
+              content=data.description
+              target="data.description"
+              rollData=rollData
+              button=true
+              owner=owner
+              editable=editable
+            }}
+          </div>
+        </div>
+
+        {{!-- Owned Items Tab --}}
+        <div class="tab sheet-tab sheet-tab--items" data-group="primary" data-tab="items">
+          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-items.hbs"}}
+        </div>
+
+        {{!-- Active Effects Tab --}}
+        <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
+          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-effects.hbs"}}
+        </div>
+      </div>
+    </div>
+  </main>
 </form>
 

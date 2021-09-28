@@ -19,7 +19,8 @@
   align-items: center;
 }
 
-.actor .sheet-header .vital input {
+.actor .sheet-header .vital input,
+.actor .sheet-header .vital select {
   font-family:  var(--sheet-heading-font);
   font-size: 1.5rem;
   border:  none;

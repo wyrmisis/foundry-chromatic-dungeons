@@ -1,4 +1,12 @@
 <form class="{{cssClass}} sheet sheet--pc" autocomplete="off">
+  {{#if accentColor}}
+    <style>
+      .actor {
+        --sheet-heading-color: {{accentColor}}
+      }
+    </style>
+  {{/if}}
+  
   {{!-- Sheet Header --}}
   <header class="sheet-header">
     <div class="vital">
@@ -128,8 +136,6 @@
                 {{/if}}
               </li>
           </div>
-
-          
 
           <div class="quick-access__equipment">
             <h2>Equipped Items</h2>

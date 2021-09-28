@@ -53,8 +53,6 @@ export default class AncestrySheet extends ItemSheet {
 
   /** @override */
   activateListeners(html) {
-    console.info('Chromatic Dungeons | Registering events on the Ancestry sheet');
-
     super.activateListeners(html);
 
     // Everything below here is only needed if the sheet is editable

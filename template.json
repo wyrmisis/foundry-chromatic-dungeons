@@ -40,10 +40,13 @@
       "ac": "10",
       "specialDefenses": "",
       "magicResistance": "",
-      "attacks": "",
+      "attacks": [],
       "specialAttacks": "",
       "move": "",
-      "xp": ""
+      "xp": "",
+      "isExceptional": false,
+      "hasSpecialAbility": false,
+      "canAutocalculateXP": true
     }
   },
   "Item": {
@@ -118,7 +121,7 @@
       "description": ""
     },
     "heritage": {
-      "features": {}
+      "description": ""
     },
     "class": {
       "description": "",

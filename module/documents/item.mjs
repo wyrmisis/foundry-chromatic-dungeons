@@ -1,4 +1,5 @@
-import { getSelf, getFirstTargetOfSelf, getLevelFromXP } from '../helpers/utils.mjs';
+import { getLevelFromXP } from '../helpers/utils.mjs';
+import attackSequence from '../helpers/attackSequence.mjs';
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -54,14 +55,11 @@ export class BoilerplateItem extends Item {
   prepareSpell(spell, level) {
     const maxSlotsAtLevel = this.data.data.spellSlots[getLevelFromXP(this.data.data.xp)][level];
     const preparedSpellsAtLevel = [...this.data.data.preparedSpells[level]];
-    
-    console.info(spell)
 
     if (preparedSpellsAtLevel.length >= maxSlotsAtLevel) {
       ui.notifications.warn(`You've already prepared as many level ${level} ${this.name} spells as you can!`)
       return false;
     }
-
 
     preparedSpellsAtLevel.push(spell.id);
 
@@ -223,69 +221,30 @@ export class BoilerplateItem extends Item {
     let toHitMod = item.data.modToHit + actor.data.toHitMods[item.data.weaponType],
       damageMod = item.data.modDamage + actor.data.damageMods[item.data.weaponType];
 
-    const target = getFirstTargetOfSelf();
-
     const attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData).roll();
     const damageRoll = new Roll(`${(useAmmoDamage ? ammoItem : item).data.damage}+${damageMod}+${circumstantialDamageMod}`, rollData).roll();
 
-    // EMOTE: 3
-    // IC: 2
-    // OOC: 1
-    // OTHER: 0
-    // ROLL: 5
-
-
-    return attackRoll
-      .toMessage({
-        ...this._getRollMessageOptions(),
-        flavor: `Attacking with ${item.name}...`,
-      })
-      .then(result => {
-        // @TODO automate ammo usage?
-        console.info(ammoItem);
-        if (ammoItem) actor.items.get(ammoItem._id).update({
-          ['data.quantity.value']: ammoItem.data.quantity.value - 1
-        });
-
-        if (target && attackRoll.total < target.data.data.ac) {
-          ChatMessage.create({
-            ...this._getRollMessageOptions(),
-            content: `${actor.name}'s attack <strong>misses</strong>!`
-          });
-
-          return Promise.reject();
-        }
-
-        return damageRoll
-          .toMessage({
-            ...this._getRollMessageOptions(),
-            flavor: `Damage with ${item.name}`,
-          });
-      })
-      .then(damageResult => (!damageResult || !target || damageRoll.total <= 0)
-          ? null
-          : target.update({
-            ['data.hp.value']: target.data.data.hp.value - damageRoll.total
-          })
-      )
-      .then(updatedTarget => {
-        if (updatedTarget && updatedTarget.data.data.hp.value <= 0) 
-          return ChatMessage.create({
-            ...this._getRollMessageOptions(updatedTarget),
-            type: CONST.CHAT_MESSAGE_TYPES.EMOTE,
-            content: `${updatedTarget.name} collapses in a heap from their injuries!`
-          });
+    const spendAmmo = () => {
+      if (ammoItem) actor.items.get(ammoItem._id).update({
+        ['data.quantity.value']: ammoItem.data.quantity.value - 1
       });
+    }
+
+    return attackSequence(
+      actor,
+      attackRoll,
+      damageRoll,
+      item.name,
+      { beforeAttack: spendAmmo },
+      this._getRollMessageOptions
+    );
   }
 
   _defaultRoll() {
     const [item, actor] = this._getItemActorData();
 
-    console.info(item, actor);
-
     // If there's no roll data, send a chat message.
     if (!this.data.data.formula) {
-      console.info(item);
       return ChatMessage.create({
         ...this._getRollMessageOptions(),
         flavor: `[${item.type}] ${item.name}`,

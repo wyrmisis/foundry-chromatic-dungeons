@@ -1,13 +1,11 @@
 import {
-  getDerivedStat,
   getDerivedStatWithContext,
   getLevelFromXP,
-  getNextLevelXP,
   getClassGroupAtLevel,
-  reportAndQuit,
-  hasThisAlready,
   sourceId
 } from '../helpers/utils.mjs';
+
+import attackSequence from '../helpers/attackSequence.mjs';
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -29,7 +27,7 @@ export class BoilerplateActor extends Actor {
     // prepareDerivedData().
     super.prepareData();
   }
-
+  
   /** @override */
   prepareBaseData() {
     // Data modifications in this step occur before processing embedded
@@ -46,6 +44,8 @@ export class BoilerplateActor extends Actor {
    * is queried and has a roll executed directly from it).
    */
   prepareDerivedData() {
+    if (this.name.includes('#[CF_tempEntity]')) return;
+
     const actorData = this.data;
     const data = actorData.data;
     const flags = actorData.flags.boilerplate || {};
@@ -54,6 +54,27 @@ export class BoilerplateActor extends Actor {
     // things organized.
     this._prepareCharacterData(actorData);
     this._prepareNpcData(actorData);
+
+    // Shared properties get set here
+    data.toHitMods = {
+      melee: this._getMeleeToHitMod(),
+      thrown: this._getRangedToHitMod(),
+      ranged: this._getRangedToHitMod()
+    };
+    
+    data.damageMods = {
+      melee: this._getStrDamageMod(),
+      thrown: this._getStrDamageMod(),
+      ranged: this._getRangedDamageMod()
+    };
+
+    data.saves = {
+      targets: this._getSaves(),
+      mods: this._getSaveMods()
+    };
+
+    if (this.isToken)
+      this.token.update({ ['data.overlayEffect']: this._getOverlayIcon() });
   }
 
   /**
@@ -74,23 +95,6 @@ export class BoilerplateActor extends Actor {
 
     data.ac = this._getAC();
 
-    data.toHitMods = {
-      melee: this._getMeleeToHitMod(),
-      thrown: this._getRangedToHitMod(),
-      ranged: this._getRangedToHitMod()
-    };
-    
-    data.damageMods = {
-      melee: this._getStrDamageMod(),
-      thrown: this._getStrDamageMod(),
-      ranged: this._getRangedDamageMod()
-    };
-
-    data.saves = {
-      targets: this._getSaves(),
-      mods: this._getSaveMods()
-    };
-
     data.carryWeight = this._getCarryWeight();
 
     data.move = this._getMoveSpeed();
@@ -106,7 +110,15 @@ export class BoilerplateActor extends Actor {
 
     // Make modifications to data here. For example:
     const data = actorData.data;
-    data.xp = (data.cr * data.cr) * 100;
+    
+    console.info(data);
+
+    data.ac = parseInt(data.ac);
+
+    data.hp = {
+      ...data.hp,
+      formula: `${parseInt(data.hitDice)}d6+${parseInt(data.hitDieBonus || 0)}`
+    };
   }
 
   /**
@@ -131,8 +143,6 @@ export class BoilerplateActor extends Actor {
       this._getItemsOfType('magicItems'),
       this._getItemsOfType('treasure')
     );
-
-    console.info(`${CONFIG.CHROMATIC.logPrefix}`, this.items)
 
     let totalItemWeight = items.reduce(
       (prev, curr) => prev + curr.data.data.weight.value,
@@ -169,30 +179,40 @@ export class BoilerplateActor extends Actor {
   _getSaves() {
     const worstSaves = { reflex: 18, poison: 16, creature: 17, spell: 19 };
 
-    let savingClass = this
-      ._getItemsOfType('class', ({data}) => data.data.isSelectedSaveTable)[0];
+    let classGroup, level;
 
-    if (!savingClass) savingClass = this._getItemsOfType('class')[0];
+    if (this._isPC()) {
+      let savingClass = this
+        ._getItemsOfType('class', ({data}) => data.data.isSelectedSaveTable)[0];
 
-    if (!savingClass?.data?.data) {
-      ui?.notifications?.warn(`Actor ${this.name} doesn't have a class!`);
-      return worstSaves;
+      if (!savingClass) savingClass = this._getItemsOfType('class')[0];
+
+      if (!savingClass?.data?.data) {
+        ui?.notifications?.warn(`Actor ${this.name} doesn't have a class!`);
+        return worstSaves;
+      }
+
+      if (!savingClass?.data?.data?.classGroup) {
+        ui?.notifications?.warn(`${this.name}'s class doesn't have a class group!`)
+        return worstSaves;
+      }
+
+      classGroup = savingClass.data.data.classGroup;
+      level = parseInt(getLevelFromXP(savingClass.data.data.xp));
+    } else {
+      classGroup = 'npc';
+      level = parseInt(this.data.data.hitDice);
     }
-
-    if (!savingClass?.data?.data?.classGroup) {
-      ui?.notifications?.warn(`${this.name}'s class doesn't have a class group!`)
-      return worstSaves;
-    }
-
-    const level = getLevelFromXP(savingClass.data.data.xp);
 
     return {
-      ...getClassGroupAtLevel(savingClass.data.data.classGroup, level).saves
+      ...getClassGroupAtLevel(classGroup, level).saves
     }
   }
 
   _getSaveMods() {
-    const { saveMods, attributes } = this.data.data;
+    let { saveMods } = this.data.data;
+
+    if (!saveMods) saveMods = {reflex: 0, poison: 0, creature: 0, spell: 0}
 
     return {
       ...saveMods,
@@ -201,28 +221,32 @@ export class BoilerplateActor extends Actor {
   }
 
   _getMeleeToHitMod() {
-    const classToHit = this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.modToHit || 0;
+    const classToHit = (this._isPC()) 
+      ? this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.modToHit || 0
+      : getClassGroupAtLevel('npc', parseInt(this.data.data.hitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.data.data);
 
-    return classToHit + attrToHit + this.data.data.modToHit;
+    return classToHit + attrToHit + (this.data.data.modToHit || 0);
   }
 
   _getRangedToHitMod() {
-    const classToHit = this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.modToHit || 0;
+    const classToHit = (this._isPC()) 
+      ? this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.modToHit || 0
+      : getClassGroupAtLevel('npc', parseInt(this.data.data.hitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.data.data);
 
-    return classToHit + attrToHit + this.data.data.modToHit;
+    return classToHit + attrToHit + (this.data.data.modToHit || 0);
   }
 
   _getStrDamageMod() {
-    return this.data.data.modDamage +
+    return (this.data.data.modDamage || 0) +
       getDerivedStatWithContext('str', 'modMeleeDamage', this.data.data);
   }
 
   _getRangedDamageMod() {
-    return this.data.data.modDamage;
+    return this.data.data.modDamage || 0;
   }
 
   _getSpellSlots() {
@@ -350,10 +374,6 @@ export class BoilerplateActor extends Actor {
       .reduce((obj, classname) => ({ ...obj, ...classname }), {});
   }
 
-  prepareSpell(...args) {
-    console.info(args);
-  }
-
   /**
    * Prepare character roll data.
    */
@@ -381,5 +401,109 @@ export class BoilerplateActor extends Actor {
     if (this.data.type !== 'npc') return;
 
     // Process additional NPC data here.
+  }
+
+  _isPC() {
+    return this.data.type === 'pc';
+  }
+
+  /**
+   * @override
+   */
+  update(...args) {
+    super
+      .update(...args)
+      .then(updated => this._setOverlayIconOnUpdate(updated));
+  }
+
+  _setOverlayIconOnUpdate(updated) {
+    /**
+     * @todo There's got to be a better way to do this.
+     */
+    if (updated.isToken && updated.token.object) {
+      const hp = updated.data.data.hp.value;
+      const alreadyDead = updated.token.data.overlayEffect === CONFIG.CHROMATIC.ICONS.DEATH;
+      const alreadyUnconscious = updated.token.data.overlayEffect === CONFIG.CHROMATIC.ICONS.UNCONSCIOUS;
+
+      let isDead = false,
+          isUnconscious = false;
+
+      if (this.type === 'npc' && hp <= 0)
+        isDead = true;
+
+      if (this.type === 'pc' && hp <= -10)
+        isDead = true;
+
+      if (this.type === 'pc' && hp <= 0 && hp > -10)
+        isUnconscious = true;
+
+      const doToggle = (already, is, effect) => {
+        if ((already && !is) || (!already && is))
+          updated.token.object.toggleEffect(
+            effect,
+            {overlay: true}
+          );
+      }
+
+      doToggle(alreadyDead, isDead, CONFIG.CHROMATIC.ICONS.DEATH);
+      doToggle(alreadyUnconscious, isUnconscious, CONFIG.CHROMATIC.ICONS.UNCONSCIOUS);
+    }
+
+    return updated;
+  }
+
+  _getOverlayIcon() {
+    if (this.data.data.hp.value <= 0)
+      return CONFIG.CHROMATIC.ICONS[
+        (this.type === 'pc') ? 'UNCONSCIOUS' : 'DEATH'
+      ];
+
+    if (this.data.data.hp.value <= -10)
+      return CONFIG.CHROMATIC.ICONS.DEATH;
+
+    return null;
+  }
+
+
+  naturalAttack(damage, attackType = 'melee') {
+    return new Dialog({
+      title: `Attacking with ${this.data.name}'s natural weapons`,
+      content: `
+        <div>
+          <label for="attack-roll-modifier">Attack Modifier:</label>
+          <input name="attack-roll-modifier" placeholder="-2, 4, etc"  />
+        </div>
+
+        <div>
+          <label for="damage-roll-modifier">Damage Modifier:</label>
+          <input name="damage-roll-modifier" placeholder="-2, 4, etc"  />
+        </div>
+      `,
+      buttons: {
+        attack: {
+          label: 'Attack',
+          callback: (html) => {
+            const rollData = this.getRollData();
+
+            const circumstantialAttackMod = parseInt(html.find('[name="attack-roll-modifier"]').val() || 0),
+                  circumstantialDamageMod = parseInt(html.find('[name="damage-roll-modifier"]').val() || 0);
+
+            const toHitMod = this.data.data.toHitMods[attackType],
+                  damageMod = this.data.data.damageMods[attackType];
+
+            const attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData).roll(),
+                  damageRoll = new Roll(`${damage}+${damageMod}+${circumstantialDamageMod}`, rollData).roll();
+
+            return attackSequence(this.data, attackRoll, damageRoll);
+          }
+        },
+        cancel: {
+          label: 'Cancel'
+        }
+      },
+      default: 'attack'
+    }).render(true);
+
+    
   }
 }

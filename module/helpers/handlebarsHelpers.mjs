@@ -1,3 +1,4 @@
+import Marked from '../../node_modules/marked/lib/marked.esm.js';
 import {getDerivedStat} from './utils.mjs';
 
 /* -------------------------------------------- */
@@ -5,6 +6,14 @@ import {getDerivedStat} from './utils.mjs';
 /* -------------------------------------------- */
 
 const setupHandlebarsHelpers = () => {
+
+  Handlebars.registerHelper('markdown', (input) => Marked(input));
+  Handlebars.registerHelper('default', (value, defaultValue) => 
+    [null, undefined].includes(value) 
+      ? defaultValue
+      : value
+  );
+
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function() {
     var outStr = '';

@@ -19,7 +19,7 @@
 
   <ul class="features features--ancestry">
     {{#each ancestry.data.features as |feature|}}
-      <li class="feature__item">{{feature}}</li>
+      <li class="feature__item">{{{markdown feature}}}</li>
     {{/each}}
   </ul>
 {{/if}}
@@ -46,7 +46,7 @@
 
     <ul class="features features--heritage">
       {{#each heritage.data.features as |feature|}}
-        <li class="feature__item">{{feature}}</li>
+        <li class="feature__item">{{{markdown feature}}}</li>
       {{/each}}
     </ul>
   {{/each}}
@@ -54,8 +54,8 @@
 
 {{#if classes.length}}
   <h2>Classes</h2>
-
-  {{#each classes as |class|}}
+  {{log this}}
+  {{#each classes as |class classkey|}}
     <h3 class="features__title">
       <span>Lv. {{class.level}} {{class.name}} ({{class.xp}}/{{class.xpNext}})</span>
       <span>
@@ -82,7 +82,7 @@
           <div class="feature__cell feature__cell--level">{{feature.level}}</div>
           <div class="feature__cell feature__cell--feature">
             <h4>{{feature.title}}</h4>
-            {{{feature.content}}}
+            {{{markdown feature.content}}}
           </div>
         </li>
       {{/each}}

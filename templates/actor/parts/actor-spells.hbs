@@ -21,7 +21,6 @@
           <ul class="prepared-spells">
             {{#each (paddedTo (getClassPreparedSpellsAtLevel ../../classes classKey key) slot.max) as |spell spellKey|}}
               {{#if spell}}
-                {{log spell}}
                 <li
                   class="prepared-spell__slot"
                   data-item-id="{{spell.id}}">

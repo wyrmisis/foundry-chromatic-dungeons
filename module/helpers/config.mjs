@@ -63,6 +63,24 @@ CHROMATIC.saves = {
   spell: "Spell/Magic Item"
 }
 
+CHROMATIC.monsterTypes = {
+  beast: "Beast",
+  demon: "Demon",
+  devil: "Devil",
+  dinosaur: "Dinosaur",
+  dragon: "Dragon",
+  elemental: "Elemental",
+  fey: "Fey",
+  fiend: "Fiend",
+  giant: "Giant",
+  golem: "Golem",
+  humanoid: "Humanoid",
+  lycanthrope: "Lycanthrope",
+  monstrosity: "Monstrosity",
+  ooze: "Ooze",
+  undead: "Undead",
+}
+
 CHROMATIC.ascii = `
 ,- _~. ,,                                 ,          
 (' /|   ||                           _    ||   '      
@@ -82,3 +100,8 @@ CHROMATIC.ascii = `
                       '----\`
 `;
 CHROMATIC.logPrefix = 'Chromatic Dungeons | ';
+
+CHROMATIC.ICONS = {
+  DEATH: 'icons/svg/skull.svg',
+  UNCONSCIOUS: 'icons/svg/unconscious.svg'
+} 

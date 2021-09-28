@@ -144,30 +144,11 @@ Hooks.once("ready", async function() {
         .filter(item => item.type === 'spell')
         .map(item => item.data);
 
-      // if(hasThisAlready('spell', droppedItem, actorSpells))
-      //   actor.prepareSpell(droppedItem);
-
       if (hasThisAlready('spell', droppedItem, actorSpells))
         return reportAndQuit(`${actor.name} already has the ${droppedItem.name} spell`);
 
-      // const castingClasses = actor.items.filter(item => item.type === 'class' && item.data.hasSpellcasting);
-      
-      // console.info(castingClasses)
-
-
       return false;
     }
-  });
-
-  Hooks.on('createChatMessage', () => {
-    console.info(
-      arguments
-    );
-
-    // data.author.targets: get the list of targeted actors
-    // data.message.speaker.actor: get the acting actor
-    // data.message.roll: get the roll
-    // html.children('.message-content'): get the body of the die roll card
   });
 });
 

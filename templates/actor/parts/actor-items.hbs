@@ -1,8 +1,22 @@
 <section class="items">
+  {{#if carryWeight}}
   <div class="items__carry-weight">
     <label for="">Carry weight:</label>
     <input value="{{carryWeight.value}}" readonly /> / <input value="{{carryWeight.max}}" readonly />
   </div>
+  {{/if}}
+
+  {{#if data.treasure}}
+    <h3>Treasure</h3>
+    {{editor
+      content=data.treasure
+      target="data.treasure"
+      rollData=rollData
+      button=true
+      owner=owner
+      editable=editable
+    }}
+  {{/if}}
 
   <h3 class="action-header">
     <span>Weapons</span>
@@ -44,17 +58,19 @@
   </h3>
   {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-wealth-grid.hbs"}}
 
-  <h3>Currency</h3>
-  <div class="items__currency">
-    {{#each data.wealth as |value key|}}
-      <div class="items__currency-item items__currency-item--{{key}}">
-        <label for="data.wealth.{{key}}">{{key}}</label>
-        <input
-          type="number"
-          data-dtype="Number"
-          name="data.wealth.{{key}}"
-          value={{value}} />
-      </div>
-    {{/each}}
-  </div>
+  {{#if data.wealth}}
+    <h3>Currency</h3>
+    <div class="items__currency">
+      {{#each data.wealth as |value key|}}
+        <div class="items__currency-item items__currency-item--{{key}}">
+          <label for="data.wealth.{{key}}">{{key}}</label>
+          <input
+            type="number"
+            data-dtype="Number"
+            name="data.wealth.{{key}}"
+            value={{value}} />
+        </div>
+      {{/each}}
+    </div>
+  {{/if}}
 </section>
