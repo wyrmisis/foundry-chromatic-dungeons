@@ -23,8 +23,6 @@ const attackSequence = (
   // OTHER: 0
   // ROLL: 5
 
-  console.info(actor);
-  
   if (!actor) throw new Error('An attack sequence is missing an actor!');
   if (!attackRoll) throw new Error('An attack sequence is missing an attack roll!');
   if (!damageRoll) throw new Error('An attack sequence is missing a damage roll!');

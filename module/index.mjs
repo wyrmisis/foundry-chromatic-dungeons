@@ -83,6 +83,25 @@ Hooks.once("ready", async function() {
   // Wait to register hotbar drop hook on ready so that modules could register earlier if they want to
   Hooks.on("hotbarDrop", (bar, data, slot) => createItemMacro(data, slot));
 
+  Hooks.on('createToken', (token, options, userId) => {
+    const tokenActor = token.actor.data;
+
+    if (tokenActor.type === 'npc' && !token.isLinked) {
+      const hpRoll = new Roll(`${parseInt(tokenActor.data.hitDice)}d6+${tokenActor.data.hitDiceBonus}`);
+
+      hpRoll
+        .roll({async: true})
+        .then(({total}) =>
+          token.modifyActorDocument({
+            ['data.hp.value']: total,
+            ['data.hp.max']: total
+          })
+        );
+    }
+
+    return token;
+  })
+
   Hooks.on('dropActorSheetData', async (actor, sheet, dropped) => {
 
     const [droppedItem, droppedSourceId] = await 

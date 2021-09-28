@@ -61,8 +61,8 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
 
     // Common data
-    context.saves = this.actor.data.data.saves.targets;
-    context.saveMods = this.actor.data.data.saves.mods;
+    context.saves = this.actor?.data?.data?.saves?.targets;
+    context.saveMods = this.actor?.data?.data?.saves?.mods;
     context.ac = this.actor.data.data.ac;
 
     // Add roll data for TinyMCE editors.

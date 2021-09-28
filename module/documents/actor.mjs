@@ -110,8 +110,6 @@ export class BoilerplateActor extends Actor {
 
     // Make modifications to data here. For example:
     const data = actorData.data;
-    
-    console.info(data);
 
     data.ac = parseInt(data.ac);
 
