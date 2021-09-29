@@ -28,7 +28,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `systems/foundry-chromatic-dungeons/templates/actor/actor-${this.actor.data.type}-sheet.html`;
+    return `${CONFIG.CHROMATIC.templateDir}/actor/actor-${this.actor.data.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */

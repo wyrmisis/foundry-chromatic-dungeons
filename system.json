@@ -9,7 +9,7 @@
   "authors": [
     {"name": "wyrmisis", "discord": "wyrmisis#8136"}
   ],
-  "esmodules": ["dist/bundle.min.js"],
+  "esmodules": ["dist/js/bundle.min.js"],
   "styles": [
     "style/vars.css",
     "style/shared.css",

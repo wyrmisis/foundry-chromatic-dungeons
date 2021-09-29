@@ -6,8 +6,8 @@ import copy from "rollup-plugin-copy-assets";
 export default {
   input: './src/module/index.mjs',
   output: [
-    { file: './dist/bundle.js' },
-    { file: './dist/bundle.min.js', plugins: [terser()], format: 'iife' }
+    { file: './dist/js/bundle.js' },
+    { file: './dist/js/bundle.min.js', plugins: [terser()], format: 'iife' }
   ],
   plugins: [
     babel(),

@@ -6,6 +6,7 @@ import {getDerivedStat} from './utils.mjs';
 /* -------------------------------------------- */
 
 const setupHandlebarsHelpers = () => {
+  Handlebars.registerHelper('partial', (partialPath) => `${CONFIG.CHROMATIC.templateDir}/${partialPath}`)
 
   Handlebars.registerHelper('markdown', (input) => Marked(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 
