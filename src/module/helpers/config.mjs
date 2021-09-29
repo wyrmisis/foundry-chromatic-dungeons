@@ -44,7 +44,7 @@ CHROMATIC.weaponDamageTypes = {slashing: "Slashing", piercing: 'Piercing', bludg
 CHROMATIC.armorTypes = {armor: 'Armor', shield: 'Shield', helmet: 'Helmet', barding: 'Barding'};
 CHROMATIC.classGroups = {...classGroups, custom: 'Custom'};
 
-CHROMATIC.templateDir = 'systems/foundry-chromatic-dungeons/templates';
+CHROMATIC.templateDir = 'systems/foundry-chromatic-dungeons/dist/templates';
 
 CHROMATIC.spellSchools = {
   abjuration: "Abjuration",

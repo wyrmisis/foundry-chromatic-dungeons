@@ -84,7 +84,7 @@
 
   <main class="sheet-body">
     <div class="attributes">
-      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-attribute.hbs"}}
+      {{> (partial "actor/parts/actor-attribute.hbs") }}
     </div>
 
     <div class="tab-group">
@@ -187,27 +187,27 @@
 
         {{!-- Owned Features Tab --}}
         <div class="tab features" data-group="primary" data-tab="features">
-          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-features.hbs"}}
+          {{> (partial "actor/parts/actor-features.hbs") }}
         </div>
 
         {{!-- Biography Tab --}}
         <div class="tab biography" data-group="primary" data-tab="description">
-          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-biography.hbs"}}
+          {{> (partial "actor/parts/actor-biography.hbs") }}
         </div>
 
         {{!-- Owned Items Tab --}}
         <div class="tab items" data-group="primary" data-tab="items">
-           {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-items.hbs"}}
+           {{> (partial "actor/parts/actor-items.hbs") }}
         </div>
 
         {{!-- Owned Spells Tab --}}
         <div class="tab spells" data-group="primary" data-tab="spells">
-          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-spells.hbs"}}
+          {{> (partial "actor/parts/actor-spells.hbs") }}
         </div>
 
         {{!-- Active Effects Tab --}}
         <div class="tab effects flexcol" data-group="primary" data-tab="effects">
-          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-effects.hbs"}}
+          {{> (partial "actor/parts/actor-effects.hbs") }}
         </div>
       </div>
     </div>

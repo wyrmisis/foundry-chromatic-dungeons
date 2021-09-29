@@ -1,4 +1,4 @@
-import Marked from '../../node_modules/marked/lib/marked.esm.js';
+import Marked from 'marked/lib/marked.esm.js';
 import {getDerivedStat} from './utils.mjs';
 
 /* -------------------------------------------- */
@@ -6,6 +6,7 @@ import {getDerivedStat} from './utils.mjs';
 /* -------------------------------------------- */
 
 const setupHandlebarsHelpers = () => {
+  Handlebars.registerHelper('partial', (partialPath) => `${CONFIG.CHROMATIC.templateDir}/${partialPath}`)
 
   Handlebars.registerHelper('markdown', (input) => Marked(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 

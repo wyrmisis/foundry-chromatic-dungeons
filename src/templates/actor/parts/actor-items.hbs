@@ -26,7 +26,7 @@
       </i>
     </button>
   </h3>
-  {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-weapon-grid.hbs"}}
+  {{> (partial "actor/parts/grids/actor-weapon-grid.hbs") }}
 
   <h3 class="action-header">
     <span>Armor</span>
@@ -36,7 +36,7 @@
       </i>
     </button>
   </h3>
-  {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-armor-grid.hbs"}}
+  {{> (partial "actor/parts/grids/actor-armor-grid.hbs") }}
 
   <h3 class="action-header">
     <span>Gear</span>
@@ -46,7 +46,7 @@
       </i>
     </button>
   </h3>
-  {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-gear-grid.hbs"}}
+  {{> (partial "actor/parts/grids/actor-gear-grid.hbs") }}
 
   <h3 class="action-header">
     <span>Wealth</span>
@@ -56,7 +56,7 @@
       </i>
     </button>
   </h3>
-  {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/grids/actor-wealth-grid.hbs"}}
+  {{> (partial "actor/parts/grids/actor-wealth-grid.hbs") }}
 
   {{#if data.wealth}}
     <h3>Currency</h3>

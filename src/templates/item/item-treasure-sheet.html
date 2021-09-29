@@ -30,43 +30,30 @@
         <section class="item-attributes">
           <div class="item-attributes__group">
             <h2>Attributes</h2>
+            
+            {{> (partial "item/parts/item-attribute.hbs")
+              key="data.quantity.value"
+              value=data.quantity.value
+              label="Quantity"
+              compact=true
+              type="number"
+              dataType="Number"
+            }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.weight.value"
               value=data.weight.value
               label="Weight"
-              type="number"
               compact=true
+              type="number"
               dataType="Number"
             }}
-
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
-              key="data.ac"
-              value=data.ac
-              label="Armor Class"
-              type="number"
-              compact=true
-              dataType="Number"
-            }}
-
-            <div class="item-attributes__item item-attributes__item--compact">
-              <label for="data.armorType">Type</label>
-              <select
-                data-dtype="String"
-                name="data.armorType">
-                {{#select data.armorType}}
-                  {{#each armorTypes as |type key|}}
-                    <option value="{{key}}">{{type}}</option>
-                  {{/each}}
-                {{/select}}
-              </select>
-            </div>
           </div>
 
           <div class="item-attributes__group">
             <h2>Value</h2>
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.pp"
               value=data.cost.pp
               label="pp"
@@ -76,7 +63,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.gp"
               value=data.cost.gp
               label="gp"
@@ -86,7 +73,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.ep"
               value=data.cost.ep
               label="ep"
@@ -97,7 +84,7 @@
 
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.sp"
               value=data.cost.sp
               label="sp"
@@ -107,20 +94,11 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.cp"
               value=data.cost.cp
               label="cp"
               hoverLabel="Copper Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
-              key="data.xp"
-              value=data.xp
-              label="XP Value"
               type="number"
               dataType="Number"
               compact=true

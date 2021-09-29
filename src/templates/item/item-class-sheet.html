@@ -94,7 +94,7 @@
         {{#each data.skills as |skill key|}}
           <li class="skills__row skill" data-item-id="{{key}}">
             <div class="skills__cell">
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key=(concat "data.skills." key ".name")
                 value=skill.name
                 type="text"
@@ -111,7 +111,7 @@
               </select>
             </div>
             <div class="skills__cell">
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key=(concat "data.skills." key ".bonus")
                 value=skill.bonus
                 type="number"
@@ -151,7 +151,7 @@
               </select>
             </div>
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.statBonus"
               value=data.statBonus
               label="Stat Bonus"
@@ -217,7 +217,7 @@
 
           <div class="item-attributes__group">
             <h2>Proficiencies</h2>
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.weaponProf"
               value=data.weaponProf
               label="Weapons"
@@ -226,7 +226,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.armorProf"
               value=data.armorProf
               label="Armor"
@@ -248,7 +248,7 @@
             <h2>Requirements</h2>
 
             {{#each data.requirements as |requirement key|}}
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key=(concat "data.requirements." key)
                 value=requirement
                 label=key
@@ -283,7 +283,7 @@
         {{#each data.features as |feature key|}}
           <div class="feature" data-item-id="{{key}}">
             <header>
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key=(concat "data.features." key ".level")
                 value=feature.level
                 label="Level"
@@ -291,7 +291,7 @@
                 dataType="Number"
               }}
 
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key=(concat "data.features." key ".title")
                 value=feature.title
                 label="Title"

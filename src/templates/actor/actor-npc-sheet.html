@@ -71,7 +71,7 @@
   {{!-- Sheet Body --}}
   <main class="sheet-body">
     <div class="attributes">
-      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-attribute.hbs"}}
+      {{> (partial "actor/parts/actor-attribute.hbs") }}
     </div>
 
     <div class="tab-group">
@@ -359,12 +359,12 @@
 
         {{!-- Owned Items Tab --}}
         <div class="tab sheet-tab sheet-tab--items" data-group="primary" data-tab="items">
-          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-items.hbs"}}
+          {{> (partial "actor/parts/actor-items.hbs") }}
         </div>
 
         {{!-- Active Effects Tab --}}
         <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
-          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-effects.hbs"}}
+          {{> (partial "actor/parts/actor-effects.hbs") }}
         </div>
       </div>
     </div>

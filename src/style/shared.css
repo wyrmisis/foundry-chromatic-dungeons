@@ -5,14 +5,11 @@
   background: var(--sheet-bg-color);
   font-family: var(--sheet-body-font);
   color: var(--sheet-body-color);
-}
 
-.chromatic-dungeons .window-content h1,
-.chromatic-dungeons .window-content h2,
-.chromatic-dungeons .window-content h3,
-.chromatic-dungeons .window-content h4 {
-  font-family:  var(--sheet-heading-font);
-  color: var(--sheet-heading-color);
+  h1, h2, h3, h4 {
+    font-family:  var(--sheet-heading-font);
+    color: var(--sheet-heading-color);
+  }
 }
 
 /**
@@ -48,12 +45,11 @@
   grid-gap: .25em;
   align-items: center;
   margin-bottom: .5em;
-}
 
-.chomatic-dungeons li.grid-list:last-of-type {
-  margin-bottom: 0;
+  &:last-of-type {
+    margin-bottom: 0;
+  }
 }
-
 
 /**
  * Utility classes
@@ -61,8 +57,8 @@
 .sr-only {
   clip: rect(1px, 1px, 1px, 1px);
   clip-path: inset(50%);
-  height: 1px;
   width: 1px;
+  height: 1px;
   margin: -1px;
   overflow: hidden;
   padding: 0;
@@ -71,24 +67,26 @@
 
 .rollable {
   transition: 333ms ease-in-out color;
-}
-.rollable:hover {
-  cursor: pointer;
-  color: var(--sheet-heading-color);
-}
-.rollable:not(.rollable--no-icon)::before {
-  /* Taken from FontAwesome's .fa class */
-  font-weight: 900;
-  font-family: "Font Awesome 5 Free";
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  display: inline-block;
-  font-style: normal;
-  font-variant: normal;
-  text-rendering: auto;
-  line-height: 1;
-  color: var(--sheet-heading-color);
-  content: "\f6cf";
+
+  &:hover {
+    cursor: pointer;
+    color: var(--sheet-heading-color);
+  }
+
+  &:not(.rollable--no-icon)::before {
+    /* Taken from FontAwesome's .fa class */
+    font-weight: 900;
+    font-family: "Font Awesome 5 Free";
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+    color: var(--sheet-heading-color);
+    content: "\f6cf";
+  }
 }
 
 label[title] {

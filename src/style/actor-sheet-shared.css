@@ -1,0 +1,258 @@
+/**
+ * @todo Split out common sheet styles (sheet header/footer/etc)
+ * @todo Typography variables (font size/line height/etc)
+ */
+
+.actor {
+  header.sheet-header {
+    flex: 0 0 32px;
+    flex-direction: column;
+    margin: -8px -8px 1rem -8px;
+    padding: .5rem;
+    box-shadow: var(--elevation-1-shadow);
+
+    .vital {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 4fr 2fr 1fr 1fr;
+      grid-gap: 2rem;
+      align-items: center;
+
+      & > div {
+        display: flex;
+        align-items: center;
+      }
+
+      input, select {
+        font-family:  var(--sheet-heading-font);
+        font-size: 1.5rem;
+        border:  none;
+        border-bottom: 1px solid var(--sheet-body-color);
+        background-color:  transparent;
+        text-align: center;
+      }
+
+      .name input {
+        text-align: left;
+      }
+    }
+  }
+
+  .sheet-body {
+    display: flex;
+
+    .tab-group {
+      flex: 6;
+    }
+  }
+
+  .attributes {
+    flex: 1;
+    margin-right: 1rem;
+
+    .attributes__item {
+      text-align: center;
+      margin-bottom: 1rem;
+
+      label {
+        font-family: var(--sheet-heading-font);
+        font-size:  1.2rem;
+      }
+      input {
+        border: none;
+        border-bottom: 1px solid var(--sheet-body-color);
+        background-color: transparent;
+        font-size: 1.5rem;
+        padding: .6em;
+        max-width: 2.5em;
+        align-self: center;
+      }
+    }
+  }
+
+  .sheet-tab--summary.active {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 1em;
+  }
+
+  saves-list {
+    padding-left: 0;
+
+    .saves-list__item {
+      display: grid;
+      grid-gap: 2rem;
+      align-items: center;
+      grid-template-columns: 6fr 1fr 1fr;
+    }
+
+    .saves-list__score,
+    .saves-list__modifier {
+      text-align: center;
+    }
+  }
+
+  .skills-list {
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+  }
+  .skills-list__item {
+    display: flex;
+    list-style-type: none;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .effects-list {
+    .effects-list__list-item {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
+    }
+    
+    .effects-list__controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    } 
+  }
+
+  .items__carry-weight {
+    display: flex;
+    align-items: center;
+
+    input {
+      max-width: 4em;
+      margin: 0 .5em;
+    }
+  }
+
+  .items__list {
+    padding: 1em;
+    margin: 0 0 1em;
+    box-shadow: var(--elevation-1-shadow);
+
+    .items__list-item {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 1rem;
+      align-items: center;
+      margin-bottom: .5em;
+
+      &.items__list-item--header {
+        font-weight: 600;
+      }
+    }
+
+    .items__list-column--actions {
+      justify-self: end;
+      display: flex;
+
+      button {
+        display: inline-block;
+        width: auto;
+        height: auto;
+      }
+    }
+
+    &.items__list--weapons .items__list-item {
+      grid-template-columns: 5fr 2fr 1fr 1fr;
+    }
+    
+    &.items__list--armor .items__list-item {
+      grid-template-columns: 6fr 1fr 1fr 1fr ;
+    }
+    
+    &.items__list--gear .items__list-item {
+      grid-template-columns: 8fr 1fr;
+    }
+    
+    &.items__list--wealth .items__list-item {
+      grid-template-columns: 7fr 1fr 1fr;
+    }
+
+    .items__list-column--equipped,
+    .items__list-column--quantity {
+      text-align: right;
+    }
+    
+    .items__list-item--empty,
+    .items__list-item .empty {
+      text-decoration: line-through;
+      color: #666;
+      font-style: italic;
+    }
+  }
+
+  .items__currency {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-column-gap: 1em;
+    text-align: center;
+  }
+
+  .features__title {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      width: auto;
+      line-height: 1em;
+      border: none;
+      background: none;
+    }
+  }
+  
+  .features--class {
+    padding:  0;
+
+    .feature__item {
+      display:  grid;
+      grid-template-columns: 1fr 7fr;
+    }
+  }
+  
+  .spell-slots {}
+
+  .prepared-spells {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: .5em;
+    padding: 0;
+    margin-bottom: 1em;
+
+    .prepared-spell__slot {
+      display: block;
+
+      &.prepared-spell__slot--empty {
+        color: #666;
+        font-style: italic;
+      }
+    }
+  }
+
+  .known-spells {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .5em;
+    padding: 0;
+    margin: 0 0 1em 0;
+
+    .known-spell {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      img {
+        width: 32px;
+        height: 32px;
+      }
+      
+      span {
+        margin-left: .5em;
+        margin-right: auto;
+      }
+    }
+  }
+}
