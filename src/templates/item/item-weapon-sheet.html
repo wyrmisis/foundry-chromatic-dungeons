@@ -31,7 +31,7 @@
           <div class="item-attributes__group">
             <h2>Attributes</h2>
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.quantity.value"
               value=data.quantity.value
               label="Quantity"
@@ -40,7 +40,7 @@
               dataType="Number"
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.weight.value"
               value=data.weight.value
               label="Weight"
@@ -53,7 +53,7 @@
           <div class="item-attributes__group">
             <h2>Value</h2>
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.pp"
               value=data.cost.pp
               label="pp"
@@ -63,7 +63,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.gp"
               value=data.cost.gp
               label="gp"
@@ -73,7 +73,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.ep"
               value=data.cost.ep
               label="ep"
@@ -84,7 +84,7 @@
 
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.sp"
               value=data.cost.sp
               label="sp"
@@ -94,7 +94,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.cp"
               value=data.cost.cp
               label="cp"
@@ -104,7 +104,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.xp"
               value=data.xp
               label="XP Value"
@@ -121,7 +121,7 @@
             <h2>Damage</h2>
 
             <div class="damage-container">
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key="data.damage"
                 value=data.damage
                 label="Damage"
@@ -147,7 +147,7 @@
             <h2>Modifiers</h2>
 
             <div class="modifier-container">
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key="data.modDamage"
                 value=data.modDamage
                 label="Damage"
@@ -156,7 +156,7 @@
                 compact=true
               }}
 
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key="data.modToHit"
                 value=data.modToHit
                 label="To Hit"
@@ -165,7 +165,7 @@
                 compact=true
               }}
 
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key="data.speedFactor"
                 value=data.speedFactor
                 label="Speed Factor"
@@ -184,7 +184,7 @@
             </div>
 
             {{#if (equals data.weaponType "ammunition")}}
-              {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+              {{> (partial "item/parts/item-attribute.hbs")
                 key="data.ammunitionType"
                 value=data.ammunitionType
                 label="Ammunition type"
@@ -194,7 +194,7 @@
               }}
             {{else}}
               {{#unless (equals data.weaponType "ranged")}}
-                {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                {{> (partial "item/parts/item-attribute.hbs")
                   key="data.reach"
                   value=data.reach
                   label="Reach (ft)"
@@ -205,7 +205,7 @@
               {{/unless}}
 
               {{#unless (equals data.weaponType "melee")}}
-                {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                {{> (partial "item/parts/item-attribute.hbs")
                   key="data.range"
                   value=data.range
                   label="Range (ft)"
@@ -216,7 +216,7 @@
               {{/unless}}
 
               {{#if (equals data.weaponType "ranged") }}
-                {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+                {{> (partial "item/parts/item-attribute.hbs")
                   key="data.ammunitionType"
                   value=data.ammunitionType
                   label="Ammunition type"

@@ -30,7 +30,7 @@
         <section class="item-attributes">
           <div class="item-attributes__group">
             <h2>Attributes</h2>
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.weight.value"
               value=data.weight.value
               label="Weight"
@@ -43,7 +43,7 @@
           <div class="item-attributes__group">
             <h2>Value</h2>
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.pp"
               value=data.cost.pp
               label="pp"
@@ -53,7 +53,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.gp"
               value=data.cost.gp
               label="gp"
@@ -63,7 +63,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.ep"
               value=data.cost.ep
               label="ep"
@@ -74,7 +74,7 @@
 
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.sp"
               value=data.cost.sp
               label="sp"
@@ -84,7 +84,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.cost.cp"
               value=data.cost.cp
               label="cp"
@@ -94,7 +94,7 @@
               compact=true
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.xp"
               value=data.xp
               label="XP Value"

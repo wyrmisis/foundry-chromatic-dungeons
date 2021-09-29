@@ -86,7 +86,7 @@
 
           <div class="item-attributes__group">
             <h2>Spell Details</h2>
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.range"
               value=data.range
               label="Range (ft)"
@@ -94,7 +94,7 @@
               dataType="String"
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.castingTime"
               value=data.castingTime
               label="Casting Time"
@@ -102,7 +102,7 @@
               dataType="String"
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.duration"
               value=data.duration
               label="Duration"
@@ -110,7 +110,7 @@
               dataType="String"
             }}
 
-            {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+            {{> (partial "item/parts/item-attribute.hbs")
               key="data.areaOfEffect"
               value=data.areaOfEffect
               label="Area of Effect"

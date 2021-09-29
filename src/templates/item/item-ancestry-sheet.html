@@ -34,14 +34,14 @@
     {{!-- Attributes Tab --}}
     <div class="tab attributes" data-group="primary" data-tab="attributes">
       <h2>Mechanical Information</h2>
-      {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+      {{> (partial "item/parts/item-attribute.hbs")
         key="data.movement"
         value=data.movement
         label="Base Move Speed (ft)"
         type="Number"
       }}
 
-      {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+      {{> (partial "item/parts/item-attribute.hbs")
         key="data.infravision"
         value=data.infravision
         label="Infravision (ft)"
@@ -49,7 +49,7 @@
       }}
 
       <h2>Biographical Information</h2>
-      {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+      {{> (partial "item/parts/item-attribute.hbs")
         key="data.height"
         value=data.height
         label="Height Range (in)"
@@ -57,7 +57,7 @@
         isRange=true
       }}
 
-      {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+      {{> (partial "item/parts/item-attribute.hbs")
         key="data.weight"
         value=data.weight
         label="Weight Range (lbs)"
@@ -65,7 +65,7 @@
         isRange=true
       }}
 
-      {{> "systems/foundry-chromatic-dungeons/templates/item/parts/item-attribute.hbs"
+      {{> (partial "item/parts/item-attribute.hbs")
         key="data.lifespan"
         value=data.lifespan
         label="Lifespan (years)"
