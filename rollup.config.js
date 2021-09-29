@@ -1,4 +1,3 @@
-import { babel } from '@rollup/plugin-babel';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import { terser } from "rollup-plugin-terser";
 import copy from "rollup-plugin-copy-assets";
@@ -10,7 +9,6 @@ export default {
     { file: './dist/js/bundle.min.js', plugins: [terser()], format: 'iife' }
   ],
   plugins: [
-    babel(),
     nodeResolve({ browser: true }),
     copy({
       assets: [

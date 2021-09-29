@@ -10,17 +10,7 @@
     {"name": "wyrmisis", "discord": "wyrmisis#8136"}
   ],
   "esmodules": ["dist/js/bundle.min.js"],
-  "styles": [
-    "style/vars.css",
-    "style/shared.css",
-    "style/pc-sheet.css",
-    "style/npc-sheet.css",
-    "style/item-sheet.css",
-    "style/spell-sheet.css",
-    "style/ancestry-sheet.css",
-    "style/heritage-sheet.css",
-    "style/character-class-sheet.css"
-  ],
+  "styles": ["dist/css/bundle.css"],
   "packs": [],
   "languages": [{
     "lang": "en",
