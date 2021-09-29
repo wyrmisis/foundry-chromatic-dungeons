@@ -1,7 +1,5 @@
 # foundry-chromatic-dungeons
 
-![Repository License](https://img.shields.io/github/license/wyrmisis/foundry-chromatic-dungeons) ![Supported Foundry Versions](https://img.shields.io/endpoint?url=https://foundryshields.com/version?url=https://github.com/wyrmisis/foundry-chromatic-dungeons/releases/download/0.0.1/system.json) ![Latest Release Download Count](https://img.shields.io/github/downloads/wyrmisis/foundry-chromatic-dungeons/latest/module.zip)
-
 An implementation of the OSR TTRPG system, Chromatic Dungeons (https://izegrimcreations.com/gaming-related).
 
 **Note**: While this system should be in a functional state, there is still [plenty left to do](docs/todo.md). 
