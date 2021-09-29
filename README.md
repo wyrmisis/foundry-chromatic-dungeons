@@ -8,7 +8,7 @@ An implementation of the OSR TTRPG system, Chromatic Dungeons (https://izegrimcr
 You can grab the latest build of this system by pasting the following into your system installation dialog in Foundry:
 
 ```
-https://github.com/wyrmisis/foundry-chromatic-dungeons/releases/latest/download/module.json
+https://github.com/wyrmisis/foundry-chromatic-dungeons/releases/latest/download/system.json
 ```
 
 ## Development
