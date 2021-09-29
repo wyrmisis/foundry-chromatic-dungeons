@@ -1,12 +1,15 @@
 {
+  "manifestPlusVersion": "1.2.0",
   "name": "foundry-chromatic-dungeons",
   "title": "Chromatic Dungeons",
   "description": "An implementation of Izegrim Creations' Chromatic Dungeons (https://izegrimcreations.com/gaming-related)",
-  "version": "0.0.4",
   "templateVersion": 1,
   "minimumCoreVersion": "0.8.8",
   "author": "wyrmisis",
-  "esmodules": ["module/index.mjs"],
+  "authors": [
+    {"name": "wyrmisis", "discord": "wyrmisis#8136"}
+  ],
+  "esmodules": ["dist/bundle.min.js"],
   "styles": [
     "style/vars.css",
     "style/shared.css",
@@ -31,8 +34,9 @@
   "gridDistance": 5,
   "gridUnits": "ft",
   "primaryTokenAttribute": "hp",
-  "url": "https://github.com/wyrmisis/foundry-chromatic-dungeons",
-  "manifest": "",
-  "download": "",
-  "license": "LICENSE.txt"
+  "license": "LICENSE.txt",
+  "version": "auto-replaced",
+  "url": "auto-replaced",
+  "manifest": "auto-replaced",
+  "download": "auto-replaced"
 }

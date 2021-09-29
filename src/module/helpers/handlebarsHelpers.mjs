@@ -1,4 +1,4 @@
-import Marked from '../../node_modules/marked/lib/marked.esm.js';
+import Marked from 'marked/lib/marked.esm.js';
 import {getDerivedStat} from './utils.mjs';
 
 /* -------------------------------------------- */

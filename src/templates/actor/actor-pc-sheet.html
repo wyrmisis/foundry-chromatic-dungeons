@@ -1,0 +1,219 @@
+<form class="{{cssClass}} sheet sheet--pc" autocomplete="off">
+  {{#if accentColor}}
+    <style>
+      .actor {
+        --sheet-heading-color: {{accentColor}}
+      }
+    </style>
+  {{/if}}
+  
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <div class="vital">
+      <div class="name">
+        <input
+          name="name"
+          type="text"
+          value="{{actor.name}}"
+          placeholder="Name"/>
+      </div>
+
+      <div class="hp">
+        <label 
+          for="data.hp.value"
+          class="hp__label">
+          <i class="fa fa-heart">
+            <span class="sr-only">
+              {{localize "SHEET.hp"}}
+            </span>
+          </i>
+        </label>
+        
+        <input
+          type="number"
+          name="data.hp.value"
+          value="{{data.hp.value}}"
+          max="{{data.hp.max}}"
+          data-dtype="Number"/>
+        <span>/</span>
+        <input
+          type="number"
+          name="data.hp.max"
+          min="{{data.hp.value}}"
+          value="{{data.hp.max}}"
+          data-dtype="Number" />
+      </div>
+
+      <div class="ac">
+        <label 
+          for="ac"
+          class="ac__label">
+          <i class="fa fa-universal-access">
+            <span class="sr-only">
+              {{localize "SHEET.ac"}}
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="ac"
+          value="{{ac}}"
+          readonly
+          data-dtype="Number"/>
+      </div>
+
+      <div class="move">
+        <label 
+          for="move"
+          class="move__label">
+          <i class="fa fa-forward">
+            <span class="sr-only">
+              Move Speed
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="move"
+          value="{{move}}"
+          readonly
+          data-dtype="Number"/>
+      </div>
+    </div>
+  </header>
+
+  <main class="sheet-body">
+    <div class="attributes">
+      {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-attribute.hbs"}}
+    </div>
+
+    <div class="tab-group">
+      {{!-- Sheet Tab Navigation --}}
+      <nav class="sheet-tabs tabs" data-group="primary">
+        {{!-- Default tab is specified in actor-sheet.mjs --}}
+        <a class="item" data-tab="summary">Summary</a>
+        <a class="item" data-tab="items">Items</a>
+        {{#if hasSpellcasting}}
+          <a class="item" data-tab="spells">Spells</a>
+        {{/if}}
+        <a class="item" data-tab="effects">Effects</a>
+        <a class="item" data-tab="features">Features</a>
+        <a class="item" data-tab="description">Description</a>
+      </nav>
+
+      <div class="tab-group__container">
+        <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
+          <div class="saves">
+            <h2>{{localize 'SHEET.saves'}}</h2>
+            <ul class="saves-list">
+              <li class="saves-list__item saves-list__item--header">
+                <div class="saves-list__name"></div>
+                <div class="saves-list__score">
+                  {{localize 'SHEET.listheadings.saves.value'}}
+                </div>
+                <div class="saves-list__modifier">
+                  {{localize 'SHEET.listheadings.saves.modifier'}}
+                </div>
+              </li>
+              {{#each saves as |save key|}}
+                <li class="saves-list__item">
+                  <div
+                    class="saves-list__name rollable"
+                    data-label="{{localize (concat 'SHEET.save.' key)}}"
+                    data-roll-type="Save"
+                    data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+                    {{localize (concat 'SHEET.save.' key)}}
+                  </div>
+                  <div class="saves-list__score">{{save}}</div>
+                  <div class="saves-list__modifier">
+                    <input type="text" readonly value="{{signedString (lookup ../saveMods key)}}" />
+                  </div>
+                </li>
+              {{/each}}
+              <li>
+                {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
+                  Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.
+                {{/if}}
+              </li>
+          </div>
+
+          <div class="quick-access__equipment">
+            <h2>Equipped Items</h2>
+            <ul>
+            {{#each equippedItems}}
+              <li
+                data-item-id="{{_id}}"
+                data-roll-type="item"
+                data-label="{{item.name}}"
+                class="{{#if (equals type "weapon")}}rollable{{/if}}"
+              >
+              {{name}}</li>
+            {{/each}}
+            </ul>
+          </div>
+
+          {{#if skills.length}}
+          <div class="quick-access__class-skills">
+            <h2>Class Skills</h2>
+            {{#each skills}}
+              <h3 class="action-header">
+                <span>{{name}}</span>
+                <button type="button" data-item-action="edit" data-item-id="{{id}}">
+                  <i class="fa fa-edit">
+                    <span class="sr-only">Edit the {{name}} class</span>
+                  </i>
+                </button>
+              </h3>
+              <ul class="skills-list">
+                {{#each skills}}
+                <li class="skills-list__item">
+                  <span
+                    class="rollable"
+                    data-label="{{name}}"
+                    data-roll-type="Skill"
+                    data-roll="1d20-{{bonus}}">
+                    {{name}}
+                  </span>
+                  <span>
+                    {{bonus}}
+                  </span>
+                </li>
+                {{/each}}
+              </ul>
+            {{/each}}
+          </div>
+          {{/if}}
+        </div>
+
+        {{!-- Owned Features Tab --}}
+        <div class="tab features" data-group="primary" data-tab="features">
+          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-features.hbs"}}
+        </div>
+
+        {{!-- Biography Tab --}}
+        <div class="tab biography" data-group="primary" data-tab="description">
+          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-biography.hbs"}}
+        </div>
+
+        {{!-- Owned Items Tab --}}
+        <div class="tab items" data-group="primary" data-tab="items">
+           {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-items.hbs"}}
+        </div>
+
+        {{!-- Owned Spells Tab --}}
+        <div class="tab spells" data-group="primary" data-tab="spells">
+          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-spells.hbs"}}
+        </div>
+
+        {{!-- Active Effects Tab --}}
+        <div class="tab effects flexcol" data-group="primary" data-tab="effects">
+          {{> "systems/foundry-chromatic-dungeons/templates/actor/parts/actor-effects.hbs"}}
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="sheet-footer">
+    
+  </footer>
+</form>

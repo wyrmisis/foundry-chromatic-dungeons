@@ -1,0 +1,48 @@
+<ul class="items__list items__list--armor">
+  <li class="items__list-item items__list-item--header">
+    <div class="items__list-column items__list-column--name">
+      Name
+    </div>
+
+    <div class="items__list-column items__list-column--type">
+      Type
+    </div>
+
+    <div class="items__list-column items__list-column--ac">
+      AC
+    </div>
+
+    <div class="items__list-column items__list-column--equipped">
+      Eq.
+    </div>
+  </li>
+  {{#each armor as |item id|}}
+    <li
+      class="items__list-item items__list-item"
+      data-armor-type="{{item.data.armorType}}"
+      data-item-id="{{item._id}}">
+      <div class="items__list-column items__list-column--name">
+        {{item.name}}
+      </div>
+
+      <div class="items__list-column items__list-column--type">
+        {{dynamicProp ../armorTypes item.data.armorType}}
+      </div>
+
+      <div class="items__list-column items__list-column--ac">
+        {{signedString item.data.ac}}
+      </div>
+
+      <div class="items__list-column items__list-column--equipped">
+        <input
+          type="checkbox"
+          name="data.equipped"
+          {{checked item.data.equipped}} />
+      </div>
+    </li>
+  {{else}}
+    <li class="items__list-item items__list-item--empty">
+      <span>Empty</span>
+    </li>
+  {{/each}}
+</ul>
