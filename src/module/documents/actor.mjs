@@ -74,6 +74,8 @@ export class BoilerplateActor extends Actor {
       mods: this._getSaveMods()
     };
 
+    data.perception = this._getPerception();
+
     data.initiative = this._getInitiative();
 
     if (this.isToken)
@@ -103,6 +105,8 @@ export class BoilerplateActor extends Actor {
     data.move = this._getMoveSpeed();
 
     data.spellcasting = this._getSpellSlots();
+
+    data.maxLanguages = getDerivedStatWithContext('int', 'languages', this.data.data)
   }
 
   /**
@@ -133,6 +137,12 @@ export class BoilerplateActor extends Actor {
     this._getNpcRollData(data);
 
     return data;
+  }
+
+  _getPerception() {
+    return this.data.data.modPerception
+      + getDerivedStatWithContext('wis', 'modPerception', this.data.data)
+      + parseInt(this.data.data.perceptionMod || 0); // @todo refactor NPC template data to not have this name
   }
 
   /**
@@ -396,6 +406,8 @@ export class BoilerplateActor extends Actor {
   _getCharacterRollData(data) {
     if (this.data.type !== 'pc') return;
 
+    // Class levels
+    // e.g. @barbarianLevel
     this._getItemsOfType('class').forEach( ({name, data: classData}) => {
       let escapedName = name.split(' ')
         .map((str, idx) => !idx 
@@ -406,19 +418,6 @@ export class BoilerplateActor extends Actor {
 
       data[escapedName] = getLevelFromXP(classData.data.xp);
     });
-
-    // Copy the ability scores to the top level, so that rolls can use
-    // formulas like `@str.mod + 4`.
-    // if (data.abilities) {
-    //   for (let [k, v] of Object.entries(data.abilities)) {
-    //     data[k] = foundry.utils.deepClone(v);
-    //   }
-    // }
-
-    // Add level for easier access, or fall back to 0.
-    // if (data.attributes.level) {
-    //   data.lvl = data.attributes.level.value ?? 0;
-    // }
   }
 
   /**

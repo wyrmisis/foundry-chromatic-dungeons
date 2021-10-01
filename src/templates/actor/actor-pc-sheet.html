@@ -154,15 +154,17 @@
 
           {{#if skills.length}}
           <div class="quick-access__class-skills">
-            <h2>Class Skills</h2>
+            <h2>Skills</h2>
             {{#each skills}}
               <h3 class="action-header">
                 <span>{{name}}</span>
+                {{#if @index}}
                 <button type="button" data-item-action="edit" data-item-id="{{id}}">
                   <i class="fa fa-edit">
                     <span class="sr-only">Edit the {{name}} class</span>
                   </i>
                 </button>
+                {{/if}}
               </h3>
               <ul class="skills-list">
                 {{#each skills}}
@@ -172,7 +174,7 @@
                     data-label="{{name}}"
                     data-roll-type="Skill"
                     data-roll="1d20-{{bonus}}">
-                    {{name}}
+                    {{name}} ({{attribute}})
                   </span>
                   <span>
                     {{bonus}}

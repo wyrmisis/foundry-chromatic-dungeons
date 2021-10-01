@@ -8,6 +8,14 @@ import {getDerivedStat} from './utils.mjs';
 const setupHandlebarsHelpers = () => {
   Handlebars.registerHelper('partial', (partialPath) => `${CONFIG.CHROMATIC.templateDir}/${partialPath}`)
 
+  /**
+   * arbitraryLoop
+   * 
+   * We need to do something X number of times in a Handlebars
+   * template, but we don't have an array for it.
+   */
+  Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}))
+
   Handlebars.registerHelper('markdown', (input) => Marked(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 
     [null, undefined].includes(value) 

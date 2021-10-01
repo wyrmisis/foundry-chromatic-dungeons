@@ -92,6 +92,10 @@
     }
   }
 
+  .quick-access__class-skills {
+    grid-column: 1/4;
+  }
+
   .skills-list {
     margin: 0;
     padding: 0;
@@ -178,6 +182,16 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-column-gap: 1em;
     text-align: center;
+  }
+
+  .features {
+    &.features--languages {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: .5rem;
+      list-style-type: none;
+      padding: 0;
+    }
   }
 
   .features__title {

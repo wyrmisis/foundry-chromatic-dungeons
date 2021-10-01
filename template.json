@@ -21,7 +21,8 @@
         "modAC": 0,
         "modMove": 0,
         "modToHit": 0,
-        "modDamage": 0
+        "modDamage": 0,
+        "modPerception": 0
       }
     },
     "pc": {

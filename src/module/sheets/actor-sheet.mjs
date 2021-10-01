@@ -198,9 +198,8 @@ export class BoilerplateActorSheet extends ActorSheet {
     ];
     context.wealth = wealth;
     context.spells = spells;
-    context.skills = classes
-      .filter(item => item?.skills)
-      .map(({name, id, skills}) => ({name, id, skills}));
+    context.skills = this._formatSkillsForUse(classes);
+
 
     // character traits
     context.ancestry = ancestry;
@@ -209,6 +208,34 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Equipped gear
     context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
+  }
+
+  _formatSkillsForUse(classes) {
+    const listFactory = (name, id, skills) => ({
+      name, id, skills
+    });
+
+    const skillFactory = (name, attribute, bonus) => ({
+      name, attribute, bonus
+    });
+
+    const commonSkills = [
+      ['Perception', 'wis', this.actor.data.data.perception]
+    ];
+
+    let commonSkillList = [listFactory(
+      'Common Skills',
+      randomID(),
+      commonSkills.map(
+        (skill) => skillFactory(...skill)
+      )
+    )];
+    
+    let classSkillList = classes
+      .filter(item => item?.skills)
+      .map(({name, id, skills}) => ({name, id, skills}));
+
+    return [...commonSkillList, ...classSkillList];
   }
 
   _formatWeaponForUse(item, actor) {
