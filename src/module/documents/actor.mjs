@@ -396,6 +396,17 @@ export class BoilerplateActor extends Actor {
   _getCharacterRollData(data) {
     if (this.data.type !== 'pc') return;
 
+    this._getItemsOfType('class').forEach( ({name, data: classData}) => {
+      let escapedName = name.split(' ')
+        .map((str, idx) => !idx 
+          ? str.toLowerCase() 
+          : str.replace(/^\w/, c => c.toUpperCase())
+        )
+        .join('') + 'Level';
+
+      data[escapedName] = getLevelFromXP(classData.data.xp);
+    });
+
     // Copy the ability scores to the top level, so that rolls can use
     // formulas like `@str.mod + 4`.
     // if (data.abilities) {

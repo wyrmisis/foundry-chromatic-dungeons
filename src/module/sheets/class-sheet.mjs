@@ -1,3 +1,5 @@
+import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
+
 import {
   getLevelFromXP,
   getClassGroupAtLevel,
@@ -65,6 +67,8 @@ export default class ClassSheet extends ItemSheet {
     context.flags = itemData.flags;
     context.level = getLevelFromXP(itemData.data.xp);
     context.xpToNextLevel = getNextLevelXP(itemData.data.xp);
+
+    context.effects = prepareActiveEffectCategories(this.item.effects);
 
     if (itemData.data.classGroup) {
       context.classGroupAll = CONFIG.CHROMATIC.classGroups[itemData.data.classGroup];
@@ -190,5 +194,7 @@ export default class ClassSheet extends ItemSheet {
           this.item.delete();
         });
     })
+
+    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.item));
   }
 }
