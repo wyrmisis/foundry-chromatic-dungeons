@@ -29,6 +29,10 @@
     {
       "name": "fvtt-lib-wrapper",
       "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
+    },
+    {
+      "name": "fvtt-rolldata-aware-active-effects",
+      "manifest": "https://github.com/wyrmisis/fvtt-rolldata-aware-active-effects/releases/latest/download/module.json"
     }
   ],
   "gridDistance": 5,
