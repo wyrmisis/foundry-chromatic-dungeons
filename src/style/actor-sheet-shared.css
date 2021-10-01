@@ -106,18 +106,6 @@
     align-items: center;
   }
   
-  .effects-list {
-    .effects-list__list-item {
-      display: grid;
-      grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
-    }
-    
-    .effects-list__controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-    } 
-  }
-
   .items__carry-weight {
     display: flex;
     align-items: center;

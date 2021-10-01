@@ -13,3 +13,6 @@
 /* @import url('./heritage-sheet.css'); */
 @import url('./item-sheet.css');
 /* @import url('./spell-sheet.css'); */
+
+/* Components */
+@import url('./effects-list.css');
