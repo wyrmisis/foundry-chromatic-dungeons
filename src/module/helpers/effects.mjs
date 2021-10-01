@@ -7,15 +7,16 @@
   event.preventDefault();
   const a = event.currentTarget;
   const li = a.closest("li");
-  const effect = li.dataset.effectId ? owner.effects.get(li.dataset.effectId) : null;
+  const {effectType} = a.closest("[data-effect-type]").dataset;
+  const effect = li?.dataset?.effectId ? owner.effects.get(li.dataset.effectId) : null;
   switch ( a.dataset.action ) {
     case "create":
       return owner.createEmbeddedDocuments("ActiveEffect", [{
         label: "New Effect",
         icon: "icons/svg/aura.svg",
         origin: owner.uuid,
-        "duration.rounds": li.dataset.effectType === "temporary" ? 1 : undefined,
-        disabled: li.dataset.effectType === "inactive"
+        "duration.rounds": effectType === "temporary" ? 1 : undefined,
+        disabled: effectType === "inactive"
       }]);
     case "edit":
       return effect.sheet.render(true);

@@ -13,6 +13,8 @@ import { CHROMATIC } from "./helpers/config.mjs";
 import setupHandlebarsHelpers from './helpers/handlebarsHelpers.mjs';
 import { hasThisAlready, reportAndQuit } from './helpers/utils.mjs';
 
+import './effects/active-effects.js';
+
 /* -------------------------------------------- */
 /*  Init Hook                                   */
 /* -------------------------------------------- */
