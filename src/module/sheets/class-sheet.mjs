@@ -12,18 +12,6 @@ import {
  * @extends {ItemSheet}
  */
 export default class ClassSheet extends ItemSheet {
-  _deleteConfirmationModal() {
-    return Dialog.confirm({
-      title: `Delete ${this.item.name}?`,
-      content: "Are you sure you want to delete this class? This cannot be undone.",
-      yes: () => console.log("Chose One"),
-      no: () => console.log("Chose Two"),
-      defaultYes: false,
-      rejectClose: true
-    });
-  }
-
-
   /** @override */
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
@@ -186,13 +174,6 @@ export default class ClassSheet extends ItemSheet {
       this.item.update({
         'data.spellPoints': spellPoints
       })
-    })
-
-    html.find('.class__delete').click(evt => {
-      this._deleteConfirmationModal()
-        .then(() => {
-          this.item.delete();
-        });
     })
 
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.item));
