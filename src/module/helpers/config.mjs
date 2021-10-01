@@ -17,6 +17,8 @@ export const CHROMATIC = {};
  */
 CHROMATIC.attributes = { str, int, wis, dex, con, cha };
 
+CHROMATIC.baseAC = 10;
+
 CHROMATIC.attributeLabels = {
   "str": "BOILERPLATE.AbilityStr",
   "dex": "BOILERPLATE.AbilityDex",

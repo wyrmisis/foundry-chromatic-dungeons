@@ -74,6 +74,8 @@ export class BoilerplateActor extends Actor {
       mods: this._getSaveMods()
     };
 
+    data.initiative = this._getInitiative();
+
     if (this.isToken)
       this.token.update({ ['data.overlayEffect']: this._getOverlayIcon() });
   }
@@ -133,6 +135,14 @@ export class BoilerplateActor extends Actor {
     return data;
   }
 
+  /**
+   * 
+   * @returns Number  the initiative modifier value.
+   */
+  _getInitiative() {
+    return (this.data.data.modInitiative || 0) + getDerivedStatWithContext('dex', 'modInitiative', this.data.data)
+  }
+
   _getCarryWeight() {
     let items = [].concat(
       this._getItemsOfType('weapon'),
@@ -166,12 +176,19 @@ export class BoilerplateActor extends Actor {
   }
 
   _getAC() {
-    const baseAC = 10 + 
+    const baseAC = (this.data.data.baseAC || CONFIG.CHROMATIC.baseAC) + 
       this.data.data.modAC + 
       getDerivedStatWithContext('dex', 'modAgility', this.data.data);
 
+    // If your base AC is higher than the default base AC,
+    // you don't get the benefit of armor
+    // (see Bracers of Protection, etc)
+    const getArmor = (baseAC <= CONFIG.CHROMATIC.baseAC)
+      ? ({data}) => data.data.equipped
+      : () => false;
+
     return this
-      ._getItemsOfType('armor', ({data}) => data.data.equipped)
+      ._getItemsOfType('armor', getArmor)
       .reduce((prev, {data}) => prev + data.data.ac, baseAC);
   }
 
@@ -419,7 +436,7 @@ export class BoilerplateActor extends Actor {
     /**
      * @todo There's got to be a better way to do this.
      */
-    if (updated.isToken && updated.token.object) {
+    if (updated?.isToken && updated?.token?.object) {
       const hp = updated.data.data.hp.value;
       const alreadyDead = updated.token.data.overlayEffect === CONFIG.CHROMATIC.ICONS.DEATH;
       const alreadyUnconscious = updated.token.data.overlayEffect === CONFIG.CHROMATIC.ICONS.UNCONSCIOUS;

@@ -95,7 +95,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.move = this.actor.data.data.move;
     context.carryWeight = this.actor.data.data.carryWeight
     
-    if (this.actor.id === game.user.character.id) {
+    if (this.actor.id === game.user?.character?.id) {
       context.accentColor = game.user.color;
     }
   }

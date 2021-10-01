@@ -15,20 +15,24 @@
       },
       "saveMods": {
         "saveMods": { "reflex": 0, "poison": 0, "creature": 0, "spell": 0 }
+      },
+      "modifiers": {
+        "modInitiative": 0,
+        "modAC": 0,
+        "modMove": 0,
+        "modToHit": 0,
+        "modDamage": 0
       }
     },
     "pc": {
-      "templates": ["attributes", "wealth", "meta", "saveMods"],
-      "modAC": 0,
-      "modMove": 0,
-      "modToHit": 0,
-      "modDamage": 0,
+      "templates": ["attributes", "wealth", "meta", "modifiers", "saveMods"],
       "hp": { "value": 10, "min": 0, "max": 10 },
+      "baseAC": 10,
       "spellPoints": {},
       "spellSlots": {}
     },
     "npc": {
-      "templates": ["attributes", "meta"],
+      "templates": ["attributes", "meta", "modifiers", "saveMods"],
       "type": "",
       "numberAppearing": "",
       "size": "",
