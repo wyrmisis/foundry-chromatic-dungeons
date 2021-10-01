@@ -1,3 +1,5 @@
+import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
+
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
@@ -31,6 +33,8 @@ export class BoilerplateItemSheet extends ItemSheet {
   getData() {
     // Retrieve base data structure.
     const context = super.getData();
+
+    context.effects = prepareActiveEffectCategories(this.item.effects);
 
     // Use a safe clone of the item data for further operations.
     const itemData = context.item.data;
@@ -84,5 +88,6 @@ export class BoilerplateItemSheet extends ItemSheet {
       });
     });
     
+    html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.item));
   }
 }

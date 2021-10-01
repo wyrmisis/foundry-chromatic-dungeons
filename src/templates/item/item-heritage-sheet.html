@@ -13,7 +13,7 @@
   </nav>
 
   {{!-- Sheet Body --}}
-  <section class="sheet-body">
+  <main class="sheet-body">
     {{log data}}
 
     {{!-- Description Tab --}}
@@ -23,8 +23,8 @@
     </div>
 
     {{!-- Attributes Tab --}}
-    <div class="tab effects" data-group="primary" data-tab="effects">
-      {{!-- As you add new fields, add them in here! --}}
+    <div class="tab" data-group="primary" data-tab="effects">
+      {{> (partial "item/parts/item-effects.hbs") }}
     </div>
-  </section>
+  </main>
 </form>

@@ -16,134 +16,120 @@
     </div>
   </header>
 
-  {{!-- Sheet Tab Navigation --}}
-  <nav class="sheet-tabs tabs" data-group="primary">
-    <a class="item" data-tab="attributes">Attributes</a>
-    <a class="item" data-tab="effects">Effects</a>
-  </nav>
-
   {{!-- Sheet Body --}}
   <main class="sheet-body">
-    {{!-- Attributes Tab --}}
-    <div class="tab" data-group="primary" data-tab="attributes">
-      <div class="attributes">
-        <section class="item-attributes">
-          <div class="item-attributes__group">
-            <h2>Basic Information</h2>
+    <div class="attributes">
+      <section class="item-attributes">
+        <div class="item-attributes__group">
+          <h2>Basic Information</h2>
 
-            <div class="item-attributes__item item-attributes__item--compact">
-              <label for="data.school">School</label>
+          <div class="item-attributes__item item-attributes__item--compact">
+            <label for="data.school">School</label>
+            <select
+              data-dtype="String"
+              name="data.school">
+              {{#select data.school}}
+                {{#each spellSchools as |school key|}}
+                  <option value="{{key}}">{{school}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+          </div>
+
+          <h3 class="action-header">
+            <span>Spell Levels</span>
+            <span>
+              <button type="button" data-action="add-spell-level">
+                <i class="fa fa-plus">
+                  <span class="sr-only">Add Casting Class</span>
+                </i>
+              </button>
+            </span>
+          </h2>
+
+          {{#each data.spellLevels as |levelItem key| }}
+            <div class="item-attributes__item item-attributes__item--grid item-attributes__item--spell-levels">
               <select
                 data-dtype="String"
-                name="data.school">
-                {{#select data.school}}
-                  {{#each spellSchools as |school key|}}
-                    <option value="{{key}}">{{school}}</option>
+                name="data.spellLevels.{{key}}.sourceId">
+                {{#select levelItem.sourceId }}
+                  {{#each ../castingClasses as |class classkey|}}
+                    <option value="{{classkey}}">{{class}}</option>
                   {{/each}}
                 {{/select}}
               </select>
+
+              <input
+                type="number"
+                data-dtype="Number"
+                name="data.spellLevels.{{key}}.level"
+                value="{{levelItem.level}}" />
+
+              <button type="button" data-class="{{key}}" data-action="delete-spell-level">
+                <i class="fa fa-trash">
+                  <span class="sr-only">Remove {{key}}</span>
+                </i>
+              </button>
             </div>
+          {{/each}}
+        </div>
 
-            <h3 class="action-header">
-              <span>Spell Levels</span>
-              <span>
-                <button type="button" data-action="add-spell-level">
-                  <i class="fa fa-plus">
-                    <span class="sr-only">Add Casting Class</span>
-                  </i>
-                </button>
-              </span>
-            </h2>
+        {{log data.spellLevels}}
 
-            {{#each data.spellLevels as |levelItem key| }}
-              <div class="item-attributes__item item-attributes__item--grid item-attributes__item--spell-levels">
-                <select
-                  data-dtype="String"
-                  name="data.spellLevels.{{key}}.sourceId">
-                  {{#select levelItem.sourceId }}
-                    {{#each ../castingClasses as |class classkey|}}
-                      <option value="{{classkey}}">{{class}}</option>
-                    {{/each}}
-                  {{/select}}
-                </select>
+        <div class="item-attributes__group">
+          <h2>Spell Details</h2>
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="data.range"
+            value=data.range
+            label="Range (ft)"
+            type="text"
+            dataType="String"
+          }}
 
-                <input
-                  type="number"
-                  data-dtype="Number"
-                  name="data.spellLevels.{{key}}.level"
-                  value="{{levelItem.level}}" />
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="data.castingTime"
+            value=data.castingTime
+            label="Casting Time"
+            type="text"
+            dataType="String"
+          }}
 
-                <button type="button" data-class="{{key}}" data-action="delete-spell-level">
-                  <i class="fa fa-trash">
-                    <span class="sr-only">Remove {{key}}</span>
-                  </i>
-                </button>
-              </div>
-            {{/each}}
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="data.duration"
+            value=data.duration
+            label="Duration"
+            type="text"
+            dataType="String"
+          }}
+
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="data.areaOfEffect"
+            value=data.areaOfEffect
+            label="Area of Effect"
+            type="text"
+            dataType="String"
+          }}
+
+          <div class="item-attributes__item">
+            <label for="data.save">Save Type</label>
+            <select
+              data-dtype="String"
+              name="data.save">
+              {{#select data.save}}
+                <option value="none">N/A</option>                  
+                {{#each saves as |save key|}}
+                  <option value="{{key}}">{{save}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
           </div>
+        </div>
+      </section>
 
-          {{log data.spellLevels}}
-
-          <div class="item-attributes__group">
-            <h2>Spell Details</h2>
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.range"
-              value=data.range
-              label="Range (ft)"
-              type="text"
-              dataType="String"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.castingTime"
-              value=data.castingTime
-              label="Casting Time"
-              type="text"
-              dataType="String"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.duration"
-              value=data.duration
-              label="Duration"
-              type="text"
-              dataType="String"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.areaOfEffect"
-              value=data.areaOfEffect
-              label="Area of Effect"
-              type="text"
-              dataType="String"
-            }}
-
-            <div class="item-attributes__item">
-              <label for="data.save">Save Type</label>
-              <select
-                data-dtype="String"
-                name="data.save">
-                {{#select data.save}}
-                  <option value="none">N/A</option>                  
-                  {{#each saves as |save key|}}
-                    <option value="{{key}}">{{save}}</option>
-                  {{/each}}
-                {{/select}}
-              </select>
-            </div>
-          </div>
-        </section>
-
-        <section class="item-description">
-          <h2>Description</h2>
-          {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
-        </section>
-      </div>
+      <section class="item-description">
+        <h2>Description</h2>
+        {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+      </section>
     </div>
-
-    {{!-- Effects Tab --}}
-    <div class="tab" data-group="primary" data-tab="effects">
-      TODO: Active Effects
-    </div>
-  </section>
+  </main>
 </form>
