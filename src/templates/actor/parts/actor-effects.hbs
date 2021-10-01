@@ -21,7 +21,6 @@
 
     <ul class="effects-list">
       <li class="effects-list__list-item effects-list__list-item--header">
-        <div class="effects-list__icon"></div>
         <div class="effects-list__name">Name</div>
         <div class="effects-list__source">Source</div>
         <div class="effects-list__duration">Duration</div>
@@ -29,7 +28,7 @@
       {{#each section.effects as |effect|}}
         <li
           data-effect-id="{{effect.id}}"
-          class="effects-list__list-item effects-list__list-item--header">
+          class="effects-list__list-item">
           <div class="effects-list__icon">
             <img
               class="item-image"
@@ -53,14 +52,20 @@
               title="{{localize 'BOILERPLATE.EffectEdit'}}">
               <i class="fas fa-edit"></i>
             </button>
-            <button
-              type="button"
-              class="effect-control"
-              data-action="delete"
-              title="{{localize 'BOILERPLATE.EffectDelete'}}">
-              <i class="fas fa-trash"></i>
-            </button>
+            {{#if (eq effect.sourceName ../../actor.name)}}
+              <button
+                type="button"
+                class="effect-control"
+                data-action="delete"
+                title="{{localize 'BOILERPLATE.EffectDelete'}}">
+                <i class="fas fa-trash"></i>
+              </button>
+            {{/if}}
           </div>
+        </li>
+      {{else}}
+        <li class="effects-list__list-item effects-list__list-item--empty">
+          <span>No applied effects</span> 
         </li>
       {{/each}}
     </ul>
