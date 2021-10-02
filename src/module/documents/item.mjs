@@ -61,10 +61,10 @@ export class BoilerplateItem extends Item {
       return false;
     }
 
-    preparedSpellsAtLevel.push(spell.id);
-
     this.update({
-      [`data.preparedSpells.${level}`]: preparedSpellsAtLevel
+      ['data.preparedSpells']: {
+        [level]: [...preparedSpellsAtLevel, spell.id]
+      }
     });
   }
 
