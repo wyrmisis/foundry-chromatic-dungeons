@@ -1,4 +1,6 @@
 import {
+  hasThisAlready,
+  reportAndQuit,
   getMonsterXP,
   getDerivedStatWithContext,
   getLevelFromXP,
@@ -431,6 +433,59 @@ export class BoilerplateActor extends Actor {
 
   _isPC() {
     return this.data.type === 'pc';
+  }
+
+  createEmbeddedDocuments(docname, droppedItems) {
+    super.createEmbeddedDocuments(
+      docname,
+      droppedItems.map(droppedItem => {
+        console.info(droppedItem);
+        if (
+          this.type !== 'pc' && (
+          droppedItem.type === 'ancestry' ||
+          droppedItem.type === 'heritage' ||
+          droppedItem.type === 'class'
+        ))
+          return reportAndQuit('Only PCs can have an ancestry, heritage, or class');
+    
+        if (droppedItem.type === 'ancestry') {
+          const actorAncestry = this.items.find(item => item.type === 'ancestry');
+    
+          if (actorAncestry)
+            return reportAndQuit(`${this.name} already has an ancestry`);
+        }
+    
+        // @todo Add a setting for number of heritages
+        if (droppedItem.type === 'heritage') {
+          const actorHeritages = this.items.filter(item => item.type === 'heritage');
+    
+          if (hasThisAlready('heritage', droppedItem, actorHeritages))
+            return reportAndQuit(`${this.name} already has the ${droppedItem.name} heritage`);
+    
+          if (actorHeritages.length >= 2)
+            return reportAndQuit(`${this.name} already has two heritages`);
+        }
+
+        // // // @todo Add a setting for class stat requirements
+        if (droppedItem.type === 'class') {
+          const actorClasses = this.items.filter(item => item.type === 'class');
+
+          if (hasThisAlready('class', droppedItem, actorClasses))
+            return reportAndQuit(`${this.name} already has the ${droppedItem.name} class`);
+
+          const reqs = droppedItem.data.requirements
+          const attributes = this.data.data.attributes;
+          const missedReqs = Object.keys(reqs).filter(
+            (reqKey) => attributes[reqKey] < reqs[reqKey]
+          );
+
+          if (missedReqs.length)
+            return reportAndQuit(`${this.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
+        }
+
+        return droppedItem
+      }).filter(item => item)
+    );
   }
 
   /**

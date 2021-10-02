@@ -8,4 +8,3 @@ import './hooks/init'
 /* -------------------------------------------- */
 import './hooks/hotbarDrop';
 import './hooks/createToken';
-import './hooks/dropActorSheetData';
