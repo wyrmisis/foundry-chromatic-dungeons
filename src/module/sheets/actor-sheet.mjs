@@ -48,6 +48,9 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.data = actorData.data;
     context.flags = actorData.flags;
 
+    context.armorTypes = CONFIG.CHROMATIC.armorTypes;
+    context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
+
     // Prepare character data and items.
     if (actorData.type == 'pc') {
       this._prepareItems(context);
@@ -82,14 +85,6 @@ export class BoilerplateActorSheet extends ActorSheet {
    * @return {undefined}
    */
   _prepareCharacterData(context) {
-    // Handle ability scores.
-    // for (let [k, v] of Object.entries(context.data.attributes)) {
-    //   v.label = game.i18n.localize(CONFIG.CHROMATIC.attributeLabels[k]) ?? k;
-    // }
-
-    // Constants for the template
-    context.armorTypes = CONFIG.CHROMATIC.armorTypes;
-    
     // computed/derived stats
     context.hasSpellcasting = !!context.classes.filter(obj => obj.hasSpellcasting).length;
     context.move = this.actor.data.data.move;
@@ -108,21 +103,8 @@ export class BoilerplateActorSheet extends ActorSheet {
    * @return {undefined}
    */
    _prepareNpcData(context) {
-    // Handle ability scores.
-    // for (let [k, v] of Object.entries(context.data.attributes)) {
-    //   v.label = game.i18n.localize(CONFIG.CHROMATIC.attributeLabels[k]) ?? k;
-    // }
-
     // Constants for the template
     context.monsterTypes = CONFIG.CHROMATIC.monsterTypes;
-    context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
-    
-    // computed/derived stats
-    // context.move = this.actor.data.data.move;
-    // context.saves = this.actor.data.data.saves.targets;
-    // context.saveMods = this.actor.data.data.saves.mods;
-    // context.carryWeight = this.actor.data.data.carryWeight
-    // context.ac = this.actor.data.data.ac;
   }
 
   /**
@@ -450,7 +432,6 @@ export class BoilerplateActorSheet extends ActorSheet {
   }
 
   _castSpell(itemNode) {
-    console.info(itemNode);
     const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
     classItem.castSpell(spellId, spellLevel)
   }

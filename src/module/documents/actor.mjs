@@ -439,7 +439,6 @@ export class BoilerplateActor extends Actor {
     super.createEmbeddedDocuments(
       docname,
       droppedItems.map(droppedItem => {
-        console.info(droppedItem);
         if (
           this.type !== 'pc' && (
           droppedItem.type === 'ancestry' ||
