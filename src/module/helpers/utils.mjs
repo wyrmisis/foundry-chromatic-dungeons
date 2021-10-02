@@ -1,8 +1,15 @@
-const getDerivedStat = (attrAbbr, attrValue, derivedKey) =>
-  CONFIG.CHROMATIC.attributes[attrAbbr][attrValue][derivedKey];
+const getDerivedStat = (attrAbbr, attrValue, derivedKey) => {
+  if (attrValue < 3)  attrValue = 3;
+  if (attrValue > 25) attrValue = 25;
+  return CONFIG.CHROMATIC.attributes[attrAbbr][attrValue][derivedKey];
+}
 
-const getDerivedStatWithContext = (attrAbbr, derivedKey, context) =>
-  CONFIG.CHROMATIC.attributes[attrAbbr][context.attributes[attrAbbr]][derivedKey];
+const getDerivedStatWithContext = (attrAbbr, derivedKey, context) => {
+  let attrValue = context.attributes[attrAbbr];
+  if (attrValue < 3)  attrValue = 3;
+  if (attrValue > 25) attrValue = 25;
+  return CONFIG.CHROMATIC.attributes[attrAbbr][attrValue][derivedKey];
+}
 
 const getSelf = () => game.users.find(user => user.id === game.userId);
 
