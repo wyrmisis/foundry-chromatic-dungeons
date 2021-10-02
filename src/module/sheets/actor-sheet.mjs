@@ -308,7 +308,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     this.knownSpellMenu = new ContextMenu(
       $('.known-spells'),
-      '.known-spell',
+      '.spell',
       [
         {
           name: 'Prepare',
@@ -325,6 +325,23 @@ export class BoilerplateActorSheet extends ActorSheet {
           name: 'Delete',
           icon: '<i class="fa fa-trash" />',
           callback: (node) => this._deleteOwnedItem(node)
+        },
+      ]
+    );
+
+    this.knownSpellMenu = new ContextMenu(
+      $('.prepared-spells'),
+      '.spell',
+      [
+        {
+          name: 'Cast',
+          icon: '<i class="fa fa-star" />',
+          callback: (node) => this._castSpell(node)
+        },
+        {
+          name: 'Clear',
+          icon: '<i class="fa fa-trash" />',
+          callback: (node) => this._clearSpell(node)
         },
       ]
     );
@@ -387,12 +404,8 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
 
-    html.find('.prepared-spell__slot:not(prepared-spell__slot--empty)').click(async (ev) => {
-      const spellId = ev.currentTarget.dataset.itemId;
-      const spellLevel = ev.currentTarget.closest('.spell-level').dataset.spellLevel;
-      const classItem = this.actor.items.get(ev.currentTarget.closest('.spell-level').dataset.itemId);
-
-      classItem.castSpell(spellId, spellLevel)
+    html.find('.prepared-spells .spell:not(prepared-spells .spell--empty)').click(async (ev) => {
+      this._castSpell($(ev.currentTarget));
     })
 
     // Drag events for macros.
@@ -432,12 +445,27 @@ export class BoilerplateActorSheet extends ActorSheet {
   }
 
   _prepareSpell(itemNode) {
+    const [classItem, spellLevel, spellId, spellItem] = this._getSpellPropsFromNode(itemNode);
+    classItem.prepareSpell(spellItem, spellLevel);
+  }
+
+  _castSpell(itemNode) {
+    console.info(itemNode);
+    const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
+    classItem.castSpell(spellId, spellLevel)
+  }
+
+  _clearSpell(itemNode) {
+    const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
+    classItem.castSpell(spellId, spellLevel, true)
+  }
+
+  _getSpellPropsFromNode(itemNode) {
     const {itemId: classId, spellLevel} = itemNode.parents('.spell-level').data();
     const {itemId: spellId} = itemNode.data();
     const classItem = this.actor.items.get(classId);
     const spellItem = this.actor.items.get(spellId);
-
-    classItem.prepareSpell(spellItem, spellLevel);
+    return [classItem, spellLevel, spellId, spellItem];
   }
 
   _editOwnedItem(itemNode) {

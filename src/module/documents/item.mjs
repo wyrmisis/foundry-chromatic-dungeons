@@ -68,7 +68,7 @@ export class BoilerplateItem extends Item {
     });
   }
 
-  castSpell(spellId, spellLevel) {
+  castSpell(spellId, spellLevel, shouldClearWithoutCasting) {
     try {
       const spellToCast = this.data.data.preparedSpellSlots[parseInt(spellLevel) - 1]
         .find(spell => spell.id === spellId);
@@ -78,11 +78,16 @@ export class BoilerplateItem extends Item {
 
       const copiedSpellsAtLevel = [...this.data.data.preparedSpells[spellLevel]];
 
+      const clearSpell = () => this.update({
+        [`data.preparedSpells.${spellLevel}`]: copiedSpellsAtLevel
+      });
+
       copiedSpellsAtLevel.splice(spellToPrune, 1);
 
-      spellToCast.roll().then(() => this.update({
-        [`data.preparedSpells.${spellLevel}`]: copiedSpellsAtLevel
-      }));
+      if (shouldClearWithoutCasting)
+        clearSpell();
+      else
+        spellToCast.roll().then(clearSpell);
     } catch (e) {
       ui.notifications.warn('You can\'t cast a spell from an empty slot!');
     }

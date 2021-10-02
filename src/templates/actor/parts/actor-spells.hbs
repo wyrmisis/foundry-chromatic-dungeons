@@ -22,13 +22,13 @@
             {{#each (paddedTo (getClassPreparedSpellsAtLevel ../../classes classKey key) slot.max) as |spell spellKey|}}
               {{#if spell}}
                 <li
-                  class="prepared-spell__slot"
+                  class="spell"
                   data-item-id="{{spell.id}}">
                   <img src="{{img}}">
-                  {{spell.name}}
+                  <span class="spell__spell-name">{{spell.name}}</span>
                 </li>
               {{else}}
-                <li class="prepared-spell__slot prepared-spell__slot--empty">Empty</li>
+                <li class="spell spell--empty">Empty</li>
               {{/if}}
             {{/each}}
           </ul>
@@ -36,22 +36,12 @@
           <h4>Known Spells</h4>
           <ul class="known-spells">
             {{#each (spellsAtLevel ../../spells class key)}}
-              <li class="known-spell" data-item-id="{{_id}}">
+              <li class="spell" data-item-id="{{_id}}">
                 <img src="{{img}}">
-                <span class="known-spell__spell-name">{{name}}</span>
-                <div class="known-spell__controls">
-                  <button type="button" data-item-id="{{_id}}" data-item-action="edit">
-                    <i class="fa fa-eye">
-                      <span class="sr-only">Examine Spell</span>
-                    </i>
-                  </button>
-                  <button type="button" data-item-id="{{_id}}" data-item-action="delete">
-                    <i class="fa fa-trash">
-                      <span class="sr-only">Discard Spell</span>
-                    </i>
-                  </button>
-                </div>
+                <span class="spell__spell-name">{{name}}</span>
               </li>
+            {{else}}
+              <li class="spell spell--empty">Empty</li>
             {{/each}}
           </ul>
         </div>
