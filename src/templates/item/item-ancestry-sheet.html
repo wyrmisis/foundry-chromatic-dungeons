@@ -1,18 +1,17 @@
 <form class="{{cssClass}}" autocomplete="off">
   <header class="sheet-header">
-    <img
-      class="profile-img"
-      src="{{item.img}}"
-      data-edit="img"
-      title="{{item.name}}"/>
-    <div class="header-fields">
-      <h1 class="charname">
-        <input
-          name="name"
-          type="text"
-          value="{{item.name}}"
-          placeholder="Name"/>
-      </h1>
+    <div class="sheet-header__container">
+      <img
+        class="profile-img"
+        src="{{item.img}}"
+        data-edit="img"
+        title="{{item.name}}"/>
+      <input
+        class="name"
+        name="name"
+        type="text"
+        value="{{item.name}}"
+        placeholder="Name"/>
     </div>
   </header>
 
@@ -40,6 +39,7 @@
         value=data.movement
         label="Base Move Speed (ft)"
         type="Number"
+        compact=true
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
@@ -47,6 +47,7 @@
         value=data.infravision
         label="Infravision (ft)"
         type="Number"
+        compact=true
       }}
 
       <h2>Biographical Information</h2>
@@ -71,6 +72,7 @@
         value=data.lifespan
         label="Lifespan (years)"
         type="Number"
+        compact=true
       }}
     </div>
 
@@ -79,8 +81,15 @@
         <ul class="feature__list">
           {{#each data.features as |feature id|}}
             <li class="feature__list-item" data-id="{{id}}">
-              <div class="feature__body">
-                <textarea name="data.features.{{id}}">{{feature}}</textarea>
+              <div class="feature">
+                {{editor
+                  content=feature
+                  target=(concat "data.features." id)
+                  rollData=../rollData
+                  button=true
+                  owner=../owner
+                  editable=../editable
+                }}
               </div>
               <div class="feature__controls">
                 <button type="button" class="feature__delete">

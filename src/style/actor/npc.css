@@ -1,7 +1,7 @@
 .sheet--npc {
   header.sheet-header {
-    .vital {
-      grid-template-columns: 5fr 2fr 1fr;
+    .sheet-header__container {
+      grid-template-columns: 4fr 3fr 3fr 1fr;
     }
 
     .ac {

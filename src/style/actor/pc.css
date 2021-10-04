@@ -1,4 +1,8 @@
 .sheet--pc {
+  .sheet-header__container {
+    grid-template-columns: 4fr 2fr 1fr 1fr;
+  }
+
   .sheet-tab--biography {
     .biography__appearance {
       display: grid;

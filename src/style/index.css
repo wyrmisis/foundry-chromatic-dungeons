@@ -1,6 +1,6 @@
 /* Shared */
-@import url('./shared/vars.css');
-@import url('./shared/shared.css');
+@import url('./shared/_vars.css');
+@import url('./shared/_shared.css');
 @import url('./shared/markdown-editor-fixes.css');
 
 /* Components */

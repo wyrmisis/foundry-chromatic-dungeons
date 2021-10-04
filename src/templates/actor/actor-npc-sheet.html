@@ -2,23 +2,21 @@
 
   {{!-- Sheet Header --}}
   <header class="sheet-header npc-header">
-    <div class="vital">
-      <div class="name">
-        <input
-          name="name"
-          type="text"
-          value="{{actor.name}}"
-          placeholder="Name"/>
-          (
-            <select name="data.type" data-dtype="string">
-              {{#select data.type}}
-                {{#each monsterTypes as |name key|}}
-                  <option value="{{key}}">{{name}}</option>
-                {{/each}}
-              {{/select}}
-            </select>
-          )
-      </div>
+    <div class="sheet-header__container">
+      <input
+        class="name"
+        name="name"
+        type="text"
+        value="{{actor.name}}"
+        placeholder="Name"/>
+        
+      <select name="data.type" data-dtype="string">
+        {{#select data.type}}
+          {{#each monsterTypes as |name key|}}
+            <option value="{{key}}">{{name}}</option>
+          {{/each}}
+        {{/select}}
+      </select>
       
       <div class="hp">
         <label 

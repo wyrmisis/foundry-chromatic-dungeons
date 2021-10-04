@@ -27,6 +27,14 @@
 }
 
 .item {
+  .sheet-tab {
+    &--description {
+      .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+        min-height: 250px;
+      }
+    }
+  }
+
   &-description {
     .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
       min-height: 365px;

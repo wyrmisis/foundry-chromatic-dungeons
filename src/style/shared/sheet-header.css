@@ -1,0 +1,57 @@
+header.sheet-header {
+  flex: 0 0 32px;
+  flex-direction: column;
+  margin: -8px -8px 1rem -8px;
+  padding: .5rem;
+  box-shadow: var(--elevation-1-shadow);
+
+  /*
+      Foundry's image header CSS is pretty aggressive,
+      and we need to override it to use CSS grids.
+    */
+  .sheet-header__container {
+    img {
+      width: 100%;
+      height: auto;
+      flex: unset;
+      margin: 0;
+    }
+  }
+}
+
+.sheet-header__container {
+  display: grid;
+  width: 100%;
+  grid-gap: 1rem;
+  align-items: center;
+
+  /*
+    Be sure to override columns per sheet type!
+    It's set to something useless here so you're
+    forced to set it on the sheet level
+    */
+  grid-template-columns: 1fr 8fr;
+  
+
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+
+  input, select {
+    font-family:  var(--sheet-heading-font);
+    font-size: 1.5rem;
+    text-align: center;
+    border:  none;
+    border-bottom: 1px solid var(--sheet-body-color);
+    background-color:  transparent;
+
+    &:read-only {
+      border: none;
+    }
+  }
+
+  .name {
+    text-align: left;
+  }
+}

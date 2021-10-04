@@ -1,18 +1,17 @@
 <form class="{{cssClass}}" autocomplete="off">
   <header class="sheet-header">
-    <img
-      class="profile-img"
-      src="{{item.img}}"
-      data-edit="img"
-      title="{{item.name}}"/>
-    <div class="header-fields">
-      <h1 class="charname">
-        <input
-          name="name"
-          type="text"
-          value="{{item.name}}"
-          placeholder="Name"/>
-      </h1>
+    <div class="sheet-header__container">
+      <img
+        class="profile-img"
+        src="{{item.img}}"
+        data-edit="img"
+        title="{{item.name}}"/>
+      <input
+        class="name"
+        name="name"
+        type="text"
+        value="{{item.name}}"
+        placeholder="Name"/>
     </div>
   </header>
 
@@ -26,7 +25,7 @@
   {{!-- Sheet Body --}}
   <main class="sheet-body">
     {{!-- Attributes Tab --}}
-    <div class="tab" data-group="primary" data-tab="attributes">
+    <div class="tab sheet-tab sheet-tab--attributes" data-group="primary" data-tab="attributes">
       <div class="attributes">
         <section class="item-attributes">
           <div class="item-attributes__group">
@@ -233,13 +232,13 @@
     </div>
 
     {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
+    <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
       {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
     </div>
 
     {{!-- Effects Tab --}}
-    <div class="tab" data-group="primary" data-tab="effects">
+    <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
       {{> (partial "item/parts/item-effects.hbs") }}
     </div>
   </main>
