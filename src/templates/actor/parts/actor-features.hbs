@@ -60,13 +60,13 @@
     </span>
   </h3>
 
-  <ul class="features features--heritage">
-    {{#each heritage.data.features as |feature|}}
-      <li class="feature__item">{{{markdown feature}}}</li>
+  <div class="features features--heritage">
+    {{#if heritage.data.description}}
+      {{{markdown heritage.data.description}}}
     {{else}}
-      <li class="feature__item feature__item--empty">This heritage has no features</li>
-    {{/each}}
-  </ul>
+      <p>This heritage does not have a description</p>
+    {{/if}}
+  </div>
 {{else}}
     <p class="feature__item--empty">No heritages selected</p>
 {{/each}}
@@ -90,17 +90,10 @@
   </h3>
 
   <ul class="features features--class">
-    <li class="feature__item feature__item--header">
-      <div class="feature__cell feature__cell--level">Lv.</div>
-      <div class="feature__cell feature__cell--feature">Feature</div>
-    </li>
     {{#each class.features as |feature featurekey|}}
       <li class="feature__item">
-        <div class="feature__cell feature__cell--level">{{feature.level}}</div>
-        <div class="feature__cell feature__cell--feature">
-          <h4>{{feature.title}}</h4>
-          {{{markdown feature.content}}}
-        </div>
+        <h4>{{feature.title}}</h4>
+        {{{markdown feature.content}}}
       </li>
     {{else}}
       <li class="feature__item feature__item--empty">This class does not have any features at this level.</li>
