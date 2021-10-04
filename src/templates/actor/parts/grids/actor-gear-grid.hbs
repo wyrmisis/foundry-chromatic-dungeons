@@ -16,10 +16,11 @@
       </div>
       <div class="items__list-column items__list-column--quantity">
         <input
-          type="text"
-          readonly
-          value="{{item.data.quantity.value}}"
-          name="data.quantity.value" />
+          type="number"
+          data-dtype="Number"
+          data-action="quantity-update"
+          min="{{item.data.quantity.min}}"
+          value="{{item.data.quantity.value}}" />
       </div>
     </li>
   {{else}}

@@ -414,6 +414,21 @@ export class BoilerplateActorSheet extends ActorSheet {
         }
       });
     });
+
+    html.find('[data-action="quantity-update"]').change(ev => {
+      const item = this.actor.items.get(
+        $(ev.currentTarget).parents(itemClass).data('itemId')
+      );
+
+      const value = parseInt(ev.currentTarget.value),
+            {min, value: old} = item.data.data.quantity; 
+
+      if (old === value) return; // don't waste resources on non-changes
+      
+      item.update({
+        ['data.quantity.value']: value >= min ? value : min
+      });
+    });
   }
 
   _canPrepareSpell(itemNode) {
