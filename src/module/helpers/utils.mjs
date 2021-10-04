@@ -28,12 +28,24 @@ const getMonsterXP = (
   return base;
 }
 
+const get20thLevelXP = () => CONFIG.CHROMATIC
+  .xp.find(({level}) => level === 20).xp
+
+const getNextLevelXP = (xp) =>
+  (xp < get20thLevelXP())
+    ? CONFIG.CHROMATIC.xp.find(
+      (xpRow) => xp < xpRow.xp
+    ).xp
+    : get20thLevelXP();
+
 const getLevelFromXP = (xp) =>
-  CONFIG.CHROMATIC.xp.reduce(
-    (level, xpRow) =>
-      (xp >= xpRow.xp) ? xpRow.level : level,
-    0
-  );
+  (xp < get20thLevelXP())
+    ? CONFIG.CHROMATIC.xp.reduce(
+      (level, xpRow) =>
+        (xp >= xpRow.xp) ? xpRow.level : level,
+      0
+    )
+    : 20
 
 const getClassGroupAtLevel = (classGroup, level) => {
   let group = {
@@ -49,11 +61,6 @@ const getClassGroupAtLevel = (classGroup, level) => {
 
   return reducedGroup;
 };
-
-const getNextLevelXP = (xp) =>
-  CONFIG.CHROMATIC.xp.find(
-    (xpRow) => xp < xpRow.xp
-  ).xp;
 
 const reportAndQuit = (msg) => {
   ui.notifications.error(msg);
