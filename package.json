@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "CSS compiler for the Boilerplate system",
   "scripts": {
-    "build": "npm run build:js && npm run build:css",
+    "build": "npm-run-all -p  build:js build:css",
     "build:js": "rollup --config ./rollup.config.js",
     "build:css": "postcss src/style/index.css -o dist/css/bundle.css",
+    "start": "npm-run-all -p watch:js watch:css",
     "watch:js": "rollup --config ./rollup.config.js --watch",
-    "watch:css": "postcss src/style/index.css -o dist/css/bundle.css --watch",
-    "start": "rollup --watch --config ./rollup.config.js"
+    "watch:css": "postcss src/style/index.css -o dist/css/bundle.css --watch"
   },
   "browserslist": [
     "last 3 versions"
@@ -30,6 +30,7 @@
     "cq-prolyfill": "^0.4.0",
     "cssnano": "^5.0.8",
     "eslint": "^7.32.0",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.3.8",
     "postcss-cli": "^9.0.1",
     "postcss-import": "^14.0.2",
