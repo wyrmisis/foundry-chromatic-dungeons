@@ -6,9 +6,22 @@
   font-family: var(--sheet-body-font);
   color: var(--sheet-body-color);
 
-  h1, h2, h3, h4 {
+  h1, h2, h3 {
     font-family:  var(--sheet-heading-font);
     color: var(--sheet-heading-color);
+  }
+
+  h4, h5, h6 {
+    font-family: var(--sheet-body-font);
+    color: var(--sheet-body-color);
+    font-weight: 600;
+  }
+
+  input, select {
+    &:read-only {
+      border: none;
+      background: none;
+    }
   }
 }
 
@@ -102,10 +115,6 @@ label[title] {
  */
 .tab.description {
   margin: 0;
-}
-
-.tab .editor {
-  height: 100%;
 }
 
 .tox .tox-editor-container {

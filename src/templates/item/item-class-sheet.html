@@ -59,7 +59,7 @@
   {{!-- Sheet Body --}}
   <main class="sheet-body">
     {{!-- Description Tab --}}
-    <div class="tab" data-group="primary" data-tab="description">
+    <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
       {{editor
         content=data.description
@@ -72,7 +72,7 @@
     </div>
 
     {{!-- Skills Tab --}}
-    <div class="tab" data-group="primary" data-tab="skills">
+    <div class="tab sheet-tab sheet-tab--skills" data-group="primary" data-tab="skills">
       <div class="features__header">
         <h2 class="action-header">
           <span>Class Skills</span>
@@ -131,7 +131,7 @@
     </div>
 
     {{!-- Configuration Tab --}}
-    <div class="tab" data-group="primary" data-tab="configuration">
+    <div class="tab sheet-tab sheet-tab--configuration" data-group="primary" data-tab="configuration">
       <div class="attributes">
         <section class="item-attributes">
           <div class="item-attributes__group">
@@ -264,7 +264,7 @@
     </div>
 
     {{!-- Features Tab --}}
-    <div class="tab" data-group="primary" data-tab="features">
+    <div class="tab sheet-tab sheet-tab--features" data-group="primary" data-tab="features">
       <div class="features__header">
         <h2 class="action-header">
           <span>Class Features</span>
@@ -320,7 +320,7 @@
     </div>
 
     {{!-- Saves Tab --}}
-    <div class="tab" data-group="primary" data-tab="saves">
+    <div class="tab sheet-tab sheet-tab--saves" data-group="primary" data-tab="saves">
       <table>
         <thead>
           <tr>
@@ -350,7 +350,7 @@
     </div>
 
     {{!-- Spellcasting Tab --}}
-    <div class="tab" data-group="primary" data-tab="spellcasting">
+    <div class="tab sheet-tab sheet-tab--spellcasting" data-group="primary" data-tab="spellcasting">
       {{#if data.hasSpellPoints}}
         <ul class="spellcasting-table spellcasting-table--points">
           <li class="spellcasting-table__row spellcasting-table__row--header">
@@ -425,7 +425,7 @@
     </div>
 
     {{!-- Effects Tab --}}
-    <div class="tab" data-group="primary" data-tab="effects">
+    <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
       {{> (partial "item/parts/item-effects.hbs") }}
     </div>
   </section>

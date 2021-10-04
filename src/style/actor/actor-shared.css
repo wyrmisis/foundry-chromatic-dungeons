@@ -26,10 +26,14 @@
       input, select {
         font-family:  var(--sheet-heading-font);
         font-size: 1.5rem;
+        text-align: center;
         border:  none;
         border-bottom: 1px solid var(--sheet-body-color);
         background-color:  transparent;
-        text-align: center;
+
+        &:read-only {
+          border: none;
+        }
       }
 
       .name input {
@@ -76,7 +80,7 @@
     grid-gap: 1em;
   }
 
-  saves-list {
+  .saves-list {
     padding-left: 0;
 
     .saves-list__item {
@@ -103,6 +107,7 @@
     grid-template-columns: 1fr 1fr;
     grid-gap: 1em;
   }
+
   .skills-list__item {
     display: flex;
     list-style-type: none;
@@ -112,11 +117,15 @@
   
   .items__carry-weight {
     display: flex;
-    align-items: center;
+    align-items: baseline;
 
     input {
       max-width: 4em;
       margin: 0 .5em;
+
+      &:first-of-type {
+        text-align: right;
+      }
     }
   }
 
@@ -179,7 +188,7 @@
 
   .items__currency {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-column-gap: 1em;
     text-align: center;
   }
@@ -210,8 +219,11 @@
     padding:  0;
 
     .feature__item {
-      display:  grid;
-      grid-template-columns: 1fr 7fr;
+      margin-bottom: .5em;
+      align-items: center;
+      padding: .5rem;
+      box-shadow: var(--elevation-1-shadow);
+      list-style-type: none;
     }
   }
   

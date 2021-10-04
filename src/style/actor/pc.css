@@ -1,0 +1,19 @@
+.sheet--pc {
+  .sheet-tab--biography {
+    .biography__appearance {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      grid-gap: 1em;
+
+      h2 {
+        grid-column: 1/4;
+      }
+    }
+
+    .biography__portrait {
+      border: none;
+      background-color: rgba(0, 0, 0, .05);
+      box-shadow: inset var(--elevation-1-shadow);
+    }
+  }
+}

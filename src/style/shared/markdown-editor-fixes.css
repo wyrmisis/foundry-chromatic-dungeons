@@ -1,0 +1,41 @@
+.CodeMirror {
+  box-shadow: inset var(--elevation-1-shadow);
+}
+
+.sheet--pc {
+  .sheet-tab--biography {
+    .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+      min-height: 160px;
+    }
+  }
+}
+
+.sheet--npc {
+  .sheet-tab {
+    &--description {
+      .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+        min-height: 382px;
+      }
+    }
+
+    &--items {
+      .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+        min-height: 100px;
+      }
+    }
+  }
+}
+
+.item {
+  &-description {
+    .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+      min-height: 365px;
+    }
+  }
+
+  .feature {
+    .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+      min-height: 100px;
+    }
+  }
+}
