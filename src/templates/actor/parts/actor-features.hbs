@@ -2,13 +2,13 @@
 
 {{#if data.maxLanguages}}
   <ul class="features features--languages">
-    {{#each (arbitraryLoop data.maxLanguages) }}
+    {{#each (paddedTo data.languages data.maxLanguages) }}
       <li class="feature__item">
         <input
           type="text"
           data-dtype="String"
-          name="data.languages"
-          value="{{lookup data.languages @index}}"/>
+          name="data.languages.[{{@index}}]"
+          value="{{lookup ../data.languages (concat '[' @index ']') }}"/>
       </li>
     {{/each}}
   </ul>
