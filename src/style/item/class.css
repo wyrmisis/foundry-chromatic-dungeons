@@ -87,4 +87,22 @@
       align-items: flex-start; 
     }
   }
+
+  .item-attributes__group--requirements {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1em;
+
+    h2 {
+      grid-column: 1/4;
+    }
+
+    .requirement {
+      text-align: center;
+
+      label {
+        margin-bottom: .25em;
+      }
+    }
+  }
 }

@@ -243,19 +243,18 @@
             </div>
           </div>
 
-          <div class="item-attributes__group">
+          <div class="item-attributes__group item-attributes__group--requirements">
             <h2>Requirements</h2>
-
+    
             {{#each data.requirements as |requirement key|}}
-              {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.requirements." key)
-                value=requirement
-                label=key
-                hoverLabel=key
-                type="number"
-                dataType="Number"
-                compact=true
-              }}
+              <div class="requirement">
+                <label for="{{concat "data.requirement" key}}">{{localizeAttr key}}</label>
+                <input
+                  type="number"
+                  data-dtype="Number"
+                  name="{{concat "data.requirements." key}}"
+                  value="{{requirement}}" />
+              </div>
             {{/each}}
           </div>
         </section>
