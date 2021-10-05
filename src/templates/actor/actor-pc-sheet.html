@@ -129,11 +129,11 @@
                   </div>
                 </li>
               {{/each}}
-              <li>
-                {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
-                  Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.
-                {{/if}}
-              </li>
+              
+            </ul>
+            {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
+              <p>Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.</p>
+            {{/if}}
           </div>
 
           <div class="quick-access__equipment">

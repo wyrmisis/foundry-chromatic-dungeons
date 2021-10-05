@@ -95,28 +95,19 @@
             </h3>
             <ul class="attack-list">
                 <li class="attack attack--header">
-                  <span></span>
                   <span>Name</span>
                   <span>Damage</span>
-                  <span>Atk. Mod</span>
-                  <span>Atk. Type</span>
+                  <span class="attack__attack-mod">Mod</span>
+                  <span>Type</span>
+                  <span></span>
                 </li>
               {{#each data.attacks as |attack key|}}
-                <li class="attack">
-                  <span>
-                    <button type="button"  data-action="delete-npc-attack" data-index="{{key}}">
-                      <i class="fa fa-trash">
-                        <span class="sr-only">Delete Attack #{{@index}}</span>
-                      </i>
-                    </button>
-                  </span>
-                  <span>
-                    <input
-                      type="text"
-                      data-dtype="String"
-                      name="data.attacks.{{key}}.attack"
-                      value="{{attack.attack}}">
-                  </span>
+                <li class="attack" data-index="{{key}}">
+                  <input
+                    type="text"
+                    data-dtype="String"
+                    name="data.attacks.{{key}}.attack"
+                    value="{{attack.attack}}">
                   <span class="attack__damage">
                     <input
                       type="text"
@@ -137,22 +128,20 @@
                       )
                     )
                   }}</span>
-                  <span>
-                    <select name="data.attacks.{{key}}.weaponType" data-dtype="string">
-                      {{#select attack.weaponType}}
-                        {{#each ../weaponTypes as |name key|}}
-                          <option value="{{key}}">{{name}}</option>
-                        {{/each}}
-                      {{/select}}
-                    </select>
-                  </span>
-                  <span
-                  class="rollable"
-                  data-label="Attack {{@index}}: {{attack.attack}}"
-                  data-roll-type="natural-attack"
-                  data-damage="{{attack.damage}}">
-                    Roll
-                  </span>
+                  <select name="data.attacks.{{key}}.weaponType" data-dtype="string">
+                    {{#select attack.weaponType}}
+                      {{#each ../weaponTypes as |name key|}}
+                        <option value="{{key}}">{{name}}</option>
+                      {{/each}}
+                    {{/select}}
+                  </select>
+                  <button
+                    class="rollable"
+                    data-label="Attack {{@index}}: {{attack.attack}}"
+                    data-roll-type="natural-attack"
+                    data-damage="{{attack.damage}}">
+                    <span class="sr-only">Roll</span>
+                  </button>
                 </li>
               {{/each}}
             </ul>
@@ -194,12 +183,20 @@
                   </div>
                 </li>
               {{/each}}
-              <li>
-                {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
-                  Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.
-                {{/if}}
+              <li class="saves-list__item">
+                <div
+                  class="saves-list__name rollable"
+                  data-label="Morale"
+                  data-roll-type="Morale"
+                  data-roll="1d20">
+                  Morale
+                </div>
+                <div class="saves-list__score">{{data.morale}}</div>
               </li>
             </ul>
+            {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
+              <p>Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.</p>
+            {{/if}}
           </div>
 
           <div class="stat-region stat-region--defenses">

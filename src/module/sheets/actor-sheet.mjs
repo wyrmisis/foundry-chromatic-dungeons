@@ -328,6 +328,18 @@ export class BoilerplateActorSheet extends ActorSheet {
       ]
     );
 
+    this.knownSpellMenu = new ContextMenu(
+      $('.sheet--npc .attack-list'),
+      '.attack:not(.attack--header)',
+      [
+        {
+          name: 'Delete',
+          icon: '<i class="fa fa-trash" />',
+          callback: (node) => this._deleteMonsterAttack(node)
+        },
+      ]
+    );
+
     // Add Inventory Item
     html.find('.item-create').click(this._onItemCreate.bind(this));
 
@@ -428,6 +440,16 @@ export class BoilerplateActorSheet extends ActorSheet {
       item.update({
         ['data.quantity.value']: value >= min ? value : min
       });
+    });
+  }
+
+  _deleteMonsterAttack(itemNode) {
+    const { index } = itemNode.data();
+
+    this.actor.update({
+      [`data.attacks`]: {
+        [`-=${index}`]: null
+      }
     });
   }
 

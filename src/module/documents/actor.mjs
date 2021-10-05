@@ -119,7 +119,9 @@ export class BoilerplateActor extends Actor {
 
     const data = actorData.data;
 
-    data.ac = parseInt(data.ac);
+    data.ac = this._getAC();
+
+    data.morale = parseInt(data.hitDice) + data.baseMorale;
 
     data.calculatedXP = getMonsterXP(
       data.hitDice,
@@ -188,20 +190,42 @@ export class BoilerplateActor extends Actor {
   }
 
   _getAC() {
-    const baseAC = (this.data.data.baseAC || CONFIG.CHROMATIC.baseAC) + 
-      this.data.data.modAC + 
-      getDerivedStatWithContext('dex', 'modAgility', this.data.data);
+    let baseAC = (parseInt(this.data.data.baseAC) || CONFIG.CHROMATIC.baseAC);
+    let ac = baseAC;
 
-    // If your base AC is higher than the default base AC,
-    // you don't get the benefit of armor
-    // (see Bracers of Protection, etc)
-    const getArmor = (baseAC <= CONFIG.CHROMATIC.baseAC)
-      ? ({data}) => data.data.equipped
-      : () => false;
+    // If the AC is equal to baseAC, it's pretty safe
+    // to get the dex mod for AC, even if dex is already
+    // factored into baseAC
+
+    // If the AC is greater than baseAC, it's probably
+    // a monster from the book, which has dex factored
+    // into its AC
+
+    let usingBaseAC = baseAC === CONFIG.CHROMATIC.baseAC;
+
+    // Why both checks here?
+    // * Custom monsters can't alter baseAC
+    // * PCs can use the dex mod even if their
+    //   base AC is higher than normal
+    // * Book monsters have baseAC baked in
+    if (usingBaseAC || this._isPC())
+      ac += getDerivedStatWithContext('dex', 'modAgility', this.data.data);
+
+    // The AC modifier usually comes from magic items
+    // It can be used to fine-tune monster AC too!
+    ac += this.data.data.modAC;
+    
+    // If your base AC is higher than the default base AC
+    // and you're not an NPC, you don't get the benefit of 
+    // armor (see Bracers of Protection, etc)
+    if (this._isPC() && !usingBaseAC)
+      return ac;
+
+    const getArmor = ({data}) => data.data.equipped;
 
     return this
       ._getItemsOfType('armor', getArmor)
-      .reduce((prev, {data}) => prev + data.data.ac, baseAC);
+      .reduce((prev, {data}) => prev + data.data.ac, ac);
   }
 
   _getSaves() {
