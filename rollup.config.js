@@ -24,7 +24,7 @@ export default {
   output: [
     {
       file: './dist/js/bundle.js',
-      sourcemaps: true
+      sourcemap: true
     },
     {
       file: './dist/js/bundle.min.js',
