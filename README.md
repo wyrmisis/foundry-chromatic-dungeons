@@ -1,6 +1,6 @@
 # foundry-chromatic-dungeons
 
-An implementation of the OSR TTRPG system, Chromatic Dungeons (https://izegrimcreations.com/gaming-related).
+An implementation of the OSR TTRPG system, [Chromatic Dungeons](https://izegrimcreations.com/gaming-related). You can buy the core game from [DriveThruRPG](https://www.drivethrurpg.com/product/352086/Chromatic-Dungeons-RPG).
 
 **Note**: While this system should be in a functional state, there is still [plenty left to do](docs/todo.md). 
 
@@ -16,15 +16,10 @@ https://github.com/wyrmisis/foundry-chromatic-dungeons/releases/latest/download/
 After cloning this repo to your `{user-data}/systems` folder, you can get started by running the following:
 
 ```
-npm i
-npm run watch:js
+npm i && npm start
 ```
 
-In a separate terminal window/tab, you can watch the CSS with `post-css` by running the following:
-
-```
-npm run watch:css
-```
+This will run `rollup` and `postcss` concurrently. If you add the [Development Mode](https://github.com/League-of-Foundry-Developers/foundryvtt-devMode) module, you'll even have Livereload!
 
 See [the `post-css` config file](./postcss.config.js) for the currently in-use plugins. 
 

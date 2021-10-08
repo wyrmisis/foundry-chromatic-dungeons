@@ -1,13 +1,13 @@
 # To Do
 
 ## Characters
-* Apply the Material UI-esque floating panel aesthetic to the rest of the discrete panels in the character sheet
-* Get languages working properly
+* ~~Apply the Material UI-esque floating panel aesthetic to the rest of the discrete panels in the character sheet~~
+* ~~Get languages working properly~~
 * Add resistances and immunities as a property that ActiveEffects can modify
 
 ## Classes
 * Add a means to have a custom class group (so people can enter data for the Gnoll Sage classes).
-* Add class action resources 
+* Add class feature resources 
 
 ## Equipment
 * Streamline the process of adding a new ammunition item/type (it's clumsy to expect non-technical GMs to remember to enter strings)
@@ -18,9 +18,9 @@
 * Automate area of effect targeting
 * Automate prompts for saves
 * Automate spell damage
-* Implement Sorcerer and Bard spell lists
+* ~~Implement Sorcerer and Bard spell lists~~
 * Auto-add all castable spells for Clerics, Paladins, Rangers, and Druids (aka wisdom casting classes) when adding one of those classes
-* Split spell lists up by class (if you learn Detect Magic as a Cleric, you shouldn't also learn it as a Wizard)
+* ~~Split spell lists up by class (if you learn Detect Magic as a Cleric, you shouldn't also learn it as a Wizard)~~
 
 ## Monsters
 * When dropping an NPC token on the map, optionally allow the GM to drop a number of them equal to the formula in `data.numberAppearing`
