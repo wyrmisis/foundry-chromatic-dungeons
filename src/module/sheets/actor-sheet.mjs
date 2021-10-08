@@ -419,6 +419,10 @@ export class BoilerplateActorSheet extends ActorSheet {
       this._castSpell($(ev.currentTarget));
     })
 
+    html.find('.known-spells--points-caster .spell').click(async (ev) => {
+      this._castSpell($(ev.currentTarget));
+    })
+
     // Drag events for macros.
     if (this.actor.isOwner) {
       let handler = ev => this._onDragStart(ev);

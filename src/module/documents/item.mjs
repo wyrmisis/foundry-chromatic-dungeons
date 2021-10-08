@@ -1,4 +1,4 @@
-import { getLevelFromXP } from '../helpers/utils.mjs';
+import { getLevelFromXP, reportAndQuit } from '../helpers/utils.mjs';
 import attackSequence from '../helpers/attackSequence.mjs';
 
 /**
@@ -70,25 +70,47 @@ export class BoilerplateItem extends Item {
 
   castSpell(spellId, spellLevel, shouldClearWithoutCasting) {
     try {
-      const spellToCast = this.data.data.preparedSpellSlots[parseInt(spellLevel) - 1]
-        .find(spell => spell.id === spellId);
+      if (this.data.data.hasSpellPoints) {
+        /**
+         * @todo Empowered Casting dialog
+         */
 
-      const spellToPrune = this.data.data.preparedSpells[spellLevel]
-        .findIndex(spell => spell.indexOf(spellId) >= 0)
+        const spellToCast = this.parent.items.get(spellId);
+        const cost = CONFIG.CHROMATIC.spellPointCosts[spellLevel];
 
-      const copiedSpellsAtLevel = [...this.data.data.preparedSpells[spellLevel]];
+        if (parseInt(this.data.data.currentSpellPoints) >= cost)
+          spellToCast.roll().then(() => {
+            this.update({
+              ['data.currentSpellPoints']: parseInt(this.data.data.currentSpellPoints) - cost
+            });
+          })
+        else
+          reportAndQuit(`You don't have enough spell points to cast ${spellToCast.name}!`)
 
-      const clearSpell = () => this.update({
-        [`data.preparedSpells.${spellLevel}`]: copiedSpellsAtLevel
-      });
+      } else {
+        const spellToCast = this.data.data.preparedSpellSlots[parseInt(spellLevel) - 1]
+          .find(spell => spell.id === spellId);
 
-      copiedSpellsAtLevel.splice(spellToPrune, 1);
+        const spellToPrune = this.data.data.preparedSpells[spellLevel]
+          .findIndex(spell => spell.indexOf(spellId) >= 0)
 
-      if (shouldClearWithoutCasting)
-        clearSpell();
-      else
-        spellToCast.roll().then(clearSpell);
+        const copiedSpellsAtLevel = [...this.data.data.preparedSpells[spellLevel]];
+
+        const clearSpell = () => this.update({
+          [`data.preparedSpells.${spellLevel}`]: copiedSpellsAtLevel
+        });
+
+        copiedSpellsAtLevel.splice(spellToPrune, 1);
+
+        if (shouldClearWithoutCasting)
+          clearSpell();
+        else
+          spellToCast.roll().then(clearSpell);
+      }
+
+      
     } catch (e) {
+      console.error(e);
       ui.notifications.warn('You can\'t cast a spell from an empty slot!');
     }
   }

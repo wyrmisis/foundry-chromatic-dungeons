@@ -66,17 +66,22 @@
 
     <h3>Known Spells</h3>
     {{#each (arbitraryLoop class.maxSpellLevel)}}
-      <h4>Level {{sum @index 1}}</h4>
-      <ul class="known-spells known-spells--points-caster">
-        {{#each (spellsAtLevel ../../spells class (sum @index 1))}}
-          <li class="spell" data-item-id="{{_id}}">
-            <img src="{{img}}">
-            <span class="spell__spell-name">{{name}}</span>
-          </li>
-        {{else}}
-          <li class="spell spell--empty">Empty</li>
-        {{/each}}
-      </ul>
+      <div
+        class="spell-level"
+        data-item-id="{{classKey}}"
+        data-spell-level="{{sum @index 1}}">
+        <h4>Level {{sum @index 1}}</h4>
+        <ul class="known-spells known-spells--points-caster">
+          {{#each (spellsAtLevel ../../spells class (sum @index 1))}}
+            <li class="spell" data-item-id="{{_id}}">
+              <img src="{{img}}">
+              <span class="spell__spell-name">{{name}}</span>
+            </li>
+          {{else}}
+            <li class="spell spell--empty">Empty</li>
+          {{/each}}
+        </ul>
+      </div>
     {{/each}}
   {{/if}}
 {{/each}}

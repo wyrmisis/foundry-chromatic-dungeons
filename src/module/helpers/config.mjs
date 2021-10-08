@@ -59,6 +59,18 @@ CHROMATIC.spellSchools = {
   illusion: "Illusion"
 };
 
+CHROMATIC.spellPointCosts = {
+  1: 2,
+  2: 3,
+  3: 5,
+  4: 7,
+  5: 9,
+  6: 12,
+  7: 15,
+  8: 18,
+  9: 21
+};
+
 CHROMATIC.saves = {
   reflex: "Reflex",
   poison: "Poison/Disease",
