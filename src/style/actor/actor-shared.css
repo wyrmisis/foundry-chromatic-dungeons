@@ -222,6 +222,25 @@
     }
   }
 
+  .spell-points {
+    justify-content: space-between;
+
+    &__values {
+      input {
+        text-align: right;
+      }
+
+      & > * {
+        margin: .25em;
+      }
+    }
+
+    &, &__values {
+      display: flex;
+      align-items: center;
+    }
+  }
+
   .spell--empty {
     color: #666;
     font-style: italic;

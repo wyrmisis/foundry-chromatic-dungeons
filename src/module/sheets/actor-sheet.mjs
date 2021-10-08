@@ -288,7 +288,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       ]
     );
 
-    this.knownSpellMenu = new ContextMenu(
+    this.knownSlotSpellMenu = new ContextMenu(
       $('.known-spells--slot-caster'),
       '.spell',
       [
@@ -311,7 +311,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       ]
     );
 
-    this.knownSpellMenu = new ContextMenu(
+    this.knownPointSpellMenu = new ContextMenu(
       $('.known-spells--points-caster'),
       '.spell',
       [
@@ -328,7 +328,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       ]
     );
 
-    this.knownSpellMenu = new ContextMenu(
+    this.preparedSpellMenu = new ContextMenu(
       $('.prepared-spells'),
       '.spell',
       [
@@ -345,7 +345,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       ]
     );
 
-    this.knownSpellMenu = new ContextMenu(
+    this.npcAttackMenu = new ContextMenu(
       $('.sheet--npc .attack-list'),
       '.attack:not(.attack--header)',
       [

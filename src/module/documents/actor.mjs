@@ -569,8 +569,6 @@ export class BoilerplateActor extends Actor {
                 , 1);
             }
 
-            console.info(maxSpellLevel, maxSpellLevelFromAttributes, caster.data.data.hasWisdomBonusSlots)
-
             if (maxSpellLevel > maxSpellLevelFromAttributes)
               maxSpellLevel = maxSpellLevelFromAttributes;
 
@@ -592,6 +590,13 @@ export class BoilerplateActor extends Actor {
             resolve(updatedSpell);
           }
 
+          /**
+           * @todo Add filtering for "actor's slot-casting 
+           *       class has max Arcane spells per spell 
+           *       level for this class"
+           * @todo Add filtering for "actor's points-casting
+           *       class has max spells for this character level"
+           */
           const buttons = spellcastingClasses
             .filter(classAlreadyHasSpell)
             .filter(caster => {
