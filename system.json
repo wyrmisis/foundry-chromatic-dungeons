@@ -22,10 +22,7 @@
       "name": "markdown-editor",
       "manifest": "https://github.com/Moerill/fvtt-markdown-editor/releases/latest/download/module.json"
     },
-    {
-      "name": "vtt-compendium-folders",
-      "manifest": "https://github.com/earlSt1/vtt-compendium-folders/releases/latest/download/module.json"
-    },
+    { "name": "compendium-folders" },
     {
       "name": "fvtt-lib-wrapper",
       "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
@@ -38,7 +35,7 @@
   "gridDistance": 5,
   "gridUnits": "ft",
   "primaryTokenAttribute": "hp",
-  "license": "LICENSE.txt",
+  "license": "LICENSE",
   "version": "auto-replaced",
   "url": "auto-replaced",
   "manifest": "auto-replaced",
