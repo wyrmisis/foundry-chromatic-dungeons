@@ -7,7 +7,7 @@
     "build:js": "rollup --config ./rollup.config.js",
     "build:css": "postcss src/style/index.css -o dist/css/bundle.css",
     "start": "npm-run-all -p watch:js watch:css",
-    "watch:js": "rollup --config ./rollup.config.js --watch",
+    "watch:js": "rollup --config ./dev.rollup.config.js --watch",
     "watch:css": "postcss src/style/index.css -o dist/css/bundle.css --watch"
   },
   "browserslist": [
