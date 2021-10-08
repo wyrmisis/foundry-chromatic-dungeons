@@ -460,55 +460,219 @@ export class BoilerplateActor extends Actor {
   }
 
   createEmbeddedDocuments(docname, droppedItems) {
-    super.createEmbeddedDocuments(
-      docname,
-      droppedItems.map(droppedItem => {
-        if (
-          this.type !== 'pc' && (
-          droppedItem.type === 'ancestry' ||
-          droppedItem.type === 'heritage' ||
-          droppedItem.type === 'class'
-        ))
-          return reportAndQuit('Only PCs can have an ancestry, heritage, or class');
-    
-        if (droppedItem.type === 'ancestry') {
-          const actorAncestry = this.items.find(item => item.type === 'ancestry');
-    
-          if (actorAncestry)
-            return reportAndQuit(`${this.name} already has an ancestry`);
-        }
-    
-        // @todo Add a setting for number of heritages
-        if (droppedItem.type === 'heritage') {
-          const actorHeritages = this.items.filter(item => item.type === 'heritage');
-    
-          if (hasThisAlready('heritage', droppedItem, actorHeritages))
-            return reportAndQuit(`${this.name} already has the ${droppedItem.name} heritage`);
-    
-          if (actorHeritages.length >= 2)
-            return reportAndQuit(`${this.name} already has two heritages`);
-        }
+    const filterAncestries = (droppedItem) => {
+      if (droppedItem.type === 'ancestry') {
+        const actorAncestry = this.items.find(item => item.type === 'ancestry');
+  
+        if (actorAncestry)
+          return reportAndQuit(`${this.name} already has an ancestry`);
+      }
 
-        // // // @todo Add a setting for class stat requirements
-        if (droppedItem.type === 'class') {
-          const actorClasses = this.items.filter(item => item.type === 'class');
+      return true;
+    }
 
-          if (hasThisAlready('class', droppedItem, actorClasses))
-            return reportAndQuit(`${this.name} already has the ${droppedItem.name} class`);
+    const filterPCOnlyData = (droppedItem) => {
+      if (
+        this.type !== 'pc' && (
+        droppedItem.type === 'ancestry' ||
+        droppedItem.type === 'heritage' ||
+        droppedItem.type === 'class'
+      ))
+        return reportAndQuit('Only PCs can have an ancestry, heritage, or class');
+      return true;
+    }
 
-          const reqs = droppedItem.data.requirements
-          const attributes = this.data.data.attributes;
-          const missedReqs = Object.keys(reqs).filter(
-            (reqKey) => attributes[reqKey] < reqs[reqKey]
+    const filterHeritages = (droppedItem) => {
+      // @todo Add a setting for number of heritages
+      if (droppedItem.type === 'heritage') {
+        const actorHeritages = this.items.filter(item => item.type === 'heritage');
+  
+        if (hasThisAlready('heritage', droppedItem, actorHeritages))
+          return reportAndQuit(`${this.name} already has the ${droppedItem.name} heritage`);
+  
+        if (actorHeritages.length >= 2)
+          return reportAndQuit(`${this.name} already has two heritages`);
+      }
+
+      return true;
+    }
+
+    const filterClasses = (droppedItem) => {
+      // // // @todo Add a setting for class stat requirements
+      if (droppedItem.type === 'class') {
+        const actorClasses = this.items.filter(item => item.type === 'class');
+
+        if (hasThisAlready('class', droppedItem, actorClasses))
+          return reportAndQuit(`${this.name} already has the ${droppedItem.name} class`);
+
+        const reqs = droppedItem.data.requirements
+        const attributes = this.data.data.attributes;
+        const missedReqs = Object.keys(reqs).filter(
+          (reqKey) => attributes[reqKey] < reqs[reqKey]
+        );
+
+        if (missedReqs.length)
+          return reportAndQuit(`${this.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
+      }
+
+      return true;
+    }
+
+    const filterSpell = async (droppedItem) => {
+      if (droppedItem.type === 'spell') {
+        const spell = await new Promise((resolve) => {
+          const spellcastingClasses = this._getItemsOfType(
+            'class', ({data}) => data.data.hasSpellcasting
           );
 
-          if (missedReqs.length)
-            return reportAndQuit(`${this.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
-        }
+          if (!spellcastingClasses.length) {
+            resolve(false);
+            return false;
+          }
 
-        return droppedItem
-      }).filter(item => item)
-    );
+          const classAlreadyHasSpell = caster => {
+            const casterId = caster.getFlag('core', 'sourceId');
+            const hasCasterSpell = this
+              ._getItemsOfType('spell', ({data}) => {
+                const spellKeys = Object.keys(data.data.spellLevels);
+
+                return spellKeys.find(key => data.data.spellLevels[key].sourceId === casterId);
+              })
+              .some(spell => spell.getFlag('core', 'sourceId') === droppedItem.flags.core.sourceId);
+
+            return !hasCasterSpell;
+          }
+
+          const getMaxSpellLevel = caster => {
+            let casterLevel = getLevelFromXP(caster.data.data.xp);
+            let maxSpellLevelFromAttributes;
+            let maxSpellLevel;
+            
+            if (caster.data.data.hasWisdomBonusSlots) { // This is a divine caster
+              if (getDerivedStatWithContext('wis', 'hasLv7Divine', this.data.data))
+                maxSpellLevelFromAttributes = 7;
+              else if (getDerivedStatWithContext('wis', 'hasLv6Divine', this.data.data))
+                maxSpellLevelFromAttributes = 6;
+              else
+                maxSpellLevelFromAttributes = 5;
+            } else {
+              maxSpellLevelFromAttributes = getDerivedStatWithContext('int', 'maxSpellLevel', this.data.data)
+            }
+
+            if (caster.data.data.hasSpellPoints) {
+              maxSpellLevel = caster.data.data.spellPoints[casterLevel].maxSpellLevel;
+            } else {
+              const casterSlotLevels = caster.data.data.spellSlots[casterLevel];
+              maxSpellLevel = Object.keys(casterSlotLevels)
+                .reduce( (level, key) =>
+                  (casterSlotLevels[key] > 0) ? key : level
+                , 1);
+            }
+
+            console.info(maxSpellLevel, maxSpellLevelFromAttributes, caster.data.data.hasWisdomBonusSlots)
+
+            if (maxSpellLevel > maxSpellLevelFromAttributes)
+              maxSpellLevel = maxSpellLevelFromAttributes;
+
+            return maxSpellLevel;
+          }
+
+          const addSpellToCaster = (caster) => {
+            const updatedSpell = { ...droppedItem };
+            const {spellLevels} = updatedSpell.data;
+            const key = Object
+              .keys(spellLevels)
+              .find(key => 
+                spellLevels[key].sourceId === caster.getFlag('core', 'sourceId')
+              );
+            const level = spellLevels[key];
+
+            updatedSpell.data.spellLevels = { [key]: level };
+
+            resolve(updatedSpell);
+          }
+
+          const buttons = spellcastingClasses
+            .filter(classAlreadyHasSpell)
+            .filter(caster => {
+              const casterId = caster.getFlag('core', 'sourceId');
+
+              let maxSpellLevel = getMaxSpellLevel(caster);
+              
+              return Object
+                .keys(droppedItem.data.spellLevels)
+                .filter(key => droppedItem.data.spellLevels[key].level <= maxSpellLevel)
+                .reduce(
+                  (arr, key) => [...arr, droppedItem.data.spellLevels[key].sourceId], []
+                )
+                .includes(casterId);
+            })
+            .reduce((buttonObj, caster) => ({
+              ...buttonObj,
+              [caster.uuid]: {
+                icon: '<i class="fa fa-star"></i>',
+                label: caster.name,
+                callback: () => addSpellToCaster(caster)
+              }
+            }), {});
+
+          if (!Object.keys(buttons).length) {
+            resolve(false);
+            return reportAndQuit(`${this.name} doesn't have any classes that can cast this spell!`);
+          }
+
+          buttons.cancel = {
+            icon: '<i class="fas fa-times"></i>',
+            label: game.i18n.localize("Cancel"),
+            callback: html => {
+              resolve(false);
+            }
+          }
+
+          new Dialog({
+            title: `Adding spell ${droppedItem.name} to ${this.name}`,
+            content: `Which class will you add this spell to?`,
+            buttons,
+            default: "close",
+            close: () => {
+              resolve(false);
+            },
+          }).render(true);
+        });
+
+        return Promise.resolve(spell);
+      }
+    }
+
+    Promise
+      .all(
+        droppedItems.map(async (droppedItem) => {
+          const passPCOnlyData  = filterPCOnlyData(droppedItem);
+          const passHeritages   = filterHeritages(droppedItem);
+          const passAncestries  = filterAncestries(droppedItem);
+          const passClasses     = filterClasses(droppedItem);
+          const passSpell       = (droppedItem.type === 'spell')
+                                  ? await filterSpell(droppedItem)
+                                  : true;
+      
+          if (
+            !passPCOnlyData ||
+            !passHeritages  ||
+            !passAncestries ||
+            !passClasses    ||
+            !passSpell
+          ) return false;
+
+          if (droppedItem.type === 'spell')
+            return await passSpell;
+      
+          return droppedItem;
+        })
+      )
+      .then(items => {
+        if (items.filter(item => !!item).length)
+          super.createEmbeddedDocuments(docname, items);
+      });
   }
 
   /**

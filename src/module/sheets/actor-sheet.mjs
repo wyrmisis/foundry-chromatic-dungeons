@@ -289,7 +289,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     );
 
     this.knownSpellMenu = new ContextMenu(
-      $('.known-spells'),
+      $('.known-spells--slot-caster'),
       '.spell',
       [
         {
@@ -298,6 +298,23 @@ export class BoilerplateActorSheet extends ActorSheet {
           condition: (node) => this._canPrepareSpell(node),
           callback: (node) => this._prepareSpell(node)
         },
+        {
+          name: 'Edit',
+          icon: '<i class="fa fa-edit" />',
+          callback: (node) => this._editOwnedItem(node)
+        },
+        {
+          name: 'Delete',
+          icon: '<i class="fa fa-trash" />',
+          callback: (node) => this._deleteOwnedItem(node)
+        },
+      ]
+    );
+
+    this.knownSpellMenu = new ContextMenu(
+      $('.known-spells--points-caster'),
+      '.spell',
+      [
         {
           name: 'Edit',
           icon: '<i class="fa fa-edit" />',

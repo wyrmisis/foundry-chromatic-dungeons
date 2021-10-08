@@ -14,8 +14,8 @@ const setupHandlebarsHelpers = () => {
    * We need to do something X number of times in a Handlebars
    * template, but we don't have an array for it.
    */
-  Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}))
-
+  Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}));
+  Handlebars.registerHelper('sum', (...args) => parseInt(args.reduce((total, add) => total + add, 0)));
   Handlebars.registerHelper('markdown', (input) => Marked(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 
     [null, undefined].includes(value) 
