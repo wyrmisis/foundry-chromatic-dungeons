@@ -9,4 +9,5 @@ body {
   --sheet-body-font: 'Roboto', sans-serif;
 
   --elevation-1-shadow:  0px 1px 2px 1px rgba(0, 0, 0, 0.3);
+  --elevation-05-shadow:  0px 1px 1px 1px rgba(0, 0, 0, 0.15);
 }

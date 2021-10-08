@@ -222,6 +222,24 @@
     }
   }
 
+  .prepared-spells,
+  .known-spells--points-caster {
+    .spell:not(.spell--empty) {
+      transition: box-shadow 100ms ease-in-out,
+                  padding 100ms ease-in-out;
+      &:hover {
+        cursor: pointer;
+        padding: .6rem .5rem .4rem;
+        box-shadow: var(--elevation-05-shadow);
+      }
+
+      &:active {
+        padding: .75rem .5rem .25rem;
+        box-shadow: inset var(--elevation-1-shadow); 
+      }
+    }
+  }
+
   .spell-points {
     justify-content: space-between;
 
