@@ -1,4 +1,4 @@
-import { getLevelFromXP, reportAndQuit } from '../helpers/utils.mjs';
+import { getLevelFromXP, reportAndQuit, getWisBonusSlots } from '../helpers/utils.mjs';
 import attackSequence from '../helpers/attackSequence.mjs';
 
 /**
@@ -53,7 +53,16 @@ export class BoilerplateItem extends Item {
   }
 
   prepareSpell(spell, level) {
-    const maxSlotsAtLevel = this.data.data.spellSlots[getLevelFromXP(this.data.data.xp)][level];
+    const slotsAtLevel = this.data.data.spellSlots[getLevelFromXP(this.data.data.xp)];
+
+    const maxSlotsAtLevel = (!this.data.data.hasWisdomBonusSlots)
+      ? slotsAtLevel[level]
+      : getWisBonusSlots(
+          slotsAtLevel,
+          this.data.data.hasWisdomBonusSlots,
+          this.parent.data.data.attributes.wis
+        )[level];
+
     const preparedSpellsAtLevel = [...this.data.data.preparedSpells[level]];
 
     if (preparedSpellsAtLevel.length >= maxSlotsAtLevel) {
@@ -68,7 +77,7 @@ export class BoilerplateItem extends Item {
     });
   }
 
-  castSpell(spellId, spellLevel, shouldClearWithoutCasting) {
+  castSpell(spellId, spellLevel) {
     try {
       if (this.data.data.hasSpellPoints) {
         /**
@@ -88,31 +97,34 @@ export class BoilerplateItem extends Item {
           reportAndQuit(`You don't have enough spell points to cast ${spellToCast.name}!`)
 
       } else {
-        const spellToCast = this.data.data.preparedSpellSlots[parseInt(spellLevel) - 1]
-          .find(spell => spell.id === spellId);
-
-        const spellToPrune = this.data.data.preparedSpells[spellLevel]
-          .findIndex(spell => spell.indexOf(spellId) >= 0)
-
-        const copiedSpellsAtLevel = [...this.data.data.preparedSpells[spellLevel]];
-
-        const clearSpell = () => this.update({
-          [`data.preparedSpells.${spellLevel}`]: copiedSpellsAtLevel
-        });
-
-        copiedSpellsAtLevel.splice(spellToPrune, 1);
-
-        if (shouldClearWithoutCasting)
-          clearSpell();
-        else
-          spellToCast.roll().then(clearSpell);
+        return this.data.data
+          .preparedSpellSlots[parseInt(spellLevel) - 1]
+          .find(spell => spell.id === spellId)          
+          .roll()
+          .then(() => this.clearSpell(spellId, spellLevel));
       }
-
-      
     } catch (e) {
       console.error(e);
       ui.notifications.warn('You can\'t cast a spell from an empty slot!');
     }
+  }
+
+  clearSpell(spellId, spellLevel) {
+    const spellToPrune = this.data.data.preparedSpells[spellLevel]
+          .findIndex(spell => spell.indexOf(spellId) >= 0)
+
+    const copiedSpellsAtLevel = [...this.data.data.preparedSpells[spellLevel]];
+
+    copiedSpellsAtLevel.splice(spellToPrune, 1);
+
+    return this.update({
+      [`data.preparedSpells.${spellLevel}`]: copiedSpellsAtLevel
+    });
+  }
+
+  hasSpellAsPrepared(spellId, spellLevel) {
+    return this.data.data.preparedSpells[spellLevel]
+      .some(spell => spell.indexOf(spellId) >= 0)
   }
 
   /**

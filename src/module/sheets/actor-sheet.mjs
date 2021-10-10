@@ -1,11 +1,13 @@
-import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
 import {
-  getDerivedStat,
+  onManageActiveEffect,
+  prepareActiveEffectCategories
+} from "../helpers/effects.mjs";
+import { reportAndQuit } from "../helpers/utils.mjs";
+import {
   getLevelFromXP,
   getNextLevelXP,
   getClassGroupAtLevel,
-  reportAndQuit,
-  hasThisAlready
+  getWisBonusSlots
 } from '../helpers/utils.mjs';
 
 /**
@@ -291,7 +293,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     this.knownSlotSpellMenu = new ContextMenu(
       $('.known-spells--slot-caster'),
-      '.spell',
+      '.spell:not(.spell--empty)',
       [
         {
           name: 'Prepare',
@@ -307,14 +309,16 @@ export class BoilerplateActorSheet extends ActorSheet {
         {
           name: 'Delete',
           icon: '<i class="fa fa-trash" />',
-          callback: (node) => this._deleteOwnedItem(node)
+          callback: (node) => {
+            this._deleteSpell(node);
+          }
         },
       ]
     );
 
     this.knownPointSpellMenu = new ContextMenu(
       $('.known-spells--points-caster'),
-      '.spell',
+      '.spell:not(.spell--empty)',
       [
         {
           name: 'Edit',
@@ -331,7 +335,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     this.preparedSpellMenu = new ContextMenu(
       $('.prepared-spells'),
-      '.spell',
+      '.spell:not(.spell--empty)',
       [
         {
           name: 'Cast',
@@ -416,8 +420,12 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Rollable abilities.
     html.find('.rollable').click(this._onRoll.bind(this));
 
-    html.find('.prepared-spells .spell:not(prepared-spells .spell--empty)').click(async (ev) => {
+    html.find('.prepared-spells .spell:not(.spell--empty)').click(async (ev) => {
       this._castSpell($(ev.currentTarget));
+    })
+
+    html.find('.known-spells--slot-caster .spell:not(.spell--empty)').click(async (ev) => {
+      this._prepareSpell($(ev.currentTarget));
     })
 
     html.find('.known-spells--points-caster .spell').click(async (ev) => {
@@ -479,26 +487,66 @@ export class BoilerplateActorSheet extends ActorSheet {
     const {itemId: classId, spellLevel} = itemNode.parents('.spell-level').data();
     const classItem = this.actor.items.get(classId);
 
-    const maxSlotsAtLevel = classItem.data.data.spellSlots[getLevelFromXP(classItem.data.data.xp)][spellLevel];
+    const slotsAtLevel = classItem.data.data.spellSlots[getLevelFromXP(classItem.data.data.xp)];
+    const maxSlotsAtLevel = (!classItem.data.data.hasWisdomBonusSlots)
+      ? slotsAtLevel[spellLevel]
+      : getWisBonusSlots(
+          slotsAtLevel,
+          classItem.data.data.hasWisdomBonusSlots,
+          this.actor.data.data.attributes.wis
+        )[spellLevel];
+
     const preparedSpellsAtLevel = classItem.data.data.preparedSpells[spellLevel].length;
+
+    console.info(maxSlotsAtLevel, preparedSpellsAtLevel, maxSlotsAtLevel > preparedSpellsAtLevel, getWisBonusSlots(
+      slotsAtLevel,
+      classItem.data.data.hasWisdomBonusSlots,
+      this.actor.data.data.attributes.wis
+    ))
 
     return maxSlotsAtLevel > preparedSpellsAtLevel;
   }
 
   _prepareSpell(itemNode) {
+    if (!this._canPrepareSpell(itemNode)) return;
+
     const [classItem, spellLevel, spellId, spellItem] = this._getSpellPropsFromNode(itemNode);
     classItem.prepareSpell(spellItem, spellLevel);
   }
 
-  _castSpell(itemNode) {
+  async _castSpell(itemNode) {
     const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
+
+    if (!classItem.data.data.hasSpellPoints) {
+      itemNode.addClass('spell--removing');
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
     classItem.castSpell(spellId, spellLevel)
   }
 
-  _clearSpell(itemNode) {
+  async _clearSpell(itemNode) {
     const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
-    classItem.castSpell(spellId, spellLevel, true)
+
+    if (!classItem.data.data.hasSpellPoints) {
+      itemNode.addClass('spell--removing');
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+    
+    classItem.clearSpell(spellId, spellLevel)
   }
+
+  async _deleteSpell(itemNode) {
+    const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
+    if (classItem.hasSpellAsPrepared(spellId, spellLevel))
+      reportAndQuit('You cannot delete this spell, because you have it prepared.')
+    else {
+      itemNode.addClass('spell--removing');
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      this._deleteOwnedItem(itemNode);
+    }
+  }
+
 
   _getSpellPropsFromNode(itemNode) {
     const {itemId: classId, spellLevel} = itemNode.parents('.spell-level').data();

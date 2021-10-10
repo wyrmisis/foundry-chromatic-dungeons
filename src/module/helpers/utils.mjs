@@ -81,6 +81,39 @@ const sourceId = (item) =>
 const range = (start, end, length = end - start + 1) =>
   Array.from({ length }, (_, i) => start + i);
 
+const bonusSlots = (wisScore) => Object
+  .keys(CONFIG.CHROMATIC.attributes.wis)
+  .filter(key => parseInt(key) <= wisScore) // Get scores equal to or below the character's score
+  .reduce((extraSlots, key) => // Pick out bonus divine spell levels
+    [...extraSlots, CONFIG.CHROMATIC.attributes.wis[key].bonusDivineSpellLevel],
+    []
+  )
+  .filter(val => val) // Prune off undefineds
+  .reduce((bonus, value, key) => {// Accumulate total extra slots per level
+    console.info(bonus, value, key)
+
+    return (bonus[key])
+      ? ({ ...bonus, [value]: bonus[value] + 1 })
+      : ({ ...bonus, [value]: 1 })
+    },
+    {}
+  );
+
+const getWisBonusSlots = (slots, addsBonusSlots, wisScore) => {
+  const bonus = (addsBonusSlots) ? bonusSlots(wisScore) : null;
+
+  return (!!bonus)
+    ? Object
+      .keys(slots)
+      .reduce((finishedObj, slot) => ({
+          ...finishedObj,
+          [slot]: (slots[slot])
+            ? slots[slot] + (bonus[slot] || 0)
+            : 0
+      }), {})
+    : slots;
+}
+
 export {
   getMonsterXP,
   getLevelFromXP,
@@ -93,5 +126,6 @@ export {
   range,
   sourceId,
   getSelf,
-  getFirstTargetOfSelf
+  getFirstTargetOfSelf,
+  getWisBonusSlots
 };

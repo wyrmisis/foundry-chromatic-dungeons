@@ -5,7 +5,8 @@ import {
   getDerivedStatWithContext,
   getLevelFromXP,
   getClassGroupAtLevel,
-  sourceId
+  sourceId,
+  getWisBonusSlots
 } from '../helpers/utils.mjs';
 
 import attackSequence from '../helpers/attackSequence.mjs';
@@ -302,46 +303,15 @@ export class BoilerplateActor extends Actor {
   }
 
   _getSpellSlots() {
-    const wisScore = this.data.data.attributes.wis;
-    const wisTable = CONFIG.CHROMATIC.attributes.wis;
-
-    const bonusSlots = (wisScore) => Object
-      .keys(CONFIG.CHROMATIC.attributes.wis)
-      .filter(key => parseInt(key) <= wisScore) // Get scores equal to or below the character's score
-      .reduce((extraSlots, key) => // Pick out bonus divine spell levels
-        [...extraSlots, wisTable[key].bonusDivineSpellLevel],
-        []
-      )
-      .filter(val => val) // Prune off undefineds
-      .reduce((bonus, value, key) => // Accumulate total extra slots per level
-        (bonus[key])
-          ? ({ ...bonus, [value]: bonus[value] + 1 })
-          : ({ ...bonus, [value]: 1 }),
-        {}
-      );
-
-    const addBonusSlots = (slots, addsBonusSlots) => {
-      const bonus = bonusSlots(wisScore);
-      return addsBonusSlots 
-        ? Object
-          .keys(slots)
-          .reduce((finishedObj, slot) => ({
-              ...finishedObj,
-              [slot]: (slots[slot])
-                ? slots[slot] + (bonus[slot] || 0)
-                : 0
-          }), {})
-        : slots;
-    }
-
     const slotsFormat = (classname) => ({
       id: classname.id,
       sourceId: sourceId(classname),
-      slots: addBonusSlots(
+      slots: getWisBonusSlots(
         classname.data.data.spellSlots[
           getLevelFromXP(classname.data.data.xp)
         ],
-        classname.data.data.hasWisdomBonusSlots
+        classname.data.data.hasWisdomBonusSlots,
+        this.data.data.attributes.wis
       ),
       name: classname.name,
       preparedSpells: classname.data.data.preparedSpells
