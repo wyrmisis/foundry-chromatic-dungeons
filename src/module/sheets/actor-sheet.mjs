@@ -50,6 +50,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     context.armorTypes = CONFIG.CHROMATIC.armorTypes;
     context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
+    context.sizes = CONFIG.CHROMATIC.sizes;
 
     // Prepare character data and items.
     if (actorData.type == 'pc') {

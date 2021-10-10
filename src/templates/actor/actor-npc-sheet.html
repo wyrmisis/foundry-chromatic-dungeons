@@ -301,12 +301,14 @@
           <div class="stat-region stat-region--configuration">
             <h2>Configuration</h2>
             <div class="configuration__field configuration__field--size">
-              <label for="data.alignment">Size</label>
-              <input
-                name="data.size"
-                value="{{data.size}}"
-                type="text"
-                data-dtype="String" />
+              <label for="data.size">Size</label>
+              <select name="data.size" data-dtype="String">
+                {{#select data.size}}
+                  {{#each sizes as |size key|}}
+                    <option value="{{key}}">{{size}}</option>
+                  {{/each}}
+                {{/select}}
+              </select>
             </div>
 
             <div class="configuration__field configuration__field--alignment">
