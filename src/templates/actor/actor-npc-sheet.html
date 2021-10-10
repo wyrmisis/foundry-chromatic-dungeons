@@ -313,11 +313,14 @@
 
             <div class="configuration__field configuration__field--alignment">
               <label for="data.alignment">Alignment</label>
-              <input
-                name="data.alignment"
-                value="{{data.alignment}}"
-                type="text"
-                data-dtype="String" />
+              <select name="data.alignment" data-dtype="String">
+                <option value="">Unaligned</option>
+                {{#select data.alignment}}
+                  {{#each alignments as |alignment key|}}
+                    <option value="{{key}}">{{alignment}}</option>
+                  {{/each}}
+                {{/select}}
+              </select>
             </div>
 
             <div class="configuration__field configuration__field--number-appearing">

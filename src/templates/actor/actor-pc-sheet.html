@@ -137,6 +137,16 @@
           </div>
 
           <div class="quick-access__equipment">
+            <h2>Alignment</h2>
+            <select name="data.alignment" data-dtype="String">
+              <option value="">Unaligned</option>
+              {{#select data.alignment}}
+                {{#each alignments as |alignment key|}}
+                  <option value="{{key}}">{{alignment}}</option>
+                {{/each}}
+              {{/select}}
+            </select>
+
             <h2>Equipped Items</h2>
             <ul>
             {{#each equippedItems}}

@@ -49,6 +49,11 @@ CHROMATIC.sizes = {
   huge: "huge",
   gargantuan: "gargantuan"
 };
+CHROMATIC.alignment = {
+  lawful: 'Lawful',
+  neutral: 'Neutral',
+  chaotic: 'Chaotic'
+};
 CHROMATIC.weaponTypes = {melee: "Melee", thrown: 'Thrown', ranged: 'Ranged', ammunition: "Ammunition"};
 CHROMATIC.weaponDamageTypes = {slashing: "Slashing", piercing: 'Piercing', bludgeoning: 'Bludgeoning', slashingPiercing: 'Slashing/Piercing'};
 CHROMATIC.armorTypes = {armor: 'Armor', shield: 'Shield', helmet: 'Helmet', barding: 'Barding'};
