@@ -29,4 +29,6 @@ See [the `post-css` config file](./postcss.config.js) for the currently in-use p
 With all dependencies installed, run `npm run build` to build the JS bundle, in both expanded and minified variants, as well as the minified CSS. These bundles will be placed in `dist/`. This will also copy `src/assets` and `src/templates` to `dist/`.
 
 ## License
-[MIT](https://choosealicense.com/licenses/mit/)
+All code written in this repository is licensed under the [MIT](https://choosealicense.com/licenses/mit/) license.
+
+All rules and data specific to the Chromatic Dungeons RPG are licensed under the [Open Game License, v1](packs/LICENSE).
