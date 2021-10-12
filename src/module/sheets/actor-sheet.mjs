@@ -709,7 +709,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     return new Dialog({
       title: `${this.actor.name} is rolling: ${rollLabel}`,
       content: `
-        <div class="roll-modifiers-modal">
+        <div class="roll-modifiers-field">
           <label for="modifier">Modifier:</label>
           <input name="modifier" placeholder="-2, 4, etc"  />
         </div>

@@ -111,6 +111,17 @@ label[title] {
 }
 
 /**
+ * Modal fields
+ */
+
+.roll-modifiers-field {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  margin-bottom: .5em;
+  align-items: center;
+}
+
+/**
  * Tabs
  */
 .tab.description {

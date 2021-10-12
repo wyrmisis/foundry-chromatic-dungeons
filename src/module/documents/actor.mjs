@@ -711,7 +711,7 @@ export class BoilerplateActor extends Actor {
     return new Dialog({
       title: `${this.name} is rolling: ${rollLabel}`,
       content: `
-        <div class="roll-modifiers-modal">
+        <div class="roll-modifiers-field">
           <label for="modifier">Modifier:</label>
           <input name="modifier" placeholder="-2, 4, etc"  />
         </div>
