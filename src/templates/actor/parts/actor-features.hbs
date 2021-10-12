@@ -1,3 +1,26 @@
+<h2 class="features__title">Alignment</h2>
+<select name="data.alignment" data-dtype="String">
+  {{!--
+    We're only defaulting to unaligned to make sure
+    that players pick an alignment, rather than
+    defaulting to any specific alignment.
+
+    Once an alignment is selected, there's no going
+    back to unaligned.
+  --}}
+  {{#unless data.alignment}}
+    <option value="">Unaligned</option>
+  {{/unless}}
+  {{#select data.alignment}}
+    {{#each alignments as |alignment key|}}
+      <option value="{{key}}">{{alignment}}</option>
+    {{/each}}
+  {{/select}}
+</select>
+
+
+
+
 <h2 class="features__title">Languages</h2>
 
 {{#if data.maxLanguages}}
