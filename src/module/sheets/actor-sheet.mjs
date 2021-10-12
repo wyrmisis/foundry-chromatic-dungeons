@@ -662,16 +662,21 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Handle item rolls.
     if (dataset.rollType) {
-      if (dataset.rollType == 'item') {
+      switch(dataset.rollType.toLowerCase()) {
+        case 'save':
+          return this.actor.saveRoll(dataset.label, dataset.roll, dataset.target)
+        case 'attribute':
+          return this.actor.attributeRoll(dataset.label, dataset.roll, dataset.target)
+        case 'item':
         const itemId = element.closest('[data-item-id]').dataset.itemId;
         const item = this.actor.items.get(itemId);
         if (item) return item.roll();
-      }
-      if (dataset.rollType === 'natural-attack') {
+          break;
+        case 'natural-attack':
         let {damage} = element.dataset;
         if (damage.indexOf (' ') >= 0)
           damage = damage.split(' ')[0];
-        return this.actor.naturalAttack(damage)
+          return this.actor.naturalAttack(damage);
       }
     }
 

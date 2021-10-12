@@ -1,0 +1,41 @@
+<div class="message-content mesage-content--attack">
+  {{#if damage}}
+    {{#if critical.success}}
+      <h2>Critical Hit!</h2>
+    {{else}}
+      <h3>Attack</h3>
+    {{/if}}
+  {{else}}
+    {{#if critical.failure}}
+      <h3>Critical Miss!</h3>
+    {{else}}
+      <h3>Miss!</h3>
+    {{/if}}
+  {{/if}}
+  <div class="dice-roll dice-roll__attack">
+    <div class="dice-result">
+      <div class="dice-formula">
+        {{attack.formula}}  
+      </div>
+      {{{attack.tooltip}}}
+      <div class="dice-total">
+        {{attack.total}}
+      </div>
+    </div>
+  </div>
+  
+  {{#if damage}}
+    <h3>Damage</h3>
+    <div class="dice-roll dice-roll__damage">
+      <div class="dice-result">
+        <div class="dice-formula">
+          {{damage.formula}}  
+        </div>
+        {{{damage.tooltip}}}
+        <div class="dice-total">
+          {{damage.total}}
+        </div>
+      </div>
+    </div>
+  {{/if}}
+</div>

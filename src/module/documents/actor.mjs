@@ -9,7 +9,9 @@ import {
   getWisBonusSlots
 } from '../helpers/utils.mjs';
 
-import attackSequence from '../helpers/attackSequence.mjs';
+import attackSequence from '../helpers/rollSequences/attackSequence.mjs';
+import saveSequence   from '../helpers/rollSequences/saveSequence';
+import attributeSequence from '../helpers/rollSequences/attributeSequence';
 
 /**
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
@@ -746,7 +748,65 @@ export class BoilerplateActor extends Actor {
       },
       default: 'attack'
     }).render(true);
+  }
 
+  _rollModal(label, rollType, callback) {
+    let rollLabel = label
+      ? `${rollType ? `[${rollType}] ` : ''}${label}`
+      : '';
+
+    let buttons = {
+      roll: {
+        label: 'Roll',
+        callback: (html) => {
+          callback(
+            parseInt(html.find('[name="modifier"]').val() || 0)
+          );
+        }
+      },
+      cancel: {
+        label: 'Cancel'
+      }
+    };
     
+    return new Dialog({
+      title: `${this.name} is rolling: ${rollLabel}`,
+      content: `
+        <div class="roll-modifiers-modal">
+          <label for="modifier">Modifier:</label>
+          <input name="modifier" placeholder="-2, 4, etc"  />
+        </div>
+      `,
+      buttons,
+      default: 'roll'
+    });
+  }
+
+  saveRoll(name, formula, target) {
+    target = parseInt(target);
+
+    const callback = (modifier) => {
+      const roll = new Roll(`${formula}+${modifier}`, this.getRollData()).roll();
+
+      saveSequence(this, name, roll, target)
+    }
+
+    return this
+      ._rollModal(name, 'save', callback)
+      .render(true);
+  }
+
+  attributeRoll(name, formula, target) {
+    target = parseInt(target);
+
+    const callback = (modifier) => {
+      const roll = new Roll(`${formula}-${modifier}`, this.getRollData()).roll();
+
+      attributeSequence(this, name, roll, target)
+    }
+
+    return this
+      ._rollModal(name, 'save', callback)
+      .render(true);
   }
 }

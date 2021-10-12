@@ -1,0 +1,26 @@
+<div class="message-content mesage-content--save">
+  {{#if success}}
+    {{#if critical.success}}
+      <h2>Critical Success!</h2>
+    {{else}}
+      <h3>Success</h3>
+    {{/if}}
+  {{else}}
+    {{#if critical.failure}}
+      <h3>Critical Failure!</h3>
+    {{else}}
+      <h3>Failure!</h3>
+    {{/if}}
+  {{/if}}
+  <div class="dice-roll">
+    <div class="dice-result">
+      <div class="dice-formula">
+        {{roll.formula}}  
+      </div>
+      {{{roll.tooltip}}}
+      <div class="dice-total">
+        {{roll.total}}
+      </div>
+    </div>
+  </div>
+</div>

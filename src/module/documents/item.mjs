@@ -1,5 +1,5 @@
 import { getLevelFromXP, reportAndQuit, getWisBonusSlots } from '../helpers/utils.mjs';
-import attackSequence from '../helpers/attackSequence.mjs';
+import attackSequence from '../helpers/rollSequences/attackSequence.mjs';
 
 /**
  * Extend the basic Item with some very simple modifications.
@@ -224,18 +224,18 @@ export class BoilerplateItem extends Item {
     return new Dialog({
       title: `Attacking with ${actor.name}'s ${item.name}`,
       content: `
-        <div>
+        <div class="roll-modifiers-field roll-modifiers-field--attack">
           <label for="attack-roll-modifier">Attack Modifier:</label>
           <input name="attack-roll-modifier" placeholder="-2, 4, etc"  />
         </div>
 
-        <div>
+        <div class="roll-modifiers-field roll-modifiers-field--damage">
           <label for="damage-roll-modifier">Damage Modifier:</label>
           <input name="damage-roll-modifier" placeholder="-2, 4, etc"  />
         </div>
 
         ${actorAmmunitionForWeapon.length ? (`
-        <div>
+        <div class="roll-modifiers-field roll-modifiers-field--ammunition">
           <label for="ammunition-item">Ammunition to use:</label>
           <select name="ammunition-item">
             ${actorAmmunitionForWeapon.reduce((optionStr, ammo) => 

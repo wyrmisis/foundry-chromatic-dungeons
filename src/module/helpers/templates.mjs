@@ -18,6 +18,7 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-weapon-grid.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-armor-grid.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-gear-grid.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-gear-cards.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-wealth-grid.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/item-grid-actions.hbs`,
 
@@ -25,5 +26,10 @@
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-attribute.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-description.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-effects.hbs`,
+
+    // Chat cards
+    `${CONFIG.CHROMATIC.templateDir}/chat/attack.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/save.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/attribute.hbs`,
   ]);
 };
