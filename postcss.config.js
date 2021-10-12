@@ -4,6 +4,7 @@ module.exports = {
         require('stylelint'),
         require("autoprefixer"),
         require('postcss-nested'),
+        require('postcss-inherit'),
         require('cssnano'),
         require('postcss-reporter'),
     ]
