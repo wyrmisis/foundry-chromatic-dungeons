@@ -19,8 +19,6 @@ const attributeSequence = async (actor, attribute, roll, target, triggers = {}) 
   if (game?.dice3d?.showForRoll)
     await game.dice3d.showForRoll(roll, game.user, true);
 
-  console.info(roll.total, target, roll.total <= target)
-
   await ChatMessage.create(
     getAttributeMessage(actor, attribute, roll, target)
   );

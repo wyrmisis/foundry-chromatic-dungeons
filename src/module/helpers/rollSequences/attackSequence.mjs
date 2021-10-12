@@ -111,8 +111,6 @@ const rollMessageOptions = (actor) => {
 }
 
 const handleTargetDefeatedState = async (target) => {
-  console.info(!target, target.data.data.hp.value > 0)
-
   if (!target || target.data.data.hp.value > 0) return;
 
   await ChatMessage.create({

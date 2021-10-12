@@ -90,8 +90,6 @@ const bonusSlots = (wisScore) => Object
   )
   .filter(val => val) // Prune off undefineds
   .reduce((bonus, value, key) => {// Accumulate total extra slots per level
-    console.info(bonus, value, key)
-
     return (bonus[key])
       ? ({ ...bonus, [value]: bonus[value] + 1 })
       : ({ ...bonus, [value]: 1 })

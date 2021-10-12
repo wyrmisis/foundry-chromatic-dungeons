@@ -104,7 +104,6 @@ export class BoilerplateItem extends Item {
           .then(() => this.clearSpell(spellId, spellLevel));
       }
     } catch (e) {
-      console.error(e);
       ui.notifications.warn('You can\'t cast a spell from an empty slot!');
     }
   }
