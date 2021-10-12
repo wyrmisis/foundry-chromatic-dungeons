@@ -82,9 +82,6 @@ export class BoilerplateActor extends Actor {
     data.perception = this._getPerception();
 
     data.initiative = this._getInitiative();
-
-    if (this.isToken)
-      this.token.update({ ['data.overlayEffect']: this._getOverlayIcon() });
   }
 
   /**
@@ -652,64 +649,6 @@ export class BoilerplateActor extends Actor {
       });
   }
 
-  /**
-   * @override
-   */
-  update(...args) {
-    super
-      .update(...args)
-      .then(updated => this._setOverlayIconOnUpdate(updated));
-  }
-
-  _setOverlayIconOnUpdate(updated) {
-    /**
-     * @todo There's got to be a better way to do this.
-     */
-    if (updated?.isToken && updated?.token?.object) {
-      const hp = updated.data.data.hp.value;
-      const alreadyDead = updated.token.data.overlayEffect === CONFIG.CHROMATIC.ICONS.DEATH;
-      const alreadyUnconscious = updated.token.data.overlayEffect === CONFIG.CHROMATIC.ICONS.UNCONSCIOUS;
-
-      let isDead = false,
-          isUnconscious = false;
-
-      if (this.type === 'npc' && hp <= 0)
-        isDead = true;
-
-      if (this.type === 'pc' && hp <= -10)
-        isDead = true;
-
-      if (this.type === 'pc' && hp <= 0 && hp > -10)
-        isUnconscious = true;
-
-      const doToggle = (already, is, effect) => {
-        if ((already && !is) || (!already && is))
-          updated.token.object.toggleEffect(
-            effect,
-            {overlay: true}
-          );
-      }
-
-      doToggle(alreadyDead, isDead, CONFIG.CHROMATIC.ICONS.DEATH);
-      doToggle(alreadyUnconscious, isUnconscious, CONFIG.CHROMATIC.ICONS.UNCONSCIOUS);
-    }
-
-    return updated;
-  }
-
-  _getOverlayIcon() {
-    if (this.data.data.hp.value <= 0)
-      return CONFIG.CHROMATIC.ICONS[
-        (this.type === 'pc') ? 'UNCONSCIOUS' : 'DEATH'
-      ];
-
-    if (this.data.data.hp.value <= -10)
-      return CONFIG.CHROMATIC.ICONS.DEATH;
-
-    return null;
-  }
-
-
   naturalAttack(damage, attackType = 'melee') {
     return new Dialog({
       title: `Attacking with ${this.data.name}'s natural weapons`,
@@ -747,7 +686,7 @@ export class BoilerplateActor extends Actor {
         }
       },
       default: 'attack'
-    }).render(true);
+    }).render(true); 
   }
 
   _rollModal(label, rollType, callback) {
@@ -768,7 +707,7 @@ export class BoilerplateActor extends Actor {
         label: 'Cancel'
       }
     };
-    
+
     return new Dialog({
       title: `${this.name} is rolling: ${rollLabel}`,
       content: `

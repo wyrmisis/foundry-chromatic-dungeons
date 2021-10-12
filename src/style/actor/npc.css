@@ -13,55 +13,92 @@
 
   .sheet-tab--summary {
     &.active {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 
-    .stat-region--attacks {
-      grid-column: 1/4;
+    .stat-region {
+      &--saves {
+        grid-column: 1/5;
 
-      .attack-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .attack {
-        display: grid;
-        grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
-        grid-gap: .5em;
-        align-items: center;
-        margin-bottom: .5em;
-      }
-
-      .attack__damage {
-        display: flex;
-        align-items: center;
-      }
-
-      .attack__attack-mod {
-        text-align: center;
-      }
-    }
-
-    .stat-region--saves {
-      grid-column: 1/3;
-    }
-
-    .stat-region--xp {
-      h2 {
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .configuration__field {
-        margin-bottom: .5rem;
-
-        &:not(.configuration__field--xp) {
-          display: grid;
-          grid-template-columns: 5fr 1fr;
-          align-items: center;
+        .saves-list {
+          grid-template-columns: 1fr 1fr 1fr;
         }
       }
+
+      &--defenses,
+      &--configuration {
+        grid-column: 1/5;
+
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 1em;
+
+        h2 {
+          grid-column: 1/4;
+          margin: 0;
+        }
+      }
+
+      &--hp,
+      &--xp {
+        h2 {
+          margin: 0;
+        }
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+        grid-gap: .5em;
+      }
+
+      &--hp {
+        grid-column: 1/3;
+      }
+
+      &--xp {
+        grid-column: 3/5;
+
+        h2 {
+          display: flex;
+          justify-content: space-between;
+        }
+  
+        .configuration__field {
+          &:not(.configuration__field--xp) {
+            display: grid;
+            grid-template-columns: 5fr 1fr;
+            align-items: center;
+          }
+        }
+      }
+
+      &--attacks {
+        grid-column: 1/5;
+  
+        .attack-list {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+  
+        .attack {
+          display: grid;
+          grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+          grid-gap: .5em;
+          align-items: center;
+          margin-bottom: .5em;
+        }
+  
+        .attack__damage {
+          display: flex;
+          align-items: center;
+        }
+  
+        .attack__attack-mod {
+          text-align: center;
+        }
+      }
+
     }
   }
 }

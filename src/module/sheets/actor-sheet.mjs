@@ -258,6 +258,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     super.activateListeners(html);
 
     const itemClass = '.items__list-item';
+    const itemCardClass = '.item-card';
 
     // Render the item sheet for viewing/editing prior to the editable check.
     html.find('.item-edit').click(ev => {
@@ -275,22 +276,36 @@ export class BoilerplateActorSheet extends ActorSheet {
     // Everything below here is only needed if the sheet is editable
     if (!this.isEditable) return;
 
+    const commonContextOptions = {
+      edit: { 
+        name: 'Edit',
+        icon: '<i class="fa fa-edit" />', 
+        callback: (node) => this._editOwnedItem(node)
+      },
+      delete: {
+        name: 'Delete',
+        icon: '<i class="fa fa-trash" />', 
+        callback: (node) => this._deleteOwnedItem(node)
+      }
+    }
+
     this.itemMenu = new ContextMenu(
       $(itemClass).parent('ul'),
       `${itemClass}:not(${itemClass}--header):not(${itemClass}--empty)`,
       [
-        { 
-          name: 'Edit',
-          icon: '<i class="fa fa-edit" />', 
-          callback: (node) => this._editOwnedItem(node)
-        },
-        { 
-          name: 'Delete',
-          icon: '<i class="fa fa-trash" />', 
-          callback: (node) => this._deleteOwnedItem(node)
-        },
+        commonContextOptions.edit,
+        commonContextOptions.delete
       ]
     );
+
+    this.itemCardMenu = new ContextMenu(
+      $(itemCardClass).parent('ul'),
+      itemCardClass,
+      [
+        commonContextOptions.edit,
+        commonContextOptions.delete
+      ]
+    )
 
     this.knownSlotSpellMenu = new ContextMenu(
       $('.known-spells--slot-caster'),
@@ -302,17 +317,11 @@ export class BoilerplateActorSheet extends ActorSheet {
           condition: (node) => this._canPrepareSpell(node),
           callback: (node) => this._prepareSpell(node)
         },
-        {
-          name: 'Edit',
-          icon: '<i class="fa fa-edit" />',
-          callback: (node) => this._editOwnedItem(node)
-        },
+        commonContextOptions.edit,
         {
           name: 'Delete',
           icon: '<i class="fa fa-trash" />',
-          callback: (node) => {
-            this._deleteSpell(node);
-          }
+          callback: (node) => this._deleteSpell(node)
         },
       ]
     );
@@ -321,16 +330,8 @@ export class BoilerplateActorSheet extends ActorSheet {
       $('.known-spells--points-caster'),
       '.spell:not(.spell--empty)',
       [
-        {
-          name: 'Edit',
-          icon: '<i class="fa fa-edit" />',
-          callback: (node) => this._editOwnedItem(node)
-        },
-        {
-          name: 'Delete',
-          icon: '<i class="fa fa-trash" />',
-          callback: (node) => this._deleteOwnedItem(node)
-        },
+        commonContextOptions.edit,
+        commonContextOptions.delete
       ]
     );
 
@@ -460,7 +461,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     html.find('[data-action="quantity-update"]').change(ev => {
       const item = this.actor.items.get(
-        $(ev.currentTarget).parents(itemClass).data('itemId')
+        $(ev.currentTarget).parents(`${itemClass}, ${itemCardClass}`).data('itemId')
       );
 
       const value = parseInt(ev.currentTarget.value),
@@ -498,12 +499,6 @@ export class BoilerplateActorSheet extends ActorSheet {
         )[spellLevel];
 
     const preparedSpellsAtLevel = classItem.data.data.preparedSpells[spellLevel].length;
-
-    console.info(maxSlotsAtLevel, preparedSpellsAtLevel, maxSlotsAtLevel > preparedSpellsAtLevel, getWisBonusSlots(
-      slotsAtLevel,
-      classItem.data.data.hasWisdomBonusSlots,
-      this.actor.data.data.attributes.wis
-    ))
 
     return maxSlotsAtLevel > preparedSpellsAtLevel;
   }
@@ -668,14 +663,14 @@ export class BoilerplateActorSheet extends ActorSheet {
         case 'attribute':
           return this.actor.attributeRoll(dataset.label, dataset.roll, dataset.target)
         case 'item':
-        const itemId = element.closest('[data-item-id]').dataset.itemId;
-        const item = this.actor.items.get(itemId);
-        if (item) return item.roll();
+          const itemId = element.closest('[data-item-id]').dataset.itemId;
+          const item = this.actor.items.get(itemId);
+          if (item) return item.roll();
           break;
         case 'natural-attack':
-        let {damage} = element.dataset;
-        if (damage.indexOf (' ') >= 0)
-          damage = damage.split(' ')[0];
+          let {damage} = element.dataset;
+          if (damage.indexOf (' ') >= 0)
+            damage = damage.split(' ')[0];
           return this.actor.naturalAttack(damage);
       }
     }
@@ -714,7 +709,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     return new Dialog({
       title: `${this.actor.name} is rolling: ${rollLabel}`,
       content: `
-        <div>
+        <div class="roll-modifiers-modal">
           <label for="modifier">Modifier:</label>
           <input name="modifier" placeholder="-2, 4, etc"  />
         </div>

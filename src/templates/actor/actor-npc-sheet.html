@@ -159,39 +159,36 @@
           <div class="stat-region stat-region--saves">
             <h2>{{localize 'SHEET.saves'}}</h2>
             <ul class="saves-list">
-              <li class="saves-list__item saves-list__item--header">
-                <div class="saves-list__name"></div>
-                <div class="saves-list__score">
-                  {{localize 'SHEET.listheadings.saves.value'}}
-                </div>
-                <div class="saves-list__modifier">
-                  {{localize 'SHEET.listheadings.saves.modifier'}}
-                </div>
-              </li>
               {{#each saves as |save key|}}
-                <li class="saves-list__item">
-                  <div
-                    class="saves-list__name rollable"
-                    data-label="{{localize (concat 'SHEET.save.' key)}}"
-                    data-roll-type="Save"
-                    data-roll="1d20{{signedString (lookup ../saveMods key)}}">
-                    {{localize (concat 'SHEET.save.' key)}}
+                <li
+                  class="saves-list__item rollable rollable--no-icon"
+                  data-label="{{localize (concat 'SHEET.save.' key)}}"
+                  data-roll-type="Save"
+                  data-target="{{save}}"
+                  data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+                  <h4 class="saves-list__name">
+                    {{{localize (concat 'SHEET.save.' key)}}}
+                  </h4>
+                  <div class="saves-list__score">
+                    {{localize 'SHEET.listheadings.saves.target'}}: {{save}}
                   </div>
-                  <div class="saves-list__score">{{save}}</div>
                   <div class="saves-list__modifier">
-                    <input type="text" readonly value="{{signedString (lookup ../saveMods key)}}" />
+                    ({{signedString (lookup ../saveMods key)}})
                   </div>
                 </li>
               {{/each}}
               <li class="saves-list__item">
                 <div
-                  class="saves-list__name rollable"
+                  class="saves-list__name rollable rollable--no-icon"
                   data-label="Morale"
-                  data-roll-type="Morale"
+                  data-roll-type="Save"
+                  data-target="{{data.morale}}"
                   data-roll="1d20">
-                  Morale
+                  <h4 class="saves-list__name">Morale</h4>
                 </div>
-                <div class="saves-list__score">{{data.morale}}</div>
+                <div class="saves-list__score">
+                  {{localize 'SHEET.listheadings.saves.target'}}: {{data.morale}}
+                </div>
               </li>
             </ul>
             {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
@@ -253,15 +250,15 @@
           </div>
           
           <div class="stat-region stat-region--xp">
-            {{#unless data.canAutocalculateXP}}
-              <h2>XP</h2>
-            {{else}}
+            <div>
               <h2>
                 <span>XP</span>
-                <span>{{data.calculatedXP}}</span>  
+                {{#if data.canAutocalculateXP}}
+                  <span>{{data.calculatedXP}}</span>
+                {{/if}}
               </h2>
-            {{/unless}}
-
+            </div>
+            
             <div class="configuration__field configuration__field--can-autocalculate-xp">
               <label for="data.canAutocalculateXP">Auto-Calculate</label>
               <input

@@ -102,30 +102,25 @@
 
       <div class="tab-group__container">
         <div class="tab sheet-tab sheet-tab--summary" data-group="primary" data-tab="summary">
-          <div class="saves">
+          <div class="quick-access__saves">
             <h2>{{localize 'SHEET.saves'}}</h2>
             <ul class="saves-list">
-              <li class="saves-list__item saves-list__item--header">
-                <div class="saves-list__name"></div>
-                <div class="saves-list__score">
-                  {{localize 'SHEET.listheadings.saves.value'}}
-                </div>
-                <div class="saves-list__modifier">
-                  {{localize 'SHEET.listheadings.saves.modifier'}}
-                </div>
-              </li>
+              
               {{#each saves as |save key|}}
-                <li class="saves-list__item">
-                  <div
-                    class="saves-list__name rollable"
-                    data-label="{{localize (concat 'SHEET.save.' key)}}"
-                    data-roll-type="Save"
-                    data-roll="1d20{{signedString (lookup ../saveMods key)}}">
-                    {{localize (concat 'SHEET.save.' key)}}
+                <li
+                  class="saves-list__item rollable rollable--no-icon"
+                  data-label="{{localize (concat 'SHEET.save.' key)}}"
+                  data-roll-type="Save"
+                  data-target="{{save}}"
+                  data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+                  <h4 class="saves-list__name">
+                    {{{localize (concat 'SHEET.save.' key)}}}
+                  </h4>
+                  <div class="saves-list__score">
+                    {{localize 'SHEET.listheadings.saves.target'}}: {{save}}
                   </div>
-                  <div class="saves-list__score">{{save}}</div>
                   <div class="saves-list__modifier">
-                    <input type="text" readonly value="{{signedString (lookup ../saveMods key)}}" />
+                    ({{signedString (lookup ../saveMods key)}})
                   </div>
                 </li>
               {{/each}}
@@ -137,28 +132,24 @@
           </div>
 
           <div class="quick-access__equipment">
-            <h2>Alignment</h2>
-            <select name="data.alignment" data-dtype="String">
-              <option value="">Unaligned</option>
-              {{#select data.alignment}}
-                {{#each alignments as |alignment key|}}
-                  <option value="{{key}}">{{alignment}}</option>
-                {{/each}}
-              {{/select}}
-            </select>
-
-            <h2>Equipped Items</h2>
-            <ul>
-            {{#each equippedItems}}
-              <li
-                data-item-id="{{_id}}"
-                data-roll-type="item"
-                data-label="{{item.name}}"
-                class="{{#if (equals type "weapon")}}rollable{{/if}}"
-              >
-              {{name}}</li>
-            {{/each}}
-            </ul>
+            {{#if equippedItems.length}}
+              <h2>Equipped Items</h2>
+              <ul class="equipped-list">
+              {{#each equippedItems}}
+                <li
+                  data-item-id="{{_id}}"
+                  data-roll-type="item"
+                  data-label="{{item.name}}"
+                  class="equipped-tile {{#if (equals type "weapon")}}rollable rollable--no-icon{{/if}}"
+                >
+                  <img src="{{this.img}}" />
+                  <span>
+                    {{name}}
+                  </span>
+                </li>
+              {{/each}}
+              </ul>
+            {{/if}}
           </div>
 
           {{#if skills.length}}
@@ -177,16 +168,18 @@
               </h3>
               <ul class="skills-list">
                 {{#each skills}}
-                <li class="skills-list__item">
-                  <span
-                    class="rollable"
-                    data-label="{{name}}"
-                    data-roll-type="Skill"
-                    data-roll="1d20-{{bonus}}">
-                    {{name}} ({{attribute}})
+                <li
+                  class="skills-list__item rollable rollable--no-icon"
+                  data-label="{{localize (concat 'ATTRIBUTE.' attribute)}} ({{name}})"
+                  data-target="{{lookup ../../data.attributes attribute}}"
+                  data-roll-type="Attribute"
+                  data-roll="1d20-{{bonus}}">
+                  <img src="systems/foundry-chromatic-dungeons/dist/assets/stat-icons/{{attribute}}.svg" />
+                  <span>
+                    {{name}}
                   </span>
                   <span>
-                    {{bonus}}
+                    {{signedString bonus}}
                   </span>
                 </li>
                 {{/each}}

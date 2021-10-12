@@ -3,6 +3,26 @@
     grid-template-columns: 4fr 2fr 1fr 1fr;
   }
 
+  .quick-access__equipment {
+    grid-column: 1/4;
+
+    .equipped-list {
+      margin: 0;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 1em;
+    }
+  
+    .equipped-tile {
+      @extends %icon-card;
+    }
+  
+    .equipped-tile.rollable {
+      @extends %icon-card-button;
+    }
+  }
+  
   .sheet-tab--biography {
     .biography__appearance {
       display: grid;
@@ -15,9 +35,7 @@
     }
 
     .biography__portrait {
-      border: none;
-      background-color: rgba(0, 0, 0, .05);
-      box-shadow: inset var(--elevation-1-shadow);
+      @extends %inset-image;
     }
   }
 }

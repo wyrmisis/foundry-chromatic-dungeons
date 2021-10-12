@@ -1,0 +1,96 @@
+/**
+ *  SASS-like "mixins"
+ *  See https://github.com/GarthDB/postcss-inherit
+ */
+
+%inset-image {
+  background-color: rgba(0,0,0,.05);
+  border: none;
+  box-shadow: inset var(--elevation-05-shadow);
+}
+
+%card {
+  &:not(&--empty) {
+    padding: .5rem;
+    box-shadow: var(--elevation-05-shadow);
+    border-radius: 2px;
+  }
+
+  &--empty {
+    color: #666;
+    font-style: italic;
+  }
+
+  &--removing {
+    opacity: 0;
+  }
+
+  input {
+    &[type="number"] {
+      width:3em;
+      margin-left: .5em;
+      text-align: right;
+    }
+  }
+
+  & > span {
+    margin-left: .5em;
+    margin-right: auto;
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
+
+%card-button {
+  @extends %card;
+  
+  transition: box-shadow 100ms ease-in-out,
+                padding 100ms ease-in-out,
+                opacity 100ms ease-in-out,
+                color 100ms ease-in-out;
+
+  &:not(&--empty) {
+    box-shadow: var(--elevation-1-shadow);
+
+    &:hover {
+      cursor: pointer;
+      padding: 10px .5rem 6px;
+      box-shadow: var(--elevation-05-shadow);
+    }
+
+    &:active {
+      padding:  12px .5rem 4px;
+      box-shadow: inset var(--elevation-1-shadow); 
+    }
+  }
+}
+
+%icon-card {
+  @extends %card;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  img {
+    width: 32px;
+    height: 32px;
+
+    @extends %inset-image;
+  }
+
+  & > span {
+    flex: 1;
+
+    &:last-of-type:not(:first-of-type) {
+      flex: 0;
+    }
+  }
+}
+
+%icon-card-button {
+  @extends %icon-card;
+  @extends %card-button;
+}

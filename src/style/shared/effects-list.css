@@ -1,5 +1,5 @@
 .effects-list {
-  .effects-list__list-item {
+  &__list-item {
     display: grid;
     grid-template-columns: 1fr 5fr 2fr 2fr 2fr;
     grid-column-gap: .5em;
@@ -7,34 +7,30 @@
     align-items: center;
     padding: .5rem;
    
-    &:not(.effects-list__list-item--header) {
+    &--header {
+      font-weight: 600;
+  
+      .effects-list__name {
+        grid-column: 2;
+      }
+    } 
+
+    &:not(&--header) {
       box-shadow: var(--elevation-1-shadow);
     }
 
-    img {
-      background: url(../ui/parchment.jpg) repeat
-    }
-
-    .effects-list__controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-    }
-  }
-
-  .effects-list__list-item--empty {
-    color: #666;
-    font-style: italic;
-
-    span {
-      grid-column: 2/4
+    &--empty {
+      color: #666;
+      font-style: italic;
+  
+      span {
+        grid-column: 2/4
+      }
     }
   }
 
-  .effects-list__list-item--header {
-    font-weight: 600;
-
-    .effects-list__name {
-      grid-column: 2;
-    }
-  } 
+  &__controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

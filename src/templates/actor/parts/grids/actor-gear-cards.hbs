@@ -1,0 +1,23 @@
+<ul class="items__cards items__cards--gear">
+  {{#each gear as |item id|}}
+    <li
+      class="item-card"
+      data-item-id="{{item._id}}">
+      <img src="{{item.img}}">
+      <span class="item-card__name">
+        {{item.name}}
+      </span>
+      <input
+        class="item-card__quantity"
+        type="number"
+        data-dtype="Number"
+        data-action="quantity-update"
+        min="{{item.data.quantity.min}}"
+        value="{{item.data.quantity.value}}" />
+    </li>
+  {{else}}
+    <li class="items__list-item items__list-item--empty">
+      <span>Empty</span>
+    </li>
+  {{/each}}
+</ul>
