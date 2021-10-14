@@ -6,7 +6,7 @@ Hooks.once('devModeReady', () => {
   script.src = src;
 
   document.body.appendChild(script);
-})
+});
 
 /* -------------------------------------------- */
 /*  Init Hook                                   */

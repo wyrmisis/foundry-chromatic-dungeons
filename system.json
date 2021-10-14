@@ -11,7 +11,6 @@
   ],
   "esmodules": ["dist/js/bundle.min.js"],
   "styles": ["dist/css/bundle.css"],
-  "packs": [],
   "languages": [{
     "lang": "en",
     "name": "English",
@@ -30,6 +29,78 @@
     {
       "name": "fvtt-rolldata-aware-active-effects",
       "manifest": "https://github.com/wyrmisis/fvtt-rolldata-aware-active-effects/releases/latest/download/module.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "weapon",
+      "label": "Weapons",
+      "path": "packs/weapons.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "armor",
+      "label": "Armor",
+      "path": "packs/armor.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "gear",
+      "label": "Adventuring Gear",
+      "path": "packs/gear.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "goods",
+      "label": "Trade Goods",
+      "path": "packs/trade-goods.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "treasure",
+      "label": "Treasure",
+      "path": "packs/treasure.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "spell",
+      "label": "Spellbook",
+      "path": "packs/spellbook.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "ancestry",
+      "label": "Ancestries",
+      "path": "packs/ancestries.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "heritage",
+      "label": "Heritage Options",
+      "path": "packs/heritages.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "class",
+      "label": "Classes",
+      "path": "packs/classes.db",
+      "entity": "Item",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "bestiary",
+      "label": "Bestiary",
+      "path": "packs/bestiary.db",
+      "entity": "Actor",
+      "module": "foundry-chromatic-dungeons"
     }
   ],
   "gridDistance": 5,
