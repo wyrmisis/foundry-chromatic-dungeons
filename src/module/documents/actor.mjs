@@ -121,7 +121,7 @@ export class BoilerplateActor extends Actor {
 
     data.ac = this._getAC();
 
-    data.morale = parseInt(data.hitDice) + data.baseMorale;
+    data.morale = data.baseMorale - parseInt(data.hitDice);
 
     data.calculatedXP = getMonsterXP(
       data.hitDice,
