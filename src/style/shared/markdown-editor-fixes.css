@@ -12,6 +12,7 @@
 
 .sheet--npc {
   .sheet-tab {
+    &--treasure,
     &--description {
       .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
         min-height: 382px;
