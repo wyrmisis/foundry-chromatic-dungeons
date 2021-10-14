@@ -9,9 +9,10 @@ Hooks.once('devModeReady', () => {
 });
 
 /* -------------------------------------------- */
-/*  Init Hook                                   */
+/*  Init Hooks                                  */
 /* -------------------------------------------- */
-import './hooks/init'
+import './hooks/init';
+import './hooks/settings';
 
 /* -------------------------------------------- */
 /*  Ready Hooks                                 */

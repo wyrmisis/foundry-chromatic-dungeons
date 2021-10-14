@@ -53,8 +53,11 @@
       </i>
     </button>
   </h3>
-  {{> (partial "actor/parts/grids/actor-gear-cards.hbs") }}
-  {{!-- {{> (partial "actor/parts/grids/actor-gear-grid.hbs") }} --}}
+  {{#if useGearCards}}
+    {{> (partial "actor/parts/grids/actor-gear-cards.hbs") }}
+  {{else}}
+    {{> (partial "actor/parts/grids/actor-gear-grid.hbs") }}
+  {{/if}}
 
   <h3 class="action-header">
     <span>Wealth</span>

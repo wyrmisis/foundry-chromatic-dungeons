@@ -452,15 +452,16 @@ export class BoilerplateActor extends Actor {
     }
 
     const filterHeritages = (droppedItem) => {
-      // @todo Add a setting for number of heritages
       if (droppedItem.type === 'heritage') {
+        const maxHeritages = game.settings.get("foundry-chromatic-dungeons", "max-heritages");
+
         const actorHeritages = this.items.filter(item => item.type === 'heritage');
   
         if (hasThisAlready('heritage', droppedItem, actorHeritages))
           return reportAndQuit(`${this.name} already has the ${droppedItem.name} heritage`);
   
-        if (actorHeritages.length >= 2)
-          return reportAndQuit(`${this.name} already has two heritages`);
+        if (actorHeritages.length >= maxHeritages)
+          return reportAndQuit(`${this.name} already has ${maxHeritages} heritage${maxHeritages === 1 ? '' : 's'}.`);
       }
 
       return true;
@@ -474,14 +475,18 @@ export class BoilerplateActor extends Actor {
         if (hasThisAlready('class', droppedItem, actorClasses))
           return reportAndQuit(`${this.name} already has the ${droppedItem.name} class`);
 
-        const reqs = droppedItem.data.requirements
-        const attributes = this.data.data.attributes;
-        const missedReqs = Object.keys(reqs).filter(
-          (reqKey) => attributes[reqKey] < reqs[reqKey]
-        );
+        const canRestrict = game.settings.get("foundry-chromatic-dungeons", "class-restrictions");
 
-        if (missedReqs.length)
-          return reportAndQuit(`${this.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
+        if (canRestrict) {
+          const reqs = droppedItem.data.requirements
+          const attributes = this.data.data.attributes;
+          const missedReqs = Object.keys(reqs).filter(
+            (reqKey) => attributes[reqKey] < reqs[reqKey]
+          );
+
+          if (missedReqs.length)
+            return reportAndQuit(`${this.name} does not meet the attribute requirements to become a ${droppedItem.name}.`);
+        }
       }
 
       return true;
