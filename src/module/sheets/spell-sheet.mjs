@@ -56,7 +56,7 @@ export default class SpellSheet extends ItemSheet {
   }
 
   async _getClasses () {
-    const classCompendium = game.packs.get('chromatic-dungeons-compendia.class');
+    const classCompendium = game.packs.get('foundry-chromatic-dungeons.class');
     const compendiumClasses = classCompendium.index
       .filter(({name}) => !name.includes('#'));
     const compendiumClassItems = await Promise.all(
