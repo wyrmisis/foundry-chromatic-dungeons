@@ -22,6 +22,14 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-wealth-grid.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/item-grid-actions.hbs`,
 
+    // NPC-specific Partials
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-header.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-summary.hbs`,
+
+    // PC-specific Partials
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/pc-header.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/pc-summary.hbs`,
+
     // Item partials
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-attribute.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-description.hbs`,

@@ -62,14 +62,14 @@ CHROMATIC.classGroups = {...classGroups, custom: 'Custom'};
 CHROMATIC.templateDir = 'systems/foundry-chromatic-dungeons/dist/templates';
 
 CHROMATIC.spellSchools = {
-  abjuration: "Abjuration",
-  alteration: "Alteration",
+  abjuration:  "Abjuration",
+  alteration:  "Alteration",
   conjuration: "Conjuration",
-  divination: "Divination",
+  divination:  "Divination",
   enchantment: "Enchantment",
-  evocation: "Evocation",
-  necromancy: "Necromancy",
-  illusion: "Illusion"
+  evocation:   "Evocation",
+  necromancy:  "Necromancy",
+  illusion:    "Illusion"
 };
 
 CHROMATIC.spellPointCosts = {
@@ -85,29 +85,40 @@ CHROMATIC.spellPointCosts = {
 };
 
 CHROMATIC.saves = {
-  reflex: "Reflex",
-  poison: "Poison/Disease",
+  reflex:   "Reflex",
+  poison:   "Poison/Disease",
   creature: "Creature Ability",
-  spell: "Spell/Magic Item"
+  spell:    "Spell/Magic Item"
 }
 
 CHROMATIC.monsterTypes = {
-  beast: "Beast",
-  demon: "Demon",
-  devil: "Devil",
-  dinosaur: "Dinosaur",
-  dragon: "Dragon",
-  elemental: "Elemental",
-  fey: "Fey",
-  fiend: "Fiend",
-  giant: "Giant",
-  golem: "Golem",
-  humanoid: "Humanoid",
+  beast:       "Beast",
+  demon:       "Demon",
+  devil:       "Devil",
+  dinosaur:    "Dinosaur",
+  dragon:      "Dragon",
+  elemental:   "Elemental",
+  fey:         "Fey",
+  fiend:       "Fiend",
+  giant:       "Giant",
+  golem:       "Golem",
+  humanoid:    "Humanoid",
   lycanthrope: "Lycanthrope",
   monstrosity: "Monstrosity",
-  ooze: "Ooze",
-  undead: "Undead",
+  ooze:        "Ooze",
+  undead:      "Undead",
 }
+
+CHROMATIC.moveTypes = {
+  move:   "Move",
+  climb:  "Climb",
+  fly:    "Fly",
+  swim:   "Swim",
+  burrow: "Burrow",
+  jump:   "Jump",
+  leap:   "Leap",
+  web:    "Web"
+};
 
 CHROMATIC.ascii = `
 ,- _~. ,,                                 ,          

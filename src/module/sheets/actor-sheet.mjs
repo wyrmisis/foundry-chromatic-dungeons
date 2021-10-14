@@ -109,6 +109,8 @@ export class BoilerplateActorSheet extends ActorSheet {
    _prepareNpcData(context) {
     // Constants for the template
     context.monsterTypes = CONFIG.CHROMATIC.monsterTypes;
+    context.moveTypes = CONFIG.CHROMATIC.moveTypes;
+    context.isNPC = true;
   }
 
   /**
@@ -444,16 +446,16 @@ export class BoilerplateActorSheet extends ActorSheet {
       });
     }
 
-    html.find('[data-action="add-npc-attack"]').click(ev => {
+    html.find('[data-action="add-npc-move"]').click(ev => {
       this.actor.update({
-        [`data.attacks.${randomID()}`]: {attack: '', damage: '', attackType: 'melee'}
+        [`data.move.${randomID()}`]: {type: 'move', distance: '0'}
       });
     });
-    html.find('[data-action="delete-npc-attack"]').click(ev => {
+    html.find('[data-action="delete-npc-move"]').click(ev => {
       const { index } = ev.currentTarget.dataset;
 
       this.actor.update({
-        [`data.attacks`]: {
+        [`data.move`]: {
           [`-=${index}`]: null
         }
       });

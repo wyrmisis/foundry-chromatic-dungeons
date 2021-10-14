@@ -6,18 +6,6 @@
   </div>
   {{/if}}
 
-  {{#if data.treasure}}
-    <h3>Treasure</h3>
-    {{editor
-      content=data.treasure
-      target="data.treasure"
-      rollData=rollData
-      button=true
-      owner=owner
-      editable=editable
-    }}
-  {{/if}}
-
   <h3 class="action-header">
     <span>Weapons</span>
     <button type="button" data-item-action="create" data-item-type="weapon">
@@ -27,6 +15,25 @@
     </button>
   </h3>
   {{> (partial "actor/parts/grids/actor-weapon-grid.hbs") }}
+  {{#if isNPC}}
+    <div class="attack-settings">
+      <h4>Attack Settings</h4>
+
+      <label for="data.attacks">Attacks per turn</label>
+      <input
+        name="data.attacks"
+        value="{{data.attacks}}"
+        type="text"
+        data-dtype="String" />
+
+      <label for="data.specialAttacks">Special Attacks</label>
+      <input
+        name="data.specialAttacks"
+        value="{{data.specialAttacks}}"
+        type="text"
+        data-dtype="String" />
+    </div>
+  {{/if}}
 
   <h3 class="action-header">
     <span>Armor</span>

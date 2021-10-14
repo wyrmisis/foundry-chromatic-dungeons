@@ -1,0 +1,72 @@
+<header class="sheet-header">
+    <div class="sheet-header__container">
+      <input
+        class="name"
+        name="name"
+        type="text"
+        value="{{actor.name}}"
+        placeholder="Name"/>
+
+      <div class="hp">
+        <label 
+          for="data.hp.value"
+          class="hp__label">
+          <i class="fa fa-heart">
+            <span class="sr-only">
+              {{localize "SHEET.hp"}}
+            </span>
+          </i>
+        </label>
+        
+        <input
+          type="number"
+          name="data.hp.value"
+          value="{{data.hp.value}}"
+          max="{{data.hp.max}}"
+          data-dtype="Number"/>
+        <span>/</span>
+        <input
+          type="number"
+          name="data.hp.max"
+          min="{{data.hp.value}}"
+          value="{{data.hp.max}}"
+          data-dtype="Number" />
+      </div>
+
+      <div class="ac">
+        <label 
+          for="ac"
+          class="ac__label">
+          <i class="fa fa-shield-alt">
+            <span class="sr-only">
+              {{localize "SHEET.ac"}}
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="ac"
+          value="{{ac}}"
+          readonly
+          data-dtype="Number"/>
+      </div>
+
+      <div class="move">
+        <label 
+          for="move"
+          class="move__label">
+          <i class="fa fa-forward">
+            <span class="sr-only">
+              Move Speed
+            </span>
+          </i>
+        </label>
+        <input
+          type="number"
+          name="move"
+          value="{{move}}"
+          readonly
+          data-dtype="Number"/>
+      </div>
+    </div>
+  </header>
