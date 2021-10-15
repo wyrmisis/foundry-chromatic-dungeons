@@ -2,49 +2,61 @@
   box-shadow: inset var(--elevation-1-shadow);
 }
 
+/**
+ * The template for this looks like...
+ * .parent-container {
+ *   --height: [the target height, in px];
+ *   .CodeMirror-scroll {
+ *     min-height: calc(var(--height) - 30px) !important
+ *   }
+ *   .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+ *     min-height: var(--height);
+ *   }
+ * }
+ */
+
+%editorSize {
+  .CodeMirror-scroll {
+    min-height: calc(var(--height, 100) - 30) !important;
+  }
+  .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
+    min-height: var(--height, 100) !important;
+  }
+}
+
 .sheet--pc {
-  .sheet-tab--biography {
-    .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
-      min-height: 160px;
-    }
+  .sheet-tab--biography {  
+    --height: 160px;
+    @extends %editorSize;
   }
 }
 
 .sheet--npc {
-  .sheet-tab {
-    &--treasure,
-    &--description {
-      .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
-        min-height: 382px;
-      }
-    }
+  .sheet-tab--treasure,
+  .sheet-tab--description {
+    --height: 382px;
+    @extends %editorSize;
+  }
 
-    &--items {
-      .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
-        min-height: 100px;
-      }
-    }
+  .sheet-tab--items {
+    --height: 100px;
+    @extends %editorSize;
   }
 }
 
 .item {
-  .sheet-tab {
-    &--description {
-      .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
-        min-height: 250px;
-      }
+    .sheet-tab--description {
+      --height: 250px;
+      @extends %editorSize;
     }
-  }
 
-  &-description {
-    .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
-      min-height: 365px;
-    }
+  .item-description {
+    --height: 225px;
+    @extends %editorSize;
   }
 
   .feature {
-    .CodeMirror, .EasyMDEContainer, .CodeMirror-sizer {
-      min-height: 100px;
-    }
+    --height: 100px;
+    @extends %editorSize;
   }
 }
