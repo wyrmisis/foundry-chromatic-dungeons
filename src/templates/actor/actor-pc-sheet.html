@@ -27,6 +27,15 @@
         <a class="item" data-tab="effects">Effects</a>
         <a class="item" data-tab="features">Features</a>
         <a class="item" data-tab="description">Description</a>
+        {{#if showDerivedStatsTab}}
+          <a class="item" data-tab="derived-stats">
+            <i class="fa fa-book">
+              <span class="sr-only">
+                Derived Statistics
+              </span>
+            </i>
+          </a>
+        {{/if}}
       </nav>
 
       <div class="tab-group__container">
@@ -49,15 +58,24 @@
            {{> (partial "actor/parts/actor-items.hbs") }}
         </div>
 
-        {{!-- Owned Spells Tab --}}
-        <div class="tab sheet-tab sheet-tab--spells" data-group="primary" data-tab="spells">
-          {{> (partial "actor/parts/actor-spells.hbs") }}
-        </div>
+        {{#if hasSpellcasting}}
+          {{!-- Owned Spells Tab --}}
+          <div class="tab sheet-tab sheet-tab--spells" data-group="primary" data-tab="spells">
+            {{> (partial "actor/parts/actor-spells.hbs") }}
+          </div>
+        {{/if}}
 
         {{!-- Active Effects Tab --}}
         <div class="tab sheet-tab sheet-tab--effects flexcol" data-group="primary" data-tab="effects">
           {{> (partial "actor/parts/actor-effects.hbs") }}
         </div>
+
+        {{#if showDerivedStatsTab}}
+          {{!-- Derived Stats Tab --}}
+          <div class="tab sheet-tab sheet-tab--derived-stats"  data-group="primary" data-tab="derived-stats">
+            {{> (partial "actor/parts/actor-derived-stats.hbs") }}
+          </div>
+        {{/if}}
       </div>
     </div>
   </main>

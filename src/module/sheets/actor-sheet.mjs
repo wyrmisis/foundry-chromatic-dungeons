@@ -79,8 +79,9 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.effects = prepareActiveEffectCategories(this.actor.effects);
 
     // Settings
-    context.horizontalAttributes = game.settings.get('foundry-chromatic-dungeons', 'horizontal-attributes');
-    context.useGearCards = game.settings.get('foundry-chromatic-dungeons', 'gear-cards');
+    context.horizontalAttributes  = game.settings.get('foundry-chromatic-dungeons', 'horizontal-attributes');
+    context.showDerivedStatsTab   = game.settings.get('foundry-chromatic-dungeons', 'derived-stats-tab');
+    context.useGearCards          = game.settings.get('foundry-chromatic-dungeons', 'gear-cards');
 
     return context;
   }

@@ -13,6 +13,7 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/actor-spells.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/actor-effects.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/actor-biography.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/actor-derived-stats.hbs`,
 
     // Actor Grid Partials
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-weapon-grid.hbs`,

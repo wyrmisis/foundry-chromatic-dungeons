@@ -21,6 +21,15 @@ const setupClientSettings = () => {
     type: Boolean,
     default: false
   });  
+
+  game.settings.register("foundry-chromatic-dungeons", "derived-stats-tab", {
+    name: "(Client) Enable the Derived Stats tab",
+    hint: "Add a tab to the player character sheet that details stats derived from your core attributes.",
+    scope: "client",
+    config: true,
+    type: Boolean,
+    default: false
+  });  
 }
 
 const setupGloablSettings = () => {
@@ -30,7 +39,8 @@ const setupGloablSettings = () => {
     scope: "world",
     config: true,
     type: Boolean,
-    default: true
+    default: true,
+    onChange: () => window.location.reload()
   });
 
   game.settings.register("foundry-chromatic-dungeons", "max-heritages", {
@@ -44,7 +54,8 @@ const setupGloablSettings = () => {
       min: 0,
       max: 10
     },
-    default: 2
+    default: 2,
+    onChange: () => window.location.reload()
   });
   
   game.settings.register("foundry-chromatic-dungeons", "encumbrance", {
@@ -53,6 +64,7 @@ const setupGloablSettings = () => {
     scope: "world",
     config: true,
     type: Boolean,
-    default: true
+    default: true,
+    onChange: () => window.location.reload()
   });
 }
