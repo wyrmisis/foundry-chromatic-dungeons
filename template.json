@@ -98,6 +98,9 @@
     "armor": {
       "templates": ["item", "equipment"],
       "ac": 0,
+      "stealthPenalty": 0,
+      "encumbrancePenalty": 0,
+      "swimPenalty": false,
       "armorType": "armor"
     },
     "magicItem": {
