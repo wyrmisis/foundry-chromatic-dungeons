@@ -93,6 +93,7 @@ export class BoilerplateActor extends Actor {
 
     // Make modifications to data here. For example:
     const data = actorData.data;
+    const useEncumbrance = game.settings.get('foundry-chromatic-dungeons', 'encumbrance');
 
     // Loop through ability scores, and add their modifiers to our sheet output.
     // for (let [key, ability] of Object.entries(data.abilities)) {
@@ -106,9 +107,94 @@ export class BoilerplateActor extends Actor {
 
     data.move = this._getMoveSpeed();
 
+    if (useEncumbrance)
+      data.move = this.calculateEncumbrance();
+
     data.spellcasting = this._getSpellSlots();
 
     data.maxLanguages = getDerivedStatWithContext('int', 'languages', this.data.data)
+
+    data.swim = this.calculateSwimData();
+  }
+
+  calculateSwimData(data) {
+    const modHP = getDerivedStatWithContext('con', 'modHP', this.data.data);
+    const getArmor = ({data}) => data.data.equipped && data.data.swimPenalty;
+    const hasArmorPenalty = !!this._getItemsOfType('armor', getArmor).length;
+
+    let speed = 10;
+    let conPenalty = 0;
+    let roundsBeforeChecks = this.data.data.attributes.con;
+    let roundsOfHeldBreath = (modHP >= 1) ? modHP * 2 : 1;
+
+    const {
+      atOneQuarter,
+      atHalf,
+      atThreeQuarters,
+      atFull
+    } = this.data.data.carryWeight;
+
+    if (hasArmorPenalty) {
+      speed -= 5;
+      conPenalty -= 7;
+    }
+
+    if (atOneQuarter) {
+      speed -= 5;
+      conPenalty -= 7;
+    } else if (atHalf || atThreeQuarters) {
+      speed = (hasArmorPenalty) ? 0 : speed - 5;
+      conPenalty -= 10;
+    } else if (atFull) {
+      speed = 0;
+      con -= 10;
+    }
+
+    return {
+      speed,
+      conPenalty,
+      roundsBeforeChecks,
+      roundsOfHeldBreath
+    };
+  }
+
+  calculateEncumbrance() {
+    let penalty = 0;
+
+    const { move } = this.data.data;
+
+    // If we're not a warrior, we are penalized for wearing heavy armor
+    const getArmor = ({data}) => data.data.equipped && data.data.encumbrancePenalty;
+    const getWarriorGroupClasses = ({data}) => data.data.classGroup === 'warrior';
+    const wornArmor = this
+      ._getItemsOfType('armor', getArmor);
+    const isWarrior = this
+      ._getItemsOfType('class', getWarriorGroupClasses)
+      .length > 0;
+
+    const {
+      atHalf,
+      atThreeQuarters,
+      atFull
+    } = this.data.data.carryWeight;
+
+    if (!isWarrior && wornArmor.length)
+      penalty += wornArmor[0].data.data.encumbrancePenalty;
+
+    if (atFull) {
+      penalty += 100
+    } else if (atThreeQuarters) {
+      penalty += 50
+    } else if (atHalf) {
+      penalty += 25
+    }
+    
+    if (penalty > 100)
+      penalty = 100;
+
+    return Math.floor(
+      move - (move * (penalty / 100))
+    );
   }
 
   /**
@@ -172,6 +258,8 @@ export class BoilerplateActor extends Actor {
       0
     );
 
+    const maxCarryWeight = getDerivedStatWithContext('str', 'carryWeight', this.data.data);
+
     Object.keys(this.data.data.wealth).forEach(
       (coinType) => totalItemWeight += (
         this.data.data.wealth[coinType] / 10
@@ -181,7 +269,11 @@ export class BoilerplateActor extends Actor {
     return {
       value: totalItemWeight,
       min: 0,
-      max: getDerivedStatWithContext('str', 'carryWeight', this.data.data)
+      max: maxCarryWeight,
+      atOneQuarter:    (maxCarryWeight * .25) <= totalItemWeight,
+      atHalf:          (maxCarryWeight * .5)  <= totalItemWeight,
+      atThreeQuarters: (maxCarryWeight * .75) <= totalItemWeight,
+      atFull:           maxCarryWeight        <= totalItemWeight
     }
   }
 
