@@ -24,8 +24,8 @@
 
 ## Monsters
 * When dropping an NPC token on the map, optionally allow the GM to drop a number of them equal to the formula in `data.numberAppearing`
-* Split the number of creatures that can show up in a lair/colony/etc out from `data.numberAppearing`
-* Directly editable AC
+* ~~Split the number of creatures that can show up in a lair/colony/etc out from `data.numberAppearing`~~
+* ~~Directly editable AC~~ We hack around this by using a Natural Armor item on creatures.
 * Monster spellcasting
 * Monster variants
 
