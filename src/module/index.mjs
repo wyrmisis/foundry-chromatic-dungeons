@@ -19,4 +19,5 @@ import './hooks/settings';
 /* -------------------------------------------- */
 import './hooks/hotbarDrop';
 import './hooks/createToken';
+import './hooks/updateActor';
 import './hooks/renderChatMessage';

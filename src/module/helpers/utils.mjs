@@ -112,6 +112,18 @@ const getWisBonusSlots = (slots, addsBonusSlots, wisScore) => {
     : slots;
 }
 
+const getStatus = (status) =>
+  CONFIG.statusEffects[
+    CONFIG.statusEffects.findIndex(({id}) => id === status)
+  ];
+
+const rollMessageOptions = (actor) => {
+  const speaker = ChatMessage.getSpeaker({ actor });
+  const rollMode = game.settings.get('core', 'rollMode');
+
+  return ChatMessage.applyRollMode({speaker}, rollMode);
+};
+
 export {
   getMonsterXP,
   getLevelFromXP,
@@ -125,5 +137,7 @@ export {
   sourceId,
   getSelf,
   getFirstTargetOfSelf,
-  getWisBonusSlots
+  getWisBonusSlots,
+  getStatus,
+  rollMessageOptions
 };

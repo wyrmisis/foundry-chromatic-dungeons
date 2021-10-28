@@ -1,12 +1,4 @@
-import { getFirstTargetOfSelf } from '../utils.mjs';
-
-const statusDead = CONFIG.statusEffects[
-  CONFIG.statusEffects.findIndex(({id}) => id === 'dead')
-];
-
-const statusUnconscious = CONFIG.statusEffects[
-  CONFIG.statusEffects.findIndex(({id}) => id === 'unconscious')
-]
+import { getFirstTargetOfSelf, rollMessageOptions } from '../utils.mjs';
 
 /**
  * Execute a sequence of chat messages for attack actions.
@@ -30,12 +22,34 @@ const attackSequence = async (
   if (!damageRoll) throw new Error('An attack sequence is missing a damage roll!');
 
   const target = getFirstTargetOfSelf();
-  const targetWasHit = !target || attackRoll.total >= target.data.data.ac;
-  const targetWasDefeated = target && target.data.data.hp.value <= 0
+  const targetWasHit =
+    !target ||
+    attackRoll.total >= target.data.data.ac ||
+    attackRoll.dice[0].total === 20;
+  const critical = {
+    success: true,
+    // success: attackRoll.dice[0].total === 20 && attackRoll.total - target.data.data.ac > 0,
+    failure: attackRoll.dice[0].total === 1
+  }
+  const critType = game.settings.get('foundry-chromatic-dungeons', 'critical-hits');
+  let critEffect;
 
   const diceToRoll = [
     game.dice3d.showForRoll(attackRoll, game.user, true)
   ];
+
+  if (critical.success && critType !== 'none') {
+    let critEffectRoll;
+
+    if (critType === 'table') {
+      critEffectRoll = await new Roll('1d20', {async: true}).roll();
+      diceToRoll.push(game.dice3d.showForRoll(critEffectRoll, game.user, true));
+    }
+
+    critEffect = handleCrits(critEffectRoll?.total);
+
+    console.info(critEffect);
+  }
 
   if (targetWasHit)
     diceToRoll.push(
@@ -65,10 +79,28 @@ const attackSequence = async (
     await target.update({
       ['data.hp.value']: target.data.data.hp.value - damageRoll.total
     })
-
-  if (target && targetWasDefeated)
-    handleTargetDefeatedState(target)
 };
+
+const handleCrits = (critTableRoll) => {
+  if (critTableRoll) {
+    let critResult;
+
+    if      (critTableRoll === 20)  critResult = 'decapitate';
+    else if (critTableRoll === 19)  critResult = 'blind';
+    else if (critTableRoll === 18)  critResult = 'acPenalty';
+    else if (critTableRoll === 17)  critResult = 'attackPenalty';
+    else if (critTableRoll === 16)  critResult = 'bleed';
+    else if (critTableRoll >= 14)   critResult = 'stun';
+    else if (critTableRoll >= 12)   critResult = 'armBreak';
+    else if (critTableRoll >= 10)   critResult = 'legBreak';
+    else if (critTableRoll >= 18)   critResult = 'triple';
+    else                            critResult = 'double';
+
+    return CONFIG.CHROMATIC.critTypes[critResult];
+  }
+
+  return CONFIG.CHROMATIC.critTypes.double;
+}
 
 const getAttackMessage = (
   actor,
@@ -102,33 +134,5 @@ const getAttackMessage = (
     }  
   }
 })
-
-const rollMessageOptions = (actor) => {
-  const speaker = ChatMessage.getSpeaker({ actor });
-  const rollMode = game.settings.get('core', 'rollMode');
-
-  return ChatMessage.applyRollMode({speaker}, rollMode);
-}
-
-const handleTargetDefeatedState = async (target) => {
-  if (!target || target.data.data.hp.value > 0) return;
-
-  await ChatMessage.create({
-    ...rollMessageOptions(target),
-    type: CONST.CHAT_MESSAGE_TYPES.EMOTE,
-    content: `${target.name} collapses in a heap from their injuries!`
-  });
-
-  const {combatant} = target?.token;
-
-  if (combatant && !combatant.data.defeated)
-    if (
-      target.type === 'pc' &&
-      target.data.data.hp.value >= -9
-    )
-      target.token.object.toggleEffect(statusUnconscious);
-    else
-      target.token.object.toggleEffect(statusDead);
-}
 
 export default attackSequence;
