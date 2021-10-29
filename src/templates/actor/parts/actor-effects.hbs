@@ -34,9 +34,9 @@
               class="item-image"
               src="{{effect.data.icon}}"/>
           </div>
-          <div class="effects-list__name">{{effect.data.label}}</div>
-          <div class="effects-list__source">{{effect.sourceName}}</div>
-          <div class="effects-list__duration">{{effect.duration.label}}</div>
+          <div class="effects-list__name">{{localize effect.data.label}}</div>
+          <div class="effects-list__source">{{localize effect.sourceName}}</div>
+          <div class="effects-list__duration">{{localize effect.duration.label}}</div>
           <div class="effects-list__controls">
             <button
               type="button"
@@ -53,6 +53,15 @@
               <i class="fas fa-edit"></i>
             </button>
             {{#if (eq effect.sourceName ../../actor.name)}}
+              <button
+                type="button"
+                class="effect-control"
+                data-action="delete"
+                title="{{localize 'BOILERPLATE.EffectDelete'}}">
+                <i class="fas fa-trash"></i>
+              </button>
+            {{/if}}
+            {{#if (eq effect.sourceName 'None')}}
               <button
                 type="button"
                 class="effect-control"

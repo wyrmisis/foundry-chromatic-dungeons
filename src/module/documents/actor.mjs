@@ -278,7 +278,10 @@ export class BoilerplateActor extends Actor {
   }
 
   _getMoveSpeed() {
-    return this.data.data.modMove + (this._getItemsOfType('ancestry')[0]?.data?.data?.movement || 0)
+    return (
+      this.data.data.modMove +
+      (this._getItemsOfType('ancestry')[0]?.data?.data?.movement || 0)
+    ) * this.data.data.moveMultiplier;
   }
 
   _getAC() {

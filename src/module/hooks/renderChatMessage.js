@@ -55,6 +55,11 @@ const formatAttackRoll = async (message, html) => {
     { parts: tooltips.damage }
   )
 
+  const critTooltip = await renderTemplate(
+    Roll.TOOLTIP_TEMPLATE,
+    { parts: tooltips.crit }
+  )
+
   const context = {
     actor,
     target,
@@ -62,14 +67,20 @@ const formatAttackRoll = async (message, html) => {
     critical,
     message,
     attack: {
-      formula: rolls.attack.formula,
-      total: rolls.attack.total,
-      tooltip: attackTooltip
+      formula:  rolls.attack.formula,
+      total:    rolls.attack.total,
+      tooltip:  attackTooltip
     },
     damage: (!rolls.damage) ? null : {
-      formula: rolls.damage.formula,
-      total: rolls.damage.total,
-      tooltip: damageTooltip
+      formula:  rolls.damage.formula,
+      total:    rolls.damage.total,
+      tooltip:  damageTooltip
+    },
+    crit: (!rolls.crit && !critical.successEffect) ? null : {
+      effect:   critical.successEffect,
+      formula:  rolls.crit?.formula,
+      total:    rolls.crit?.total,
+      tooltip:  critTooltip
     }
   };
 
@@ -124,8 +135,8 @@ const formatSaveRoll = async (message, html) => {
 Hooks.on('renderChatMessage', (message, html) => {
   switch (message.getFlag('foundry-chromatic-dungeons', 'rollType')) {
     case 'attribute': formatAttributeRoll(message, html); break;
-    case 'attack':    formatAttackRoll(message, html); break;
-    case 'save':      formatSaveRoll(message, html); break;
+    case 'attack':    formatAttackRoll(message, html);    break;
+    case 'save':      formatSaveRoll(message, html);      break;
     default:          return;
   }
 })

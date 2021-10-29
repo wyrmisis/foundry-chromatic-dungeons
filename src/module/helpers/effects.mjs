@@ -9,22 +9,8 @@
   const li = a.closest("li");
   const {effectType} = a.closest("[data-effect-type]").dataset;
   const effect = li?.dataset?.effectId ? owner.effects.get(li.dataset.effectId) : null;
-  switch ( a.dataset.action ) {
-    case "create":
-      return owner.createEmbeddedDocuments("ActiveEffect", [{
-        label: "New Effect",
-        icon: "icons/svg/aura.svg",
-        origin: owner.uuid,
-        "duration.rounds": effectType === "temporary" ? 1 : undefined,
-        disabled: effectType === "inactive"
-      }]);
-    case "edit":
-      return effect.sheet.render(true);
-    case "delete":
-      return effect.delete();
-    case "toggle":
-      return effect.update({disabled: !effect.data.disabled});
-  }
+  
+  manageActiveEffect(owner, effectType, a.dataset.action, effect)
 }
 
 /**
@@ -61,4 +47,30 @@ export function prepareActiveEffectCategories(effects) {
       else categories.passive.effects.push(e);
     }
     return categories;
+}
+
+export function manageActiveEffect(
+  target,
+  effectType,
+  action,
+  effect = null,
+  label = "New Effect",
+  icon = "icons/svg/aura.svg"
+) {
+  switch (action) {
+    case "create":
+      return target.createEmbeddedDocuments("ActiveEffect", [{
+        label,
+        icon,
+        origin: target.uuid,
+        "duration.rounds": effectType === "temporary" ? 1 : undefined,
+        disabled: effectType === "inactive"
+      }]);
+    case "edit":
+      return effect?.sheet.render(true);
+    case "delete":
+      return effect?.delete();
+    case "toggle":
+      return effect?.update({disabled: !effect.data.disabled});
+  }
 }

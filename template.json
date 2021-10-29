@@ -20,6 +20,7 @@
         "modInitiative": 0,
         "modAC": 0,
         "modMove": 0,
+        "moveMultiplier": 1,
         "modToHit": 0,
         "modDamage": 0,
         "modPerception": 0

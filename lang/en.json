@@ -70,5 +70,32 @@
   "BOILERPLATE.EffectEdit": "Edit Effect",
   "BOILERPLATE.EffectDelete": "Delete Effect",
 
-  "BOILERPLATE.Add": "Add"
+  "BOILERPLATE.Add": "Add",
+
+  "CRITICAL.Header.double":         "Double damage!",
+  "CRITICAL.Header.triple":         "Triple damage!",
+  "CRITICAL.Header.legBreak":       "Target's leg is rendered useless!",
+  "CRITICAL.Header.armBreak":       "Target's arm is rendered useless!",
+  "CRITICAL.Header.stun":           "Stunning blow!",
+  "CRITICAL.Header.bleed":          "Target is bleeding!",
+  "CRITICAL.Header.attackPenalty":  "Exceptional pain!",
+  "CRITICAL.Header.acPenalty":      "Armor Rended!",
+  "CRITICAL.Header.blind":          "Target's eye is removed!",
+  "CRITICAL.Header.decapitate":     "Decapitation!",
+
+  "CRITICAL.Body.double":         "Double the amount of damage you rolled, after modifiers.",
+  "CRITICAL.Body.triple":         "Triple the amount of damage you rolled, after modifiers.",
+  "CRITICAL.Body.legBreak":       "-50% movement",
+  "CRITICAL.Body.armBreak":       "Target cannot use this arm until healed.",
+  "CRITICAL.Body.stun":           "Target is Stunned for their next turn.",
+  "CRITICAL.Body.bleed":          "At the start of their next turn, roll weapon damage again and apply.",
+  "CRITICAL.Body.attackPenalty":  "The target suffers from -2 to its attack rolls.",
+  "CRITICAL.Body.acPenalty":      "The target's AC is reduced by 2.",
+  "CRITICAL.Body.blind":          "The target is now Blinded.",
+  "CRITICAL.Body.decapitate":     "The target is immediately slain!",
+
+  "CRITICAL.Effect.legBreak":       "Mangled Leg",
+  "CRITICAL.Effect.armBreak":       "Mangled Arm",
+  "CRITICAL.Effect.attackPenalty":  "Exceptional pain",
+  "CRITICAL.Effect.acPenalty":      "Rended Armor"
 }

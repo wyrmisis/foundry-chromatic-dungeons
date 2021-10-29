@@ -3,13 +3,13 @@
     {{#if critical.success}}
       <h2>Critical Hit!</h2>
     {{else}}
-      <h3>Attack</h3>
+      <h2>Attack</h3>
     {{/if}}
   {{else}}
     {{#if critical.failure}}
-      <h3>Critical Miss!</h3>
+      <h2>Critical Miss!</h3>
     {{else}}
-      <h3>Miss!</h3>
+      <h2>Miss!</h3>
     {{/if}}
   {{/if}}
   <div class="dice-roll dice-roll__attack">
@@ -25,7 +25,7 @@
   </div>
   
   {{#if damage}}
-    <h3>Damage</h3>
+    <h2>Damage</h2>
     <div class="dice-roll dice-roll__damage">
       <div class="dice-result">
         <div class="dice-formula">
@@ -37,5 +37,23 @@
         </div>
       </div>
     </div>
+  {{/if}}
+
+  {{#if crit}}
+    <h2>{{localize (concat 'CRITICAL.Header.' crit.effect)}}</h2>
+    <p>{{localize (concat 'CRITICAL.Body.' crit.effect)}}</p>
+    {{#if crit.total}}
+      <div class="dice-roll dice-roll__crit">
+        <div class="dice-result">
+          <div class="dice-formula">
+            {{crit.formula}}  
+          </div>
+          {{{crit.tooltip}}}
+          <div class="dice-total">
+            {{crit.total}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
   {{/if}}
 </div>

@@ -144,3 +144,17 @@ CHROMATIC.ICONS = {
   DEATH: 'icons/svg/skull.svg',
   UNCONSCIOUS: 'icons/svg/unconscious.svg'
 } 
+
+// key: ['value', rollThreshold]
+CHROMATIC.critTypes = {
+  double:         ['double',         5],
+  triple:         ['triple',         8],
+  legBreak:       ['legBreak',      10],
+  armBreak:       ['armBreak',      12],
+  stun:           ['stun',          14],
+  bleed:          ['bleed',         16],
+  attackPenalty:  ['attackPenalty', 17],
+  acPenalty:      ['acPenalty',     18],
+  blind:          ['blind',         19],
+  decapitate:     ['decapitate',    20]
+}

@@ -67,4 +67,19 @@ const setupGloablSettings = () => {
     default: true,
     onChange: () => window.location.reload()
   });
+
+  game.settings.register("foundry-chromatic-dungeons", "critical-hits", {
+    name: "Critical Hits",
+    hint: "Which optional rules would you like to use for critical hits (a result of 20 on an attack roll)?",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "none",
+    choices: {
+      "none": "None",
+      "double": "Double damage",
+      "table": "Use the Critical Hit table"
+    },
+    onChange: () => window.location.reload()
+  });
 }
