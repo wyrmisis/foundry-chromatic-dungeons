@@ -20,7 +20,7 @@
     <div class="attributes">
       <section class="item-attributes">
         <div class="item-attributes__group">
-          <h2>Basic Information</h2>
+          <h2>Information</h2>
 
           <div class="item-attributes__item item-attributes__item--compact">
             <label for="data.school">School</label>
@@ -34,8 +34,35 @@
               {{/select}}
             </select>
           </div>
+          
 
-          <h3 class="action-header">
+          <h3>Components</h3>
+
+          <div class="item-attributes__item item-attributes__item--compact">
+            <label for="data.hasVerbalComponent">Verbal</label>
+            <input
+              name="data.hasVerbalComponent"
+              type="checkbox"
+              {{checked data.hasVerbalComponent}} />
+          </div>
+
+          <div class="item-attributes__item item-attributes__item--compact">
+            <label for="data.hasSomaticComponent">Somatic</label>
+            <input
+              name="data.hasSomaticComponent"
+              type="checkbox"
+              {{checked data.hasSomaticComponent}} />
+          </div>
+
+          <div class="item-attributes__item item-attributes__item--compact">
+            <label for="data.hasMaterialComponent">Material</label>
+            <input
+              name="data.hasMaterialComponent"
+              type="checkbox"
+              {{checked data.hasMaterialComponent}} />
+          </div>
+
+          <h2 class="action-header">
             <span>Spell Levels</span>
             <span>
               <button type="button" data-action="add-spell-level">
