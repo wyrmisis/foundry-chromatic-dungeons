@@ -5,6 +5,8 @@ An implementation of the OSR TTRPG system, [Chromatic Dungeons](https://izegrimc
 **Note**: While this system should be in a functional state, there is still [plenty left to do](docs/todo.md). 
 
 ## Installation
+The easiest way to install this system is from the Foundry UI; navigate to the Systems tab from your config screen, click on "Install System" at the bottom of the view, and then search for Chromatic Dungeons.
+
 You can grab the latest build of this system by pasting the following into your system installation dialog in Foundry:
 
 ```
