@@ -3,7 +3,8 @@
     "types": ["pc", "npc"],
     "templates": {
       "attributes": {
-        "attributes": { "str": 3, "int": 3, "wis": 3, "dex": 3, "con": 3, "cha": 3 }
+        "attributes": { "str": 3, "int": 3, "wis": 3, "dex": 3, "con": 3, "cha": 3 },
+        "attributeMods": { "str": 0, "int": 0, "wis": 0, "dex": 0, "con": 0, "cha": 0 }
       },
       "meta": {
         "alignment": "",
@@ -13,8 +14,37 @@
       "wealth": {
         "wealth": { "cp": 0, "sp": 0, "ep": 0, "gp": 0, "pp": 0 }
       },
-      "saveMods": {
-        "saveMods": { "reflex": 0, "poison": 0, "creature": 0, "spell": 0 }
+      "defenses": {
+        "hp": { "value": 1, "min": 0, "max": 1 },
+        "baseAC": 10,
+        "saveMods": { "reflex": 0, "poison": 0, "creature": 0, "spell": 0 },
+        "weaknesses": {
+          "nonmagical": false,
+          "magical": false,
+          "slashing": 0,
+          "piercing": 0,
+          "bludgeoning": 0,
+          "fire": 0,
+          "cold": 0
+        },
+        "resistances": {
+          "nonmagical": false,
+          "magical": false,
+          "slashing": 0,
+          "piercing": 0,
+          "bludgeoning": 0,
+          "fire": 0,
+          "cold": 0
+        },
+        "immunities": {
+          "nonmagical": false,
+          "magical": false,
+          "slashing": 0,
+          "piercing": 0,
+          "bludgeoning": 0,
+          "fire": 0,
+          "cold": 0
+        }
       },
       "modifiers": {
         "modInitiative": 0,
@@ -27,24 +57,22 @@
       }
     },
     "pc": {
-      "templates": ["attributes", "wealth", "meta", "modifiers", "saveMods"],
-      "hp": { "value": 10, "min": 0, "max": 10 },
+      "templates": ["attributes", "wealth", "meta", "modifiers", "defenses"],
       "baseAC": 10,
       "spellPoints": {},
       "spellSlots": {},
       "languages": []
     },
     "npc": {
-      "templates": ["attributes", "meta", "modifiers", "saveMods"],
-      "type": "",
+      "templates": ["attributes", "meta", "modifiers", "defenses"],
+      "type": "beast",
       "numberAppearing": "",
       "numberInLair": "",
       "size": "",
       "perceptionMod": "",
       "treasure": "",
-      "hp": { "value": 1, "min": 0, "max": 1 },
-      "hitDice": "",
-      "hitDiceBonus": "",
+      "hitDice": 1,
+      "hitDiceBonus": 0,
       "baseAC": 10,
       "baseMorale": 10,
       "specialDefenses": "",
@@ -52,7 +80,7 @@
       "attacks": "",
       "specialAttacks": "",
       "move": {},
-      "xp": "",
+      "xp": 0,
       "isExceptional": false,
       "hasSpecialAbility": false,
       "canAutocalculateXP": true
