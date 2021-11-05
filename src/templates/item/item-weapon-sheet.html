@@ -227,6 +227,48 @@
               {{/if}}
             {{/if}}
           </div>
+
+          <div class="item-attributes__group">
+            <h2>Weapon Qualities</h2>
+
+            <div class="quality-container">
+              <div class="item-attributes__item item-attributes__item--compact">
+                <label for="data.light">Light</label>
+                <input
+                  name="data.light"
+                  type="checkbox"
+                  {{checked data.light}} />
+              </div>
+              <div class="item-attributes__item item-attributes__item--compact">
+                <label for="data.versatile">+1 damage with two hands</label>
+                <input
+                  name="data.versatile"
+                  type="checkbox"
+                  {{checked data.versatile}} />
+              </div>
+              <div class="item-attributes__item item-attributes__item--compact">
+                <label for="data.twoHanded">Two Handed</label>
+                <input
+                  name="data.twoHanded"
+                  type="checkbox"
+                  {{checked data.twoHanded}} />
+              </div>
+              <div class="item-attributes__item item-attributes__item--compact">
+                <label for="data.silvered">Silvered</label>
+                <input
+                  name="data.silvered"
+                  type="checkbox"
+                  {{checked data.silvered}} />
+              </div>
+              <div class="item-attributes__item item-attributes__item--compact">
+                <label for="data.magical">Magical</label>
+                <input
+                  name="data.magical"
+                  type="checkbox"
+                  {{checked data.magical}} />
+              </div>
+            </div>
+          </div>
         </section>
       </div>
     </div>

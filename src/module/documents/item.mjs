@@ -179,6 +179,16 @@ export class BoilerplateItem extends Item {
 
     const actorAmmunitionForWeapon = actor.items.filter(isItemAmmoAndAboveZeroQty);
 
+    const weaponIsVersatile = item.data.versatile;
+
+    const actorHasHandFree = actor.items.filter(i => {
+      if (!i.data.data.equipped)
+        return false;
+      if (i.type === 'armor' && i.data.data.armorType === 'shield')
+        return true;
+      return (i.type === 'weapon')
+    }).length === 1;
+
     switch (item.data.weaponType) {
       case "melee":
         buttons.attack = {
@@ -187,7 +197,7 @@ export class BoilerplateItem extends Item {
         };
         break;
       case "ranged":
-        if (!actorAmmunitionForWeapon.length) {
+        if (!actorAmmunitionForWeapon.length && item.data.ammunitionType !== 'infinite') {
           return {
             render: () => ui.notifications.warn(`You are out of ammunition for your ${item.name}!`)
           };
@@ -195,13 +205,19 @@ export class BoilerplateItem extends Item {
         buttons.attack = {
           label: 'Fire',
           callback: (html) => {
-            const ammoToUse = actor.items.get(html.find('[name="ammunition-item"]').val()).data;
-            this._weaponRoll(
-              html,
-              ammoToUse,
-              ['arrow', 'sling']
-                .includes(ammoToUse.data.ammunitionType)
-            );
+            const ammoToUse = (item.data.ammunitionType !== 'infinite')
+              ? actor.items.get(html.find('[name="ammunition-item"]').val()).data
+              : null;
+            let args = [html];
+            if (ammoToUse)
+              args = [
+                ...args,
+                ammoToUse,
+                ['arrow', 'sling']
+                  .includes(ammoToUse.data.ammunitionType)
+              ];
+
+            this._weaponRoll(...args);
           }
         };
         break;
@@ -233,7 +249,17 @@ export class BoilerplateItem extends Item {
           <input name="damage-roll-modifier" placeholder="-2, 4, etc"  />
         </div>
 
-        ${actorAmmunitionForWeapon.length ? (`
+        ${weaponIsVersatile && actorHasHandFree ? (`
+          <div class="roll-modifiers-field roll-modifiers-field--is-versatile">
+            <label for="is-versatile">Use both hands?</label>
+            <input name="is-versatile" type="checkbox" />
+          </div>
+        `) : ''}
+
+        ${(
+          item.data.ammunitionType !== 'infinite' &&
+          actorAmmunitionForWeapon.length
+        ) ? (`
         <div class="roll-modifiers-field roll-modifiers-field--ammunition">
           <label for="ammunition-item">Ammunition to use:</label>
           <select name="ammunition-item">
@@ -249,21 +275,38 @@ export class BoilerplateItem extends Item {
     });
   }
 
-  _weaponRoll(html, ammoItem, useAmmoDamage) {
+  async _weaponRoll(html, ammoItem, useAmmoDamage) {
     const circumstantialAttackMod = parseInt(html.find('[name="attack-roll-modifier"]').val() || 0);
     const circumstantialDamageMod = parseInt(html.find('[name="damage-roll-modifier"]').val() || 0);
+    const isVersatile = !!html.find('[name="is-versatile"]:checked').length;
 
     const [item, actor] = this._getItemActorData();
     const rollData = this.getRollData();
 
     let toHitMod = item.data.modToHit + actor.data.toHitMods[item.data.weaponType],
-      damageMod = item.data.modDamage + actor.data.damageMods[item.data.weaponType];
+        damageMod = item.data.modDamage + actor.data.damageMods[item.data.weaponType];
 
-    const attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData).roll();
-    const damageRoll = new Roll(`${(useAmmoDamage ? ammoItem : item).data.damage}+${damageMod}+${circumstantialDamageMod}`, rollData).roll();
+    if (isVersatile) damageMod += 1;
+
+    let attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData);
+    let damageRoll = new Roll(
+      `${
+        (useAmmoDamage ? ammoItem : item).data.damage
+      }+${
+        damageMod
+      }+${
+        circumstantialDamageMod
+      }`,
+      rollData
+    );
+    
+    attackRoll = await attackRoll.roll();
+    damageRoll = await damageRoll.roll();
 
     const spendAmmo = () => {
-      if (ammoItem) actor.items.get(ammoItem._id).update({
+      if (
+        ammoItem
+      ) actor.items.get(ammoItem._id).update({
         ['data.quantity.value']: ammoItem.data.quantity.value - 1
       });
     }

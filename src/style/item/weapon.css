@@ -1,0 +1,12 @@
+.item {
+  .modifier-container {
+    .item-attributes__item {
+      margin-bottom: 0;
+    }
+  }
+
+  .quality-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+}
