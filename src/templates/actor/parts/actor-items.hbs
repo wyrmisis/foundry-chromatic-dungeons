@@ -1,8 +1,19 @@
 <section class="items">
   {{#if carryWeight}}
   <div class="items__carry-weight">
-    <label for="">Carry weight:</label>
-    <input value="{{carryWeight.value}}" readonly /> / <input value="{{carryWeight.max}}" readonly />
+    <h4>Carry weight</h4>
+    <meter
+      class="items__carry-weight-bar"
+      value="{{carryWeight.value}}"
+      min="0"
+      optimum="{{carryWeight.oneQuarter}}"
+      low="{{carryWeight.half}}"
+      high="{{carryWeight.threeQuarters}}"
+      max="{{carryWeight.max}}"
+      title="Carrying {{carryWeight.value}}/{{carryWeight.max}}"
+    >
+      <span>{{carryWeight.value}}/{{carryWeight.max}}</span>
+    </meter>
   </div>
   {{/if}}
 

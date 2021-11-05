@@ -267,11 +267,14 @@ export class BoilerplateActor extends Actor {
     );
 
     return {
-      value: totalItemWeight,
-      min: 0,
-      max: maxCarryWeight,
+      value:            totalItemWeight,
+      min:              0,
+      max:              maxCarryWeight,
+      oneQuarter:      (maxCarryWeight * .25),
+      half:            (maxCarryWeight * .5 ),
+      threeQuarters:   (maxCarryWeight * .75),
       atOneQuarter:    (maxCarryWeight * .25) <= totalItemWeight,
-      atHalf:          (maxCarryWeight * .5)  <= totalItemWeight,
+      atHalf:          (maxCarryWeight * .5 ) <= totalItemWeight,
       atThreeQuarters: (maxCarryWeight * .75) <= totalItemWeight,
       atFull:           maxCarryWeight        <= totalItemWeight
     }
