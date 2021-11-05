@@ -34,6 +34,10 @@ const setupHandlebarsHelpers = () => {
     return outStr;
   });
 
+  Handlebars.registerHelper('itemIndexFromId', (actor, itemId) =>
+    actor.items.findIndex((i) => i._id === itemId)
+  );
+
   Handlebars.registerHelper(
     'equals',
     (...args) => args.every(val => val === args[0]) 
@@ -67,6 +71,15 @@ const setupHandlebarsHelpers = () => {
 
       return total >= 0 ? `+${total}` : `${total}`
     }
+   );
+
+   Handlebars.registerHelper(
+      'classXpProgress',
+      ({level, xp, xpNext}) => ({
+        min: level === 1 ? 0 : CONFIG.CHROMATIC.xp[level - 2].xp,
+        max: xpNext,
+        value: xp
+      })
    );
 
   /**
