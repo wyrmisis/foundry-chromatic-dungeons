@@ -11,16 +11,20 @@
     <div class="items__list-column items__list-column--ac">
       AC
     </div>
-
-    <div class="items__list-column items__list-column--equipped">
-      Eq.
-    </div>
   </li>
   {{#each armor as |item id|}}
     <li
-      class="items__list-item items__list-item"
+      class="
+        items__list-item items__list-item
+        {{#if item.data.equipped}}
+          items__list-item--equipped
+        {{/if}}
+      "
       data-armor-type="{{item.data.armorType}}"
       data-item-id="{{item._id}}">
+      <img
+        class="items__list-column items__list-column--icon"
+        src="{{item.img}}" />
       <div class="items__list-column items__list-column--name">
         {{item.name}}
       </div>
@@ -30,14 +34,9 @@
       </div>
 
       <div class="items__list-column items__list-column--ac">
-        {{signedString item.data.ac}}
-      </div>
-
-      <div class="items__list-column items__list-column--equipped">
-        <input
-          type="checkbox"
-          name="data.equipped"
-          {{checked item.data.equipped}} />
+        {{#if (ne item.data.ac 0)}}
+          {{signedString item.data.ac}}
+        {{/if}}
       </div>
     </li>
   {{else}}

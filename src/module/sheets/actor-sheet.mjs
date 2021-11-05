@@ -196,7 +196,10 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // character traits
     context.ancestry = ancestry;
-    context.heritages = heritages;
+    context.heritages = heritages.reduce(
+      (list, item) => ({...list, [item._id]: item}),
+      {}
+    );
     context.classes = classes;
 
     // Equipped gear
@@ -300,6 +303,28 @@ export class BoilerplateActorSheet extends ActorSheet {
       $(itemClass).parent('ul'),
       `${itemClass}:not(${itemClass}--header):not(${itemClass}--empty)`,
       [
+        {
+          name: "Attack",
+          icon: '<i class="fas fa-fist-raised" />',
+          condition: (node) => this._canAttackWithItem(node),
+          callback: (node) => {
+            const {itemId: id} = node.closest('[data-item-id]').data();
+            const item = this.actor.items.get(id);
+            item.roll(node, true)
+          }
+        },
+        {
+          name: "Equip",
+          icon: '<i class="fas fa-hand-rock" />',
+          condition: (node) => this._canSetEquipStateTo(node, true),
+          callback: (node) => this._toggleEquippedState(node, true)
+        },
+        {
+          name: "Unequip",
+          icon: '<i class="fas fa-hand-paper" />',
+          condition: (node) => this._canSetEquipStateTo(node, false),
+          callback: (node) => this._toggleEquippedState(node, false)
+        },
         commonContextOptions.edit,
         commonContextOptions.delete
       ]
@@ -384,9 +409,10 @@ export class BoilerplateActorSheet extends ActorSheet {
     
     html.find('[data-item-action]').click(ev => {
       const {itemId, itemAction, itemType} = ev.currentTarget.dataset;
+      const updateActions = ['edit', 'delete', 'update-xp'];
       let item;
 
-      if (['edit', 'delete'].includes(itemAction))
+      if (updateActions.includes(itemAction))
         item = this.actor.items.get(itemId);
 
       switch (itemAction) {
@@ -401,6 +427,14 @@ export class BoilerplateActorSheet extends ActorSheet {
       }
     });
 
+    html.find('[data-actor-action]').click(ev => {
+      const action = ev.currentTarget.dataset.actorAction;
+
+      switch (action) {
+        case 'update-xp': this._addXP(); break;
+      }
+    })
+
     html.find('[data-edit-item]').change(ev => {
       const {itemId, itemField} = ev.currentTarget.dataset;
       const item = this.actor.items.get(itemId)
@@ -409,19 +443,6 @@ export class BoilerplateActorSheet extends ActorSheet {
         [itemField]: ev.target.value
       })
     })
-
-    html.find('.items__list-column--equipped input[type="checkbox"]').change(ev => {
-      ev.preventDefault();
-      ev.stopPropagation();
-      
-      const li = $(ev.currentTarget).parents(itemClass);
-      const item = this.actor.items.get(li.data("itemId"));
-
-      if (item.type === 'armor')
-        return this._validateEquippedArmor(li, item, ev);
-      else if (item.type === 'weapon')
-        return this._validateEquippedWeapon(li, item, ev);
-    });
 
     // Active Effect management
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.actor));
@@ -479,6 +500,30 @@ export class BoilerplateActorSheet extends ActorSheet {
       item.update({
         ['data.quantity.value']: value >= min ? value : min
       });
+    });
+  }
+
+  _addXP() {
+    return Dialog.confirm({
+      title: `Add XP to ${this.actor.name}`,
+      content: `
+        <div class="roll-modifiers-field">
+          <label for="modifier">XP to add:</label>
+          <input name="modifier" placeholder="-2, 4, etc"  />
+        </div>
+      `,
+      yes: (html) => {
+        const xp = parseInt(html.find('[name="modifier"]').val() || 0);
+        const classes = this.actor.items.filter(i => i.type === 'class');
+        const xpToAdd = Math.floor(xp / (classes.length || 0))
+
+        classes.forEach(i => {
+          i.update({
+            ['data.xp']: i.data.data.xp + xpToAdd
+          })
+        });
+      },
+      defaultYes: 'false'
     });
   }
 
@@ -567,6 +612,65 @@ export class BoilerplateActorSheet extends ActorSheet {
   _deleteOwnedItem(itemNode) {
     const {itemId: id} = itemNode.closest('[data-item-id]').data();
     this.actor.items.get(id).delete();
+  }
+
+  _canAttackWithItem(node) {
+    const {itemId: id} = node.closest('[data-item-id]').data();
+    const item = this.actor.items.get(id);
+
+    return (item.type === 'weapon' && item.data.data.equipped)
+  }
+
+  _canSetEquipStateTo(node, newState) {
+    const {itemId: id} = node.closest('[data-item-id]').data();
+
+    const itemToEquip = this.actor.items.get(id);
+
+    if (!itemToEquip.data.data.equippable)
+      return false;
+
+    if (newState) {
+      const isWeapon    = (i) => i.type === 'weapon';
+      const isEquipped  = (i) => i.data.data.equipped;
+      const isTwoHanded = (i) => i.data.data.twoHanded;
+      const hasTwoHanded= (i) => isWeapon(i) && isEquipped(i) && isTwoHanded(i);
+      const hasAShield  = (i) => i.data.data.armorType === 'shield';
+
+      // Validate only being allowed two weapons
+      if (
+        this.actor.items.filter(i => isWeapon(i) && isEquipped(i)).length >= 2
+      ) return false;
+
+      // Validate only being allowed one two-handed weapon
+      if (
+        !!this.actor.items.find(hasTwoHanded)
+      ) return false;
+
+      // Validate not being able to equip a two handed weapon 
+      // when you don't have both hands free
+      if (
+        itemToEquip.data.data.twoHanded &&
+        !!this.actor.items.find(i => isEquipped(i) && (
+          isWeapon(i) || hasAShield(i)
+        ))
+      ) return false;
+
+      // Validate only being allowed one weapon with a shield equipped
+      if (
+        !!this.actor.items.find(i => isWeapon(i) && isEquipped(i)) &&
+        !!this.actor.items.find(i => hasAShield(i) && isEquipped(i))
+      ) return false;
+    }
+
+    return itemToEquip.data.data.equipped !== newState;
+  }
+
+  _toggleEquippedState(node, newState) {
+    const {itemId: id} = node.closest('[data-item-id]').data();
+    
+    this.actor.items.get(id).update({
+      'data.equipped': newState
+    });
   }
 
   _validateEquippedArmor(li, item, ev) {
@@ -658,7 +762,7 @@ export class BoilerplateActorSheet extends ActorSheet {
    * @private
    */
   _onRoll(event) {
-    event.preventDefault();
+    event?.preventDefault?.();
     const element = event.currentTarget;
     const dataset = element.dataset;
 
@@ -686,6 +790,21 @@ export class BoilerplateActorSheet extends ActorSheet {
     if (dataset.roll){
       return this._rollModal(dataset).render(true);
     }
+  }
+
+  _onRollFromItem(node) {
+    const {itemId: id} = node.closest('[data-item-id]').data();
+    const item = this.actor.items.get(id);
+
+    item._onRoll({
+      element: {
+        dataset: {
+          rollType: 'item',
+          label: item.name,
+          itemId: item.id
+        }
+      }
+    });
   }
 
   _rollModal({roll, rollType, label}) {
@@ -725,4 +844,5 @@ export class BoilerplateActorSheet extends ActorSheet {
       default: 'roll'
     });
   }
+
 }

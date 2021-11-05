@@ -94,3 +94,24 @@
   @extends %icon-card;
   @extends %card-button;
 }
+
+%progress-bar {
+  height: 1rem;
+
+  &::-webkit-progress-inner-element {}
+
+  &::-webkit-progress {
+    &-bar,
+    &-value {
+      border-radius: 6px;
+      transition: width 1s ease-in-out, background-color 1s ease-in-out;
+    }
+
+    &-bar {
+      background-color: var(--progress-bar-background, #ccc);
+    }
+    &-value {
+      background-color: var(--progress-bar-foreground);
+    }
+  }
+}

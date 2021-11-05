@@ -7,15 +7,15 @@
     <div class="items__list-column items__list-column--quantity">
       Qty.
     </div>
-
-    <div class="items__list-column items__list-column--quantity">
-      Eq.
-    </div>
   </li>
   {{#each wealth as |item id|}}
     <li
       class="items__list-item items__list-item"
       data-item-id="{{item._id}}">
+      <img
+        class="items__list-column items__list-column--icon"
+        src="{{item.img}}" />
+
       <div class="items__list-column items__list-column--name">
         {{item.name}}
       </div>
@@ -26,13 +26,6 @@
           readonly
           value="{{item.quantity.value}}"
           name="data.quantity.value" />
-      </div>
-
-      <div class="items__list-column items__list-column--equipped">
-        <input
-          type="checkbox"
-          name="data.equipped"
-          {{checked item.data.equipped}} />
       </div>
     </li>
   {{else}}

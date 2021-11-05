@@ -9,12 +9,14 @@
   h1, h2, h3 {
     font-family:  var(--sheet-heading-font);
     color: var(--sheet-heading-color);
+    margin-bottom: .5em;
   }
 
   h4, h5, h6 {
     font-family: var(--sheet-body-font);
     color: var(--sheet-body-color);
     font-weight: 600;
+    margin-bottom: .25em;
   }
 
   input, select {
@@ -47,6 +49,10 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0;
+
+  button {
+    line-height: 1em;
+  }
 }
 
 /**
