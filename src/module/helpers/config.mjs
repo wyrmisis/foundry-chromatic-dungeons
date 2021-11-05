@@ -62,14 +62,14 @@ CHROMATIC.classGroups = {...classGroups, custom: 'Custom'};
 CHROMATIC.templateDir = 'systems/foundry-chromatic-dungeons/dist/templates';
 
 CHROMATIC.spellSchools = {
-  abjuration:  "Abjuration",
-  alteration:  "Alteration",
-  conjuration: "Conjuration",
-  divination:  "Divination",
-  enchantment: "Enchantment",
-  evocation:   "Evocation",
-  necromancy:  "Necromancy",
-  illusion:    "Illusion"
+  Abjuration:  "Abjuration",
+  Alteration:  "Alteration",
+  Conjuration: "Conjuration",
+  Divination:  "Divination",
+  Enchantment: "Enchantment",
+  Evocation:   "Evocation",
+  Necromancy:  "Necromancy",
+  Illusion:    "Illusion"
 };
 
 CHROMATIC.spellPointCosts = {
@@ -157,4 +157,8 @@ CHROMATIC.critTypes = {
   acPenalty:      ['acPenalty',     18],
   blind:          ['blind',         19],
   decapitate:     ['decapitate',    20]
+}
+
+CHROMATIC.dataKeys = {
+  language: 'data.languages'
 }
