@@ -8,7 +8,8 @@
         data-label="{{localize (concat 'SHEET.save.' key)}}"
         data-roll-type="Save"
         data-target="{{save}}"
-        data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+        data-roll="1d20{{signedString (lookup ../saveMods key)}}"
+        title="{{{localize (concat 'SHEET.save.' key)}}}">
         <h4 class="saves-list__name">
           {{{localize (concat 'SHEET.save.' key)}}}
         </h4>
@@ -24,6 +25,41 @@
   </ul>
   {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
     <p>Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.</p>
+  {{/if}}
+</div>
+
+<div class="quick-access__class">
+  {{#if classes.length}}
+    <h2 class="action-header">
+      Classes
+
+      <button type="button" data-actor-action="update-xp">
+        <i class="fa fa-level-up-alt">
+          <span class="sr-only">Add XP to classes</span>
+        </i>
+      </button>
+    </h2>
+    <ul>
+      {{#each classes}}
+        <li>
+          <h3 class="action-header">
+            <span>Lv. {{level}} {{name}}</span>
+            <button type="button" data-item-action="edit" data-item-id="{{id}}">
+              <i class="fa fa-edit">
+                <span class="sr-only">Edit the {{name}} class</span>
+              </i>
+            </button>
+          </h3>
+          {{#with (classXpProgress this)}}
+            <progress
+              min="{{min}}"
+              value="{{value}}"
+              max="{{max}}"
+              title="{{value}}/{{max}}"></progress>
+          {{/with}}
+        </li>
+      {{/each}}
+    </ul>
   {{/if}}
 </div>
 
@@ -69,7 +105,7 @@
         data-label="{{localize (concat 'ATTRIBUTE.' attribute)}} ({{name}})"
         data-target="{{lookup ../../data.attributes attribute}}"
         data-roll-type="Attribute"
-        data-roll="1d20-{{bonus}}">
+        data-roll="1d20-{{bonus}}-{{lookup ../../data.attributeMods attribute}}">
         <img src="systems/foundry-chromatic-dungeons/dist/assets/stat-icons/{{attribute}}.svg" />
         <span>
           {{name}}

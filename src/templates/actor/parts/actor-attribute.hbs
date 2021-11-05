@@ -9,7 +9,7 @@
     <label
       class="rollable rollable--no-icon"
       for="data.attributes.{{key}}"
-      data-roll="1d20"
+      data-roll="1d20-{{lookup ../this.data.attributeMods key}}"
       data-target="{{attribute}}"
       data-roll-type="Attribute"
       data-label="{{localizeAttr key}}">
