@@ -1,5 +1,6 @@
 // Data Tables
 import xp, {monsterXP} from '../../systemData/xp.mjs';
+import monsterVariants from '../../systemData/monsterVariants.mjs';
 import toHitMods from '../../systemData/toHitMods.mjs';
 import classGroups from '../../systemData/classGroups/index.mjs';
 import str from '../../systemData/attributes/strength.mjs';
@@ -107,7 +108,19 @@ CHROMATIC.monsterTypes = {
   monstrosity: "Monstrosity",
   ooze:        "Ooze",
   undead:      "Undead",
-}
+};
+CHROMATIC.monsterVariants = monsterVariants;
+CHROMATIC.hitDieSizes = {
+  2  : 2,
+  4  : 4,
+  6  : 6,
+  8  : 8,
+  10 : 10,
+  12 : 12,
+  20 : 20,
+  100: 100
+};
+CHROMATIC.defaultHitDieSize = 6;
 
 CHROMATIC.moveTypes = {
   move:   "Move",
@@ -118,6 +131,25 @@ CHROMATIC.moveTypes = {
   jump:   "Jump",
   leap:   "Leap",
   web:    "Web"
+};
+
+CHROMATIC.damageTypes = {
+  "nonmagical":   'Nonmagical',
+  "magical":      'Magical',
+  "slashing":     'Slashing',
+  "piercing":     'Piercing',
+  "bludgeoning":  'Bludgeoning',
+  "fire":         'Fire',
+  "cold":         'Cold',
+  "lightning":    'Lightning'
+};
+
+CHROMATIC.damageModifiers = {
+  [-2]: 'Fatal',
+  [-1]: 'Weak',
+  0:    'Normal',
+  1:    'Resist',
+  2:    'Immune'
 };
 
 CHROMATIC.ascii = `
