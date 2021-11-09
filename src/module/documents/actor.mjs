@@ -2,6 +2,8 @@ import {
   hasThisAlready,
   reportAndQuit,
   getMonsterXP,
+  getMonsterHD,
+  getMonsterVariant,
   getDerivedStatWithContext,
   getLevelFromXP,
   getClassGroupAtLevel,
@@ -205,12 +207,25 @@ export class BoilerplateActor extends Actor {
 
     const data = actorData.data;
 
+    data.calculatedHitDice = getMonsterHD(
+      data.hitDice,
+      data.variant
+    );
+
+    if (!data.hitDieSize)
+      data.hitDieSize = CONFIG.CHROMATIC.defaultHitDieSize;
+
+    if (data.canAutocalculateHP === undefined)
+      data.canAutocalculateHP = true;
+
     data.ac = this._getAC();
 
-    data.morale = data.baseMorale - parseInt(data.hitDice);
+    data.morale = data.baseMorale - parseInt(data.calculatedHitDice);
+
+    data.monsterVariant = getMonsterVariant(data.variant);
 
     data.calculatedXP = getMonsterXP(
-      data.hitDice,
+      data.calculatedHitDice,
       data.hasSpecialAbility,
       data.isExceptional
     )
@@ -351,7 +366,7 @@ export class BoilerplateActor extends Actor {
       level = parseInt(getLevelFromXP(savingClass.data.data.xp));
     } else {
       classGroup = 'npc';
-      level = parseInt(this.data.data.hitDice);
+      level = parseInt(this.data.data.calculatedHitDice);
     }
 
     return {
@@ -376,8 +391,9 @@ export class BoilerplateActor extends Actor {
       : getClassGroupAtLevel('npc', parseInt(this.data.data.hitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.data.data);
+    const monsterToHit = this.data.data?.monsterVariant?.modToHit?.melee || 0
 
-    return classToHit + attrToHit + (this.data.data.modToHit || 0);
+    return classToHit + attrToHit + monsterToHit + (this.data.data.modToHit || 0);
   }
 
   _getRangedToHitMod() {
@@ -386,17 +402,20 @@ export class BoilerplateActor extends Actor {
       : getClassGroupAtLevel('npc', parseInt(this.data.data.hitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.data.data);
+    const monsterToHit = this.data.data?.monsterVariant?.modToHit?.ranged || 0
 
-    return classToHit + attrToHit + (this.data.data.modToHit || 0);
+    return classToHit + attrToHit + monsterToHit + (this.data.data.modToHit || 0);
   }
 
   _getStrDamageMod() {
-    return (this.data.data.modDamage || 0) +
-      getDerivedStatWithContext('str', 'modMeleeDamage', this.data.data);
+    return  (this.data.data.modDamage || 0) +
+            (this.data.data?.monsterVariant?.modDamage?.melee || 0) +
+            getDerivedStatWithContext('str', 'modMeleeDamage', this.data.data);
   }
 
   _getRangedDamageMod() {
-    return this.data.data.modDamage || 0;
+    return  (this.data.data.modDamage || 0) +
+            (this.data.data?.monsterVariant?.modDamage?.ranged || 0);
   }
 
   _getSpellSlots() {

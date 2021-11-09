@@ -28,6 +28,17 @@ const getMonsterXP = (
   return base;
 }
 
+const getMonsterVariant = (variant) =>
+  CONFIG.CHROMATIC.monsterVariants[variant]
+
+const getMonsterHD = (hitDice = 0, variantKey = '') => {
+  if (!variantKey) return hitDice;
+
+  const variant = getMonsterVariant(variantKey);
+
+  return parseInt(hitDice) + parseInt(variant.hitDice);
+}
+
 const get20thLevelXP = () => CONFIG.CHROMATIC
   .xp.find(({level}) => level === 20).xp
 
@@ -48,6 +59,9 @@ const getLevelFromXP = (xp) =>
     : 20
 
 const getClassGroupAtLevel = (classGroup, level) => {
+  if (level > 20) level = 20;
+  if (level < 1) level = 1;
+
   let group = {
     ... CONFIG.CHROMATIC.classGroups[classGroup]
   };
@@ -125,6 +139,8 @@ const rollMessageOptions = (actor) => {
 };
 
 export {
+  getMonsterHD,
+  getMonsterVariant,
   getMonsterXP,
   getLevelFromXP,
   getNextLevelXP,

@@ -113,9 +113,11 @@ export class BoilerplateActorSheet extends ActorSheet {
    */
    _prepareNpcData(context) {
     // Constants for the template
-    context.monsterTypes = CONFIG.CHROMATIC.monsterTypes;
-    context.moveTypes = CONFIG.CHROMATIC.moveTypes;
-    context.isNPC = true;
+    context.monsterTypes  = CONFIG.CHROMATIC.monsterTypes;
+    context.variants      = CONFIG.CHROMATIC.monsterVariants;
+    context.moveTypes     = CONFIG.CHROMATIC.moveTypes;
+    context.hitDieSizes   = CONFIG.CHROMATIC.hitDieSizes;
+    context.isNPC         = true;
   }
 
   /**
