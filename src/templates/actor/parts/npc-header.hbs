@@ -14,31 +14,60 @@
         {{/each}}
       {{/select}}
     </select>
-    
+
     <div class="hp">
       <label 
         for="data.hp.value"
-        class="hp__label">
+        class="hp__label"
+        title="HP: {{data.hp.value}}/{{data.hp.max}}
+({{data.calculatedHitDice}}d{{data.hitDieSize}}{{#if data.hitDiceBonus}}+{{data.hitDiceBonus}}{{/if}})">
         <i class="fa fa-heart">
           <span class="sr-only">
             {{localize "SHEET.hp"}}
           </span>
         </i>
       </label>
+
+      {{#if data.canAutocalculateHP}}
+        {{#if actor.isToken}}
+          <input
+            class="min-hp"
+            type="number"
+            name="data.hp.value"
+            value="{{data.hp.value}}"
+            max="{{data.hp.max}}"
+            data-dtype="Number"/>
+          <span>/</span>
+          <input
+            type="number"
+            name="data.hp.max"
+            min="{{data.hp.value}}"
+            value="{{data.hp.max}}"
+            data-dtype="Number" />
+        {{else}}
+          <input
+            type="text"
+            readonly
+            value="{{data.calculatedHitDice}}d{{data.hitDieSize}}" />
+        {{/if}}
+      {{else}}
+        <input
+            type="number"
+            class="min-hp"
+            name="data.hp.value"
+            value="{{data.hp.value}}"
+            max="{{data.hp.max}}"
+            data-dtype="Number"/>
+          <span>/</span>
+          <input
+            type="number"
+            name="data.hp.max"
+            min="{{data.hp.value}}"
+            value="{{data.hp.max}}"
+            data-dtype="Number" />
+      {{/if}}
       
-      <input
-        type="number"
-        name="data.hp.value"
-        value="{{data.hp.value}}"
-        max="{{data.hp.max}}"
-        data-dtype="Number"/>
-      <span>/</span>
-      <input
-        type="number"
-        name="data.hp.max"
-        min="{{data.hp.value}}"
-        value="{{data.hp.max}}"
-        data-dtype="Number" />
+      
     </div>
 
     <div class="ac">
@@ -57,6 +86,33 @@
         value="{{data.ac}}"
         readonly
         data-dtype="Number"/>
+    </div>
+
+    <div class="xp">
+      <label 
+        for="xp"
+        class="xp__label">
+        <i class="fa fa-level-up-alt">
+          <span class="sr-only">
+            {{localize "SHEET.xp"}}
+          </span>
+        </i>
+      </label>
+      {{#if data.canAutocalculateXP}}
+        <input
+          type="number"
+          name="xp"
+          value="{{data.calculatedXP}}"
+          readonly
+          data-dtype="Number"/>
+      {{else}}
+        <input
+          type="number"
+          name="xp"
+          value="{{data.xp}}"
+          readonly
+          data-dtype="Number"/>
+      {{/if}}
     </div>
   </div>
 </header>

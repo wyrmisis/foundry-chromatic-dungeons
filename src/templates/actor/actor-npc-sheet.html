@@ -18,6 +18,11 @@
         <a class="item" data-tab="treasure">Treasure</a>
         <a class="item" data-tab="items">Items</a>
         <a class="item" data-tab="effects">Effects</a>
+        <a class="item" data-tab="configuration" title="Configuration">
+          <i class="fa fa-cog">
+            <span class="sr-only">Configuration</span>
+          </i>
+        </a>
       </nav>
 
       <div class="tab-group__container">
@@ -61,6 +66,11 @@
         {{!-- Active Effects Tab --}}
         <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
           {{> (partial "actor/parts/actor-effects.hbs") }}
+        </div>
+
+        {{!-- Configuration Tab --}}
+        <div class="tab sheet-tab sheet-tab--configuration" data-group="primary" data-tab="configuration">
+          {{> (partial "actor/parts/npc-config.hbs") }}
         </div>
       </div>
     </div>

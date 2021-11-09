@@ -19,11 +19,27 @@
     margin-bottom: .25em;
   }
 
-  input, select {
+  input {
     &:read-only {
       border: none;
       background: none;
+      &[type]:focus {
+        box-shadow: none;
+      }
     }
+  }
+
+  select {
+    width: calc(100% - 2px);
+    min-width: 20px;
+    height: 26px;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 1px 3px;
+    margin: 0;
+    color: #191813;
+    border: 1px solid #7a7971;
+    border-radius: 3px;
+    user-select: text;
   }
 }
 

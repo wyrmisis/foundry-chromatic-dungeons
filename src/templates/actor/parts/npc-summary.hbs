@@ -1,6 +1,6 @@
 <div class="stat-region stat-region--saves">
   <h2>{{localize 'SHEET.saves'}}</h2>
-  <ul class="saves-list">
+  <ul class="quick-access__saves saves-list">
     {{#each saves as |save key|}}
       <li
         class="saves-list__item rollable rollable--no-icon"
@@ -35,6 +35,32 @@
   </ul>
   {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
     <p>Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.</p>
+  {{/if}}
+</div>
+
+<div class="quick-access__equipment">
+  {{#if weapons.length}}
+    <h2>
+      <span>Attacks</span>
+      {{#if data.attacks}}
+        <span>({{data.attacks}})</span>
+      {{/if}}
+    </h2>
+    <ul class="equipped-list">
+    {{#each weapons}}
+      <li
+        data-item-id="{{_id}}"
+        data-roll-type="item"
+        data-label="{{item.name}}"
+        class="equipped-tile {{#if (equals type "weapon")}}rollable rollable--no-icon{{/if}}"
+      >
+        <img src="{{this.img}}" />
+        <span>
+          {{name}}
+        </span>
+      </li>
+    {{/each}}
+    </ul>
   {{/if}}
 </div>
 
@@ -99,108 +125,15 @@
   </ul>
 </div>
 
-<div class="stat-region stat-region--hp">
-  <h2>HP</h2>
-
-  <div class="configuration__field configuration__field--hit-dice">
-    <label for="data.hitDice">Hit Dice</label>
-    <input
-      name="data.hitDice"
-      value="{{data.hitDice}}"
-      type="text"
-      data-dtype="String" />
+{{#if data.monsterVariant}}
+  <div class="stat-region stat-region--variant">
+    <h2>Variant: {{data.monsterVariant.name}}</h2>
+    <ul>
+      <li>+{{data.monsterVariant.hitDice}} HD</li>
+      <li>{{data.monsterVariant.description}}</li>
+    </ul>
   </div>
-
-  <div class="configuration__field configuration__field--hit-dice-bonus">
-    <label for="data.hitDiceBonus">HP Bonus</label>
-    <input
-      name="data.hitDiceBonus"
-      value="{{data.hitDiceBonus}}"
-      type="text"
-      data-dtype="String" />
-  </div>
-</div>
-
-<div class="stat-region stat-region--xp">
-  <div>
-    <h2>
-      <span>XP</span>
-      {{#if data.canAutocalculateXP}}
-        <span>{{data.calculatedXP}}</span>
-      {{/if}}
-    </h2>
-  </div>
-  
-  <div class="configuration__field configuration__field--can-autocalculate-xp">
-    <label for="data.canAutocalculateXP">Auto-Calculate</label>
-    <input
-      name="data.canAutocalculateXP"
-      type="checkbox"
-      {{checked data.canAutocalculateXP}} />
-  </div>
-
-  {{#unless data.canAutocalculateXP}}
-    <div class="configuration__field configuration__field--xp">
-      <label for="data.xp">XP</label>
-      <input
-        name="data.xp"
-        value="{{data.xp}}"
-        type="text"
-        data-dtype="String" />
-    </div>
-  {{else}}
-    <div class="configuration__field configuration__field--has-special-ability">
-      <label for="data.hasSpecialAbility">Has Special Ability?</label>
-      <input
-        name="data.hasSpecialAbility"
-        type="checkbox"
-        {{checked data.hasSpecialAbility}} />
-    </div>
-
-    <div class="configuration__field configuration__field--is-exceptional">
-      <label for="data.isExceptional">Is Exceptional?</label>
-      <input
-        name="data.isExceptional"
-        type="checkbox"
-        {{checked data.isExceptional}} />
-    </div>
-  {{/unless}}
-</div>
-
-<div class="stat-region stat-region--configuration">
-  <h2>Configuration</h2>
-  <div class="configuration__field configuration__field--size">
-    <label for="data.size">Size</label>
-    <select name="data.size" data-dtype="String">
-      {{#select data.size}}
-        {{#each sizes as |size key|}}
-          <option value="{{key}}">{{size}}</option>
-        {{/each}}
-      {{/select}}
-    </select>
-  </div>
-
-  <div class="configuration__field configuration__field--alignment">
-    <label for="data.alignment">Alignment</label>
-    <select name="data.alignment" data-dtype="String">
-      <option value="">Unaligned</option>
-      {{#select data.alignment}}
-        {{#each alignments as |alignment key|}}
-          <option value="{{key}}">{{alignment}}</option>
-        {{/each}}
-      {{/select}}
-    </select>
-  </div>
-
-  <div class="configuration__field configuration__field--perception-mod">
-    <label for="data.perceptionMod">Perception Mod</label>
-    <input
-      name="data.perceptionMod"
-      value="{{data.perceptionMod}}"
-      type="number"
-      data-dtype="Number" />
-  </div>
-</div>
+{{/if}}
 
 <div class="stat-region stat-region--quantities">
   <h2>Quantities</h2>

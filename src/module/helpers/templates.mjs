@@ -26,6 +26,7 @@
     // NPC-specific Partials
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-header.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-summary.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-config.hbs`,
 
     // PC-specific Partials
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/pc-header.hbs`,
