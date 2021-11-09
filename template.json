@@ -18,32 +18,15 @@
         "hp": { "value": 1, "min": 0, "max": 1 },
         "baseAC": 10,
         "saveMods": { "reflex": 0, "poison": 0, "creature": 0, "spell": 0 },
-        "weaknesses": {
-          "nonmagical": false,
-          "magical": false,
+        "damageModifiers": {
+          "nonmagical": 0,
+          "magical": 0,
           "slashing": 0,
           "piercing": 0,
           "bludgeoning": 0,
           "fire": 0,
-          "cold": 0
-        },
-        "resistances": {
-          "nonmagical": false,
-          "magical": false,
-          "slashing": 0,
-          "piercing": 0,
-          "bludgeoning": 0,
-          "fire": 0,
-          "cold": 0
-        },
-        "immunities": {
-          "nonmagical": false,
-          "magical": false,
-          "slashing": 0,
-          "piercing": 0,
-          "bludgeoning": 0,
-          "fire": 0,
-          "cold": 0
+          "cold": 0,
+          "lightning": 0
         }
       },
       "modifiers": {
@@ -73,6 +56,8 @@
       "treasure": "",
       "hitDice": 1,
       "hitDiceBonus": 0,
+      "hitDieSize": 6,
+      "canAutocalculateHP": true,
       "baseAC": 10,
       "baseMorale": 10,
       "specialDefenses": "",
@@ -81,6 +66,7 @@
       "specialAttacks": "",
       "move": {},
       "xp": 0,
+      "variant": "",
       "isExceptional": false,
       "hasSpecialAbility": false,
       "canAutocalculateXP": true
