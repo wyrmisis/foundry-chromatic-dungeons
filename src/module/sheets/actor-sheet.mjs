@@ -627,9 +627,21 @@ export class BoilerplateActorSheet extends ActorSheet {
     const {itemId: id} = node.closest('[data-item-id]').data();
 
     const itemToEquip = this.actor.items.get(id);
+    const canEquip = () => itemToEquip.data.data.equipped !== newState;
 
     if (!itemToEquip.data.data.equippable)
       return false;
+
+    // We'll need to open things up for accessories later
+    if (
+      itemToEquip.type !== 'weapon' &&
+      itemToEquip.type !== 'armor'
+    ) return false;
+
+    if (
+      itemToEquip.type === 'armor' &&
+      itemToEquip.data.data.armorType !== 'shield'
+    ) return canEquip();
 
     if (newState) {
       const isWeapon    = (i) => i.type === 'weapon';
@@ -664,7 +676,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       ) return false;
     }
 
-    return itemToEquip.data.data.equipped !== newState;
+    return canEquip();
   }
 
   _toggleEquippedState(node, newState) {
