@@ -41,6 +41,14 @@
     border-radius: 3px;
     user-select: text;
   }
+
+  input:not([type="checkbox"]), select {
+    &:disabled {
+      border: none;
+      background: none;
+      appearance: none;
+    }
+  }
 }
 
 /**

@@ -2,8 +2,10 @@ Hooks.once("ready", async function() {
   Hooks.on('createToken', async (token, options, userId) => {
     const tokenActor = getTokenActor(token);
 
-    if (tokenActor.type === 'npc' && !token.isLinked) {
+    if (tokenActor.type === 'npc' && tokenActor.data.canAutocalculateHP) {
       const hp = await getRolledHP(tokenActor);
+
+      console.info(hp);
 
       token.modifyActorDocument({
         ['data.hp.value']: hp,
@@ -20,7 +22,11 @@ Hooks.once("ready", async function() {
 const getTokenActor = (token) => token.actor.data;
 
 const getRolledHP = (tokenActor) => {
-  const formula = `${parseInt(tokenActor.data.hitDice)}d6+${tokenActor.data.hitDiceBonus}`;
+  const hitDice = parseInt(tokenActor.data.calculatedHitDice);
+  const hitDieSize = parseInt(tokenActor.data.hitDieSize || CONFIG.CHROMATIC.defaultHitDieSize);
+  const bonus = parseInt(tokenActor.data.hitDiceBonus || 0)
+  
+  const formula = `${hitDice}d${hitDieSize}+${bonus}`;
   const hpRoll = new Roll(formula);
 
   return hpRoll

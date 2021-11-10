@@ -212,12 +212,6 @@ export class BoilerplateActor extends Actor {
       data.variant
     );
 
-    if (!data.hitDieSize)
-      data.hitDieSize = CONFIG.CHROMATIC.defaultHitDieSize;
-
-    if (data.canAutocalculateHP === undefined)
-      data.canAutocalculateHP = true;
-
     data.ac = this._getAC();
 
     data.morale = data.baseMorale - parseInt(data.calculatedHitDice);
