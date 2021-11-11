@@ -2,12 +2,12 @@ import {
   onManageActiveEffect,
   prepareActiveEffectCategories
 } from "../helpers/effects.mjs";
-import { reportAndQuit } from "../helpers/utils.mjs";
 import {
   getLevelFromXP,
   getNextLevelXP,
   getClassGroupAtLevel,
-  getWisBonusSlots
+  getWisBonusSlots,
+  reportAndQuit
 } from '../helpers/utils.mjs';
 
 /**
@@ -643,46 +643,70 @@ export class BoilerplateActorSheet extends ActorSheet {
       itemToEquip.data.data.armorType !== 'shield'
     ) return canEquip();
 
-    if (newState) {
-      const isWeapon    = (i) => i.type === 'weapon';
-      const isEquipped  = (i) => i.data.data.equipped;
-      const isTwoHanded = (i) => i.data.data.twoHanded;
-      const hasTwoHanded= (i) => isWeapon(i) && isEquipped(i) && isTwoHanded(i);
-      const hasAShield  = (i) => i.data.data.armorType === 'shield';
-
-      // Validate only being allowed two weapons
-      if (
-        this.actor.items.filter(i => isWeapon(i) && isEquipped(i)).length >= 2
-      ) return false;
-
-      // Validate only being allowed one two-handed weapon
-      if (
-        !!this.actor.items.find(hasTwoHanded)
-      ) return false;
-
-      // Validate not being able to equip a two handed weapon 
-      // when you don't have both hands free
-      if (
-        itemToEquip.data.data.twoHanded &&
-        !!this.actor.items.find(i => isEquipped(i) && (
-          isWeapon(i) || hasAShield(i)
-        ))
-      ) return false;
-
-      // Validate only being allowed one weapon with a shield equipped
-      if (
-        !!this.actor.items.find(i => isWeapon(i) && isEquipped(i)) &&
-        !!this.actor.items.find(i => hasAShield(i) && isEquipped(i))
-      ) return false;
-    }
-
     return canEquip();
   }
 
   _toggleEquippedState(node, newState) {
-    const {itemId: id} = node.closest('[data-item-id]').data();
+    const isWeapon    = (i) => i.type === 'weapon';
+    const isArmor     = (i) => i.type === 'armor';
+    const isShield    = (i) => i.data.data.armorType === 'shield';
+    const isTwoHanded = (i) => !!i.data.data.twoHanded;
+    const isEquipped  = (i) => !!i.data.data.equipped;
+    const hasTwoHanded= (i) => isWeapon(i) && isEquipped(i) && isTwoHanded(i);
     
-    this.actor.items.get(id).update({
+    const handsFullMessage = `${this.actor.name}'s hands are full! Unequip something and try again.`;
+
+    const {itemId: id} = node.closest('[data-item-id]').data();
+
+    const item = this.actor.items.get(id);
+
+    // Weapon/shield validation
+    if (newState && (isWeapon(item) || isShield(item))) {
+      // Validate only being allowed two weapons
+      if (
+        this.actor.items.filter(
+          i => isWeapon(i) && isEquipped(i)
+        ).length >= 2
+      ) return reportAndQuit(handsFullMessage);
+
+      // Validate only being allowed one two-handed weapon
+      if (
+        !!this.actor.items.find(hasTwoHanded)
+      ) return reportAndQuit(handsFullMessage);
+
+      // Validate not being able to equip a two handed weapon 
+      // when you don't have both hands free
+      if (
+        isTwoHanded(item) &&
+        !!this.actor.items.find(i => isEquipped(i) && (
+          isWeapon(i) || isShield(i)
+        ))
+      ) return reportAndQuit(handsFullMessage);
+
+      // Validate only being allowed one weapon with a shield equipped
+      if (
+        !!this.actor.items.find(i => isWeapon(i) && isEquipped(i)) &&
+        !!this.actor.items.find(i => isShield(i) && isEquipped(i))
+      ) return reportAndQuit(handsFullMessage);
+    }
+
+    // Helmet/Barding/Armor validation
+    if (newState && (isArmor(item) && !isShield(item))) {
+      const { armorType } = item.data.data;
+
+      if (this.actor.type === 'pc' && armorType === 'barding')
+        return reportAndQuit(`${this.actor.name} cannot equip ${item.name}, because it is barding, and they are not a horse.`);
+
+      const equippedItemsInSlot = this.actor.items.filter(
+        i => i.data.data.armorType === armorType && isEquipped(i)
+      );
+
+      equippedItemsInSlot.forEach(i => i.update({
+        'data.equipped': false
+      }));
+    }
+    
+    item.update({
       'data.equipped': newState
     });
   }
