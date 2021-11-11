@@ -5,8 +5,6 @@ Hooks.once("ready", async function() {
     if (tokenActor.type === 'npc' && tokenActor.data.canAutocalculateHP) {
       const hp = await getRolledHP(tokenActor);
 
-      console.info(hp);
-
       token.modifyActorDocument({
         ['data.hp.value']: hp,
         ['data.hp.max']: hp
@@ -17,6 +15,26 @@ Hooks.once("ready", async function() {
 
     token.update({ width, height });
   });
+
+  // @todo Get this working at some point to make encounters easier to set up
+  // Hooks.on('dropCanvasData', async (canvas, {type, id, pack, ...data}) => {
+  //   const uuid = (pack)
+  //     ? `Compendium.${pack}.${id}`
+  //     : `${type}.${id}`; 
+
+  //   console.info(uuid);
+
+  //   const actor = await fromUuid(uuid);
+
+  //   console.info(canvas, data, actor);
+
+  //   const quantityRoll = new Roll(`${actor.data.data.numberAppearing}-1`);
+  //   const { total } = await quantityRoll.roll({async: true});
+
+  //   console.info(total);
+
+  //   const t = new Token(actor.name, actor)
+  // })
 });
 
 const getTokenActor = (token) => token.actor.data;
