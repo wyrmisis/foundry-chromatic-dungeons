@@ -37,17 +37,30 @@
         "modToHit": 0,
         "modDamage": 0,
         "modPerception": 0
+      },
+      "vision": {
+        "senses": {
+          "infravision": 0,
+          "blindvision": 0
+        },
+        "light": {
+          "dim": 0,
+          "bright": 0,
+          "type": ""
+        }
       }
     },
     "pc": {
-      "templates": ["attributes", "wealth", "meta", "modifiers", "defenses"],
+      "templates": ["attributes", "wealth", "meta", "modifiers", "defenses", "vision"],
       "baseAC": 10,
       "spellPoints": {},
       "spellSlots": {},
-      "languages": []
+      "languages": [],
+      "hands": 2,
+      "skills": {}
     },
     "npc": {
-      "templates": ["attributes", "meta", "modifiers", "defenses"],
+      "templates": ["attributes", "meta", "modifiers", "defenses", "vision"],
       "type": "beast",
       "numberAppearing": "",
       "numberInLair": "",
@@ -83,14 +96,27 @@
         "xp": 0
       },
       "consumable": {
-        "consumable": false,
-        "charges": 1
+        "consumable": {
+          "isConsumable": false,
+          "consumablePurpose": ""
+        }
+      },
+      "charges": {
+        "charges": {
+          "hasCharges": false,
+          "charges": 0
+        }
+      },
+      "light": {
+        "isLightSource": false,
+        "usesOil": false,
+        "dimLight": 0,
+        "brightLight": 0
       },
       "equipment": {
         "equippable": true,
         "equipped": false,
-        "isIdentified": true,
-        "unidentifiedName": "Unidentified Item"
+        "isHeld": false
       }
     },
     "weapon": {
@@ -121,9 +147,9 @@
     "magicItem": {
       "templates": ["item", "equipment"]
     },
-    "gear":      { "templates": ["item", "consumable"] },
+    "gear":      { "templates": ["item", "consumable", "light"] },
     "goods":     { "templates": ["item"] },
-    "treasure":  { "templates": ["item"] },
+    "treasure":  { "templates": ["item", "equipment"] },
     "spell": {
       "school": "",
       "range": "",
@@ -161,8 +187,9 @@
           "con": 0,
           "cha": 0
       },
+      "resources": {},
       "features": {},
-      "skills": null,
+      "skills": {},
       "spellPoints": null,
       "spellSlots": null,
       "preparedSpells": {

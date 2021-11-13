@@ -138,6 +138,33 @@ const rollMessageOptions = (actor) => {
   return ChatMessage.applyRollMode({speaker}, rollMode);
 };
 
+const getVisionAndLight = (token, tokenActor) => {
+  // const dimSight    = tokenActor.data?.senses?.infravision  || 0 ;
+  // const brightSight = tokenActor.data?.senses?.blindvision  || 0 ;
+  
+  // const dimLight    = tokenActor.data?.light?.dim           || 0 ; 
+  // const brightLight = tokenActor.data?.light?.bright        || 0 ;
+  // const lightType   = tokenActor.data?.light?.type          || '';
+
+  // console.info({
+  //   dimSight,
+  //   brightSight,
+  //   dimLight,
+  //   brightLight,
+  //   vision: true,
+  //   'lightAnimation.type': lightType
+  // })
+
+  // return token.update({
+  //   dimSight,
+  //   brightSight,
+  //   dimLight,
+  //   brightLight,
+  //   vision: true,
+  //   'lightAnimation.type': lightType
+  // });
+}
+
 export {
   getMonsterHD,
   getMonsterVariant,
@@ -155,5 +182,6 @@ export {
   getFirstTargetOfSelf,
   getWisBonusSlots,
   getStatus,
-  rollMessageOptions
+  rollMessageOptions,
+  getVisionAndLight
 };

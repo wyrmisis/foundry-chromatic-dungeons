@@ -639,6 +639,11 @@ export class BoilerplateActorSheet extends ActorSheet {
     ) return false;
 
     if (
+      itemToEquip.type === 'weapon' &&
+      itemToEquip.data.data.weaponType === 'ammunition'
+    ) return false;
+
+    if (
       itemToEquip.type === 'armor' &&
       itemToEquip.data.data.armorType !== 'shield'
     ) return canEquip();
@@ -666,7 +671,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       if (
         this.actor.items.filter(
           i => isWeapon(i) && isEquipped(i)
-        ).length >= 2
+        ).length >= this.actor.data.data.hands
       ) return reportAndQuit(handsFullMessage);
 
       // Validate only being allowed one two-handed weapon

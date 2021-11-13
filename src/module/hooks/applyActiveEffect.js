@@ -1,8 +1,6 @@
 Hooks.once("ready", async function() {
   Hooks.on('applyActiveEffect', async (actor, change) => {    
-    if (change.mode !== 0) return;
-
-    if (change.key === CONFIG.CHROMATIC.dataKeys.language) {
+    if (change.mode === 0 && change.key === CONFIG.CHROMATIC.dataKeys.language) {
       const find = (i, name = '') =>
         actor.data.data.languages[i] === name
 

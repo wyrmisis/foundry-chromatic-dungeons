@@ -163,7 +163,12 @@ const inflictCritEffect = (target, effect) => {
       applyEffect(getStatus('stun'), null, 1);
       break;
     case 'armBreak':
-      applyEffect(getStatus('downgrade'), `CRITICAL.Effect.${effect}`);
+      applyEffect(
+        getStatus('downgrade'),
+        `CRITICAL.Effect.${effect}`,
+        undefined,
+        createEffectChange('data.hands', -1)
+      );
       break;
     case 'legBreak':
       applyEffect(

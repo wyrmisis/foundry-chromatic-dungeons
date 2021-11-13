@@ -1,3 +1,5 @@
+import { getVisionAndLight } from '../helpers/utils';
+
 Hooks.once("ready", async function() {
   Hooks.on('createToken', async (token, options, userId) => {
     const tokenActor = getTokenActor(token);
@@ -11,9 +13,11 @@ Hooks.once("ready", async function() {
       });
     }
 
+    await doLightingUpdates(token, tokenActor);
+
     const {width, height} = getDimensionsForSize(token);
 
-    token.update({ width, height });
+    await token.update({ width, height });
   });
 
   // @todo Get this working at some point to make encounters easier to set up
@@ -52,6 +56,9 @@ const getRolledHP = (tokenActor) => {
     .then(({total}) => total);
 }
 
+
+const doLightingUpdates = (token, actor) =>
+  getVisionAndLight(token, actor);
 
 const getDimensionsForSize = (token) => {
   switch (getTokenActor(token).data.size) {

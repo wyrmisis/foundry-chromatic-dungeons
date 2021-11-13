@@ -89,7 +89,7 @@ export class BoilerplateActor extends Actor {
   /**
    * Prepare Character type specific data
    */
-  _prepareCharacterData(actorData) {
+  async _prepareCharacterData(actorData) {
     if (actorData.type !== 'pc') return;
     if (this.name.includes('#')) return;
 
@@ -97,11 +97,9 @@ export class BoilerplateActor extends Actor {
     const data = actorData.data;
     const useEncumbrance = game.settings.get('foundry-chromatic-dungeons', 'encumbrance');
 
-    // Loop through ability scores, and add their modifiers to our sheet output.
-    // for (let [key, ability] of Object.entries(data.abilities)) {
-    //   // Calculate the modifier using d20 rules.
-    //   ability.mod = Math.floor((ability.value - 10) / 2);
-    // }
+    // Set hands if hands aren't defined 
+    if (data.hands === undefined) 
+      await this.update({'data.hands': 2});
 
     data.ac = this._getAC();
 
