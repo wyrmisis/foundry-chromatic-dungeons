@@ -1,0 +1,51 @@
+<div class="item-attributes__group">
+  <h2>Attributes</h2>
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.weight.value"
+    value=data.weight.value
+    label="Weight"
+    type="number"
+    compact=true
+    dataType="Number"
+  }}
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.stealthPenalty"
+    value=data.stealthPenalty
+    label="Stealth Penalty"
+    type="number"
+    compact=true
+    dataType="Number"
+  }}
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.encumbrancePenalty"
+    value=data.encumbrancePenalty
+    label="Speed Penalty (%)"
+    type="number"
+    compact=true
+    dataType="Number"
+  }}
+
+  <div class="item-attributes__item item-attributes__item--compact">
+    <label for="data.swimPenalty">Swim Penalty</label>
+    <input
+      type="checkbox"
+      name="data.swimPenalty"
+      {{checked data.swimPenalty}} />
+  </div>
+
+  <div class="item-attributes__item item-attributes__item--compact">
+    <label for="data.armorType">Type</label>
+    <select
+      data-dtype="String"
+      name="data.armorType">
+      {{#select data.armorType}}
+        {{#each armorTypes as |type key|}}
+          <option value="{{key}}">{{type}}</option>
+        {{/each}}
+      {{/select}}
+    </select>
+  </div>
+</div>

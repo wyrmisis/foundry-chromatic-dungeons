@@ -1,0 +1,61 @@
+<div class="item-attributes__group">
+  <h2>Value</h2>
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.cost.pp"
+    value=data.cost.pp
+    label="Platinum"
+    type="number"
+    dataType="Number"
+    compact=true
+  }}
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.cost.gp"
+    value=data.cost.gp
+    label="Gold"
+    type="number"
+    dataType="Number"
+    compact=true
+  }}
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.cost.ep"
+    value=data.cost.ep
+    label="Electrum"
+    type="number"
+    dataType="Number"
+    compact=true
+
+  }}
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.cost.sp"
+    value=data.cost.sp
+    label="Silver"
+    type="number"
+    dataType="Number"
+    compact=true
+  }}
+
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.cost.cp"
+    value=data.cost.cp
+    label="Copper"
+    type="number"
+    dataType="Number"
+    compact=true
+  }}
+</div>
+
+<div class="item-attributes__group">
+  <h2>XP</h2>
+  {{> (partial "item/parts/item-attribute.hbs")
+    key="data.xp"
+    value=data.xp
+    label="XP Value"
+    type="number"
+    dataType="Number"
+    compact=true
+  }}
+</div>

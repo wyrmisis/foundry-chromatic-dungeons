@@ -12,6 +12,20 @@
         type="text"
         value="{{item.name}}"
         placeholder="Name"/>
+      <div class="sheet-header__quantity">
+        <label for="ac">
+          <i class="fa fa-shield-alt">
+            <span class="sr-only">
+              {{localize "SHEET.ac"}}
+            </span>
+          </i>
+        </label>
+        <input
+          name="data.ac"
+          type="number"
+          value="{{data.ac}}"
+          placeholder="0"/>
+      </div>
     </div>
   </header>
 
@@ -19,6 +33,11 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="attributes">Attributes</a>
     <a class="item" data-tab="effects">Effects</a>
+    <a class="item" data-tab="configuration">
+      <i class="fa fa-cog">
+        <span class="sr-only">Configuration</span>
+      </i>
+    </a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -27,130 +46,7 @@
     <div class="tab sheet-tab sheet-tab--attributes" data-group="primary" data-tab="attributes">
       <div class="attributes">
         <section class="item-attributes">
-          <div class="item-attributes__group">
-            <h2>Attributes</h2>
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.weight.value"
-              value=data.weight.value
-              label="Weight"
-              type="number"
-              compact=true
-              dataType="Number"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.ac"
-              value=data.ac
-              label="Armor Class"
-              type="number"
-              compact=true
-              dataType="Number"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.stealthPenalty"
-              value=data.stealthPenalty
-              label="Stealth Penalty"
-              type="number"
-              compact=true
-              dataType="Number"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.encumbrancePenalty"
-              value=data.encumbrancePenalty
-              label="Speed Penalty (%)"
-              type="number"
-              compact=true
-              dataType="Number"
-            }}
-
-            <div class="item-attributes__item item-attributes__item--compact">
-              <label for="data.swimPenalty">Swim Penalty</label>
-              <input
-                type="checkbox"
-                name="data.swimPenalty"
-                {{checked data.swimPenalty}} />
-            </div>
-
-            <div class="item-attributes__item item-attributes__item--compact">
-              <label for="data.armorType">Type</label>
-              <select
-                data-dtype="String"
-                name="data.armorType">
-                {{#select data.armorType}}
-                  {{#each armorTypes as |type key|}}
-                    <option value="{{key}}">{{type}}</option>
-                  {{/each}}
-                {{/select}}
-              </select>
-            </div>
-          </div>
-
-          <div class="item-attributes__group">
-            <h2>Value</h2>
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.pp"
-              value=data.cost.pp
-              label="pp"
-              hoverLabel="Platinum Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.gp"
-              value=data.cost.gp
-              label="gp"
-              hoverLabel="Gold Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.ep"
-              value=data.cost.ep
-              label="ep"
-              hoverLabel="Electrum Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.sp"
-              value=data.cost.sp
-              label="sp"
-              hoverLabel="Silver Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.cp"
-              value=data.cost.cp
-              label="cp"
-              hoverLabel="Copper Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.xp"
-              value=data.xp
-              label="XP Value"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-          </div>
+          {{> (partial "item/parts/item-value.hbs") }}
         </section>
 
         <section class="item-description">
@@ -163,6 +59,11 @@
     {{!-- Effects Tab --}}
     <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
       {{> (partial "item/parts/item-effects.hbs") }}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab sheet-tab sheet-tab--configuration" data-group="primary" data-tab="configuration">
+      {{> (partial "item/configuration/armor.hbs") }}
     </div>
   </section>
 </form>

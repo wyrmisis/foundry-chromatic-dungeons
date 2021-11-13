@@ -1,0 +1,128 @@
+<div class="attributes">
+  <section class="item-attributes">
+    <div class="item-attributes__group">
+      <h2>Configuration</h2>
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.classGroup">Class Group</label>
+        <select
+          data-dtype="String"
+          name="data.classGroup">
+          {{#select data.classGroup}}
+            <option value="warrior">{{localize "CLASSGROUP.warrior"}}</option>
+            <option value="rogue">{{localize "CLASSGROUP.rogue"}}</option>
+            <option value="arcane">{{localize "CLASSGROUP.arcane"}}</option>
+            <option value="divine">{{localize "CLASSGROUP.divine"}}</option>
+          {{/select}}
+        </select>
+      </div>
+
+      {{> (partial "item/parts/item-attribute.hbs")
+        key="data.statBonus"
+        value=data.statBonus
+        label="Stat Bonus"
+        type="text"
+        dataType="String"
+        compact=true
+      }}
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.isPrimary">Character's primary class</label>
+        <input
+          type="checkbox"
+          name="data.isPrimary"
+          {{checked data.isPrimary}} />
+      </div>
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.isSelectedSaveTable">Use this class's save table</label>
+        <input
+          type="checkbox"
+          name="data.isSelectedSaveTable"
+          {{checked data.isSelectedSaveTable}} />
+      </div>
+    </div>
+
+    <div class="item-attributes__group">
+      <h2>Spellcasting</h2>
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.hasSpellcasting">Has Spellcasting</label>
+        <input
+          type="checkbox"
+          name="data.hasSpellcasting"
+          {{checked data.hasSpellcasting}} />
+      </div>
+
+      {{#if data.hasSpellcasting}}
+        <div class="item-attributes__item item-attributes__item--compact">
+          <label for="data.hasSpellPoints">Uses Spell Points</label>
+          <input
+            type="checkbox"
+            name="data.hasSpellPoints"
+            {{checked data.hasSpellPoints}} />
+        </div>
+
+        <div class="item-attributes__item item-attributes__item--compact">
+          <label for="data.hasFullSpellList">Already knows its full spell list</label>
+          <input
+            type="checkbox"
+            name="data.hasFullSpellList"
+            {{checked data.hasFullSpellList}} />
+        </div>
+
+        <div class="item-attributes__item item-attributes__item--compact">
+          <label for="data.hasWisdomBonusSlots">Gets bonus slots from Wisdom</label>
+          <input
+            type="checkbox"
+            name="data.hasWisdomBonusSlots"
+            {{checked data.hasWisdomBonusSlots}} />
+        </div>
+      {{/if}}
+    </div>
+
+    <div class="item-attributes__group">
+      <h2>Proficiencies</h2>
+      {{> (partial "item/parts/item-attribute.hbs")
+        key="data.weaponProf"
+        value=data.weaponProf
+        label="Weapons"
+        type="text"
+        dataType="String"
+        compact=true
+      }}
+
+      {{> (partial "item/parts/item-attribute.hbs")
+        key="data.armorProf"
+        value=data.armorProf
+        label="Armor"
+        type="text"
+        dataType="String"
+        compact=true
+      }}
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.hasSkills">Has class skills</label>
+        <input
+          type="checkbox"
+          name="data.hasSkills"
+          {{checked data.hasSkills}} />
+      </div>
+    </div>
+
+    <div class="item-attributes__group item-attributes__group--requirements">
+      <h2>Requirements</h2>
+
+      {{#each data.requirements as |requirement key|}}
+        <div class="requirement">
+          <label for="{{concat "data.requirement" key}}">{{localizeAttr key}}</label>
+          <input
+            type="number"
+            data-dtype="Number"
+            name="{{concat "data.requirements." key}}"
+            value="{{requirement}}" />
+        </div>
+      {{/each}}
+    </div>
+  </section>
+</div>

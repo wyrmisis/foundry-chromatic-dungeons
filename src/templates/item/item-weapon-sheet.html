@@ -1,25 +1,16 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <header class="sheet-header">
-    <div class="sheet-header__container">
-      <img
-        class="profile-img"
-        src="{{item.img}}"
-        data-edit="img"
-        title="{{item.name}}"/>
-      <input
-        class="name"
-        name="name"
-        type="text"
-        value="{{item.name}}"
-        placeholder="Name"/>
-    </div>
-  </header>
+  {{> (partial "item/parts/item-header.hbs") }}
 
   {{!-- Sheet Tab Navigation --}}
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="attributes">Attributes</a>
     <a class="item" data-tab="description">Description</a>
     <a class="item" data-tab="effects">Effects</a>
+    <a class="item" data-tab="configuration">
+      <i class="fa fa-cog">
+        <span class="sr-only">Configuration</span>
+      </i>
+    </a>
   </nav>
 
   {{!-- Sheet Body --}}
@@ -28,91 +19,7 @@
     <div class="tab sheet-tab sheet-tab--attributes" data-group="primary" data-tab="attributes">
       <div class="attributes">
         <section class="item-attributes">
-          <div class="item-attributes__group">
-            <h2>Attributes</h2>
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.quantity.value"
-              value=data.quantity.value
-              label="Quantity"
-              compact=true
-              type="number"
-              dataType="Number"
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.weight.value"
-              value=data.weight.value
-              label="Weight"
-              compact=true
-              type="number"
-              dataType="Number"
-            }}
-          </div>
-
-          <div class="item-attributes__group">
-            <h2>Value</h2>
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.pp"
-              value=data.cost.pp
-              label="pp"
-              hoverLabel="Platinum Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.gp"
-              value=data.cost.gp
-              label="gp"
-              hoverLabel="Gold Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.ep"
-              value=data.cost.ep
-              label="ep"
-              hoverLabel="Electrum Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.sp"
-              value=data.cost.sp
-              label="sp"
-              hoverLabel="Silver Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.cost.cp"
-              value=data.cost.cp
-              label="cp"
-              hoverLabel="Copper Pieces"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.xp"
-              value=data.xp
-              label="XP Value"
-              type="number"
-              dataType="Number"
-              compact=true
-            }}
-          </div>
+          {{> (partial "item/parts/item-value.hbs") }}
         </section>
 
         <section class="item-description">
@@ -177,22 +84,9 @@
           </div>
 
           <div class="item-attributes__group">
-            <h2>Weapon Type</h2>
+            <h2>Range</h2>
 
-            <div class="type-container">
-              {{radioBoxes "data.weaponType" weaponTypes checked=data.weaponType localize=true}}
-            </div>
-
-            {{#if (equals data.weaponType "ammunition")}}
-              {{> (partial "item/parts/item-attribute.hbs")
-                key="data.ammunitionType"
-                value=data.ammunitionType
-                label="Ammunition type"
-                type="string"
-                dataType="String"
-                compact=true
-              }}
-            {{else}}
+            {{#unless (equals data.weaponType "ammunition")}}
               {{#unless (equals data.weaponType "ranged")}}
                 {{> (partial "item/parts/item-attribute.hbs")
                   key="data.reach"
@@ -214,18 +108,7 @@
                   compact=true
                 }}
               {{/unless}}
-
-              {{#if (equals data.weaponType "ranged") }}
-                {{> (partial "item/parts/item-attribute.hbs")
-                  key="data.ammunitionType"
-                  value=data.ammunitionType
-                  label="Ammunition type"
-                  type="string"
-                  dataType="String"
-                  compact=true
-                }}
-              {{/if}}
-            {{/if}}
+            {{/unless}}
           </div>
 
           <div class="item-attributes__group">
@@ -282,6 +165,11 @@
     {{!-- Effects Tab --}}
     <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
       {{> (partial "item/parts/item-effects.hbs") }}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab sheet-tab sheet-tab--configuration" data-group="primary" data-tab="configuration">
+      {{> (partial "item/configuration/weapon.hbs")}}
     </div>
   </main>
 </form>

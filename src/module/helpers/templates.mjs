@@ -5,7 +5,6 @@
  */
  export const preloadHandlebarsTemplates = async function() {
   return loadTemplates([
-
     // Actor partials
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/actor-attribute.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/actor-features.hbs`,
@@ -33,9 +32,21 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/pc-summary.hbs`,
 
     // Item partials
+    `${CONFIG.CHROMATIC.templateDir}/item/parts/item-header.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/parts/item-value.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-attribute.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-description.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-effects.hbs`,
+
+    // Item Config partials
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/gear.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/weapon.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/armor.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/treasure.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/magic-item.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/class.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/ancestry.hbs`,
+
 
     // Chat cards
     `${CONFIG.CHROMATIC.templateDir}/chat/attack.hbs`,

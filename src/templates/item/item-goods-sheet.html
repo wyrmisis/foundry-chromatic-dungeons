@@ -1,19 +1,5 @@
 <form class="{{cssClass}}" autocomplete="off">
-  <header class="sheet-header">
-    <div class="sheet-header__container">
-      <img
-        class="profile-img"
-        src="{{item.img}}"
-        data-edit="img"
-        title="{{item.name}}"/>
-      <input
-        class="name"
-        name="name"
-        type="text"
-        value="{{item.name}}"
-        placeholder="Name"/>
-    </div>
-  </header>
+  {{> (partial "item/parts/item-header.hbs") }}
 
   {{!-- Sheet Body --}}
   <main class="sheet-body">
@@ -21,15 +7,6 @@
       <section class="item-attributes">
         <div class="item-attributes__group">
           <h2>Attributes</h2>
-          
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.quantity.value"
-            value=data.quantity.value
-            label="Quantity"
-            type="number"
-            compact=true
-            dataType="Number"
-          }}
 
           {{> (partial "item/parts/item-attribute.hbs")
             key="data.weight.value"
@@ -41,60 +18,7 @@
           }}
         </div>
 
-        <div class="item-attributes__group">
-          <h2>Value</h2>
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.cost.pp"
-            value=data.cost.pp
-            label="pp"
-            hoverLabel="Platinum Pieces"
-            type="number"
-            dataType="Number"
-            compact=true
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.cost.gp"
-            value=data.cost.gp
-            label="gp"
-            hoverLabel="Gold Pieces"
-            type="number"
-            dataType="Number"
-            compact=true
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.cost.ep"
-            value=data.cost.ep
-            label="ep"
-            hoverLabel="Electrum Pieces"
-            type="number"
-            dataType="Number"
-            compact=true
-
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.cost.sp"
-            value=data.cost.sp
-            label="sp"
-            hoverLabel="Silver Pieces"
-            type="number"
-            dataType="Number"
-            compact=true
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.cost.cp"
-            value=data.cost.cp
-            label="cp"
-            hoverLabel="Copper Pieces"
-            type="number"
-            dataType="Number"
-            compact=true
-          }}
-        </div>
+        {{> (partial "item/parts/item-value.hbs") }}
       </section>
 
       <section class="item-description">
