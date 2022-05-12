@@ -19,18 +19,6 @@
       <div class="attributes">
         <section class="item-attributes">
           <div class="item-attributes__group">
-            <h2>Attributes</h2>
-
-            {{> (partial "item/parts/item-attribute.hbs")
-              key="data.weight.value"
-              value=data.weight.value
-              label="Weight"
-              compact=true
-              type="number"
-              dataType="Number"
-            }}
-          </div>
-          
           {{> (partial "item/parts/item-value.hbs") }}
         </section>
 
