@@ -100,7 +100,14 @@
       "name": "bestiary",
       "label": "Bestiary",
       "path": "packs/bestiary.db",
-      "entity": "Actor",
+      "type": "Actor",
+      "module": "foundry-chromatic-dungeons"
+    },
+    {
+      "name": "commonmacros",
+      "label": "Common Macros",
+      "path": "packs/macros.db",
+      "type": "Macro",
       "module": "foundry-chromatic-dungeons"
     }
   ],

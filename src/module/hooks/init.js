@@ -14,6 +14,8 @@ import { preloadHandlebarsTemplates } from "../helpers/templates.mjs";
 import { CHROMATIC } from "../helpers/config.mjs";
 import setupHandlebarsHelpers from '../helpers/handlebarsHelpers.mjs';
 import { rollItemMacro } from '../macros/rollItem.js';
+import attributeRollMacro from '../macros/attributeRoll.js';
+import saveRollMacro from '../macros/saveRoll.js';
 
 Hooks.once('init', async function() {
   // Add utility classes to the global game object so that they're more easily
@@ -21,7 +23,9 @@ Hooks.once('init', async function() {
   game.boilerplate = {
     BoilerplateActor,
     BoilerplateItem,
-    rollItemMacro
+    rollItemMacro,
+    attributeRollMacro,
+    saveRollMacro,
   };
 
   // Add custom constants for configuration.
