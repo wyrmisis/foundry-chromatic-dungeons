@@ -19,7 +19,7 @@
   "dependencies": [
     {
       "name": "markdown-editor",
-      "manifest": "https://github.com/Moerill/fvtt-markdown-editor/releases/latest/download/module.json"
+      "manifest": "https://raw.githubusercontent.com/Moerill/fvtt-markdown-editor/master/module.json"
     },
     { "name": "compendium-folders" },
     {
