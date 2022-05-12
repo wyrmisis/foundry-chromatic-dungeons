@@ -2,6 +2,18 @@
   "ACTOR.TypePc": "Player Character",
   "ACTOR.TypeNpc": "NPC/Monster",
 
+  "ITEM.TypeWeapon": "Weapon or Ammunition",
+  "ITEM.TypeArmor": "Armor",
+  "ITEM.TypeGear": "Adventuring Gear",
+  "ITEM.TypeGoods": "Trade Goods",
+  "ITEM.TypeTreasure": "Treasure",
+  "ITEM.TypeMagicitem": "Magic Item",
+  "ITEM.TypeAncestry": "Ancestry",
+  "ITEM.TypeHeritage": "Heritage Option",
+  "ITEM.TypeClass": "Class",
+  "ITEM.TypeClassgroup": "Class Group",
+  "ITEM.TypeSpell": "Spell",
+
   "ATTRIBUTE.str": "Strength",
   "ATTRIBUTE.con": "Constitution",
   "ATTRIBUTE.dex": "Dexterity",
