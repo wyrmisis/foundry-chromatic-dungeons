@@ -22,6 +22,8 @@ const attackSequence = async (
   if (!attackRoll) throw new Error('An attack sequence is missing an attack roll!');
   if (!damageRoll) throw new Error('An attack sequence is missing a damage roll!');
 
+  const has3dDice = !!game.dice3d;
+
   const target = getFirstTargetOfSelf();
   const targetWasHit =
     !target ||
@@ -38,21 +40,25 @@ const attackSequence = async (
   const critType = game.settings.get('foundry-chromatic-dungeons', 'critical-hits');
   let critEffectRoll;
   let critEffect;
+  const diceToRoll = [];
 
-  const diceToRoll = [
-    game.dice3d.showForRoll(attackRoll, game.user, true)
-  ];
+  if (has3dDice)
+    diceToRoll.push(
+      game.dice3d.showForRoll(attackRoll, game.user, true)
+    );
 
   if (targetWasHit)
-    diceToRoll.push(
-      game.dice3d.showForRoll(damageRoll, game.user, true)
-    );
+    if (has3dDice)
+      diceToRoll.push(
+        game?.dice3d?.showForRoll(damageRoll, game.user, true)
+      );
 
   if (critical.success && critType !== 'none') {
 
     if (critType === 'table') {
       critEffectRoll = await new Roll('1d20', {async: true}).roll();
-      diceToRoll.push(game.dice3d.showForRoll(critEffectRoll, game.user, true));
+      if (has3dDice)
+        diceToRoll.push(game.dice3d.showForRoll(critEffectRoll, game.user, true));
     }
 
     critEffect = handleCrits(critEffectRoll?.total)[0];
@@ -64,7 +70,7 @@ const attackSequence = async (
    * Dice So Nice! integration
    * For the pals :)
    */
-  if (game?.dice3d?.showForRoll)
+  if (has3dDice && diceToRoll.length)
     await Promise.all(diceToRoll);
 
   await ChatMessage.create(

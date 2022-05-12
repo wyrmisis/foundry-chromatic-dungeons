@@ -7,6 +7,8 @@
  * @param {*} triggers 
  */
 const saveSequence = async (actor, save, roll, target, triggers = {}) => {
+  const has3dDice = !!game.dice3d;
+  
   if (!actor) throw new Error('A save sequence is missing its actor!');
   if (!save) throw new Error('A save sequence is missing its save type!');
   if (!roll) throw new Error('A save sequence is missing its roll!');
@@ -16,7 +18,7 @@ const saveSequence = async (actor, save, roll, target, triggers = {}) => {
    * Dice So Nice! integration
    * For the pals :)
    */
-  if (game?.dice3d?.showForRoll)
+  if (has3dDice)
     await game.dice3d.showForRoll(roll, game.user, true);
 
   await ChatMessage.create(

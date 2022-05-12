@@ -7,6 +7,8 @@
  * @param {*} triggers 
  */
 const attributeSequence = async (actor, attribute, roll, target, triggers = {}) => {
+  const has3dDice = !!game.dice3d;
+
   if (!actor) throw new Error('An attribute sequence is missing its actor!');
   if (!attribute) throw new Error('An attribute sequence is missing its save type!');
   if (!roll) throw new Error('An attribute sequence is missing its roll!');
@@ -16,7 +18,7 @@ const attributeSequence = async (actor, attribute, roll, target, triggers = {}) 
    * Dice So Nice! integration
    * For the pals :)
    */
-  if (game?.dice3d?.showForRoll)
+  if (has3dDice)
     await game.dice3d.showForRoll(roll, game.user, true);
 
   await ChatMessage.create(
