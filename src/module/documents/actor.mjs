@@ -859,7 +859,7 @@ export class BoilerplateActor extends Actor {
     }
 
     return this
-      ._rollModal(name, 'save', callback)
+      ._rollModal(name, 'attribute', callback)
       .render(true);
   }
 }
