@@ -1,4 +1,4 @@
-import Marked from 'marked/lib/marked.esm.js';
+import {marked} from 'marked';
 import {getDerivedStat} from './utils.mjs';
 
 /* -------------------------------------------- */
@@ -16,7 +16,7 @@ const setupHandlebarsHelpers = () => {
    */
   Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}));
   Handlebars.registerHelper('sum', (...args) => parseInt(args.reduce((total, add) => total + add, 0)));
-  Handlebars.registerHelper('markdown', (input) => Marked(input));
+  Handlebars.registerHelper('markdown', (input) => marked(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 
     [null, undefined].includes(value) 
       ? defaultValue
