@@ -673,14 +673,7 @@ export class BoilerplateActor extends Actor {
             resolve(updatedSpell);
           }
 
-          /**
-           * @todo Add filtering for "actor's slot-casting 
-           *       class has max Arcane spells per spell 
-           *       level for this class"
-           * @todo Add filtering for "actor's points-casting
-           *       class has max spells for this character level"
-           */
-          const buttons = spellcastingClasses
+          const eligibleCasterClasses = spellcastingClasses
             .filter(classAlreadyHasSpell)
             .filter(caster => {
               const casterId = caster.getFlag('core', 'sourceId');
@@ -694,7 +687,21 @@ export class BoilerplateActor extends Actor {
                   (arr, key) => [...arr, droppedItem.data.spellLevels[key].sourceId], []
                 )
                 .includes(casterId);
-            })
+            });
+
+          if (eligibleCasterClasses.length === 1) {
+            addSpellToCaster(eligibleCasterClasses[0]);
+            return;
+          }
+
+          /**
+           * @todo Add filtering for "actor's slot-casting 
+           *       class has max Arcane spells per spell 
+           *       level for this class"
+           * @todo Add filtering for "actor's points-casting
+           *       class has max spells for this character level"
+           */
+          const buttons = eligibleCasterClasses
             .reduce((buttonObj, caster) => ({
               ...buttonObj,
               [caster.uuid]: {
