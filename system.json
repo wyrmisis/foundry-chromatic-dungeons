@@ -37,63 +37,63 @@
       "name": "weapon",
       "label": "Weapons",
       "path": "packs/weapons.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "armor",
       "label": "Armor",
       "path": "packs/armor.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "gear",
       "label": "Adventuring Gear",
       "path": "packs/gear.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "goods",
       "label": "Trade Goods",
       "path": "packs/trade-goods.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "treasure",
       "label": "Treasure",
       "path": "packs/treasure.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "spell",
       "label": "Spellbook",
       "path": "packs/spellbook.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "ancestry",
       "label": "Ancestries",
       "path": "packs/ancestries.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "heritage",
       "label": "Heritage Options",
       "path": "packs/heritages.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
       "name": "class",
       "label": "Classes",
       "path": "packs/classes.db",
-      "entity": "Item",
+      "type": "Item",
       "module": "foundry-chromatic-dungeons"
     },
     {
