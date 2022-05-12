@@ -1,4 +1,4 @@
-import { getLevelFromXP, reportAndQuit, getWisBonusSlots } from '../helpers/utils.mjs';
+import { getClassGroupAtLevel, getLevelFromXP, reportAndQuit, getWisBonusSlots } from '../helpers/utils.mjs';
 import attackSequence from '../helpers/rollSequences/attackSequence.mjs';
 
 /**
@@ -17,8 +17,20 @@ export class BoilerplateItem extends Item {
 
   prepareDerivedData() {
     switch (this.type) {
-      case 'class': this._prepareClassSpellData(); break;
+      case 'class':
+        this._prepareClassToHitData();
+        this._prepareClassSpellData();
+        break;
     }
+  }
+
+  async _prepareClassToHitData() {
+    const {classGroup, xp} = this.data.data;
+
+    this.data.data.modToHit = getClassGroupAtLevel(
+      classGroup,
+      getLevelFromXP(xp)
+    ).modToHit;
   }
 
   async _prepareClassSpellData() {
