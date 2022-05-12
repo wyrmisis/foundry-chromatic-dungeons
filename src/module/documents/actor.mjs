@@ -838,10 +838,11 @@ export class BoilerplateActor extends Actor {
   saveRoll(name, formula, target) {
     target = parseInt(target);
 
-    const callback = (modifier) => {
-      const roll = new Roll(`${formula}+${modifier}`, this.getRollData()).roll();
+    const callback = async (modifier) => {
+      const roll = new Roll(`${formula}+${modifier}`, this.getRollData());
+      const rollResult = await roll.roll();
 
-      saveSequence(this, name, roll, target)
+      saveSequence(this, name, rollResult, target)
     }
 
     return this
@@ -852,10 +853,11 @@ export class BoilerplateActor extends Actor {
   attributeRoll(name, formula, target) {
     target = parseInt(target);
 
-    const callback = (modifier) => {
-      const roll = new Roll(`${formula}-${modifier}`, this.getRollData()).roll();
+    const callback = async (modifier) => {
+      const roll = new Roll(`${formula}-${modifier}`, this.getRollData());
+      const rollResult = await roll.roll();
 
-      attributeSequence(this, name, roll, target)
+      attributeSequence(this, name, rollResult, target)
     }
 
     return this
