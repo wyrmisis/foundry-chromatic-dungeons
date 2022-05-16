@@ -45,6 +45,7 @@
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/treasure.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/magic-item.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/class.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/configuration/classgroup.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/ancestry.hbs`,
 
 

@@ -1,10 +1,27 @@
 {
   "Actor": {
-    "types": ["pc", "npc"],
+    "types": [
+      "pc",
+      "npc"
+    ],
     "templates": {
       "attributes": {
-        "attributes": { "str": 3, "int": 3, "wis": 3, "dex": 3, "con": 3, "cha": 3 },
-        "attributeMods": { "str": 0, "int": 0, "wis": 0, "dex": 0, "con": 0, "cha": 0 }
+        "attributes": {
+          "str": 3,
+          "int": 3,
+          "wis": 3,
+          "dex": 3,
+          "con": 3,
+          "cha": 3
+        },
+        "attributeMods": {
+          "str": 0,
+          "int": 0,
+          "wis": 0,
+          "dex": 0,
+          "con": 0,
+          "cha": 0
+        }
       },
       "meta": {
         "alignment": "",
@@ -12,12 +29,27 @@
         "bio": ""
       },
       "wealth": {
-        "wealth": { "cp": 0, "sp": 0, "ep": 0, "gp": 0, "pp": 0 }
+        "wealth": {
+          "cp": 0,
+          "sp": 0,
+          "ep": 0,
+          "gp": 0,
+          "pp": 0
+        }
       },
       "defenses": {
-        "hp": { "value": 1, "min": 0, "max": 1 },
+        "hp": {
+          "value": 1,
+          "min": 0,
+          "max": 1
+        },
         "baseAC": 10,
-        "saveMods": { "reflex": 0, "poison": 0, "creature": 0, "spell": 0 },
+        "saveMods": {
+          "reflex": 0,
+          "poison": 0,
+          "creature": 0,
+          "spell": 0
+        },
         "damageModifiers": {
           "nonmagical": 0,
           "magical": 0,
@@ -51,7 +83,14 @@
       }
     },
     "pc": {
-      "templates": ["attributes", "wealth", "meta", "modifiers", "defenses", "vision"],
+      "templates": [
+        "attributes",
+        "wealth",
+        "meta",
+        "modifiers",
+        "defenses",
+        "vision"
+      ],
       "baseAC": 10,
       "spellPoints": {},
       "spellSlots": {},
@@ -60,7 +99,13 @@
       "skills": {}
     },
     "npc": {
-      "templates": ["attributes", "meta", "modifiers", "defenses", "vision"],
+      "templates": [
+        "attributes",
+        "meta",
+        "modifiers",
+        "defenses",
+        "vision"
+      ],
       "type": "beast",
       "numberAppearing": "",
       "numberInLair": "",
@@ -86,12 +131,36 @@
     }
   },
   "Item": {
-    "types": ["weapon", "armor", "gear", "goods", "treasure", "magicItem", "ancestry", "heritage", "class", "spell"],
+    "types": [
+      "weapon",
+      "armor",
+      "gear",
+      "goods",
+      "treasure",
+      "magicItem",
+      "ancestry",
+      "heritage",
+      "class",
+      "classgroup",
+      "spell"
+    ],
     "templates": {
       "item": {
-        "quantity": {"value": 1, "min": 0},
-        "weight": {"value": 0, "min": 0},
-        "cost": {"pp": 0, "gp": 0, "ep": 0, "sp": 0, "cp": 0},
+        "quantity": {
+          "value": 1,
+          "min": 0
+        },
+        "weight": {
+          "value": 0,
+          "min": 0
+        },
+        "cost": {
+          "pp": 0,
+          "gp": 0,
+          "ep": 0,
+          "sp": 0,
+          "cp": 0
+        },
         "description": "",
         "xp": 0
       },
@@ -120,7 +189,10 @@
       }
     },
     "weapon": {
-      "templates": ["item", "equipment"],
+      "templates": [
+        "item",
+        "equipment"
+      ],
       "damageType": "",
       "damage": "1d6",
       "weaponType": "melee",
@@ -137,7 +209,10 @@
       "ammunitionType": ""
     },
     "armor": {
-      "templates": ["item", "equipment"],
+      "templates": [
+        "item",
+        "equipment"
+      ],
       "ac": 0,
       "stealthPenalty": 0,
       "encumbrancePenalty": 0,
@@ -145,11 +220,29 @@
       "armorType": "armor"
     },
     "magicItem": {
-      "templates": ["item", "equipment"]
+      "templates": [
+        "item",
+        "equipment"
+      ]
     },
-    "gear":      { "templates": ["item", "consumable", "light"] },
-    "goods":     { "templates": ["item"] },
-    "treasure":  { "templates": ["item", "equipment"] },
+    "gear": {
+      "templates": [
+        "item",
+        "consumable",
+        "light"
+      ]
+    },
+    "goods": {
+      "templates": [
+        "item"
+      ]
+    },
+    "treasure": {
+      "templates": [
+        "item",
+        "equipment"
+      ]
+    },
     "spell": {
       "school": "",
       "range": "",
@@ -166,8 +259,14 @@
     "ancestry": {
       "movement": 30,
       "infravision": 0,
-      "height": { "min": 60, "max": 66 },
-      "weight": { "min": 150, "max": 300},
+      "height": {
+        "min": 60,
+        "max": 66
+      },
+      "weight": {
+        "min": 150,
+        "max": 300
+      },
       "lifespan": 80,
       "features": {},
       "description": ""
@@ -175,17 +274,26 @@
     "heritage": {
       "description": ""
     },
+    "classgroup": {
+      "hitDieSize": 8,
+      "lastLevelForHitDice": 9,
+      "hitDieModAfterHitDiceMax": 2,
+      "lastLevelForConMod": 9,
+      "hasCappedConMod": true,
+      "isPenalizedForHeavyArmor": true,
+      "levels": []
+    },
     "class": {
       "description": "",
       "classGroup": "",
       "xp": 0,
       "requirements": {
-          "str": 0,
-          "int": 0,
-          "wis": 0,
-          "dex": 0,
-          "con": 0,
-          "cha": 0
+        "str": 0,
+        "int": 0,
+        "wis": 0,
+        "dex": 0,
+        "con": 0,
+        "cha": 0
       },
       "resources": {},
       "features": {},

@@ -1,0 +1,50 @@
+<div class="attributes">
+  <section class="item-attributes">
+    <div class="item-attributes__group">
+      <h2>Configuration</h2>
+
+      {{> (partial "item/parts/item-attribute.hbs")
+        key="data.hitDieSize"
+        value=data.hitDieSize
+        label="Hit Die size"
+        type="number"
+        dataType="Number"
+        compact=true
+      }}
+
+      {{> (partial "item/parts/item-attribute.hbs")
+        key="data.lastLevelForHitDice"
+        value=data.lastLevelForHitDice
+        label="Last level for additional Hit Dice"
+        type="number"
+        dataType="Number"
+        compact=true
+      }}
+
+      {{> (partial "item/parts/item-attribute.hbs")
+        key="data.lastLevelConMod"
+        value=data.lastLevelConMod
+        label="Last level for additional HP from Constitution Modifier"
+        type="number"
+        dataType="Number"
+        compact=true
+      }}
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.hasCappedConMod">Constitution bonus to HP caps at +2</label>
+        <input
+          type="checkbox"
+          name="data.hasCappedConMod"
+          {{checked data.hasCappedConMod}} />
+      </div>
+
+      <div class="item-attributes__item item-attributes__item--compact">
+        <label for="data.isPenalizedForHeavyArmor">Heavy armor impacts encumbrance</label>
+        <input
+          type="checkbox"
+          name="data.isPenalizedForHeavyArmor"
+          {{checked data.isPenalizedForHeavyArmor}} />
+      </div>
+    </div>
+  </section>
+</div>

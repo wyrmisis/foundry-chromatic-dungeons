@@ -21,6 +21,9 @@ export class BoilerplateItem extends Item {
         this._prepareClassToHitData();
         this._prepareClassSpellData();
         break;
+      case 'classgroup':
+        this._prepareClassgroupHitdiceData();
+        break;
     }
   }
 
@@ -49,6 +52,39 @@ export class BoilerplateItem extends Item {
         .map(level => this.data.data.preparedSpells[level]
           .map(id => characterSpells
             .find(item => item.id === id)));
+  }
+
+  async _prepareClassgroupHitdiceData() {
+    const {
+      lastLevelForHitDice,
+      hitDieModAfterHitDiceMax,
+      lastLevelForConMod
+    } = this.data.data;
+    const getHitDieMod = (level) => {
+      if (level <= lastLevelForHitDice) return 0;
+
+      return (level - lastLevelForHitDice) * hitDieModAfterHitDiceMax;
+    }
+    const getHitDieCount = (level) => level < lastLevelForHitDice ? level : lastLevelForHitDice;
+    const canAddFullConModToHP = (level) => level <= lastLevelForConMod; 
+
+    let levels = Object.keys(this.data.data.levels).map(levelKey => ({
+      ...this.data.data.levels[levelKey],
+      hitDieCount: getHitDieCount(parseInt(levelKey)),
+      hitDieMod: getHitDieMod(parseInt(levelKey)),
+      addsFullConModToHP: canAddFullConModToHP(parseInt(levelKey)),
+    }));
+
+    levels.unshift('');
+    levels = {...levels};
+    delete levels[0];
+
+    this.data.data.levels = levels;
+    console.warn(this.data.data.levels);
+    // this.data.data.levels.map((level, index) => ({
+    //   ...level,
+    //   hitDieCount: index < lastLevelForHitDice ? index + 1 : lastLevelForHitDice
+    // }));
   }
 
   /**
