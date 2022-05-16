@@ -346,12 +346,12 @@ export class BoilerplateActor extends Actor {
       if (!savingClass) savingClass = this._getItemsOfType('class')[0];
 
       if (!savingClass?.data?.data) {
-        ui?.notifications?.warn(`Actor ${this.name} doesn't have a class!`);
+        console.warn(`Actor ${this.name} doesn't have a class!`);
         return worstSaves;
       }
 
       if (!savingClass?.data?.data?.classGroup) {
-        ui?.notifications?.warn(`${this.name}'s class doesn't have a class group!`)
+        console.warn(`${this.name}'s class doesn't have a class group!`)
         return worstSaves;
       }
 
