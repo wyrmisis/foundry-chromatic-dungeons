@@ -48,6 +48,7 @@
   }}
 </div>
 
+{{#if hasXP}}
 <div class="item-attributes__group">
   <h2>XP</h2>
   {{> (partial "item/parts/item-attribute.hbs")
@@ -59,3 +60,4 @@
     compact=true
   }}
 </div>
+{{/if}}
