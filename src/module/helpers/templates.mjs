@@ -48,7 +48,6 @@
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/classgroup.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/ancestry.hbs`,
 
-
     // Chat cards
     `${CONFIG.CHROMATIC.templateDir}/chat/attack.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/chat/save.hbs`,

@@ -80,11 +80,6 @@ export class BoilerplateItem extends Item {
     delete levels[0];
 
     this.data.data.levels = levels;
-    console.warn(this.data.data.levels);
-    // this.data.data.levels.map((level, index) => ({
-    //   ...level,
-    //   hitDieCount: index < lastLevelForHitDice ? index + 1 : lastLevelForHitDice
-    // }));
   }
 
   /**
@@ -393,5 +388,9 @@ export class BoilerplateItem extends Item {
       });
       return roll;
     }
+  }
+
+  createEmbeddedDocuments(docname, droppedItems) {
+    console.info(docname, droppedItems);
   }
 }
