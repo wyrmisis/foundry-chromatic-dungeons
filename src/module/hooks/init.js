@@ -8,6 +8,7 @@ import { BoilerplateItemSheet } from "../sheets/item-sheet.mjs";
 import CDAncestrySheet from "../sheets/ancestry-sheet.mjs";
 import CDClassSheet from "../sheets/class-sheet.mjs";
 import CDClassgroupSheet from "../sheets/classgroup-sheet.mjs";
+import CDStarterKitSheet from "../sheets/starterkit-sheet.mjs";
 import CDSpellSheet from '../sheets/spell-sheet.mjs';
 
 // Import helper/utility classes and constants.
@@ -72,6 +73,10 @@ Hooks.once('init', async function() {
   });
   Items.registerSheet("chromatic-dungeons", CDAncestrySheet, { 
     types: ['ancestry'],
+    makeDefault: true 
+  });
+  Items.registerSheet("chromatic-dungeons", CDStarterKitSheet, { 
+    types: ['starterkit'],
     makeDefault: true 
   });
 

@@ -165,6 +165,26 @@ const getVisionAndLight = (token, tokenActor) => {
   // });
 }
 
+/**
+ * 
+ * @param {string} itemType The `type` of item you want to retrieve
+ * @param {string} compendiumName The name of the compendium you want to read from. Usually starts with `foundry-chromatic-dungeons.`
+ * @returns 
+ */
+const getAllItemsOfType = async (itemType, compendiumName) => {
+  const compendium = game.packs.get(compendiumName);
+  const compendiumItems = compendium.index
+    .filter(({name}) => !name.includes('#'));
+  const compendiumItemObjects = await Promise.all(
+    compendiumItems.map(({_id}) => compendium.getDocument(_id))
+  );
+
+  return [
+    ...compendiumItemObjects.filter(({type}) => type === itemType),
+    ...game.items.filter(({type}) => type === itemType)
+  ];
+}
+
 export {
   getMonsterHD,
   getMonsterVariant,
@@ -174,6 +194,7 @@ export {
   getClassGroupAtLevel,
   getDerivedStat,
   getDerivedStatWithContext,
+  getAllItemsOfType,
   reportAndQuit,
   hasThisAlready,
   range,

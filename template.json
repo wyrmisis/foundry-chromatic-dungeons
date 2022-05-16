@@ -142,7 +142,8 @@
       "heritage",
       "class",
       "classgroup",
-      "spell"
+      "spell",
+      "starterkit"
     ],
     "templates": {
       "item": {
@@ -322,6 +323,16 @@
       "statBonus": "",
       "isPrimary": true,
       "isSelectedSaveTable": true
+    },
+    "starterkit": {
+      "cost": {
+        "pp": 0,
+        "gp": 0,
+        "ep": 0,
+        "sp": 0,
+        "cp": 0
+      },
+      "contents": {} 
     }
   }
 }

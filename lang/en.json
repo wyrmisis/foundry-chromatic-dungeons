@@ -13,6 +13,7 @@
   "ITEM.TypeClass": "Class",
   "ITEM.TypeClassgroup": "Class Group",
   "ITEM.TypeSpell": "Spell",
+  "ITEM.TypeStarterkit": "Starting Kit",
 
   "ATTRIBUTE.str": "Strength",
   "ATTRIBUTE.con": "Constitution",

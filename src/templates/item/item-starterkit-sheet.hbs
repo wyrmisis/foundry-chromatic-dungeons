@@ -1,0 +1,102 @@
+<form class="{{cssClass}}" autocomplete="off">
+  <header class="sheet-header">
+    <div class="sheet-header__container">
+      <img
+        class="profile-img"
+        src="{{item.img}}"
+        data-edit="img"
+        title="{{item.name}}"/>
+      <input
+        class="name"
+        name="name"
+        type="text"
+        value="{{item.name}}"
+        placeholder="Name"/>
+    </div>
+  </header>
+
+  {{!-- Sheet Body --}}
+  <main class="sheet-body">
+    {{!-- Attributes Tab --}}
+    <div class="tab sheet-tab sheet-tab--attributes">
+      <div class="attributes">
+        <section class="item-attributes">
+          <div class="item-attributes__group">
+          {{> (partial "item/parts/item-value.hbs") }}
+        </section>
+
+        <section class="item-description item-description--contents{{#if editable}} item-description--contents-editable{{/if}}">
+          <h2>Contents</h2>
+
+          <div class="gear-pane gear-pane--selected">
+            {{#if editable}}<h3>Selected</h3>{{/if}}
+            <ul class="gear-list gear-list--selected">
+              {{#each selectedGear as |item id|}}
+                <li
+                  class="item-card"
+                  data-item-id="{{item.id}}">
+                  <img src="{{item.img}}">
+                  <span class="item-card__name">
+                    {{item.name}}
+                  </span>
+                  {{#if (gt item.quantity 1)}}
+                    <input
+                      class="item-card__quantity"
+                      type="number"
+                      readonly
+                      value="{{item.quantity}}" />
+                  {{/if}}
+                </li>
+              {{else}}
+                <li class="items__list-item items__list-item--empty">
+                  <span>Empty</span>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+
+          {{#if editable}}
+            <div class="gear-pane gear-pane--available">
+              <h3>Available</h3>
+              <div class="search-filter search-filter--gear-search">
+                <i class="fa fa-search" aria-hidden="true">
+                  <span class="sr-only">
+                    Search available gear
+                  </span>
+                </i>
+                <input class="search-filter__input search-filter__input--gear" type="text" />
+              </div>
+              <ul class="gear-list gear-list--available">
+                {{#each gear as |item id|}}
+                  <li
+                    class="item-card"
+                    data-item-id="{{item.id}}">
+                    <img src="{{item.img}}">
+                    <span class="item-card__name">
+                      {{item.name}}
+                    </span>
+                  </li>
+                {{else}}
+                  <li class="items__list-item items__list-item--empty">
+                    <span>Empty</span>
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/if}}
+          
+        </section>
+      </div>
+    </div>
+
+    {{!-- Effects Tab --}}
+    <div class="tab sheet-tab sheet-tab--effects" data-group="primary" data-tab="effects">
+      {{> (partial "item/parts/item-effects.hbs") }}
+    </div>
+
+    {{!-- Configuration Tab --}}
+    <div class="tab sheet-tab sheet-tab--configuration" data-group="primary" data-tab="configuration">
+      {{> (partial "item/configuration/treasure.hbs") }}
+    </div>
+  </section>
+</form>

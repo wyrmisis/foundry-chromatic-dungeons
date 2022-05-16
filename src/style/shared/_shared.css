@@ -95,6 +95,16 @@
 }
 
 /**
+ * Search Filters
+ */
+.search-filter {
+  display: grid;
+  grid-template-columns: 1.5em 1fr;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/**
  * Utility classes
  */
 .sr-only {

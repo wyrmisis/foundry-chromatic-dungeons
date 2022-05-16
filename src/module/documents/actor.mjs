@@ -8,7 +8,8 @@ import {
   getLevelFromXP,
   getClassGroupAtLevel,
   sourceId,
-  getWisBonusSlots
+  getWisBonusSlots,
+  getAllItemsOfType
 } from '../helpers/utils.mjs';
 
 import attackSequence from '../helpers/rollSequences/attackSequence.mjs';
@@ -739,6 +740,22 @@ export class BoilerplateActor extends Actor {
       }
     }
 
+    const filterStartingKit = async (kit) => {
+      const { contents } = kit.data;
+      const gear = await getAllItemsOfType('gear', 'foundry-chromatic-dungeons.gear');
+      const selectedKeys = Object.keys(contents);
+      const selectedItems = gear
+        .filter(item => selectedKeys.includes(item.id))
+        .map(item => {
+          const clone = structuredClone(item.data);
+          clone.data.quantity.value = contents[item.id]
+          delete clone.effects;
+          return clone;
+        });
+
+      return selectedItems;
+    } 
+
     Promise
       .all(
         droppedItems.map(async (droppedItem) => {
@@ -749,17 +766,25 @@ export class BoilerplateActor extends Actor {
           const passSpell       = (droppedItem.type === 'spell')
                                   ? await filterSpell(droppedItem)
                                   : true;
-      
+          const passStartingKit = (droppedItem.type === 'starterkit')
+                                  ? await filterStartingKit(droppedItem)
+                                  : true
           if (
             !passPCOnlyData ||
             !passHeritages  ||
             !passAncestries ||
             !passClasses    ||
-            !passSpell
+            !passSpell      ||
+            !passStartingKit
           ) return false;
 
           if (droppedItem.type === 'spell')
             return await passSpell;
+
+          if (droppedItem.type === 'starterkit') {
+            this.createEmbeddedDocuments(docname, passStartingKit)
+            return false;
+          }
       
           return droppedItem;
         })

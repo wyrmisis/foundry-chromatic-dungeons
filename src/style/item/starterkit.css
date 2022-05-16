@@ -1,0 +1,44 @@
+.starter-kit {
+  .item-description--contents {
+    &-editable {
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 1em;
+      display: grid;
+      align-items: baseline;
+    }
+
+    &:not(&-editable) {
+      .gear-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    h2 {
+      grid-column: 1/3;
+      margin-bottom: .5em;
+    }
+
+    .gear-pane {
+      margin-top: 0;
+    }
+
+    .gear-list {
+      list-style: none;
+      box-shadow: inset var(--elevation-1-shadow);
+      border-radius: 2px;
+      padding: .5em;
+
+      height: var(--height);
+      overflow-y: scroll;
+    }
+
+    .item-card {
+      margin-bottom: .25em;
+
+      &__quantity {
+        max-width: 2em;
+      }
+    }
+  }
+}
