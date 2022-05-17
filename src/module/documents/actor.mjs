@@ -538,6 +538,41 @@ export class BoilerplateActor extends Actor {
     return this.data.type === 'pc';
   }
 
+  async _preCreate(actor, options, user, that) {
+    const attributeKeys = ['str', 'int', 'wis', 'dex', 'con', 'cha'];
+    const formula = game.settings.get('foundry-chromatic-dungeons', 'autoroll-pc-stats');
+    
+    await super._preCreate(actor, options, user, that);
+    
+    if (this.type !== 'pc') return;
+    if (formula === 'manual') return;
+    if (attributeKeys.every(key =>
+      this.data.data.attributes[key] !== 3
+    )) return;
+
+    const rolls = new Array(
+      new Roll(formula),
+      new Roll(formula),
+      new Roll(formula),
+      new Roll(formula),
+      new Roll(formula),
+      new Roll(formula)
+    );
+  
+    await Promise.all(rolls.map(
+      roll => roll.roll()
+    ));
+
+    const totals = rolls.map(roll => roll.total);
+    const attributes = attributeKeys.reduce((prev, curr, i) => ({
+      ...prev,
+      [curr]: totals[i]
+    }), {});
+
+
+    await this.data.update({ 'data.attributes': attributes });
+  }
+
   createEmbeddedDocuments(docname, droppedItems) {
     const filterAncestries = (droppedItem) => {
       if (droppedItem.type === 'ancestry') {

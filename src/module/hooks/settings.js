@@ -82,4 +82,18 @@ const setupGloablSettings = () => {
     },
     onChange: () => window.location.reload()
   });
+
+  game.settings.register("foundry-chromatic-dungeons", "autoroll-pc-stats", {
+    name: "Automatically Roll PC Stats",
+    hint: "Would you like Foundry to roll PC stats when a new character is created?",
+    scope: "world",
+    config: true,
+    type: String,
+    default: "manual",
+    choices: {
+      "manual": "Manual",
+      "3d6": "3d6, straight down",
+      "4d6kh3": "4d6, keep highest 3"
+    },
+  });
 }
