@@ -111,7 +111,7 @@ const handleCrits = (critTableRoll) => {
     else if (critTableRoll >=  14)  critResult = 'stun';
     else if (critTableRoll >=  12)  critResult = 'armBreak';
     else if (critTableRoll >=  10)  critResult = 'legBreak';
-    else if (critTableRoll >=  18)  critResult = 'triple';
+    else if (critTableRoll >=  6 )  critResult = 'triple';
     else                            critResult = 'double';
 
     return CONFIG.CHROMATIC.critTypes[critResult];
