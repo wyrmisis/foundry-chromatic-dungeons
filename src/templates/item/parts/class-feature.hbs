@@ -1,0 +1,120 @@
+<div class="feature{{#if hasResource}} feature--has-resource{{/if}}" data-item-id="{{key}}">
+  <header>
+    {{> (partial "item/parts/item-attribute.hbs")
+      key=(concat "data.features." key ".level")
+      value=level
+      label="Level"
+      type="number"
+      dataType="Number"
+    }}
+
+    {{> (partial "item/parts/item-attribute.hbs")
+      key=(concat "data.features." key ".title")
+      value=title
+      label="Title"
+      type="text"
+      dataType="String"
+    }}
+
+    {{#if hasResource}}
+      {{> (partial "item/parts/item-attribute.hbs")
+        key=(concat "data.features." key ".resources." resourceKey ".value")
+        value=level
+        label="Current"
+        type="number"
+        dataType="Number"
+      }}
+    {{/if}}
+
+    <span class="feature__controls">
+      {{#if hasResource}}
+        <button
+          type="button"
+          class="resource__refresh"
+          title="{{localize 'BOILERPLATE.ResourceRefresh'}}">
+          <i class="fas fa-redo">
+            <span class="sr-only">
+              {{localize "BOILERPLATE.ResourceRefresh"}}
+            </span>
+          </i>
+        </button>
+      {{/if}}
+      <button type="button" class="feature__delete">
+        <i class="fa fa-trash">
+          <span class="sr-only">Delete Feature</span>
+        </i>
+      </button>
+    </span>
+  </header>
+  <main>
+    <label for="data.features.{{key}}.content">Feature Content</label>
+    {{editor
+      content=content
+      target=(concat "data.features." key ".content")
+      rollData=rollData
+      button=true
+      owner=owner
+      editable=editable
+    }}
+  </main>
+  <footer>
+    <span>
+      <input
+        name="data.features.{{key}}.hasResource"
+        type="checkbox"
+        {{checked hasResource}} />
+      <label for="data.features.{{key}}.hasResource">This consumes a resource.</label>
+    </span>
+    
+    {{#if hasResource}}
+      <h3 class="action-header">
+        <span>Resources</span>
+        <button
+          type="button"
+          class="resource__add"
+          title="{{localize 'BOILERPLATE.ResourceCreate'}}">
+          <i class="fas fa-plus">
+            <span class="sr-only">
+              {{localize "BOILERPLATE.Add"}}
+            </span>
+          </i>
+        </button>
+      </h3>
+
+      <ul class="feature__resources">
+        {{#each resources as |resource resourceKey|}}
+          <li class="feature-resource" data-item-id="{{resourceKey}}">
+            {{> (partial "item/parts/item-attribute.hbs")
+              key=(concat "data.features." ../key ".resources." resourceKey ".level")
+              value=resource.level
+              label="Level"
+              type="number"
+              dataType="Number"
+            }}
+          
+            {{> (partial "item/parts/item-attribute.hbs")
+              key=(concat "data.features." ../key ".resources." resourceKey ".max")
+              value=resource.max
+              label="Max"
+              type="number"
+              dataType="Number"
+            }}
+              
+            <button
+              type="button"
+              class="resource__delete"
+              title="{{localize 'BOILERPLATE.ResourceDelete'}}">
+              <i class="fas fa-times">
+                <span class="sr-only">
+                  {{localize "BOILERPLATE.ResourceDelete"}}
+                </span>
+              </i>
+            </button>
+          </li>
+        {{else}}
+          <li>Empty</li>
+        {{/each}}
+      </ul>
+    {{/if}}
+  </footer>
+</div>

@@ -149,43 +149,12 @@
 
       <div class="features__list">
         {{#each data.features as |feature key|}}
-          <div class="feature" data-item-id="{{key}}">
-            <header>
-              {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.features." key ".level")
-                value=feature.level
-                label="Level"
-                type="number"
-                dataType="Number"
-              }}
-
-              {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.features." key ".title")
-                value=feature.title
-                label="Title"
-                type="text"
-                dataType="String"
-              }}
-
-              <button type="button" class="feature__delete">
-                <i class="fa fa-trash">
-                  <span class="sr-only">Delete Feature</span>
-                </i>
-              </button>
-            </header>
-            <main>
-              <label for="data.features.{{key}}.content">Feature Content</label>
-              {{editor
-                content=feature.content
-                target=(concat "data.features." key ".content")
-                rollData=../rollData
-                button=true
-                owner=../owner
-                editable=../editable
-              }}
-
-            </main>
-          </div>
+          {{> (partial 'item/parts/class-feature.hbs')
+            key=key
+            rollData=../rollData
+            owner=../owner
+            editable=../editable
+          }}
         {{/each}}
       </div>
     </div>
@@ -203,7 +172,7 @@
           </tr>
         </thead>
         <tbody>
-          {{#each classGroupAll.levels as |level key|}}
+          {{#each selectedClassGroup.levels as |level key|}}
             {{#if (equals key ../level) }}
               <tr class="current-level">
             {{else}}
