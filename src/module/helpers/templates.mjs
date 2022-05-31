@@ -38,6 +38,9 @@
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-description.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-effects.hbs`,
 
+    // Type-specific Item Partials
+    `${CONFIG.CHROMATIC.templateDir}/item/parts/class-feature.hbs`,
+
     // Item Config partials
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/gear.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/weapon.hbs`,
