@@ -381,7 +381,7 @@ export class BoilerplateActor extends Actor {
   _getMeleeToHitMod() {
     const classToHit = (this._isPC()) 
       ? this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.data.data.modToHit || 0
-      : getClassGroupAtLevel('npc', parseInt(this.data.data.hitDice)).modToHit;
+      : getClassGroupAtLevel('npc', parseInt(this.data.data.calculatedHitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.data.data);
     const monsterToHit = this.data.data?.monsterVariant?.modToHit?.melee || 0
@@ -392,7 +392,7 @@ export class BoilerplateActor extends Actor {
   _getRangedToHitMod() {
     const classToHit = (this._isPC()) 
     ? this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.data.data.modToHit
-    : getClassGroupAtLevel('npc', parseInt(this.data.data.hitDice)).modToHit;
+    : getClassGroupAtLevel('npc', parseInt(this.data.data.calculatedHitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.data.data);
     const monsterToHit = this.data.data?.monsterVariant?.modToHit?.ranged || 0
