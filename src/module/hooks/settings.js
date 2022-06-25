@@ -95,5 +95,16 @@ const setupGloablSettings = () => {
       "3d6": "3d6, straight down",
       "4d6kh3": "4d6, keep highest 3"
     },
+    onChange: () => window.location.reload()
+  });
+
+  game.settings.register("foundry-chromatic-dungeons", "min-negative-hp", {
+    name: "Minimum Negative HP for Player Characters",
+    hint: "At what HP level should player characters be considered dead?",
+    scope: "world",
+    config: true,
+    type: Number,
+    default: "0",
+    onChange: () => window.location.reload()
   });
 }

@@ -127,9 +127,8 @@ const getWisBonusSlots = (slots, addsBonusSlots, wisScore) => {
 }
 
 const getStatus = (status) =>
-  CONFIG.statusEffects[
-    CONFIG.statusEffects.findIndex(({id}) => id === status)
-  ];
+  CONFIG.statusEffects.find(({id}) => id === status);
+  
 
 const rollMessageOptions = (actor) => {
   const speaker = ChatMessage.getSpeaker({ actor });

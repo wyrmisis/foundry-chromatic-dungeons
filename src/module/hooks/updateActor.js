@@ -21,42 +21,33 @@ Hooks.once("ready", async function() {
 });
 
 const doCombatUpdates = async (actor) => {
-  const combatant = game.combat.getCombatantByToken(actor.token.id);    
   const hp = actor.data.data.hp.value;
+
+  const deathHp =  Math.abs(game.settings.get('foundry-chromatic-dungeons', 'min-negative-hp')) * -1;
+
   const isUnconscious =
+    deathHp !== 0 &&
     actor.type === 'pc' &&
     hp <= 0 &&
-    hp >= -9;
+    hp >= deathHp;
   const isDead =
-    (actor.type === 'pc' && hp <= -10) ||
+    (actor.type === 'pc' &&  hp < deathHp) ||
     (actor.type === 'npc' && hp <= 0);
 
-  if (isDead)
-    await ChatMessage.create({
-      ...rollMessageOptions(actor),
-      type: CONST.CHAT_MESSAGE_TYPES.EMOTE,
-      content: `${actor.name} breathes their last!`
-    })
-  else if (isUnconscious)
-    await ChatMessage.create({
-      ...rollMessageOptions(actor),
-      type: CONST.CHAT_MESSAGE_TYPES.EMOTE,
-      content: `${actor.name} collapses in a heap from their injuries!`
-    });
+  // Avoid duplicate status effects
+  if (isUnconscious && actor.token.data.actorData.effects.find(({icon}) => icon.includes('unconscious')))
+    return;
+  if (isDead && actor.token.data.actorData.effects.find(({icon}) => icon.includes('dead')))
+    return;
 
   await actor.token.object.toggleEffect(
-    getStatus('unconscious').icon,
-    {active: (isUnconscious && !isDead), overlay: true}
+    getStatus('unconscious'),
+    {active: isUnconscious, overlay: true}
   );
-
-  if (combatant)
-    await combatant.update({defeated: isDead});
-
-  if (isDead)
-    await actor.token.object.toggleEffect(
-      getStatus('dead').icon,
-      {active: (isDead), overlay: true}
-    );
+  await actor.token.object.toggleEffect(
+    getStatus('dead'),
+    {active: isDead, overlay: true}
+  );
 }
 
 const doLightingUpdates = (actor) =>
