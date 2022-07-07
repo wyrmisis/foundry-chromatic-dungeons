@@ -1,5 +1,5 @@
 const rogue = {
-  "hitDie": "d10",
+  "hitDie": "d6",
   "levels": [
     {
       "hitDieCount": 1,
@@ -10,7 +10,7 @@ const rogue = {
         "creature": 12,
         "spell": 15
       },
-      "addsFullConModToHP": true
+      "addsFullConModToHP": false
     },
     {
       "hitDieCount": 1,
@@ -21,7 +21,7 @@ const rogue = {
         "creature": 12,
         "spell": 15
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 0
     },
     {
@@ -33,7 +33,7 @@ const rogue = {
         "creature": 12,
         "spell": 15
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 1
     },
     {
@@ -45,7 +45,7 @@ const rogue = {
         "creature": 12,
         "spell": 15
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 1
     },
     {
@@ -57,7 +57,7 @@ const rogue = {
         "creature": 12,
         "spell": 15
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 2
     },
     {
@@ -69,7 +69,7 @@ const rogue = {
         "creature": 11,
         "spell": 13
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 3
     },
     {
@@ -81,7 +81,7 @@ const rogue = {
         "creature": 11,
         "spell": 13
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 3
     },
     {
@@ -93,7 +93,7 @@ const rogue = {
         "creature": 11,
         "spell": 13
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 4
     },
     {
@@ -105,7 +105,7 @@ const rogue = {
         "creature": 11,
         "spell": 13
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 5
     },
     {
@@ -117,7 +117,7 @@ const rogue = {
         "creature": 9,
         "spell": 9
       },
-      "addsFullConModToHP": true,
+      "addsFullConModToHP": false,
       "modToHit": 5
     },
     {

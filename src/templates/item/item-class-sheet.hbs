@@ -39,7 +39,7 @@
     <a class="item" data-tab="description">Description</a>
     <a class="item" data-tab="features">Features</a>
     {{#if data.classGroup}}
-      <a class="item" data-tab="saves">Saves</a>
+      <a class="item" data-tab="levels">Levels</a>
     {{/if}}
     {{#if data.hasSkills}}
       <a class="item" data-tab="skills">Skills</a>
@@ -149,75 +149,45 @@
 
       <div class="features__list">
         {{#each data.features as |feature key|}}
-          <div class="feature" data-item-id="{{key}}">
-            <header>
-              {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.features." key ".level")
-                value=feature.level
-                label="Level"
-                type="number"
-                dataType="Number"
-              }}
-
-              {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.features." key ".title")
-                value=feature.title
-                label="Title"
-                type="text"
-                dataType="String"
-              }}
-
-              <button type="button" class="feature__delete">
-                <i class="fa fa-trash">
-                  <span class="sr-only">Delete Feature</span>
-                </i>
-              </button>
-            </header>
-            <main>
-              <label for="data.features.{{key}}.content">Feature Content</label>
-              {{editor
-                content=feature.content
-                target=(concat "data.features." key ".content")
-                rollData=../rollData
-                button=true
-                owner=../owner
-                editable=../editable
-              }}
-
-            </main>
-          </div>
+          {{> (partial 'item/parts/class-feature.hbs')
+            key=key
+            rollData=../rollData
+            owner=../owner
+            editable=../editable
+          }}
         {{/each}}
       </div>
     </div>
 
     {{!-- Saves Tab --}}
-    <div class="tab sheet-tab sheet-tab--saves" data-group="primary" data-tab="saves">
-      <table>
-        <thead>
-          <tr>
-            <td>Level</td>
-            <td>Reflex</td>
-            <td>Poison/Disease</td>
-            <td>Creature Ability</td>
-            <td>Spell/Magic Item</td>
-          </tr>
-        </thead>
-        <tbody>
-          {{#each classGroupAll.levels as |level key|}}
-            {{#if (equals key ../level) }}
-              <tr class="current-level">
-            {{else}}
-              <tr>
-            {{/if}}
-              <td>{{key}}</td>
-              <td>{{level.saves.reflex}}</td>
-              <td>{{level.saves.poison}}</td>
-              <td>{{level.saves.creature}}</td>
-              <td>{{level.saves.spell}}</td>
-            </tr>
-          {{/each}}
-        </tbody>
-      </table>
+    <div class="tab sheet-tab sheet-tab--levels" data-group="primary" data-tab="levels">
+      <ul class="level-table">
+        <li class="level-table-row level-table-row--header level-table-row--category-header">
+          <span class="level-table-dataset level-table-dataset--saves">Saves</span>
+          <span class="level-table-dataset level-table-dataset--hp">HP</span>
+        </li>
+
+        <li class="level-table-row level-table-row--header">
+          <span class="level-table-dataset level-table-dataset--saves">
+            <span class="level-table-cell level-table-cell--save">Reflex</span>
+            <span class="level-table-cell level-table-cell--save">Poison</span>
+            <span class="level-table-cell level-table-cell--save">Creature</span>
+            <span class="level-table-cell level-table-cell--save">Spell</span>
+          </span>
+          <span class="level-table-dataset level-table-dataset--hp">
+            <span class="level-table-cell level-table-cell--hit-dice">Hit Dice</span>
+            <span class="level-table-cell level-table-cell--hit-dice">Con Mod?</span>
+          </span>
+          <span class="level-table-cell level-table-cell--mod">To Hit</span>
+        </li>
+
+        {{#each classGroupAll.levels as |level key|}}
+          {{> (partial 'item/parts/class-levels.hbs')
+            level=level
+            key=key
+          }}
+        {{/each}}
+      </ul>
     </div>
 
     {{!-- Spellcasting Tab --}}

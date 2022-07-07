@@ -16,7 +16,7 @@ export default class ClassSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["chromatic-dungeons", "sheet", "item", "class"],
-      width: 520,
+      width: 640,
       height: 480,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });
@@ -92,14 +92,34 @@ export default class ClassSheet extends ItemSheet {
       });
     });
 
+    html.find('.resource__add').click((ev) => {
+      const {itemId} = ev.currentTarget.closest('.feature').dataset;
+
+      this.item.update({
+        [`data.features.${itemId}.resources.${randomID()}`]: {
+          level: 1,
+          max: 1
+        }
+      });
+    });
+
+    html.find('.resource__delete').click((ev) => {
+      const resourceId = ev.currentTarget.closest('.feature-resource').dataset.itemId;
+      const featureId = ev.currentTarget.closest('.feature').dataset.itemId;
+      
+      this.item.update({
+        [`data.features.${featureId}.resources`]: {
+          [`-=${resourceId}`]: null
+        }
+      });
+    });
+
     html.find('.feature__delete').click((evt) => {
-      const targetFeature = $(evt.target)
-        .parents('.feature')
-        .data('itemId');
+      const {itemId} = ev.currentTarget.closest('.feature').dataset;
 
       this.item.update({
         'data.features': {
-          [`-=${targetFeature}`]: null
+          [`-=${itemId}`]: null
         }
       });
     });
@@ -115,13 +135,11 @@ export default class ClassSheet extends ItemSheet {
     });
 
     html.find('.skill__delete').click((evt) => {
-      const targetSkill = $(evt.target)
-        .parents('.skill')
-        .data('itemId');
+      const {itemId} = ev.currentTarget.closest('.feature').dataset;
 
       this.item.update({
         'data.skills': {
-          [`-=${targetSkill}`]: null
+          [`-=${itemId}`]: null
         }
       });
     });

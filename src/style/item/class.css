@@ -76,6 +76,30 @@
       align-items: start;
       grid-template-rows: 1.4em auto;
     }
+
+    button {
+      cursor: pointer;
+    }
+
+    &--has-resource {
+      header {
+        grid-template-columns: 1fr 7fr 1fr 1fr;
+      }
+    }
+
+    &__resources {
+      list-style: none;
+      padding: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: 2em;
+    }
+
+    &-resource {
+      display: grid;
+      grid-gap: .5em;
+      grid-template-columns: 1fr 1fr 2em;
+    }
   }
 
   .skills {

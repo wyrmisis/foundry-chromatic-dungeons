@@ -1,0 +1,65 @@
+<li class="level-table-row level-table-row--data">
+  <span class="level-table-cell level-table-cell--level">{{key}}</span>
+
+  <span class="level-table-dataset level-table-dataset--saves">
+    <span class="level-table-cell level-table-cell--save">
+      <input
+        type="number"
+        min="1"
+        max="20"
+        value={{level.saves.reflex}}
+        readonly
+      />
+    </span>
+    <span class="level-table-cell level-table-cell--save">
+      <input
+        type="number"
+        min="1"
+        max="20"
+        value={{level.saves.poison}}
+        readonly
+      />
+    </span>
+    <span class="level-table-cell level-table-cell--save">
+      <input
+        type="number"
+        min="1"
+        max="20"
+        value={{level.saves.creature}}
+        readonly
+      />
+    </span>
+    <span class="level-table-cell level-table-cell--save">
+      <input
+        type="number"
+        min="1"
+        max="20"
+        value={{level.saves.spell}}
+        readonly
+      />
+    </span>
+  </span>
+
+  <span class="level-table-dataset level-table-dataset--hp">
+    <span class="level-table-cell level-table-cell--hit-dice">
+      <input
+        type="text"
+        readonly
+        value="{{level.hitDieCount}}{{../classGroupAll.hitDie}}+{{level.hitDieMod}}" />
+    </span>
+    <span class="level-table-cell level-table-cell--hit-dice level-table-cell--has-con-mod">
+      {{#if level.addsFullConModToHP}}
+        &check;
+      {{/if}}
+    </span>
+  </span>
+
+  <span class="level-table-cell level-table-cell--mod">
+    <input
+      type="number"
+      min="1"
+      max="20"
+      value="{{level.modToHit}}"
+    />
+  </span>
+</li>
