@@ -55,77 +55,72 @@ export class BoilerplateActor extends Actor {
   prepareDerivedData() {
     if (this.name.includes('#[CF_tempEntity]')) return;
 
-    const actorData = this.data;
-    const data = actorData.data;
-    const flags = actorData.flags.boilerplate || {};
-
     // Make separate methods for each Actor type (character, npc, etc.) to keep
     // things organized.
-    this._prepareCharacterData(actorData);
-    this._prepareNpcData(actorData);
+    this._prepareCharacterData();
+    this._prepareNpcData();
 
     // Shared properties get set here
-    data.toHitMods = {
+    this.system.toHitMods = {
       melee: this._getMeleeToHitMod(),
       thrown: this._getRangedToHitMod(),
       ranged: this._getRangedToHitMod()
     };
     
-    data.damageMods = {
+    this.system.damageMods = {
       melee: this._getStrDamageMod(),
       thrown: this._getStrDamageMod(),
       ranged: this._getRangedDamageMod()
     };
 
-    data.saves = {
+    this.system.saves = {
       targets: this._getSaves(),
       mods: this._getSaveMods()
     };
 
-    data.perception = this._getPerception();
+    this.system.perception = this._getPerception();
 
-    data.initiative = this._getInitiative();
+    this.system.initiative = this._getInitiative();
   }
 
   /**
    * Prepare Character type specific data
    */
-  async _prepareCharacterData(actorData) {
-    if (actorData.type !== 'pc') return;
+  async _prepareCharacterData() {
+    if (this.type !== 'pc') return;
     if (this.name.includes('#')) return;
 
     // Make modifications to data here. For example:
-    const data = actorData.data;
     const useEncumbrance = game.settings.get('foundry-chromatic-dungeons', 'encumbrance');
 
     // Set hands if hands aren't defined 
-    if (data.hands === undefined) 
+    if (this.system.hands === undefined) 
       await this.update({'data.hands': 2});
 
-    data.ac = this._getAC();
+    this.system.ac = this._getAC();
 
-    data.carryWeight = this._getCarryWeight();
+    this.system.carryWeight = this._getCarryWeight();
 
-    data.move = this._getMoveSpeed();
+    this.system.move = this._getMoveSpeed();
 
     if (useEncumbrance)
-      data.move = this.calculateEncumbrance();
+    this.system.move = this.calculateEncumbrance();
 
-    data.spellcasting = this._getSpellSlots();
+    this.system.spellcasting = this._getSpellSlots();
 
-    data.maxLanguages = getDerivedStatWithContext('int', 'languages', this.data.data)
+    this.system.maxLanguages = getDerivedStatWithContext('int', 'languages', this.system)
 
-    data.swim = this.calculateSwimData();
+    this.system.swim = this.calculateSwimData();
   }
 
-  calculateSwimData(data) {
-    const modHP = getDerivedStatWithContext('con', 'modHP', this.data.data);
-    const getArmor = ({data}) => data.data.equipped && data.data.swimPenalty;
+  calculateSwimData() {
+    const modHP = getDerivedStatWithContext('con', 'modHP', this.system);
+    const getArmor = ({system}) => system.equipped && system.swimPenalty;
     const hasArmorPenalty = !!this._getItemsOfType('armor', getArmor).length;
 
     let speed = 10;
     let conPenalty = 0;
-    let roundsBeforeChecks = this.data.data.attributes.con;
+    let roundsBeforeChecks = this.system.attributes.con;
     let roundsOfHeldBreath = (modHP >= 1) ? modHP * 2 : 1;
 
     const {
@@ -133,7 +128,7 @@ export class BoilerplateActor extends Actor {
       atHalf,
       atThreeQuarters,
       atFull
-    } = this.data.data.carryWeight;
+    } = this.system.carryWeight;
 
     if (hasArmorPenalty) {
       speed -= 5;
@@ -162,11 +157,11 @@ export class BoilerplateActor extends Actor {
   calculateEncumbrance() {
     let penalty = 0;
 
-    const { move } = this.data.data;
+    const { move } = this.system;
 
     // If we're not a warrior, we are penalized for wearing heavy armor
-    const getArmor = ({data}) => data.data.equipped && data.data.encumbrancePenalty;
-    const getWarriorGroupClasses = ({data}) => data.data.classGroup === 'warrior';
+    const getArmor = ({system}) => system.equipped && system.encumbrancePenalty;
+    const getWarriorGroupClasses = ({system}) => system.classGroup === 'warrior';
     const wornArmor = this
       ._getItemsOfType('armor', getArmor);
     const isWarrior = this
@@ -177,10 +172,10 @@ export class BoilerplateActor extends Actor {
       atHalf,
       atThreeQuarters,
       atFull
-    } = this.data.data.carryWeight;
+    } = this.system.carryWeight;
 
     if (!isWarrior && wornArmor.length)
-      penalty += wornArmor[0].data.data.encumbrancePenalty;
+      penalty += wornArmor[0].system.encumbrancePenalty;
 
     if (atFull) {
       penalty += 100
@@ -201,26 +196,24 @@ export class BoilerplateActor extends Actor {
   /**
    * Prepare NPC type specific data.
    */
-  _prepareNpcData(actorData) {
-    if (actorData.type !== 'npc') return;
+  _prepareNpcData() {
+    if (this.type !== 'npc') return;
 
-    const data = actorData.data;
-
-    data.calculatedHitDice = getMonsterHD(
-      data.hitDice,
-      data.variant
+    this.system.calculatedHitDice = getMonsterHD(
+      this.system.hitDice,
+      this.system.variant
     );
 
-    data.ac = this._getAC();
+    this.system.ac = this._getAC();
 
-    data.morale = data.baseMorale - parseInt(data.calculatedHitDice);
+    this.system.morale = this.system.baseMorale - parseInt(this.system.calculatedHitDice);
 
-    data.monsterVariant = getMonsterVariant(data.variant);
+    this.system.monsterVariant = getMonsterVariant(this.system.variant);
 
-    data.calculatedXP = getMonsterXP(
-      data.calculatedHitDice,
-      data.hasSpecialAbility,
-      data.isExceptional
+    this.system.calculatedXP = getMonsterXP(
+      this.system.calculatedHitDice,
+      this.system.hasSpecialAbility,
+      this.system.isExceptional
     )
   }
 
@@ -238,9 +231,9 @@ export class BoilerplateActor extends Actor {
   }
 
   _getPerception() {
-    return this.data.data.modPerception
-      + getDerivedStatWithContext('wis', 'modPerception', this.data.data)
-      + parseInt(this.data.data.perceptionMod || 0); // @todo refactor NPC template data to not have this name
+    return this.system.modPerception
+      + getDerivedStatWithContext('wis', 'modPerception', this.system)
+      + parseInt(this.system.perceptionMod || 0); // @todo refactor NPC template data to not have this name
   }
 
   /**
@@ -248,7 +241,7 @@ export class BoilerplateActor extends Actor {
    * @returns Number  the initiative modifier value.
    */
   _getInitiative() {
-    return (this.data.data.modInitiative || 0) + getDerivedStatWithContext('dex', 'modInitiative', this.data.data)
+    return (this.system.modInitiative || 0) + getDerivedStatWithContext('dex', 'modInitiative', this.system)
   }
 
   _getCarryWeight() {
@@ -262,15 +255,15 @@ export class BoilerplateActor extends Actor {
     );
 
     let totalItemWeight = items.reduce(
-      (prev, curr) => prev + curr.data.data.weight.value,
+      (prev, curr) => prev + curr.system.weight.value,
       0
     );
 
-    const maxCarryWeight = getDerivedStatWithContext('str', 'carryWeight', this.data.data);
+    const maxCarryWeight = getDerivedStatWithContext('str', 'carryWeight', this.system);
 
-    Object.keys(this.data.data.wealth).forEach(
+    Object.keys(this.system.wealth).forEach(
       (coinType) => totalItemWeight += (
-        this.data.data.wealth[coinType] / 10
+        this.system.wealth[coinType] / 10
       )
     );
 
@@ -290,13 +283,13 @@ export class BoilerplateActor extends Actor {
 
   _getMoveSpeed() {
     return (
-      this.data.data.modMove +
-      (this._getItemsOfType('ancestry')[0]?.data?.data?.movement || 0)
-    ) * this.data.data.moveMultiplier;
+      this.system.modMove +
+      (this._getItemsOfType('ancestry')[0]?.system?.movement || 0)
+    ) * this.system.moveMultiplier;
   }
 
   _getAC() {
-    let baseAC = (parseInt(this.data.data.baseAC) || CONFIG.CHROMATIC.baseAC);
+    let baseAC = (parseInt(this.system.baseAC) || CONFIG.CHROMATIC.baseAC);
     let ac = baseAC;
 
     // If the AC is equal to baseAC, it's pretty safe
@@ -315,11 +308,11 @@ export class BoilerplateActor extends Actor {
     //   base AC is higher than normal
     // * Book monsters have baseAC baked in
     if (usingBaseAC || this._isPC())
-      ac += getDerivedStatWithContext('dex', 'modAgility', this.data.data);
+      ac += getDerivedStatWithContext('dex', 'modAgility', this.system);
 
     // The AC modifier usually comes from magic items
     // It can be used to fine-tune monster AC too!
-    ac += this.data.data.modAC;
+    ac += this.system.modAC;
     
     // If your base AC is higher than the default base AC
     // and you're not an NPC, you don't get the benefit of 
@@ -327,11 +320,11 @@ export class BoilerplateActor extends Actor {
     if (this._isPC() && !usingBaseAC)
       return ac;
 
-    const getArmor = ({data}) => data.data.equipped;
+    const getArmor = ({system}) => system.equipped;
 
     return this
       ._getItemsOfType('armor', getArmor)
-      .reduce((prev, {data}) => prev + data.data.ac, ac);
+      .reduce((prev, {system}) => prev + system.ac, ac);
   }
 
   _getSaves() {
@@ -341,25 +334,25 @@ export class BoilerplateActor extends Actor {
 
     if (this._isPC()) {
       let savingClass = this
-        ._getItemsOfType('class', ({data}) => data.data.isSelectedSaveTable)[0];
+        ._getItemsOfType('class', ({system}) => system.isSelectedSaveTable)[0];
 
       if (!savingClass) savingClass = this._getItemsOfType('class')[0];
 
-      if (!savingClass?.data?.data) {
+      if (!savingClass?.system) {
         console.warn(`Actor ${this.name} doesn't have a class!`);
         return worstSaves;
       }
 
-      if (!savingClass?.data?.data?.classGroup) {
+      if (!savingClass?.system?.classGroup) {
         console.warn(`${this.name}'s class doesn't have a class group!`)
         return worstSaves;
       }
 
-      classGroup = savingClass.data.data.classGroup;
-      level = parseInt(getLevelFromXP(savingClass.data.data.xp));
+      classGroup = savingClass.system.classGroup;
+      level = parseInt(getLevelFromXP(savingClass.system.xp));
     } else {
       classGroup = 'npc';
-      level = parseInt(this.data.data.calculatedHitDice);
+      level = parseInt(this.system.calculatedHitDice);
     }
 
     return {
@@ -368,47 +361,47 @@ export class BoilerplateActor extends Actor {
   }
 
   _getSaveMods() {
-    let { saveMods } = this.data.data;
+    let { saveMods } = this.system;
 
     if (!saveMods) saveMods = {reflex: 0, poison: 0, creature: 0, spell: 0}
 
     return {
       ...saveMods,
-      reflex: saveMods.reflex + getDerivedStatWithContext('dex', 'modAgility', this.data.data)
+      reflex: saveMods.reflex + getDerivedStatWithContext('dex', 'modAgility', this.system)
     }
   }
 
   _getMeleeToHitMod() {
     const classToHit = (this._isPC()) 
-      ? this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.data.data.modToHit || 0
-      : getClassGroupAtLevel('npc', parseInt(this.data.data.calculatedHitDice)).modToHit;
+      ? this._getItemsOfType('class', ({data}) => system.isPrimary)[0]?.system.modToHit || 0
+      : getClassGroupAtLevel('npc', parseInt(this.system.calculatedHitDice)).modToHit;
 
-    const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.data.data);
-    const monsterToHit = this.data.data?.monsterVariant?.modToHit?.melee || 0
+    const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.system);
+    const monsterToHit = this.system?.monsterVariant?.modToHit?.melee || 0
 
-    return classToHit + attrToHit + monsterToHit + (this.data.data.modToHit || 0);
+    return classToHit + attrToHit + monsterToHit + (this.system.modToHit || 0);
   }
 
   _getRangedToHitMod() {
     const classToHit = (this._isPC()) 
-    ? this._getItemsOfType('class', ({data}) => data.data.isPrimary)[0]?.data.data.modToHit
-    : getClassGroupAtLevel('npc', parseInt(this.data.data.calculatedHitDice)).modToHit;
+    ? this._getItemsOfType('class', ({data}) => system.isPrimary)[0]?.system.modToHit
+    : getClassGroupAtLevel('npc', parseInt(this.system.calculatedHitDice)).modToHit;
 
-    const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.data.data);
-    const monsterToHit = this.data.data?.monsterVariant?.modToHit?.ranged || 0
+    const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.system);
+    const monsterToHit = this.system?.monsterVariant?.modToHit?.ranged || 0
 
-    return classToHit + attrToHit + monsterToHit + (this.data.data.modToHit || 0);
+    return classToHit + attrToHit + monsterToHit + (this.system.modToHit || 0);
   }
 
   _getStrDamageMod() {
-    return  (this.data.data.modDamage || 0) +
-            (this.data.data?.monsterVariant?.modDamage?.melee || 0) +
-            getDerivedStatWithContext('str', 'modMeleeDamage', this.data.data);
+    return  (this.system.modDamage || 0) +
+            (this.system?.monsterVariant?.modDamage?.melee || 0) +
+            getDerivedStatWithContext('str', 'modMeleeDamage', this.system);
   }
 
   _getRangedDamageMod() {
-    return  (this.data.data.modDamage || 0) +
-            (this.data.data?.monsterVariant?.modDamage?.ranged || 0);
+    return  (this.system.modDamage || 0) +
+            (this.system?.monsterVariant?.modDamage?.ranged || 0);
   }
 
   _getSpellSlots() {
@@ -416,14 +409,14 @@ export class BoilerplateActor extends Actor {
       id: classname.id,
       sourceId: sourceId(classname),
       slots: getWisBonusSlots(
-        classname.data.data.spellSlots[
-          getLevelFromXP(classname.data.data.xp)
+        classname.system.spellSlots[
+          getLevelFromXP(classname.system.xp)
         ],
-        classname.data.data.hasWisdomBonusSlots,
-        this.data.data.attributes.wis
+        classname.system.hasWisdomBonusSlots,
+        this.system.attributes.wis
       ),
       name: classname.name,
-      preparedSpells: classname.data.data.preparedSpells
+      preparedSpells: classname.system.preparedSpells
     });
 
     const slotsTemplate = ({id, sourceId, name, slots, preparedSpells}) => ({
@@ -449,10 +442,10 @@ export class BoilerplateActor extends Actor {
         maxSpellPoints,
         maxSpellLevel,
         spellsKnown
-      } = classname.data.data.spellPoints[
-        getLevelFromXP(classname.data.data.xp)
+      } = classname.system.spellPoints[
+        getLevelFromXP(classname.system.xp)
       ];
-      const { currentSpellPoints } = classname.data.data;
+      const { currentSpellPoints } = classname.system;
 
       return ({
         id: classname.id,
@@ -488,7 +481,7 @@ export class BoilerplateActor extends Actor {
     const castingClasses = this
       ._getItemsOfType(
         'class',
-        ({data}) => data.data.hasSpellcasting && !data.data.hasSpellPoints
+        ({data}) => system.hasSpellcasting && !system.hasSpellPoints
       )
       .map(slotsFormat)
       .map(slotsTemplate);
@@ -496,7 +489,7 @@ export class BoilerplateActor extends Actor {
     const pointsClasses = this
     ._getItemsOfType(
       'class',
-      ({data}) => data.data.hasSpellcasting && data.data.hasSpellPoints
+      ({data}) => system.hasSpellcasting && system.hasSpellPoints
     )
     .map(pointsFormat)
     .map(pointsTemplate);
@@ -509,7 +502,7 @@ export class BoilerplateActor extends Actor {
    * Prepare character roll data.
    */
   _getCharacterRollData(data) {
-    if (this.data.type !== 'pc') return;
+    if (this.type !== 'pc') return;
 
     // Class levels
     // e.g. @barbarianLevel
@@ -529,34 +522,34 @@ export class BoilerplateActor extends Actor {
    * Prepare NPC roll data.
    */
   _getNpcRollData(data) {
-    if (this.data.type !== 'npc') return;
+    if (this.type !== 'npc') return;
 
     // Process additional NPC data here.
   }
 
   _isPC() {
-    return this.data.type === 'pc';
+    return this.type === 'pc';
   }
 
-  async _preCreate(actor, options, user, that) {
+  async _onCreate(actor, options, user) {
     const attributeKeys = ['str', 'int', 'wis', 'dex', 'con', 'cha'];
     const formula = game.settings.get('foundry-chromatic-dungeons', 'autoroll-pc-stats');
     
-    await super._preCreate(actor, options, user, that);
+    await super._onCreate(actor, options, user);
     
-    if (this.type !== 'pc') return;
+    if (actor.type !== 'pc') return;
     if (formula === 'manual') return;
     if (attributeKeys.every(key =>
-      this.data.data.attributes[key] !== 3
+      this.system.attributes[key] !== 3
     )) return;
 
     const rolls = new Array(
-      new Roll(formula),
-      new Roll(formula),
-      new Roll(formula),
-      new Roll(formula),
-      new Roll(formula),
-      new Roll(formula)
+      new Roll(formula, {async: true}),
+      new Roll(formula, {async: true}),
+      new Roll(formula, {async: true}),
+      new Roll(formula, {async: true}),
+      new Roll(formula, {async: true}),
+      new Roll(formula, {async: true})
     );
   
     await Promise.all(rolls.map(
@@ -569,8 +562,7 @@ export class BoilerplateActor extends Actor {
       [curr]: totals[i]
     }), {});
 
-
-    await this.data.update({ 'data.attributes': attributes });
+    await this.update({ 'system.attributes': attributes, '_id': actor.id });
   }
 
   createEmbeddedDocuments(docname, droppedItems) {
@@ -624,7 +616,7 @@ export class BoilerplateActor extends Actor {
 
         if (canRestrict) {
           const reqs = droppedItem.data.requirements
-          const attributes = this.data.data.attributes;
+          const attributes = this.system.attributes;
           const missedReqs = Object.keys(reqs).filter(
             (reqKey) => attributes[reqKey] < reqs[reqKey]
           );
@@ -641,7 +633,7 @@ export class BoilerplateActor extends Actor {
       if (droppedItem.type === 'spell') {
         const spell = await new Promise((resolve) => {
           const spellcastingClasses = this._getItemsOfType(
-            'class', ({data}) => data.data.hasSpellcasting
+            'class', ({data}) => system.hasSpellcasting
           );
 
           if (!spellcastingClasses.length) {
@@ -653,9 +645,9 @@ export class BoilerplateActor extends Actor {
             const casterId = caster.getFlag('core', 'sourceId');
             const hasCasterSpell = this
               ._getItemsOfType('spell', ({data}) => {
-                const spellKeys = Object.keys(data.data.spellLevels);
+                const spellKeys = Object.keys(system.spellLevels);
 
-                return spellKeys.find(key => data.data.spellLevels[key].sourceId === casterId);
+                return spellKeys.find(key => system.spellLevels[key].sourceId === casterId);
               })
               .some(spell => spell.getFlag('core', 'sourceId') === droppedItem.flags.core.sourceId);
 
@@ -663,25 +655,25 @@ export class BoilerplateActor extends Actor {
           }
 
           const getMaxSpellLevel = caster => {
-            let casterLevel = getLevelFromXP(caster.data.data.xp);
+            let casterLevel = getLevelFromXP(caster.system.xp);
             let maxSpellLevelFromAttributes;
             let maxSpellLevel;
             
-            if (caster.data.data.hasWisdomBonusSlots) { // This is a divine caster
-              if (getDerivedStatWithContext('wis', 'hasLv7Divine', this.data.data))
+            if (caster.system.hasWisdomBonusSlots) { // This is a divine caster
+              if (getDerivedStatWithContext('wis', 'hasLv7Divine', this.system))
                 maxSpellLevelFromAttributes = 7;
-              else if (getDerivedStatWithContext('wis', 'hasLv6Divine', this.data.data))
+              else if (getDerivedStatWithContext('wis', 'hasLv6Divine', this.system))
                 maxSpellLevelFromAttributes = 6;
               else
                 maxSpellLevelFromAttributes = 5;
             } else {
-              maxSpellLevelFromAttributes = getDerivedStatWithContext('int', 'maxSpellLevel', this.data.data)
+              maxSpellLevelFromAttributes = getDerivedStatWithContext('int', 'maxSpellLevel', this.system)
             }
 
-            if (caster.data.data.hasSpellPoints) {
-              maxSpellLevel = caster.data.data.spellPoints[casterLevel].maxSpellLevel;
+            if (caster.system.hasSpellPoints) {
+              maxSpellLevel = caster.system.spellPoints[casterLevel].maxSpellLevel;
             } else {
-              const casterSlotLevels = caster.data.data.spellSlots[casterLevel];
+              const casterSlotLevels = caster.system.spellSlots[casterLevel];
               maxSpellLevel = Object.keys(casterSlotLevels)
                 .reduce( (level, key) =>
                   (casterSlotLevels[key] > 0) ? key : level
@@ -782,8 +774,8 @@ export class BoilerplateActor extends Actor {
       const selectedItems = gear
         .filter(item => selectedKeys.includes(item.id))
         .map(item => {
-          const clone = structuredClone(item.data);
-          clone.data.quantity.value = contents[item.id]
+          const clone = structuredClone(item);
+          clone.system.quantity.value = contents[item.id]
           delete clone.effects;
           return clone;
         });
@@ -853,8 +845,8 @@ export class BoilerplateActor extends Actor {
             const circumstantialAttackMod = parseInt(html.find('[name="attack-roll-modifier"]').val() || 0),
                   circumstantialDamageMod = parseInt(html.find('[name="damage-roll-modifier"]').val() || 0);
 
-            const toHitMod = this.data.data.toHitMods[attackType],
-                  damageMod = this.data.data.damageMods[attackType];
+            const toHitMod = this.system.toHitMods[attackType],
+                  damageMod = this.system.damageMods[attackType];
 
             const attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData).roll(),
                   damageRoll = new Roll(`${damage}+${damageMod}+${circumstantialDamageMod}`, rollData).roll();

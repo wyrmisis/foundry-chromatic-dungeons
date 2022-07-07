@@ -28,16 +28,16 @@ export class BoilerplateItem extends Item {
   }
 
   async _prepareClassToHitData() {
-    const {classGroup, xp} = this.data.data;
+    const {classGroup, xp} = this.system;
 
-    this.data.data.modToHit = getClassGroupAtLevel(
+    this.system.modToHit = getClassGroupAtLevel(
       classGroup,
       getLevelFromXP(xp)
     ).modToHit;
   }
 
   async _prepareClassSpellData() {
-    if (!this.data.data.hasSpellcasting) return;
+    if (!this.system.hasSpellcasting) return;
 
     let characterSpells;
     
@@ -47,9 +47,9 @@ export class BoilerplateItem extends Item {
       characterSpells = [];
     }
       
-    this.data.data.preparedSpellSlots =
-      Object.keys(this.data.data.preparedSpells)
-        .map(level => this.data.data.preparedSpells[level]
+    this.system.preparedSpellSlots =
+      Object.keys(this.system.preparedSpells)
+        .map(level => this.system.preparedSpells[level]
           .map(id => characterSpells
             .find(item => item.id === id)));
   }
@@ -59,7 +59,7 @@ export class BoilerplateItem extends Item {
       lastLevelForHitDice,
       hitDieModAfterHitDiceMax,
       lastLevelForConMod
-    } = this.data.data;
+    } = this.system;
     const getHitDieMod = (level) => {
       if (level <= lastLevelForHitDice) return 0;
 
@@ -68,8 +68,8 @@ export class BoilerplateItem extends Item {
     const getHitDieCount = (level) => level < lastLevelForHitDice ? level : lastLevelForHitDice;
     const canAddFullConModToHP = (level) => level <= lastLevelForConMod; 
 
-    let levels = Object.keys(this.data.data.levels).map(levelKey => ({
-      ...this.data.data.levels[levelKey],
+    let levels = Object.keys(this.system.levels).map(levelKey => ({
+      ...this.system.levels[levelKey],
       hitDieCount: getHitDieCount(parseInt(levelKey)),
       hitDieMod: getHitDieMod(parseInt(levelKey)),
       addsFullConModToHP: canAddFullConModToHP(parseInt(levelKey)),
@@ -79,7 +79,7 @@ export class BoilerplateItem extends Item {
     levels = {...levels};
     delete levels[0];
 
-    this.data.data.levels = levels;
+    this.system.levels = levels;
   }
 
   /**
@@ -90,23 +90,23 @@ export class BoilerplateItem extends Item {
     // If present, return the actor's roll data.
     if ( !this.actor ) return null;
     const rollData = this.actor.getRollData();
-    rollData.item = foundry.utils.deepClone(this.data.data);
+    rollData.item = foundry.utils.deepClone(this.system);
 
     return rollData;
   }
 
   prepareSpell(spell, level) {
-    const slotsAtLevel = this.data.data.spellSlots[getLevelFromXP(this.data.data.xp)];
+    const slotsAtLevel = this.system.spellSlots[getLevelFromXP(this.system.xp)];
 
-    const maxSlotsAtLevel = (!this.data.data.hasWisdomBonusSlots)
+    const maxSlotsAtLevel = (!this.system.hasWisdomBonusSlots)
       ? slotsAtLevel[level]
       : getWisBonusSlots(
           slotsAtLevel,
-          this.data.data.hasWisdomBonusSlots,
-          this.parent.data.data.attributes.wis
+          this.system.hasWisdomBonusSlots,
+          this.parent.system.attributes.wis
         )[level];
 
-    const preparedSpellsAtLevel = [...this.data.data.preparedSpells[level]];
+    const preparedSpellsAtLevel = [...this.system.preparedSpells[level]];
 
     if (preparedSpellsAtLevel.length >= maxSlotsAtLevel) {
       ui.notifications.warn(`You've already prepared as many level ${level} ${this.name} spells as you can!`)
@@ -122,7 +122,7 @@ export class BoilerplateItem extends Item {
 
   castSpell(spellId, spellLevel) {
     try {
-      if (this.data.data.hasSpellPoints) {
+      if (this.system.hasSpellPoints) {
         /**
          * @todo Empowered Casting dialog
          */
@@ -130,17 +130,17 @@ export class BoilerplateItem extends Item {
         const spellToCast = this.parent.items.get(spellId);
         const cost = CONFIG.CHROMATIC.spellPointCosts[spellLevel];
 
-        if (parseInt(this.data.data.currentSpellPoints) >= cost)
+        if (parseInt(this.system.currentSpellPoints) >= cost)
           spellToCast.roll().then(() => {
             this.update({
-              ['data.currentSpellPoints']: parseInt(this.data.data.currentSpellPoints) - cost
+              ['data.currentSpellPoints']: parseInt(this.system.currentSpellPoints) - cost
             });
           })
         else
           reportAndQuit(`You don't have enough spell points to cast ${spellToCast.name}!`)
 
       } else {
-        return this.data.data
+        return this.system
           .preparedSpellSlots[parseInt(spellLevel) - 1]
           .find(spell => spell.id === spellId)          
           .roll()
@@ -152,10 +152,10 @@ export class BoilerplateItem extends Item {
   }
 
   clearSpell(spellId, spellLevel) {
-    const spellToPrune = this.data.data.preparedSpells[spellLevel]
+    const spellToPrune = this.system.preparedSpells[spellLevel]
           .findIndex(spell => spell.indexOf(spellId) >= 0)
 
-    const copiedSpellsAtLevel = [...this.data.data.preparedSpells[spellLevel]];
+    const copiedSpellsAtLevel = [...this.system.preparedSpells[spellLevel]];
 
     copiedSpellsAtLevel.splice(spellToPrune, 1);
 
@@ -165,7 +165,7 @@ export class BoilerplateItem extends Item {
   }
 
   hasSpellAsPrepared(spellId, spellLevel) {
-    return this.data.data.preparedSpells[spellLevel]
+    return this.system.preparedSpells[spellLevel]
       .some(spell => spell.indexOf(spellId) >= 0)
   }
 
@@ -175,15 +175,7 @@ export class BoilerplateItem extends Item {
    * @private
    */
   async roll() {
-    // const item = this.data;
-    const { data: item } = this.data.document;
-
-    // Initialize chat data.
-    const speaker = ChatMessage.getSpeaker({ actor: this.actor });
-    const rollMode = game.settings.get('core', 'rollMode');
-    const label = `[${item.type}] ${item.name}`;
-
-    switch (item.type) {
+    switch (this.type) {
       case 'weapon':
         this._generateWeaponDialog()?.render(true);
         break;
@@ -200,39 +192,32 @@ export class BoilerplateItem extends Item {
     return { speaker, rollMode };
   }
 
-  _getItemActorData() {
-    const { data: item } = this.data.document;
-    const actor = this.data.document?.actor?.data || this.actor?.data;
-
-    return [item, actor];
-  }
-
   _generateWeaponDialog() {
-    const [item, actor] = this._getItemActorData();
+    const actor = this.parent;
 
     let buttons = {};
 
     const isItemAmmoAndAboveZeroQty = (ammo) => {
       if (ammo.type !== 'weapon') return false;
 
-      return  ammo.data.data.quantity.value > 0 &&
-              ammo.data.data.weaponType === 'ammunition' &&
-              ammo.data.data.ammunitionType === item.data.ammunitionType;
+      return  ammo.system.quantity.value > 0 &&
+              ammo.system.weaponType === 'ammunition' &&
+              ammo.system.ammunitionType === this.system.ammunitionType;
     }
 
     const actorAmmunitionForWeapon = actor.items.filter(isItemAmmoAndAboveZeroQty);
 
-    const weaponIsVersatile = item.data.versatile;
+    const weaponIsVersatile = this.system.versatile;
 
     const actorHasHandFree = actor.items.filter(i => {
-      if (!i.data.data.equipped)
+      if (!i.system.equipped)
         return false;
-      if (i.type === 'armor' && i.data.data.armorType === 'shield')
+      if (i.type === 'armor' && i.system.armorType === 'shield')
         return true;
       return (i.type === 'weapon')
     }).length === 1;
 
-    switch (item.data.weaponType) {
+    switch (this.system.weaponType) {
       case "melee":
         buttons.attack = {
           label: 'Attack',
@@ -240,7 +225,7 @@ export class BoilerplateItem extends Item {
         };
         break;
       case "ranged":
-        if (!actorAmmunitionForWeapon.length && item.data.ammunitionType !== 'infinite') {
+        if (!actorAmmunitionForWeapon.length && item.system.ammunitionType !== 'infinite') {
           return {
             render: () => ui.notifications.warn(`You are out of ammunition for your ${item.name}!`)
           };
@@ -248,8 +233,8 @@ export class BoilerplateItem extends Item {
         buttons.attack = {
           label: 'Fire',
           callback: (html) => {
-            const ammoToUse = (item.data.ammunitionType !== 'infinite')
-              ? actor.items.get(html.find('[name="ammunition-item"]').val()).data
+            const ammoToUse = (item.system.ammunitionType !== 'infinite')
+              ? actor.items.get(html.find('[name="ammunition-item"]').val())
               : null;
             let args = [html];
             if (ammoToUse)
@@ -257,7 +242,7 @@ export class BoilerplateItem extends Item {
                 ...args,
                 ammoToUse,
                 ['arrow', 'sling']
-                  .includes(ammoToUse.data.ammunitionType)
+                  .includes(ammoToUse.system.ammunitionType)
               ];
 
             this._weaponRoll(...args);
@@ -280,7 +265,7 @@ export class BoilerplateItem extends Item {
     }
 
     return new Dialog({
-      title: `Attacking with ${actor.name}'s ${item.name}`,
+      title: `Attacking with ${actor.name}'s ${this.name}`,
       content: `
         <div class="roll-modifiers-field roll-modifiers-field--attack">
           <label for="attack-roll-modifier">Attack Modifier:</label>
@@ -300,7 +285,7 @@ export class BoilerplateItem extends Item {
         `) : ''}
 
         ${(
-          item.data.ammunitionType !== 'infinite' &&
+          this.system.ammunitionType !== 'infinite' &&
           actorAmmunitionForWeapon.length
         ) ? (`
         <div class="roll-modifiers-field roll-modifiers-field--ammunition">
@@ -323,18 +308,18 @@ export class BoilerplateItem extends Item {
     const circumstantialDamageMod = parseInt(html.find('[name="damage-roll-modifier"]').val() || 0);
     const isVersatile = !!html.find('[name="is-versatile"]:checked').length;
 
-    const [item, actor] = this._getItemActorData();
+    const actor = this.parent;
     const rollData = this.getRollData();
 
-    let toHitMod = item.data.modToHit + actor.data.toHitMods[item.data.weaponType],
-        damageMod = item.data.modDamage + actor.data.damageMods[item.data.weaponType];
+    let toHitMod = this.system.modToHit + actor.system.toHitMods[this.system.weaponType],
+        damageMod = this.system.modDamage + actor.system.damageMods[this.system.weaponType];
 
     if (isVersatile) damageMod += 1;
 
     let attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData);
     let damageRoll = new Roll(
       `${
-        (useAmmoDamage ? ammoItem : item).data.damage
+        (useAmmoDamage ? ammoItem : this).system.damage
       }+${
         damageMod
       }+${
@@ -343,14 +328,14 @@ export class BoilerplateItem extends Item {
       rollData
     );
     
-    attackRoll = await attackRoll.roll();
-    damageRoll = await damageRoll.roll();
+    attackRoll = await attackRoll.roll({ async: true });
+    damageRoll = await damageRoll.roll({ async: true });
 
     const spendAmmo = () => {
       if (
         ammoItem
       ) actor.items.get(ammoItem._id).update({
-        ['data.quantity.value']: ammoItem.data.quantity.value - 1
+        ['data.quantity.value']: ammoItem.system.quantity.value - 1
       });
     }
 
@@ -358,21 +343,19 @@ export class BoilerplateItem extends Item {
       actor,
       attackRoll,
       damageRoll,
-      item.name,
+      this.name,
       { beforeAttack: spendAmmo },
       this._getRollMessageOptions
     );
   }
 
   _defaultRoll() {
-    const [item, actor] = this._getItemActorData();
-
     // If there's no roll data, send a chat message.
-    if (!this.data.data.formula) {
+    if (!this.system.formula) {
       return ChatMessage.create({
         ...this._getRollMessageOptions(),
-        flavor: `[${item.type}] ${item.name}`,
-        content: item.data.description ?? ''
+        flavor: `[${this.type}] ${this.name}`,
+        content: this.system.description ?? ''
       });
     }
     // Otherwise, create a roll and send a chat message from it.
@@ -388,9 +371,5 @@ export class BoilerplateItem extends Item {
       });
       return roll;
     }
-  }
-
-  createEmbeddedDocuments(docname, droppedItems) {
-    console.info(docname, droppedItems);
   }
 }

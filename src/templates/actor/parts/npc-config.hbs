@@ -4,7 +4,7 @@
   <div class="configuration__field configuration__field--can-autocalculate-hp">
       <label for="data.canAutocalculateHP">Auto-Calculate</label>
       <input
-        name="data.canAutocalculateHP"
+        name="system.canAutocalculateHP"
         type="checkbox"
         {{checked data.canAutocalculateHP}} />
     </div>
@@ -12,7 +12,7 @@
   <div class="configuration__field configuration__field--hit-dice">
     <label for="data.hitDice">Base Hit Dice</label>
     <input
-      name="data.hitDice"
+      name="system.hitDice"
       value="{{data.hitDice}}"
       type="text"
       data-dtype="Number" />
@@ -21,7 +21,7 @@
   {{#if data.canAutocalculateHP}}
     <div class="configuration__field configuration__field--hit-dice">
       <label for="data.hitDieSize">Hit Die Size</label>
-      <select name="data.hitDieSize" data-dtype="Number">
+      <select name="system.hitDieSize" data-dtype="Number">
         {{#select data.hitDieSize}}
           {{#each hitDieSizes as |size key|}}
             <option value="{{key}}">d{{size}}</option>
@@ -33,7 +33,7 @@
     <div class="configuration__field configuration__field--hit-dice-bonus">
       <label for="data.hitDiceBonus">HP Bonus</label>
       <input
-        name="data.hitDiceBonus"
+        name="system.hitDiceBonus"
         value="{{data.hitDiceBonus}}"
         type="text"
         data-dtype="Number" />
@@ -42,7 +42,7 @@
 
   <div class="configuration__field configuration__field--variant">
     <label for="data.variant">Variant</label>
-    <select name="data.variant" data-dtype="String">
+    <select name="system.variant" data-dtype="String">
       <option value="">None</option>
       {{#select data.variant}}
         {{#each variants as |variant key|}}
@@ -64,7 +64,7 @@
   <div class="configuration__field configuration__field--can-autocalculate-xp">
     <label for="data.canAutocalculateXP">Auto-Calculate</label>
     <input
-      name="data.canAutocalculateXP"
+      name="system.canAutocalculateXP"
       type="checkbox"
       {{checked data.canAutocalculateXP}} />
   </div>
@@ -73,7 +73,7 @@
     <div class="configuration__field configuration__field--xp">
       <label for="data.xp">XP</label>
       <input
-        name="data.xp"
+        name="system.xp"
         value="{{data.xp}}"
         type="text"
         data-dtype="Number" />
@@ -82,7 +82,7 @@
     <div class="configuration__field configuration__field--has-special-ability">
       <label for="data.hasSpecialAbility">Has Special Ability?</label>
       <input
-        name="data.hasSpecialAbility"
+        name="system.hasSpecialAbility"
         type="checkbox"
         {{checked data.hasSpecialAbility}} />
     </div>
@@ -90,7 +90,7 @@
     <div class="configuration__field configuration__field--is-exceptional">
       <label for="data.isExceptional">Is Exceptional?</label>
       <input
-        name="data.isExceptional"
+        name="system.isExceptional"
         type="checkbox"
         {{checked data.isExceptional}} />
     </div>
@@ -101,7 +101,7 @@
   <h2>Configuration</h2>
   <div class="configuration__field configuration__field--size">
     <label for="data.size">Size</label>
-    <select name="data.size" data-dtype="String">
+    <select name="system.size" data-dtype="String">
       {{#select data.size}}
         {{#each sizes as |size key|}}
           <option value="{{key}}">{{size}}</option>
@@ -112,7 +112,7 @@
 
   <div class="configuration__field configuration__field--alignment">
     <label for="data.alignment">Alignment</label>
-    <select name="data.alignment" data-dtype="String">
+    <select name="system.alignment" data-dtype="String">
       <option value="">Unaligned</option>
       {{#select data.alignment}}
         {{#each alignments as |alignment key|}}
@@ -125,7 +125,7 @@
   <div class="configuration__field configuration__field--alignment">
     <label for="data.senses.infravision">Base Infravision</label>
     <input
-      name="data.senses.infravision"
+      name="system.senses.infravision"
       value="{{data.senses.infravision}}"
       type="number"
       data-dtype="Number" />
@@ -134,7 +134,7 @@
   <div class="configuration__field configuration__field--alignment">
     <label for="data.senses.blindvision">Base Blindvision</label>
     <input
-      name="data.senses.blindvision"
+      name="system.senses.blindvision"
       value="{{data.senses.blindvision}}"
       type="number"
       data-dtype="Number" />
@@ -143,7 +143,7 @@
   <div class="configuration__field configuration__field--perception-mod">
     <label for="data.perceptionMod">Perception Mod</label>
     <input
-      name="data.perceptionMod"
+      name="system.perceptionMod"
       value="{{data.perceptionMod}}"
       type="number"
       data-dtype="Number" />

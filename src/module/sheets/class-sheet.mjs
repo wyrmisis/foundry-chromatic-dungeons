@@ -30,7 +30,7 @@ export default class ClassSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.hbs`;
+    return `${path}/item-${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -41,7 +41,7 @@ export default class ClassSheet extends ItemSheet {
     const context = super.getData();
 
     // Use a safe clone of the item data for further operations.
-    const itemData = context.item.data;
+    const itemData = context.item;
 
     // Retrieve the roll data for TinyMCE editors.
     context.rollData = {};
@@ -51,17 +51,17 @@ export default class ClassSheet extends ItemSheet {
     }
 
     // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = itemData.data;
+    context.data = itemData.system;
     context.flags = itemData.flags;
-    context.level = getLevelFromXP(itemData.data.xp);
-    context.xpToNextLevel = getNextLevelXP(itemData.data.xp);
+    context.level = getLevelFromXP(itemData.system.xp);
+    context.xpToNextLevel = getNextLevelXP(itemData.system.xp);
 
     context.effects = prepareActiveEffectCategories(this.item.effects);
 
-    if (itemData.data.classGroup) {
-      context.classGroupAll = CONFIG.CHROMATIC.classGroups[itemData.data.classGroup];
+    if (itemData.system.classGroup) {
+      context.classGroupAll = CONFIG.CHROMATIC.classGroups[itemData.system.classGroup];
       context.classGroup = getClassGroupAtLevel(
-        itemData.data.classGroup,
+        itemData.system.classGroup,
         context.level
       );
     }

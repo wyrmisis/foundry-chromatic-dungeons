@@ -26,7 +26,7 @@
             <label for="data.school">School</label>
             <select
               data-dtype="String"
-              name="data.school">
+              name="system.school">
               {{#select data.school}}
                 {{#each spellSchools as |school key|}}
                   <option value="{{key}}">{{school}}</option>
@@ -41,7 +41,7 @@
           <div class="item-attributes__item item-attributes__item--compact">
             <label for="data.hasVerbalComponent">Verbal</label>
             <input
-              name="data.hasVerbalComponent"
+              name="system.hasVerbalComponent"
               type="checkbox"
               {{checked data.hasVerbalComponent}} />
           </div>
@@ -49,7 +49,7 @@
           <div class="item-attributes__item item-attributes__item--compact">
             <label for="data.hasSomaticComponent">Somatic</label>
             <input
-              name="data.hasSomaticComponent"
+              name="system.hasSomaticComponent"
               type="checkbox"
               {{checked data.hasSomaticComponent}} />
           </div>
@@ -57,7 +57,7 @@
           <div class="item-attributes__item item-attributes__item--compact">
             <label for="data.hasMaterialComponent">Material</label>
             <input
-              name="data.hasMaterialComponent"
+              name="system.hasMaterialComponent"
               type="checkbox"
               {{checked data.hasMaterialComponent}} />
           </div>
@@ -77,7 +77,7 @@
             <div class="item-attributes__item item-attributes__item--grid item-attributes__item--spell-levels">
               <select
                 data-dtype="String"
-                name="data.spellLevels.{{key}}.sourceId">
+                name="system.spellLevels.{{key}}.sourceId">
                 {{#select levelItem.sourceId }}
                   {{#each ../castingClasses as |class classkey|}}
                     <option value="{{classkey}}">{{class}}</option>
@@ -88,7 +88,7 @@
               <input
                 type="number"
                 data-dtype="Number"
-                name="data.spellLevels.{{key}}.level"
+                name="system.spellLevels.{{key}}.level"
                 value="{{levelItem.level}}" />
 
               <button type="button" data-class="{{key}}" data-action="delete-spell-level">
@@ -138,7 +138,7 @@
             <label for="data.save">Save Type</label>
             <select
               data-dtype="String"
-              name="data.save">
+              name="system.save">
               {{#select data.save}}
                 <option value="none">N/A</option>                  
                 {{#each saves as |save key|}}
@@ -152,7 +152,7 @@
 
       <section class="item-description">
         <h2>Description</h2>
-        {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+        {{editor data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
       </section>
     </div>
   </main>

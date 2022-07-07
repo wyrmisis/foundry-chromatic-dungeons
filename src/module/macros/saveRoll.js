@@ -13,8 +13,8 @@
 
   actor.saveRoll(
     game.i18n.localize(`SHEET.save.${key}`),
-    `1d20+${actor.data.data.saves.mods[key]}`,
-    actor.data.data.saves.targets[key]
+    `1d20+${actor.system.saves.mods[key]}`,
+    actor.system.saves.targets[key]
   );
 }
 

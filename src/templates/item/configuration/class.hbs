@@ -7,7 +7,7 @@
         <label for="data.classGroup">Class Group</label>
         <select
           data-dtype="String"
-          name="data.classGroup">
+          name="system.classGroup">
           {{#select data.classGroup}}
             <option value="warrior">{{localize "CLASSGROUP.warrior"}}</option>
             <option value="rogue">{{localize "CLASSGROUP.rogue"}}</option>
@@ -30,7 +30,7 @@
         <label for="data.isPrimary">Character's primary class</label>
         <input
           type="checkbox"
-          name="data.isPrimary"
+          name="system.isPrimary"
           {{checked data.isPrimary}} />
       </div>
 
@@ -38,7 +38,7 @@
         <label for="data.isSelectedSaveTable">Use this class's save table</label>
         <input
           type="checkbox"
-          name="data.isSelectedSaveTable"
+          name="system.isSelectedSaveTable"
           {{checked data.isSelectedSaveTable}} />
       </div>
     </div>
@@ -50,7 +50,7 @@
         <label for="data.hasSpellcasting">Has Spellcasting</label>
         <input
           type="checkbox"
-          name="data.hasSpellcasting"
+          name="system.hasSpellcasting"
           {{checked data.hasSpellcasting}} />
       </div>
 
@@ -59,7 +59,7 @@
           <label for="data.hasSpellPoints">Uses Spell Points</label>
           <input
             type="checkbox"
-            name="data.hasSpellPoints"
+            name="system.hasSpellPoints"
             {{checked data.hasSpellPoints}} />
         </div>
 
@@ -67,7 +67,7 @@
           <label for="data.hasFullSpellList">Already knows its full spell list</label>
           <input
             type="checkbox"
-            name="data.hasFullSpellList"
+            name="system.hasFullSpellList"
             {{checked data.hasFullSpellList}} />
         </div>
 
@@ -75,7 +75,7 @@
           <label for="data.hasWisdomBonusSlots">Gets bonus slots from Wisdom</label>
           <input
             type="checkbox"
-            name="data.hasWisdomBonusSlots"
+            name="system.hasWisdomBonusSlots"
             {{checked data.hasWisdomBonusSlots}} />
         </div>
       {{/if}}
@@ -105,7 +105,7 @@
         <label for="data.hasSkills">Has class skills</label>
         <input
           type="checkbox"
-          name="data.hasSkills"
+          name="system.hasSkills"
           {{checked data.hasSkills}} />
       </div>
     </div>

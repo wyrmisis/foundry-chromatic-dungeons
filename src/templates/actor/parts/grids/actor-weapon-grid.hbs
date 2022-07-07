@@ -16,7 +16,7 @@
     <li
       class="
         items__list-item
-        {{#if item.data.equipped}}
+        {{#if item.system.equipped}}
           items__list-item--equipped
         {{/if}}
       "
@@ -26,8 +26,8 @@
         src="{{item.img}}" />
       <div class="items__list-column items__list-column--name">
         <span
-          {{#if item.data.quantity.value}}
-            {{#if (or ../isNPC item.data.equipped)}}
+          {{#if item.system.quantity.value}}
+            {{#if (or ../isNPC item.system.equipped)}}
               class="rollable"
               data-roll-type="item"
               data-label="{{item.name}}"
@@ -36,30 +36,30 @@
             class="empty"
           {{/if}}>
           {{item.name}}
-          {{#if (equals item.data.weaponType "thrown") }}
-            x{{item.data.quantity.value}}
+          {{#if (equals item.system.weaponType "thrown") }}
+            x{{item.system.quantity.value}}
           {{/if}}
         </span>
       </div>
 
       <div class="items__list-column items__list-column--damage">
-        {{#if item.data.damage}}
-          {{item.data.damage}}
+        {{#if item.system.damage}}
+          {{item.system.damage}}
           {{#if (ne data.modDamage 0)}}
-            {{signedString item.data.modDamage}}
+            {{signedString item.system.modDamage}}
           {{/if}}
         {{/if}}
       </div>
 
       <div class="items__list-column items__list-column--to-hit">
-        {{#if (ne item.data.modToHit 0)}}
-          {{signedString item.data.modToHit}}
+        {{#if (ne item.system.modToHit 0)}}
+          {{signedString item.system.modToHit}}
         {{/if}}
       </div>
 
-      {{#if (equals item.data.weaponType "ranged")}}
+      {{#if (equals item.system.weaponType "ranged")}}
         </li>
-        {{#each (lookup ../ammunition item.data.ammunitionType)}}
+        {{#each (lookup ../ammunition item.system.ammunitionType)}}
           <li
             class="items__list-item items__list-item--{{#if data.quantity.value}}ammunition{{else}}empty{{/if}}"
             data-item-id="{{_id}}">

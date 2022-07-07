@@ -20,7 +20,7 @@
               type="number"
               value="{{data.xp}}"
               data-dtype="Number"
-              name="data.xp" />
+              name="system.xp" />
             <span class="item-attributes__item-range-separator">/</span>
             <input
               type="number"
@@ -60,8 +60,7 @@
     {{!-- Description Tab --}}
     <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
-      {{editor
-        content=data.description
+      {{editor data.description
         target="data.description"
         rollData=rollData
         button=true
@@ -101,7 +100,7 @@
               }}
             </div>
             <div class="skills__cell">
-              <select name="data.skills.{{key}}.attribute" data-dtype="string">
+              <select name="system.skills.{{key}}.attribute" data-dtype="string">
                 {{#select skill.attribute}}
                   {{#each ../skillAttributes as |attribute attrkey|}}
                     <option value="{{attrkey}}">{{localize attribute}}</option>
@@ -213,21 +212,21 @@
                 <input
                   type="number"
                   data-dtype="Number"
-                  name="data.spellSlots.{{key}}.spellsKnown"
+                  name="system.spellSlots.{{key}}.spellsKnown"
                   value="{{pointLevel.spellsKnown}}" />
               </div>
               <div class="spellcasting-table__cell">
                 <input
                   type="number"
                   data-dtype="Number"
-                  name="data.spellSlots.{{key}}.maxSpellLevel"
+                  name="system.spellSlots.{{key}}.maxSpellLevel"
                   value="{{pointLevel.maxSpellLevel}}" />
               </div>
               <div class="spellcasting-table__cell">
                 <input
                   type="number"
                   data-dtype="Number"
-                  name="data.spellSlots.{{key}}.maxSpellPoints"
+                  name="system.spellSlots.{{key}}.maxSpellPoints"
                   value="{{pointLevel.maxSpellPoints}}" />
               </div>
             </li>
@@ -254,7 +253,7 @@
                   <input
                     type="number"
                     data-dtype="Number"
-                    name="data.spellSlots.{{levelKey}}.{{slotLevelKey}}"
+                    name="system.spellSlots.{{levelKey}}.{{slotLevelKey}}"
                     value="{{slotLevel}}" />
                 </div>
               {{/each}}

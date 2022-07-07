@@ -70,7 +70,7 @@
   <div class="configuration__field configuration__field--specialDefenses">
     <label for="data.specialDefenses">Special Defenses</label>
     <input
-      name="data.specialDefenses"
+      name="system.specialDefenses"
       value="{{data.specialDefenses}}"
       type="text"
       data-dtype="String" />
@@ -79,7 +79,7 @@
   <div class="configuration__field configuration__field--magic-resistance">
     <label for="data.magicResistance">Magic Resistance</label>
     <input
-      name="data.magicResistance"
+      name="system.magicResistance"
       value="{{data.magicResistance}}"
       type="text"
       data-dtype="String" />
@@ -98,7 +98,7 @@
   <ul class="move-options">
     {{#each data.move as |move key|}}
       <li class="move-option">
-        <select name="data.move.{{key}}.type" data-dtype="String">
+        <select name="system.move.{{key}}.type" data-dtype="String">
           {{#select move.type}}
             {{#each ../moveTypes as |type key|}}
               <option value="{{key}}">{{type}}</option>
@@ -107,7 +107,7 @@
         </select>
 
         <input
-          name="data.move.{{key}}.distance"
+          name="system.move.{{key}}.distance"
           value="{{move.distance}}"
           type="number"
           data-dtype="Number" />
@@ -140,7 +140,7 @@
   <div class="configuration__field configuration__field--number-appearing">
     <label for="data.numberAppearing">Number Appearing</label>
     <input
-      name="data.numberAppearing"
+      name="system.numberAppearing"
       value="{{data.numberAppearing}}"
       type="text"
       data-dtype="String" />
@@ -149,7 +149,7 @@
   <div class="configuration__field configuration__field--number-in-lair">
     <label for="data.numberAppearing">Number In Lair</label>
     <input
-      name="data.numberInLair"
+      name="system.numberInLair"
       value="{{data.numberInLair}}"
       type="text"
       data-dtype="String" />

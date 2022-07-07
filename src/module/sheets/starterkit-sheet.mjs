@@ -25,7 +25,7 @@ export default class ClassgroupSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.hbs`;
+    return `${path}/item-${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -52,7 +52,7 @@ export default class ClassgroupSheet extends ItemSheet {
     context.flags = itemData.flags;
 
     context.gear = await this._getGear();
-    context.selectedGear = await this._getSelectedGear(this.item.data.data.contents)
+    context.selectedGear = await this._getSelectedGear(this.item.system.contents)
 
     return context;
   }
@@ -100,25 +100,25 @@ export default class ClassgroupSheet extends ItemSheet {
     const {itemId} = ev.currentTarget.dataset;
     const gearlist = await this._getGear();
     const itemToAdd = gearlist.find(item => item.id === itemId);
-    let {contents} = this.item.data.data;
+    let {contents} = this.item.system;
 
     if (contents[itemId] !== undefined)
       this.item.update({
         'data.contents': {
-          [itemId]: contents[itemId] + itemToAdd.data.data.quantity.value
+          [itemId]: contents[itemId] + itemToAdd.system.quantity.value
         }
       });
     else
       this.item.update({
         'data.contents': {
-          [itemId]: itemToAdd.data.data.quantity.value
+          [itemId]: itemToAdd.system.quantity.value
         }
       });
   }
 
   async _removeFromKit(ev) {
     const {itemId} = ev.currentTarget.dataset;
-    const newQuantity = this.item.data.data.contents[itemId] - 1;
+    const newQuantity = this.item.system.contents[itemId] - 1;
 
     if (newQuantity <= 0)
       this.item.update({

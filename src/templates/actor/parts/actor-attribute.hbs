@@ -3,13 +3,13 @@
     <input
       type="number"
       min="0"
-      name="data.attributes.{{key}}"
+      name="system.attributes.{{key}}"
       value="{{attribute}}"
       data-dtype="Number"/>
     <label
       class="rollable rollable--no-icon"
-      for="data.attributes.{{key}}"
-      data-roll="1d20-{{lookup ../this.data.attributeMods key}}"
+      for="attributes.{{key}}"
+      data-roll="1d20-{{lookup ../data.attributeMods key}}"
       data-target="{{attribute}}"
       data-roll-type="Attribute"
       data-label="{{localizeAttr key}}">

@@ -21,7 +21,7 @@ Hooks.once("ready", async function() {
 });
 
 const doCombatUpdates = async (actor) => {
-  const hp = actor.data.data.hp.value;
+  const hp = actor.system.hp.value;
 
   const deathHp =  Math.abs(game.settings.get('foundry-chromatic-dungeons', 'min-negative-hp')) * -1;
 
@@ -33,6 +33,8 @@ const doCombatUpdates = async (actor) => {
   const isDead =
     (actor.type === 'pc' &&  hp < deathHp) ||
     (actor.type === 'npc' && hp <= 0);
+
+  console.info(actor);
 
   // Avoid duplicate status effects
   if (isUnconscious && actor.token.data.actorData.effects.find(({icon}) => icon.includes('unconscious')))

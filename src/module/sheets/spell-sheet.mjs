@@ -22,7 +22,7 @@ export default class SpellSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.hbs`;
+    return `${path}/item-${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -65,9 +65,9 @@ export default class SpellSheet extends ItemSheet {
     );
 
     return [...game.items, ...compendiumClassItems]
-      .filter(item => item.data.hasSpellcasting || item.data.data.hasSpellcasting)
+      .filter(item => item.data.hasSpellcasting || item.system.hasSpellcasting)
       .reduce((list, classObj) => 
-        ({ ...list, [classObj.data.flags.core.sourceId]: classObj.name }),
+        ({ ...list, [classObj.flags.core.sourceId]: classObj.name }),
         {}
       );
   }

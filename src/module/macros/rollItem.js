@@ -9,10 +9,9 @@
  * @param {number} slot     The hotbar slot to use
  * @returns {Promise}
  */
- export async function createItemMacro(data, slot) {
-    if (data.type !== "Item") return;
-    if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
-    const item = data.data;
+ export async function createItemMacro(item, slot) {
+    if (item.type !== "Item") return;
+    // if (!("data" in data)) return ui.notifications.warn("You can only create macro buttons for owned Items");
   
     // Create the macro command
     const command = `game.boilerplate.rollItemMacro("${item.name}");`;

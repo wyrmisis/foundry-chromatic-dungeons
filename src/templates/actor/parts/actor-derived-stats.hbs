@@ -1,13 +1,6 @@
 <h2>Derived Stats</h2>
 
-{{#with data.attributes}}
-  
-  {{!--
-  {{derivedStat 'dex' dex 'modInitiative' }}
-  {{signedString (derivedStat 'dex' dex 'modInitiative') }}
-  --}}
-  
-
+{{#with system.attributes}}
   <div class="derived-stat derived-stat--str">
     <h3>Strength ({{str}})</h3>
     
@@ -37,10 +30,10 @@
     <h3>Wisdom ({{wis}})</h3>
 
     <h4>Spellcasting</h4>
-    {{#if (derivedStat 'wis' dex 'hasLv7Divine')}}
+    {{#if (derivedStat 'wis' wis 'hasLv7Divine')}}
       <p>You are capable of casting level 6 and 7 Cleric and Druid spells (so long as you have the slots).</p>
     {{else}} 
-      {{#if (derivedStat 'wis' dex 'hasLv6Divine')}}
+      {{#if (derivedStat 'wis' wis 'hasLv6Divine')}}
         <p>You are capable of casting up to level 6 Cleric and Druid spells (so long as you have the slots).</p>
       {{else}}
         <p>You are capable of casting up to level 5 Cleric and Druid spells (so long as you have the slots).</p>
@@ -50,10 +43,10 @@
     <p>Your Wisdom score may also entitle you to additional Cleric and/or Druid spell slots; please see the chart on page 14. If you are a Divine spellcaster, these slots are already factored into your character's Spells tab.</p>
 
     <h4>Mental Saves</h4>
-    <p>You have a {{signedString (derivedStat 'wis' dex 'modMentalSave') }} modifier to saves for the purpose of resisting spells and effects that affect your mind.</p>
+    <p>You have a {{signedString (derivedStat 'wis' wis 'modMentalSave') }} modifier to saves for the purpose of resisting spells and effects that affect your mind.</p>
 
     <h4>Perception</h4>
-    <p>You have a {{signedString (derivedStat 'wis' dex 'modPerception') }} modifier to Wisdom rolls for the purpose of perceiving things.</p>
+    <p>You have a {{signedString (derivedStat 'wis' wis 'modPerception') }} modifier to Wisdom rolls for the purpose of perceiving things.</p>
   </div>
 
   <div class="derived-stat derived-stat--dex">
@@ -66,7 +59,7 @@
     <h3>Constitution ({{con}})</h3>
 
     <h4>HP</h4>
-    <p>You have a modifier of {{signedString (derivedStat 'con' cha 'modHP' )}} per level to your max HP. If you are not a Warrior class, this value caps out at +2.</p>
+    <p>You have a modifier of {{signedString (derivedStat 'con' con 'modHP' )}} per level to your max HP. If you are not a Warrior class, this value caps out at +2.</p>
 
     <h4>Survival</h4>
     <p>You have a {{derivedStat 'con' con 'systemShockChance' }}% chance to survive a shock to your system, and a {{derivedStat 'con' con 'resurrectionChance' }}% chance to survive resurrection.</p>

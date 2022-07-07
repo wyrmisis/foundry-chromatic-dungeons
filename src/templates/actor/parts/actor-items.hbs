@@ -32,14 +32,14 @@
 
       <label for="data.attacks">Attacks per turn</label>
       <input
-        name="data.attacks"
+        name="system.attacks"
         value="{{data.attacks}}"
         type="text"
         data-dtype="String" />
 
       <label for="data.specialAttacks">Special Attacks</label>
       <input
-        name="data.specialAttacks"
+        name="system.specialAttacks"
         value="{{data.specialAttacks}}"
         type="text"
         data-dtype="String" />
@@ -89,7 +89,7 @@
           <input
             type="number"
             data-dtype="Number"
-            name="data.wealth.{{key}}"
+            name="system.wealth.{{key}}"
             value={{value}} />
         </div>
       {{/each}}

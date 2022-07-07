@@ -13,8 +13,8 @@ const attributeRollMacro = (key) => {
 
   actor.attributeRoll(
     game.i18n.localize(`ATTRIBUTE.${key}`),
-    `1d20-${actor.data.data.attributeMods[key]}`,
-    actor.data.data.attributes[key]
+    `1d20-${actor.system.attributeMods[key]}`,
+    actor.system.attributes[key]
   );
 }
 

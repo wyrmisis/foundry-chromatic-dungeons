@@ -30,7 +30,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
   /** @override */
   get template() {
-    return `${CONFIG.CHROMATIC.templateDir}/actor/actor-${this.actor.data.type}-sheet.html`;
+    return `${CONFIG.CHROMATIC.templateDir}/actor/actor-${this.actor.type}-sheet.html`;
   }
 
   /* -------------------------------------------- */
@@ -44,10 +44,10 @@ export class BoilerplateActorSheet extends ActorSheet {
     const context = super.getData();
 
     // Use a safe clone of the actor data for further operations.
-    const actorData = context.actor.data;
+    const actorData = context.actor;
 
     // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = actorData.data;
+    context.data = actorData.system;
     context.flags = actorData.flags;
 
     context.armorTypes = CONFIG.CHROMATIC.armorTypes;
@@ -68,9 +68,9 @@ export class BoilerplateActorSheet extends ActorSheet {
     }
 
     // Common data
-    context.saves = this.actor?.data?.data?.saves?.targets;
-    context.saveMods = this.actor?.data?.data?.saves?.mods;
-    context.ac = this.actor.data.data.ac;
+    context.saves = context.data.saves?.targets;
+    context.saveMods = context.data.saves?.mods;
+    context.ac = context.data.ac;
 
     // Add roll data for TinyMCE editors.
     context.rollData = context.actor.getRollData();
@@ -96,8 +96,8 @@ export class BoilerplateActorSheet extends ActorSheet {
   _prepareCharacterData(context) {
     // computed/derived stats
     context.hasSpellcasting = !!context.classes.filter(obj => obj.hasSpellcasting).length;
-    context.move = this.actor.data.data.move;
-    context.carryWeight = this.actor.data.data.carryWeight
+    context.move = this.actor.system.move;
+    context.carryWeight = this.actor.system.carryWeight
     
     if (this.actor.id === game.user?.character?.id) {
       context.accentColor = game.user.color;
@@ -174,12 +174,12 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // weapons and ammunition
     context.weapons = weapons
-      .filter(item =>item.data.weaponType !== 'ammunition')
-      .map(item => this._formatWeaponForUse(item, this.actor.data));
+      .filter(item =>item.system.weaponType !== 'ammunition')
+      .map(item => this._formatWeaponForUse(item, this.actor));
     context.ammunition = weapons
-      .filter(item => item.data.weaponType === 'ammunition' && item.data.ammunitionType)
+      .filter(item => item.system.weaponType === 'ammunition' && item.system.ammunitionType)
       .reduce((types, ammo) => {
-        const currentAmmoType = ammo.data.ammunitionType;
+        const currentAmmoType = ammo.system.ammunitionType;
         return (types[currentAmmoType])
           ? { ...types, [currentAmmoType]: [ ...types[currentAmmoType], ammo ] }
           : { ...types, [currentAmmoType]: [ammo] };          
@@ -189,7 +189,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.armor = armor;
     context.gear = [
       ...gear,
-      ...weapons.filter(item => item.data.weaponType === 'ammunition')
+      ...weapons.filter(item => item.system.weaponType === 'ammunition')
     ];
     context.wealth = wealth;
     context.spells = spells;
@@ -205,7 +205,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     context.classes = classes;
 
     // Equipped gear
-    context.equippedItems = [...weapons, ...armor].filter(item => item.data.equipped);
+    context.equippedItems = [...weapons, ...armor].filter(item => item.system.equipped);
   }
 
   _formatSkillsForUse(classes) {
@@ -218,7 +218,7 @@ export class BoilerplateActorSheet extends ActorSheet {
     });
 
     const commonSkills = [
-      ['Perception', 'wis', this.actor.data.data.perception]
+      ['Perception', 'wis', this.actor.system.perception]
     ];
 
     let commonSkillList = [listFactory(
@@ -237,8 +237,8 @@ export class BoilerplateActorSheet extends ActorSheet {
   }
 
   _formatWeaponForUse(item, actor) {
-    item.data.modToHit += actor.data.toHitMods[item.data.weaponType];
-    item.data.modDamage += actor.data.damageMods[item.data.weaponType];
+    item.system.modToHit += actor.system.toHitMods[item.system.weaponType];
+    item.system.modDamage += actor.system.damageMods[item.system.weaponType];
 
     return item;
   }
@@ -495,7 +495,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       );
 
       const value = parseInt(ev.currentTarget.value),
-            {min, value: old} = item.data.data.quantity; 
+            {min, value: old} = item.system.quantity; 
 
       if (old === value) return; // don't waste resources on non-changes
       
@@ -521,7 +521,7 @@ export class BoilerplateActorSheet extends ActorSheet {
 
         classes.forEach(i => {
           i.update({
-            ['data.xp']: i.data.data.xp + xpToAdd
+            ['data.xp']: i.system.xp + xpToAdd
           })
         });
       },
@@ -543,16 +543,16 @@ export class BoilerplateActorSheet extends ActorSheet {
     const {itemId: classId, spellLevel} = itemNode.parents('.spell-level').data();
     const classItem = this.actor.items.get(classId);
 
-    const slotsAtLevel = classItem.data.data.spellSlots[getLevelFromXP(classItem.data.data.xp)];
-    const maxSlotsAtLevel = (!classItem.data.data.hasWisdomBonusSlots)
+    const slotsAtLevel = classItem.system.spellSlots[getLevelFromXP(classItem.system.xp)];
+    const maxSlotsAtLevel = (!classItem.system.hasWisdomBonusSlots)
       ? slotsAtLevel[spellLevel]
       : getWisBonusSlots(
           slotsAtLevel,
-          classItem.data.data.hasWisdomBonusSlots,
-          this.actor.data.data.attributes.wis
+          classItem.system.hasWisdomBonusSlots,
+          this.actor.system.attributes.wis
         )[spellLevel];
 
-    const preparedSpellsAtLevel = classItem.data.data.preparedSpells[spellLevel].length;
+    const preparedSpellsAtLevel = classItem.system.preparedSpells[spellLevel].length;
 
     return maxSlotsAtLevel > preparedSpellsAtLevel;
   }
@@ -567,7 +567,7 @@ export class BoilerplateActorSheet extends ActorSheet {
   async _castSpell(itemNode) {
     const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
 
-    if (!classItem.data.data.hasSpellPoints) {
+    if (!classItem.system.hasSpellPoints) {
       itemNode.addClass('spell--removing');
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
@@ -578,7 +578,7 @@ export class BoilerplateActorSheet extends ActorSheet {
   async _clearSpell(itemNode) {
     const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
 
-    if (!classItem.data.data.hasSpellPoints) {
+    if (!classItem.system.hasSpellPoints) {
       itemNode.addClass('spell--removing');
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
@@ -620,16 +620,16 @@ export class BoilerplateActorSheet extends ActorSheet {
     const {itemId: id} = node.closest('[data-item-id]').data();
     const item = this.actor.items.get(id);
 
-    return (item.type === 'weapon' && item.data.data.equipped)
+    return (item.type === 'weapon' && item.system.equipped)
   }
 
   _canSetEquipStateTo(node, newState) {
     const {itemId: id} = node.closest('[data-item-id]').data();
 
     const itemToEquip = this.actor.items.get(id);
-    const canEquip = () => itemToEquip.data.data.equipped !== newState;
+    const canEquip = () => itemToEquip.system.equipped !== newState;
 
-    if (!itemToEquip.data.data.equippable)
+    if (!itemToEquip.system.equippable)
       return false;
 
     // We'll need to open things up for accessories later
@@ -640,12 +640,12 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     if (
       itemToEquip.type === 'weapon' &&
-      itemToEquip.data.data.weaponType === 'ammunition'
+      itemToEquip.system.weaponType === 'ammunition'
     ) return false;
 
     if (
       itemToEquip.type === 'armor' &&
-      itemToEquip.data.data.armorType !== 'shield'
+      itemToEquip.system.armorType !== 'shield'
     ) return canEquip();
 
     return canEquip();
@@ -654,9 +654,9 @@ export class BoilerplateActorSheet extends ActorSheet {
   _toggleEquippedState(node, newState) {
     const isWeapon    = (i) => i.type === 'weapon';
     const isArmor     = (i) => i.type === 'armor';
-    const isShield    = (i) => i.data.data.armorType === 'shield';
-    const isTwoHanded = (i) => !!i.data.data.twoHanded;
-    const isEquipped  = (i) => !!i.data.data.equipped;
+    const isShield    = (i) => i.system.armorType === 'shield';
+    const isTwoHanded = (i) => !!i.system.twoHanded;
+    const isEquipped  = (i) => !!i.system.equipped;
     const hasTwoHanded= (i) => isWeapon(i) && isEquipped(i) && isTwoHanded(i);
     
     const handsFullMessage = `${this.actor.name}'s hands are full! Unequip something and try again.`;
@@ -671,7 +671,7 @@ export class BoilerplateActorSheet extends ActorSheet {
       if (
         this.actor.items.filter(
           i => isWeapon(i) && isEquipped(i)
-        ).length >= this.actor.data.data.hands
+        ).length >= this.actor.system.hands
       ) return reportAndQuit(handsFullMessage);
 
       // Validate only being allowed one two-handed weapon
@@ -697,13 +697,13 @@ export class BoilerplateActorSheet extends ActorSheet {
 
     // Helmet/Barding/Armor validation
     if (newState && (isArmor(item) && !isShield(item))) {
-      const { armorType } = item.data.data;
+      const { armorType } = item.system;
 
       if (this.actor.type === 'pc' && armorType === 'barding')
         return reportAndQuit(`${this.actor.name} cannot equip ${item.name}, because it is barding, and they are not a horse.`);
 
       const equippedItemsInSlot = this.actor.items.filter(
-        i => i.data.data.armorType === armorType && isEquipped(i)
+        i => i.system.armorType === armorType && isEquipped(i)
       );
 
       equippedItemsInSlot.forEach(i => i.update({
@@ -719,14 +719,14 @@ export class BoilerplateActorSheet extends ActorSheet {
   _validateEquippedArmor(li, item, ev) {
     const siblings = li
       .siblings()
-      .filter((_, node) => node.dataset.armorType === item.data.data.armorType)
+      .filter((_, node) => node.dataset.armorType === item.system.armorType)
       .not('.items__list-item--header');
 
     const overlappingArmorTypes = !!siblings.filter((_, node) => {
       const siblingItem = this.actor.items.get(node.dataset.itemId);
 
-      return (siblingItem.data.data.armorType === item.data.data.armorType) &&
-        siblingItem.data.data.equipped
+      return (siblingItem.system.armorType === item.system.armorType) &&
+        siblingItem.system.equipped
     }).length;
 
     if (overlappingArmorTypes) {

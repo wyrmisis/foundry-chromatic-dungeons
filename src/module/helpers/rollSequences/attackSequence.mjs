@@ -27,13 +27,13 @@ const attackSequence = async (
   const target = getFirstTargetOfSelf();
   const targetWasHit =
     !target ||
-    attackRoll.total >= target.data.data.ac ||
+    attackRoll.total >= target.system.ac ||
     attackRoll.dice[0].total === 20;
   const critical = {
     success: attackRoll.dice[0].total === 20 &&
              (
                !target ||
-               attackRoll.total - target.data.data.ac > 0
+               attackRoll.total - target.system.ac > 0
              ),
     failure: attackRoll.dice[0].total === 1
   }
@@ -93,7 +93,7 @@ const attackSequence = async (
 
   if (target && targetWasHit)
     await target.update({
-      ['data.hp.value']: target.data.data.hp.value - damageValue
+      ['data.hp.value']: target.system.hp.value - damageValue
     })
 
   if (critEffect) inflictCritEffect(target, critEffect);

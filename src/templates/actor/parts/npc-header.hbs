@@ -7,7 +7,7 @@
       value="{{actor.name}}"
       placeholder="Name"/>
       
-    <select name="data.type" data-dtype="string">
+    <select name="system.type" data-dtype="string">
       {{#select data.type}}
         {{#each monsterTypes as |name key|}}
           <option value="{{key}}">{{name}}</option>
@@ -33,14 +33,14 @@
           <input
             class="min-hp"
             type="number"
-            name="data.hp.value"
+            name="system.hp.value"
             value="{{data.hp.value}}"
             max="{{data.hp.max}}"
             data-dtype="Number"/>
           <span>/</span>
           <input
             type="number"
-            name="data.hp.max"
+            name="system.hp.max"
             min="{{data.hp.value}}"
             value="{{data.hp.max}}"
             data-dtype="Number" />
@@ -54,14 +54,14 @@
         <input
             type="number"
             class="min-hp"
-            name="data.hp.value"
+            name="system.hp.value"
             value="{{data.hp.value}}"
             max="{{data.hp.max}}"
             data-dtype="Number"/>
           <span>/</span>
           <input
             type="number"
-            name="data.hp.max"
+            name="system.hp.max"
             min="{{data.hp.value}}"
             value="{{data.hp.max}}"
             data-dtype="Number" />

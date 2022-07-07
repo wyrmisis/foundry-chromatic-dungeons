@@ -28,7 +28,7 @@
     {{!-- Description Tab --}}
     <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
-      {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+      {{editor data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
     </div>
 
     {{!-- Attributes Tab --}}
@@ -82,8 +82,7 @@
           {{#each data.features as |feature id|}}
             <li class="feature__list-item" data-id="{{id}}">
               <div class="feature">
-                {{editor
-                  content=feature
+                {{editor feature
                   target=(concat "data.features." id)
                   rollData=../rollData
                   button=true

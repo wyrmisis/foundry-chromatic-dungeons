@@ -49,7 +49,7 @@
   <main>
     <label for="data.features.{{key}}.content">Feature Content</label>
     {{editor
-      content=content
+      content
       target=(concat "data.features." key ".content")
       rollData=rollData
       button=true
@@ -60,7 +60,7 @@
   <footer>
     <span>
       <input
-        name="data.features.{{key}}.hasResource"
+        name="system.features.{{key}}.hasResource"
         type="checkbox"
         {{checked hasResource}} />
       <label for="data.features.{{key}}.hasResource">This consumes a resource.</label>

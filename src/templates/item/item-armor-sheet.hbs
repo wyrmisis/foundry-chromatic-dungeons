@@ -21,7 +21,7 @@
           </i>
         </label>
         <input
-          name="data.ac"
+          name="system.ac"
           type="number"
           value="{{data.ac}}"
           placeholder="0"/>
@@ -51,7 +51,7 @@
 
         <section class="item-description">
           <h2>Description</h2>
-          {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+          {{editor data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
         </section>
       </div>
     </div>

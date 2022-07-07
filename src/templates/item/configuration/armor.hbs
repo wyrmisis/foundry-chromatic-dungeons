@@ -32,7 +32,7 @@
     <label for="data.swimPenalty">Swim Penalty</label>
     <input
       type="checkbox"
-      name="data.swimPenalty"
+      name="system.swimPenalty"
       {{checked data.swimPenalty}} />
   </div>
 
@@ -40,7 +40,7 @@
     <label for="data.armorType">Type</label>
     <select
       data-dtype="String"
-      name="data.armorType">
+      name="system.armorType">
       {{#select data.armorType}}
         {{#each armorTypes as |type key|}}
           <option value="{{key}}">{{type}}</option>

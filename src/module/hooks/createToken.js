@@ -32,7 +32,7 @@ Hooks.once("ready", async function() {
 
   //   console.info(canvas, data, actor);
 
-  //   const quantityRoll = new Roll(`${actor.data.data.numberAppearing}-1`);
+  //   const quantityRoll = new Roll(`${actor.system.numberAppearing}-1`);
   //   const { total } = await quantityRoll.roll({async: true});
 
   //   console.info(total);

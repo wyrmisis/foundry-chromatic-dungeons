@@ -4,7 +4,7 @@ Hooks.once("ready", async function() {
   Hooks.on('createItem', async (item, options, userId) => {
     if (item.type !== 'classgroup') return;
 
-    if (!item.data.data.levels.length) {
+    if (!item.system.levels.length) {
       const rawHitDieMax = 9;
       let levels = Array.from(Array(20), (_v, index) => ({
         saves: { reflex: 18, poison: 16, creature: 17, spell: 19 },
