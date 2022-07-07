@@ -16,7 +16,7 @@ export default class ClassSheet extends ItemSheet {
   static get defaultOptions() {
     return mergeObject(super.defaultOptions, {
       classes: ["chromatic-dungeons", "sheet", "item", "class"],
-      width: 520,
+      width: 640,
       height: 480,
       tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "description" }]
     });

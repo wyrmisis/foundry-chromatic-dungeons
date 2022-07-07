@@ -40,6 +40,7 @@
 
     // Type-specific Item Partials
     `${CONFIG.CHROMATIC.templateDir}/item/parts/class-feature.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/parts/class-levels.hbs`,
 
     // Item Config partials
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/gear.hbs`,
