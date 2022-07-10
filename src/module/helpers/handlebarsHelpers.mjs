@@ -1,5 +1,9 @@
-import {marked} from 'marked';
+import showdown from 'showdown';
 import {getDerivedStat} from './utils.mjs';
+
+const mdParser = new showdown.Converter({
+  tables: true
+});
 
 /* -------------------------------------------- */
 /*  Handlebars Helpers                          */
@@ -16,7 +20,7 @@ const setupHandlebarsHelpers = () => {
    */
   Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}));
   Handlebars.registerHelper('sum', (...args) => parseInt(args.reduce((total, add) => total + add, 0)));
-  Handlebars.registerHelper('markdown', (input) => marked(input));
+  Handlebars.registerHelper('markdown', (input) => mdParser.makeHtml(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 
     [null, undefined].includes(value) 
       ? defaultValue

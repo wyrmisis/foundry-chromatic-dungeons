@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate",
-  "version": "1.0.0",
-  "description": "CSS compiler for the Boilerplate system",
+  "name": "foundry-chromatic-dungeon",
+  "version": "0.6.1",
+  "description": "UI build tooling and dependencies for foundry-chromatic-dungeon -- see system.json",
   "scripts": {
     "build": "npm-run-all -p  build:js build:css",
     "build:js": "rollup --config ./rollup.config.js",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "marked": "^4.0.15"
+    "showdown": "^2.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.17.10",
