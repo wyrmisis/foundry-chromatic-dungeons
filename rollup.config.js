@@ -1,4 +1,5 @@
 // Rollup plugins
+import commonjs         from '@rollup/plugin-commonjs';
 import { nodeResolve }  from '@rollup/plugin-node-resolve';
 import { terser }       from "rollup-plugin-terser";
 import copy             from "rollup-plugin-copy-assets";
@@ -21,6 +22,7 @@ export default {
   plugins: [
     sourcemaps(),
     nodeResolve({ browser: true }),
+    commonjs(),
     copy({
       assets: [
         "../assets",
