@@ -1,118 +1,131 @@
 {
-  "manifestPlusVersion": "1.2.0",
-  "name": "foundry-chromatic-dungeons",
   "id": "foundry-chromatic-dungeons",
   "title": "Chromatic Dungeons",
   "description": "An implementation of Izegrim Creations' Chromatic Dungeons (https://izegrimcreations.com/gaming-related)",
-  "templateVersion": 1,
-  "minimumCoreVersion": "0.8.8",
-  "compatibleCoreVersion": "9.245",
-  "author": "wyrmisis",
   "authors": [
-    {"name": "wyrmisis", "discord": "wyrmisis#8136"}
-  ],
-  "esmodules": ["dist/js/bundle.min.js"],
-  "styles": ["dist/css/bundle.css"],
-  "languages": [{
-    "lang": "en",
-    "name": "English",
-    "path": "lang/en.json"
-  }],
-  "dependencies": [
-    { "name": "compendium-folders" },
     {
-      "name": "fvtt-lib-wrapper",
-      "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
-    },
-    {
-      "name": "fvtt-rolldata-aware-active-effects",
-      "manifest": "https://github.com/wyrmisis/fvtt-rolldata-aware-active-effects/releases/latest/download/module.json"
+      "name": "wyrmisis",
+      "discord": "wyrmisis#8136"
     }
   ],
+  "esmodules": [
+    "dist/js/bundle.min.js"
+  ],
+  "styles": [
+    "dist/css/bundle.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "relationships": {
+    "requires": [
+      {
+        "id": "compendium-folders",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "fvtt-lib-wrapper",
+        "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "fvtt-rolldata-aware-active-effects",
+        "manifest": "https://github.com/wyrmisis/fvtt-rolldata-aware-active-effects/releases/latest/download/module.json",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  },
   "packs": [
     {
       "name": "weapon",
       "label": "Weapons",
       "path": "packs/weapons.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "armor",
       "label": "Armor",
       "path": "packs/armor.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "gear",
       "label": "Adventuring Gear",
       "path": "packs/gear.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "goods",
       "label": "Trade Goods",
       "path": "packs/trade-goods.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "treasure",
       "label": "Treasure",
       "path": "packs/treasure.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "spell",
       "label": "Spellbook",
       "path": "packs/spellbook.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "ancestry",
       "label": "Ancestries",
       "path": "packs/ancestries.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "heritage",
       "label": "Heritage Options",
       "path": "packs/heritages.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "class",
       "label": "Classes",
       "path": "packs/classes.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "bestiary",
       "label": "Bestiary",
       "path": "packs/bestiary.db",
       "type": "Actor",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "commonmacros",
       "label": "Common Macros",
       "path": "packs/macros.db",
       "type": "Macro",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     },
     {
       "name": "kits",
       "label": "Starting Kits",
       "path": "packs/kits.db",
       "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "private": false
     }
   ],
   "gridDistance": 5,
@@ -122,5 +135,9 @@
   "version": "auto-replaced",
   "url": "auto-replaced",
   "manifest": "auto-replaced",
-  "download": "auto-replaced"
+  "download": "auto-replaced",
+  "compatibility": {
+    "minimum": 10,
+    "verified": "10.272"
+  }
 }
