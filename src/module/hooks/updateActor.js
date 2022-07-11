@@ -1,56 +1,96 @@
-import {
-  getStatus,
-  rollMessageOptions,
-  getVisionAndLight
-} from '../helpers/utils';
+import { getStatus } from '../helpers/utils';
 
 Hooks.once("ready", async function() {
-  Hooks.on('updateActor', async (actor) => {
-    if (!actor.token) return;
-    
-    doCombatUpdates(actor);
-    doLightingUpdates(actor);
-  });
-
-  Hooks.on('updateActiveEffect', (effect) => {
-    const actor = effect.parent;
-
-    if (actor.token)
-      doLightingUpdates(actor);
-  })
+  Hooks.on('updateActor', doDamageUpdates);
 });
 
-const doCombatUpdates = async (actor) => {
-  const hp = actor.system.hp.value;
+const doDamageUpdates = async (actor, delta, options, user) => {
+  if (game.userId !== user) return; // This should only happen once!
 
+  const [shouldBeUnconscious, shouldBeDead] = getActorDamageState(actor);
+  const [isAlreadyUnconscious, isAlreadyDead] = getActorDamageEffectState(actor);
+
+  // Avoid duplicate status effects
+  if (shouldBeUnconscious && isAlreadyUnconscious)
+    return;
+  if (shouldBeDead && isAlreadyDead)
+    return;
+
+  const token = (actor.isToken ? actor.token.object : actor.getActiveTokens()[0])
+
+  if (token) // A token exists for this actor, manage effects the easy way
+    manageTokenDamageEffects(
+      token,
+      shouldBeUnconscious,
+      shouldBeDead
+    );
+  else // No token, manage effects the less easy way
+    manageActorDamageEffects(
+      actor,
+      shouldBeUnconscious,
+      shouldBeDead
+    );
+}
+
+const getActorDamageState = (actor) => {
+  const hp = actor.system.hp.value;
   const deathHp =  Math.abs(game.settings.get('foundry-chromatic-dungeons', 'min-negative-hp')) * -1;
 
-  const isUnconscious =
+  const shouldBeUnconscious =
     deathHp !== 0 &&
     actor.type === 'pc' &&
     hp <= 0 &&
-    hp >= deathHp;
-  const isDead =
-    (actor.type === 'pc' &&  hp < deathHp) ||
+    hp > deathHp;
+  const shouldBeDead =
+    (actor.type === 'pc' &&  hp <= deathHp) ||
     (actor.type === 'npc' && hp <= 0);
 
-  console.info(actor);
+  return [shouldBeUnconscious, shouldBeDead];
+}
 
-  // Avoid duplicate status effects
-  if (isUnconscious && actor.token.data.actorData.effects.find(({icon}) => icon.includes('unconscious')))
-    return;
-  if (isDead && actor.token.data.actorData.effects.find(({icon}) => icon.includes('dead')))
-    return;
+const getActorDamageEffectState = (actor) => [
+  actor.effects.find(
+    ({icon}) => icon.includes('unconscious')
+  ),
+  actor.effects.find(
+    ({icon}) => icon.includes('dead') || icon.includes('skull')
+  )
+];
 
-  await actor.token.object.toggleEffect(
+const manageTokenDamageEffects = async (
+  token,
+  shouldBeUnconscious,
+  shouldBeDead
+) => {
+  await token.toggleEffect(
     getStatus('unconscious'),
-    {active: isUnconscious, overlay: true}
+    {active: shouldBeUnconscious, overlay: true}
   );
-  await actor.token.object.toggleEffect(
+  
+  await token.toggleEffect(
     getStatus('dead'),
-    {active: isDead, overlay: true}
+    {active: shouldBeDead, overlay: true}
   );
 }
 
-const doLightingUpdates = (actor) =>
-  getVisionAndLight(actor.token, actor.data);
+const manageActorDamageEffects = async (
+  actor,
+  shouldBeUnconscious,
+  shouldBeDead
+) => {
+  const [unconsciousStatus, deadStatus] = getActorDamageEffectState(actor);
+
+  toggleActorDamageEffect(actor, shouldBeDead, deadStatus, 'dead');
+  toggleActorDamageEffect(actor, shouldBeUnconscious, unconsciousStatus, 'unconscious');
+}
+
+const toggleActorDamageEffect = (actor, shouldHaveStatus, status, statusId) => {
+  if (!shouldHaveStatus && status) // Remove the status AE
+    status.delete();
+  else if (shouldHaveStatus)
+    actor.createEmbeddedDocuments("ActiveEffect", [{
+      ...getStatus(statusId),
+      'duration.rounds': undefined,
+      flags: {core: { overlay: true, statusId } }
+    }])
+}
