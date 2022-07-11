@@ -45,7 +45,7 @@
       <input
         type="text"
         readonly
-        value="{{level.hitDieCount}}{{../classGroupAll.hitDie}}+{{level.hitDieMod}}" />
+        value="{{level.hitDieCount}}d{{../classGroupAll.hitDie}}+{{level.hitDieMod}}" />
     </span>
     <span class="level-table-cell level-table-cell--hit-dice level-table-cell--has-con-mod">
       {{#if level.addsFullConModToHP}}
@@ -57,8 +57,9 @@
   <span class="level-table-cell level-table-cell--mod">
     <input
       type="number"
-      min="1"
+      min="0"
       max="20"
+      readonly
       value="{{level.modToHit}}"
     />
   </span>

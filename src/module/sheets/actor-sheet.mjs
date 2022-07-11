@@ -243,23 +243,23 @@ export class BoilerplateActorSheet extends ActorSheet {
     return item;
   }
 
-  _formatClassForUse({_id, name, data}) {
-    const level = getLevelFromXP(data.xp);
-    const classGroupData = getClassGroupAtLevel(data.classGroup, level)
+  _formatClassForUse({_id, name, system}) {
+    const level = getLevelFromXP(system.xp);
+    const classGroupData = getClassGroupAtLevel(system.classGroup, level)
     
-    const filteredFeatures = Object.keys(data.features)
-      .filter(key => data.features?.[key].level <= level)
-      .reduce((features, key) => ({ ...features, [key]: data.features[key]}), {});
+    const filteredFeatures = Object.keys(system.features)
+      .filter(key => system.features?.[key].level <= level)
+      .reduce((features, key) => ({ ...features, [key]: system.features[key]}), {});
 
     return {
       id: _id,
       name,
-      ...data,
+      ...system,
       level,
       ...classGroupData,
-      spellSlots: data?.spellSlots?.[level],
+      spellSlots: system?.spellSlots?.[level],
       features: filteredFeatures,
-      xpNext: getNextLevelXP(data.xp)
+      xpNext: getNextLevelXP(system.xp)
     }
   }
 

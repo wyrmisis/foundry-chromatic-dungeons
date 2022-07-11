@@ -38,7 +38,7 @@
               }}
 
               <div class="item-attributes__item item-attributes__item--compact">
-                <label for="data.damageType">Type</label>
+                <label for="damageType">Type</label>
                 <select
                   data-dtype="String"
                   name="system.damageType">
@@ -116,35 +116,35 @@
 
             <div class="quality-container">
               <div class="item-attributes__item item-attributes__item--compact">
-                <label for="data.light">Light</label>
+                <label for="light">Light</label>
                 <input
                   name="system.light"
                   type="checkbox"
                   {{checked data.light}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
-                <label for="data.versatile">+1 damage with two hands</label>
+                <label for="versatile">+1 damage with two hands</label>
                 <input
                   name="system.versatile"
                   type="checkbox"
                   {{checked data.versatile}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
-                <label for="data.twoHanded">Two Handed</label>
+                <label for="twoHanded">Two Handed</label>
                 <input
                   name="system.twoHanded"
                   type="checkbox"
                   {{checked data.twoHanded}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
-                <label for="data.silvered">Silvered</label>
+                <label for="silvered">Silvered</label>
                 <input
                   name="system.silvered"
                   type="checkbox"
                   {{checked data.silvered}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
-                <label for="data.magical">Magical</label>
+                <label for="magical">Magical</label>
                 <input
                   name="system.magical"
                   type="checkbox"
@@ -159,7 +159,13 @@
     {{!-- Description Tab --}}
     <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
-      {{editor data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+      {{editor data.description
+        target="description"
+        rollData=rollData
+        button=true
+        owner=owner
+        editable=editable
+      }}
     </div>
 
     {{!-- Effects Tab --}}

@@ -47,7 +47,7 @@
     </span>
   </header>
   <main>
-    <label for="data.features.{{key}}.content">Feature Content</label>
+    <label for="features.{{key}}.content">Feature Content</label>
     {{editor
       content
       target=(concat "data.features." key ".content")
@@ -63,7 +63,7 @@
         name="system.features.{{key}}.hasResource"
         type="checkbox"
         {{checked hasResource}} />
-      <label for="data.features.{{key}}.hasResource">This consumes a resource.</label>
+      <label for="features.{{key}}.hasResource">This consumes a resource.</label>
     </span>
     
     {{#if hasResource}}

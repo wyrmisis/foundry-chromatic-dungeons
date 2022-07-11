@@ -23,7 +23,7 @@
           <h2>Information</h2>
 
           <div class="item-attributes__item item-attributes__item--compact">
-            <label for="data.school">School</label>
+            <label for="school">School</label>
             <select
               data-dtype="String"
               name="system.school">
@@ -39,7 +39,7 @@
           <h3>Components</h3>
 
           <div class="item-attributes__item item-attributes__item--compact">
-            <label for="data.hasVerbalComponent">Verbal</label>
+            <label for="hasVerbalComponent">Verbal</label>
             <input
               name="system.hasVerbalComponent"
               type="checkbox"
@@ -47,7 +47,7 @@
           </div>
 
           <div class="item-attributes__item item-attributes__item--compact">
-            <label for="data.hasSomaticComponent">Somatic</label>
+            <label for="hasSomaticComponent">Somatic</label>
             <input
               name="system.hasSomaticComponent"
               type="checkbox"
@@ -55,7 +55,7 @@
           </div>
 
           <div class="item-attributes__item item-attributes__item--compact">
-            <label for="data.hasMaterialComponent">Material</label>
+            <label for="hasMaterialComponent">Material</label>
             <input
               name="system.hasMaterialComponent"
               type="checkbox"
@@ -135,7 +135,7 @@
           }}
 
           <div class="item-attributes__item">
-            <label for="data.save">Save Type</label>
+            <label for="save">Save Type</label>
             <select
               data-dtype="String"
               name="system.save">
@@ -152,7 +152,13 @@
 
       <section class="item-description">
         <h2>Description</h2>
-        {{editor data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+        {{editor data.description
+          target="description"
+          rollData=rollData
+          button=true
+          owner=owner
+          editable=editable
+        }}
       </section>
     </div>
   </main>

@@ -373,7 +373,7 @@ export class BoilerplateActor extends Actor {
 
   _getMeleeToHitMod() {
     const classToHit = (this._isPC()) 
-      ? this._getItemsOfType('class', ({data}) => system.isPrimary)[0]?.system.modToHit || 0
+      ? this._getItemsOfType('class', ({system}) => system.isPrimary)[0]?.system.modToHit || 0
       : getClassGroupAtLevel('npc', parseInt(this.system.calculatedHitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('str', 'modToHit', this.system);
@@ -384,7 +384,7 @@ export class BoilerplateActor extends Actor {
 
   _getRangedToHitMod() {
     const classToHit = (this._isPC()) 
-    ? this._getItemsOfType('class', ({data}) => system.isPrimary)[0]?.system.modToHit
+    ? this._getItemsOfType('class', ({system}) => system.isPrimary)[0]?.system.modToHit
     : getClassGroupAtLevel('npc', parseInt(this.system.calculatedHitDice)).modToHit;
 
     const attrToHit = getDerivedStatWithContext('dex', 'modAgility', this.system);
@@ -481,7 +481,7 @@ export class BoilerplateActor extends Actor {
     const castingClasses = this
       ._getItemsOfType(
         'class',
-        ({data}) => system.hasSpellcasting && !system.hasSpellPoints
+        ({system}) => system.hasSpellcasting && !system.hasSpellPoints
       )
       .map(slotsFormat)
       .map(slotsTemplate);
@@ -489,7 +489,7 @@ export class BoilerplateActor extends Actor {
     const pointsClasses = this
     ._getItemsOfType(
       'class',
-      ({data}) => system.hasSpellcasting && system.hasSpellPoints
+      ({system}) => system.hasSpellcasting && system.hasSpellPoints
     )
     .map(pointsFormat)
     .map(pointsTemplate);
@@ -506,7 +506,7 @@ export class BoilerplateActor extends Actor {
 
     // Class levels
     // e.g. @barbarianLevel
-    this._getItemsOfType('class').forEach( ({name, data: classData}) => {
+    this._getItemsOfType('class').forEach( ({name, system}) => {
       let escapedName = name.split(' ')
         .map((str, idx) => !idx 
           ? str.toLowerCase() 
@@ -514,7 +514,7 @@ export class BoilerplateActor extends Actor {
         )
         .join('') + 'Level';
 
-      data[escapedName] = getLevelFromXP(classData.data.xp);
+      data[escapedName] = getLevelFromXP(system.xp);
     });
   }
 
@@ -615,7 +615,7 @@ export class BoilerplateActor extends Actor {
         const canRestrict = game.settings.get("foundry-chromatic-dungeons", "class-restrictions");
 
         if (canRestrict) {
-          const reqs = droppedItem.data.requirements
+          const reqs = droppedItem.system.requirements
           const attributes = this.system.attributes;
           const missedReqs = Object.keys(reqs).filter(
             (reqKey) => attributes[reqKey] < reqs[reqKey]
@@ -633,7 +633,7 @@ export class BoilerplateActor extends Actor {
       if (droppedItem.type === 'spell') {
         const spell = await new Promise((resolve) => {
           const spellcastingClasses = this._getItemsOfType(
-            'class', ({data}) => system.hasSpellcasting
+            'class', ({system}) => system.hasSpellcasting
           );
 
           if (!spellcastingClasses.length) {
@@ -644,7 +644,7 @@ export class BoilerplateActor extends Actor {
           const classAlreadyHasSpell = caster => {
             const casterId = caster.getFlag('core', 'sourceId');
             const hasCasterSpell = this
-              ._getItemsOfType('spell', ({data}) => {
+              ._getItemsOfType('spell', ({system}) => {
                 const spellKeys = Object.keys(system.spellLevels);
 
                 return spellKeys.find(key => system.spellLevels[key].sourceId === casterId);
@@ -688,7 +688,7 @@ export class BoilerplateActor extends Actor {
 
           const addSpellToCaster = (caster) => {
             const updatedSpell = { ...droppedItem };
-            const {spellLevels} = updatedSpell.data;
+            const {spellLevels} = updatedSpell.system;
             const key = Object
               .keys(spellLevels)
               .find(key => 
@@ -696,7 +696,7 @@ export class BoilerplateActor extends Actor {
               );
             const level = spellLevels[key];
 
-            updatedSpell.data.spellLevels = { [key]: level };
+            updatedSpell.system.spellLevels = { [key]: level };
 
             resolve(updatedSpell);
           }
@@ -709,10 +709,10 @@ export class BoilerplateActor extends Actor {
               let maxSpellLevel = getMaxSpellLevel(caster);
               
               return Object
-                .keys(droppedItem.data.spellLevels)
-                .filter(key => droppedItem.data.spellLevels[key].level <= maxSpellLevel)
+                .keys(droppedItem.system.spellLevels)
+                .filter(key => droppedItem.system.spellLevels[key].level <= maxSpellLevel)
                 .reduce(
-                  (arr, key) => [...arr, droppedItem.data.spellLevels[key].sourceId], []
+                  (arr, key) => [...arr, droppedItem.system.spellLevels[key].sourceId], []
                 )
                 .includes(casterId);
             });

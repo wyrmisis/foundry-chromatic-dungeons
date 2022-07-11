@@ -136,7 +136,7 @@ const setupHandlebarsHelpers = () => {
   Handlebars.registerHelper('spellsAtLevel', (spells, classname, level) => {
     const filtered = spells
       .filter(spell => {
-        const { spellLevels } = spell.data;
+        const { spellLevels } = spell.system;
         const spellClasses = Object.keys(spellLevels);
 
         // @todo Do this with source IDs

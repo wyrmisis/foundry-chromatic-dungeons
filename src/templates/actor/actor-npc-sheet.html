@@ -33,9 +33,8 @@
         <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
           <div class="description">
             <h2>Description</h2>
-            {{ editor
-              content=data.description
-              target="data.description"
+            {{ editor data.description
+              target="description"
               rollData=rollData
               button=true
               owner=owner
@@ -47,9 +46,8 @@
         <div class="tab sheet-tab sheet-tab--treasure" data-group="primary" data-tab="treasure">
           <div class="treasure">
             <h2>Treasure</h2>
-            {{ editor
-              content=data.treasure
-              target="data.treasure"
+            {{ editor data.treasure
+              target="treasure"
               rollData=rollData
               button=true
               owner=owner
