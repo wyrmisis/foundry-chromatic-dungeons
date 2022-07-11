@@ -255,29 +255,6 @@
       grid-template-columns: 32px 7fr 1fr;
     }
 
-    .items__list-column {
-      &--quantity {
-        input[type="number"] {
-          &::-webkit-inner-spin-button {
-            -webkit-appearance: inner-spin-button;
-          }
-          
-          &::-webkit-outer-spin-button {
-            -webkit-appearance: outer-spin-button;
-          }
-        }
-      }
-    }
-
-    .items__list-column--equipped,
-    .items__list-column--quantity {
-    }
-    
-    .items__list-item--empty,
-    .items__list-item .empty {
-      
-    }
-
     &-item {
       &--equipped {
         background-color: #665DC944;
