@@ -1,10 +1,10 @@
 // Import document classes.
-import { BoilerplateActor } from "../documents/actor.mjs";
-import { BoilerplateItem } from "../documents/item.mjs";
+import ChromaticActor from "../documents/actor.mjs";
+import ChromaticItem from "../documents/item.mjs";
 
 // Import sheet classes.
-import { BoilerplateActorSheet } from "../sheets/actor-sheet.mjs";
-import { BoilerplateItemSheet } from "../sheets/item-sheet.mjs";
+import ChromaticActorSheet from "../sheets/actor-sheet.mjs";
+import ChromaticItemSheet from "../sheets/item-sheet.mjs";
 import CDAncestrySheet from "../sheets/ancestry-sheet.mjs";
 import CDClassSheet from "../sheets/class-sheet.mjs";
 import CDClassgroupSheet from "../sheets/classgroup-sheet.mjs";
@@ -18,13 +18,14 @@ import setupHandlebarsHelpers from '../helpers/handlebarsHelpers.mjs';
 import { rollItemMacro } from '../macros/rollItem.js';
 import attributeRollMacro from '../macros/attributeRoll.js';
 import saveRollMacro from '../macros/saveRoll.js';
+import ChromaticActorProxy from "../documents/proxy-actor.mjs";
 
 Hooks.once('init', async function() {
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.boilerplate = {
-    BoilerplateActor,
-    BoilerplateItem,
+    ChromaticActor,
+    ChromaticItem,
     rollItemMacro,
     attributeRollMacro,
     saveRollMacro,
@@ -48,14 +49,15 @@ Hooks.once('init', async function() {
   };
 
   // Define custom Document classes
-  CONFIG.Actor.documentClass = BoilerplateActor;
-  CONFIG.Item.documentClass = BoilerplateItem;
+  // CONFIG.Actor.documentClass = ChromaticActor;
+  CONFIG.Actor.documentClass = ChromaticActorProxy;
+  CONFIG.Item.documentClass = ChromaticItem;
 
   // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
+  Actors.registerSheet("chromatic-dungeons", ChromaticActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, '', {
+  Items.registerSheet("chromatic-dungeons", ChromaticItemSheet, '', {
     types: ['weapon', 'armor', 'goods', 'gear', 'treasure', "heritage"],
     makeDefault: true
   });

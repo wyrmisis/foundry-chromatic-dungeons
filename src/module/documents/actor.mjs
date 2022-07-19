@@ -20,7 +20,7 @@ import attributeSequence from '../helpers/rollSequences/attributeSequence';
  * Extend the base Actor document by defining a custom roll data structure which is ideal for the Simple system.
  * @extends {Actor}
  */
-export class BoilerplateActor extends Actor {
+class ChromaticActor extends Actor {
 
   _getItemsOfType(filterType, filterFn = null) {
     return this.items
@@ -924,3 +924,5 @@ export class BoilerplateActor extends Actor {
       .render(true);
   }
 }
+
+export default ChromaticActor;

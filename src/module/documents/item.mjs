@@ -5,7 +5,7 @@ import attackSequence from '../helpers/rollSequences/attackSequence.mjs';
  * Extend the basic Item with some very simple modifications.
  * @extends {Item}
  */
-export class BoilerplateItem extends Item {
+class ChromaticItem extends Item {
   /**
    * Augment the basic Item data model with additional dynamic data.
    */
@@ -373,3 +373,5 @@ export class BoilerplateItem extends Item {
     }
   }
 }
+
+export default ChromaticItem;

@@ -14,7 +14,7 @@ import {
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheet}
  */
-export class BoilerplateActorSheet extends ActorSheet {
+class ChromaticActorSheet extends ActorSheet {
   itemMenu = null;
 
   /** @override */
@@ -889,3 +889,5 @@ export class BoilerplateActorSheet extends ActorSheet {
   }
 
 }
+
+export default ChromaticActorSheet;

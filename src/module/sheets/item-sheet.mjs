@@ -4,7 +4,7 @@ import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/ef
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class BoilerplateItemSheet extends ItemSheet {
+class ChromaticItemSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -91,3 +91,5 @@ export class BoilerplateItemSheet extends ItemSheet {
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.item));
   }
 }
+
+export default ChromaticItemSheet;
