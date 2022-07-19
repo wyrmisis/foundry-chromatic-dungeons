@@ -19,7 +19,7 @@ const devConfig = { ...config };
 
 const devPlugins = [
   watcher(['src/**/*.hbs', 'src/**/*.html']),
-  livereload('dist')
+  livereload({ watch: 'dist', port: 9999 })
 ];
 
 devConfig.plugins = [
