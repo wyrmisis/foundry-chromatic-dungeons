@@ -1,0 +1,43 @@
+<h2>Spells</h2> 
+
+<ul class="items__list items__list--npc-spells">
+  <li class="items__list-item items__list-item--header">
+    <div class="items__list-column items__list-column--name">
+      Name
+    </div>
+    <div class="items__list-column items__list-column--component-type items__list-column--verbal">
+      <span class="sr-only">Verbal</span>
+    </div>
+    <div class="items__list-column items__list-column--component-type items__list-column--somatic">
+      <span class="sr-only">Somatic</span>
+    </div>
+    <div class="items__list-column items__list-column--component-type items__list-column--material">
+      <span class="sr-only">Material</span>
+    </div>
+  </li>
+  {{#each spells as |item id|}}
+    <li
+      class="items__list-item items__list-item"
+      data-item-id="{{item._id}}">
+      <img
+        class="items__list-column items__list-column--icon"
+        src="{{item.img}}" />
+      <div class="items__list-column items__list-column--name">
+        {{item.name}}
+      </div>
+      <div class="items__list-column items__list-column--component-type items__list-column--verbal">
+        {{#if item.system.hasVerbalComponent}}&check;{{/if}}
+      </div>
+      <div class="items__list-column items__list-column--component-type items__list-column--somatic">
+        {{#if item.system.hasSomaticComponent}}&check;{{/if}}
+      </div>
+      <div class="items__list-column items__list-column--component-type items__list-column--material">
+        {{#if item.system.hasMaterialComponent}}&check;{{/if}}
+      </div>
+    </li>
+  {{else}}
+    <li class="items__list-item items__list-item--empty">
+      <span>Empty</span>
+    </li>
+  {{/each}}
+</ul>

@@ -174,10 +174,12 @@ class ChromaticItem extends Item {
    * @param {Event} event   The originating click event
    * @private
    */
-  async roll() {
+  async roll({showWeapon} = {}) {
     switch (this.type) {
       case 'weapon':
-        this._generateWeaponDialog()?.render(true);
+        showWeapon
+          ? this._defaultRoll()
+          : this._generateWeaponDialog()?.render(true);
         break;
       default:
         this._defaultRoll();
@@ -225,15 +227,15 @@ class ChromaticItem extends Item {
         };
         break;
       case "ranged":
-        if (!actorAmmunitionForWeapon.length && item.system.ammunitionType !== 'infinite') {
+        if (!actorAmmunitionForWeapon.length && this.system.ammunitionType !== 'infinite') {
           return {
-            render: () => ui.notifications.warn(`You are out of ammunition for your ${item.name}!`)
+            render: () => ui.notifications.warn(`You are out of ammunition for your ${this.name}!`)
           };
         }
         buttons.attack = {
           label: 'Fire',
           callback: (html) => {
-            const ammoToUse = (item.system.ammunitionType !== 'infinite')
+            const ammoToUse = (this.system.ammunitionType !== 'infinite')
               ? actor.items.get(html.find('[name="ammunition-item"]').val())
               : null;
             let args = [html];
@@ -250,13 +252,18 @@ class ChromaticItem extends Item {
         };
         break;
       case "thrown":
+        if (this.system.quantity.value <= 0) {
+          return {
+            render: () => ui.notifications.warn(`${actor.name} has already thrown their last ${this.name}!`)
+          };
+        }
         buttons.attack = {
           label: 'Attack',
           callback: (html) => this._weaponRoll(html)
         };
         buttons.throw = {
           label: 'Throw',
-          callback: (html) => this._weaponRoll(html, item)
+          callback: (html) => this._weaponRoll(html, this)
         };
     }
     
@@ -316,7 +323,7 @@ class ChromaticItem extends Item {
 
     if (isVersatile) damageMod += 1;
 
-    let attackRoll = new Roll(`1d20+${toHitMod}+${circumstantialAttackMod}`, rollData);
+    let attackRoll = new Roll(`1d20+@toHitMods.${this.system.weaponType}+${circumstantialAttackMod}`, rollData);
     let damageRoll = new Roll(
       `${
         (useAmmoDamage ? ammoItem : this).system.damage
@@ -331,12 +338,15 @@ class ChromaticItem extends Item {
     attackRoll = await attackRoll.roll({ async: true });
     damageRoll = await damageRoll.roll({ async: true });
 
-    const spendAmmo = () => {
-      if (
-        ammoItem
-      ) actor.items.get(ammoItem._id).update({
-        ['data.quantity.value']: ammoItem.system.quantity.value - 1
-      });
+    const spendAmmo = async () => {
+      if (ammoItem)
+        await actor.items.get(ammoItem._id).update({
+          ['system.quantity.value']: ammoItem.system.quantity.value - 1
+        });
+      if (this.system.weaponType === 'thrown' && this.system.quantity.value <= 0)
+        this.update({
+          ['system.equipped']: false
+        });
     }
 
     return attackSequence(

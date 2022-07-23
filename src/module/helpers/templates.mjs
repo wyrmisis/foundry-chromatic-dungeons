@@ -21,6 +21,7 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-gear-cards.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-wealth-grid.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/item-grid-actions.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/npc-spell-grid.hbs`,
 
     // NPC-specific Partials
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-header.hbs`,

@@ -41,14 +41,14 @@ Hooks.once("ready", async function() {
   // })
 });
 
-const getTokenActor = (token) => token.actor.data;
+const getTokenActor = (token) => token.actor.system;
 
-const getRolledHP = (tokenActor) => {
-  const hitDice = parseInt(tokenActor.data.calculatedHitDice);
-  const hitDieSize = parseInt(tokenActor.data.hitDieSize || CONFIG.CHROMATIC.defaultHitDieSize);
-  const bonus = parseInt(tokenActor.data.hitDiceBonus || 0)
+const getRolledHP = ({calculatedHitDice, hitDieSize, hitDiceBonus}) => {
+  const hitDice = parseInt(calculatedHitDice);
+  const size = parseInt(hitDieSize || CONFIG.CHROMATIC.defaultHitDieSize);
+  const bonus = parseInt(hitDiceBonus || 0)
   
-  const formula = `${hitDice}d${hitDieSize}+${bonus}`;
+  const formula = `${hitDice}d${size}+${bonus}`;
   const hpRoll = new Roll(formula);
 
   return hpRoll
@@ -61,7 +61,7 @@ const doLightingUpdates = (token, actor) =>
   getVisionAndLight(token, actor);
 
 const getDimensionsForSize = (token) => {
-  switch (getTokenActor(token).data.size) {
+  switch (getTokenActor(token).size) {
     case 'tiny':        return {width: .5,  height: .5};
     case 'small':       return {width: .75, height: .75};
     case 'large':       return {width: 2,   height: 2};

@@ -1,11 +1,11 @@
 <h2>Derived Stats</h2>
 
-{{#with system.attributes}}
+{{#with actor.system.attributes}}
   <div class="derived-stat derived-stat--str">
     <h3>Strength ({{str}})</h3>
     
     <h4>Combat</h4>
-    <p>When using a melee weapon, you have a {{signedString (derivedStat 'str' str 'modToHit') }} modifier to attack rolls, and a {{signedString (derivedStat 'str' str 'modMeleeDamage') }} modifier to damage rolls.</p>
+    <p>When using a melee weapon, you have a {{signedString (derivedStat 'str' str 'modToHit' '+0') }} modifier to attack rolls, and a {{signedString (derivedStat 'str' str 'modMeleeDamage') '+0' }} modifier to damage rolls.</p>
 
     <h4>Carry Weight</h4>
     <p>You can carry up to {{derivedStat 'str' str 'carryWeight' }}lbs.</p>
@@ -65,8 +65,8 @@
     <p>You have a {{derivedStat 'con' con 'systemShockChance' }}% chance to survive a shock to your system, and a {{derivedStat 'con' con 'resurrectionChance' }}% chance to survive resurrection.</p>
 
     <h4>Swimming</h4>
-    <p>You can swim at a rate of {{../data.swim.speed}}ft per round, and can swim for {{../data.swim.roundsBeforeChecks}} rounds before starting to drown. Once you begin to drown, your Constitution roll penalty is {{../data.swim.conPenalty}}.</p>
-    <p>Additionally, you can hold your breath for {{../data.swim.roundsOfHeldBreath}} round(s).</p>
+    <p>You can swim at a rate of {{../actor.system.swim.speed}}ft per round, and can swim for {{../actor.system.swim.roundsBeforeChecks}} rounds before starting to drown. Once you begin to drown, your Constitution roll penalty is {{../actor.system.swim.conPenalty}}.</p>
+    <p>Additionally, you can hold your breath for {{../actor.system.swim.roundsOfHeldBreath}} round{{#if (gt ../actor.system.swim.roundsOfHeldBreath 1)}}s{{/if}}.</p>
     <p>This is affected by your total carried weight and worn armor.</p>
   </div>
 
@@ -74,6 +74,6 @@
     <h3>Charisma ({{cha}})</h3>
 
     <h4>Henchpeople</h4>
-    <p>You can have {{derivedStat 'cha' cha 'henchpeopleMax' }} henchpeople, and give your henchpeople and followers a {{signedString (derivedStat 'cha' cha 'modMorale') }} modifier to Morale</p>
+    <p>You can have up to {{derivedStat 'cha' cha 'henchpeopleMax' }} henchpeople, and give your henchpeople and followers a {{signedString (derivedStat 'cha' cha 'modMorale') }} modifier to Morale</p>
   </div>
 {{/with}}

@@ -7,8 +7,8 @@
     data-edit="img"
     title="{{actor.name}}" />
 
-  {{editor data.description
-    target="description"
+  {{editor actor.system.description
+    target="system.description"
     rollData=rollData
     button=true
     owner=owner
@@ -17,8 +17,8 @@
 </div>
 
 <h2>Biography</h2>
-{{editor data.bio
-  target="bio"
+{{editor actor.system.bio
+  target="system.bio"
   rollData=rollData
   button=true
   owner=owner

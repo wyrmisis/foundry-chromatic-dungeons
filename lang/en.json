@@ -22,6 +22,9 @@
   "ATTRIBUTE.wis": "Wisdom",
   "ATTRIBUTE.cha": "Charisma",
 
+  "SHEET.names.pc": "Player Character sheet",
+  "SHEET.names.npc": "NPC/Monster sheet",
+
   "SHEET.listheadings.saves.value": "Value",
   "SHEET.listheadings.saves.target": "Target",
   "SHEET.listheadings.saves.modifier": "Mod.",
@@ -50,6 +53,7 @@
   "SHEET.save.poison": "Poison/&#8203;Venom/&#8203;Disease",
   "SHEET.save.creature": "Creature Ability",
   "SHEET.save.spell": "Magic Item/&#8203;Spell",
+  "SHEET.save.morale": "Morale",
 
   "ATTRIBUTE.StrAbbr": "str",
   "ATTRIBUTE.ConAbbr": "con",

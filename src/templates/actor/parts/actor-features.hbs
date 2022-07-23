@@ -8,7 +8,7 @@
     Once an alignment is selected, there's no going
     back to unaligned.
   --}}
-  {{#unless data.alignment}}
+  {{#unless actor.system.alignment}}
     <option value="">Unaligned</option>
   {{/unless}}
   {{selectOptions alignments
@@ -18,15 +18,15 @@
 
 <h2 class="features__title">Languages</h2>
 
-{{#if data.maxLanguages}}
+{{#if actor.system.maxLanguages}}
   <ul class="features features--languages">
-    {{#each (paddedTo data.languages data.maxLanguages) }}
+    {{#each (paddedTo actor.system.languages actor.system.maxLanguages) }}
       <li class="feature__item">
         <input
           type="text"
           data-dtype="String"
           name="system.languages.[{{@index}}]"
-          value="{{lookup ../data.languages (concat '[' @index ']') }}"/>
+          value="{{lookup ../actor.system.languages (concat '[' @index ']') }}"/>
       </li>
     {{/each}}
   </ul>

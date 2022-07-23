@@ -1,13 +1,11 @@
 <div class="stat-region stat-region--saves">
   <h2>{{localize 'SHEET.saves'}}</h2>
   <ul class="quick-access__saves saves-list">
-    {{#each saves as |save key|}}
+    {{#each actor.system.saves as |save key|}}
       <li
         class="saves-list__item rollable rollable--no-icon"
-        data-label="{{localize (concat 'SHEET.save.' key)}}"
-        data-roll-type="Save"
-        data-target="{{save}}"
-        data-roll="1d20{{signedString (lookup ../saveMods key)}}">
+        data-roll="save"
+        data-key="{{key}}">
         <h4 class="saves-list__name">
           {{{localize (concat 'SHEET.save.' key)}}}
         </h4>
@@ -15,26 +13,26 @@
           {{localize 'SHEET.listheadings.saves.target'}}: {{save}}
         </div>
         <div class="saves-list__modifier">
-          ({{signedString (lookup ../saveMods key)}})
+          ({{signedString (lookup ../actor.system.saveMods key)}})
         </div>
       </li>
     {{/each}}
-    <li class="saves-list__item">
-      <div
-        class="saves-list__name rollable rollable--no-icon"
-        data-label="Morale"
-        data-roll-type="Save"
-        data-target="{{data.morale}}"
-        data-roll="1d20">
-        <h4 class="saves-list__name">Morale</h4>
-      </div>
+    <li
+      class="saves-list__item rollable rollable--no-icon"
+      data-roll="morale">
+      <h4 class="saves-list__name">
+        {{{localize (concat 'SHEET.save.morale')}}}
+      </h4>
       <div class="saves-list__score">
-        {{localize 'SHEET.listheadings.saves.target'}}: {{data.morale}}
+        {{localize 'SHEET.listheadings.saves.target'}}: {{actor.system.morale}}
+      </div>
+      <div class="saves-list__modifier">
+        ({{signedString actor.system.modMorale }})
       </div>
     </li>
   </ul>
-  {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
-    <p>Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.</p>
+  {{#if (ne (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave') 0)}}
+    <p>Reminder: you have a {{signedString (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave')}} to mental saves.</p>
   {{/if}}
 </div>
 
@@ -42,8 +40,8 @@
   {{#if weapons.length}}
     <h2>
       <span>Attacks</span>
-      {{#if data.attacks}}
-        <span>({{data.attacks}})</span>
+      {{#if actor.system.attacks}}
+        <span>({{actor.system.attacks}})</span>
       {{/if}}
     </h2>
     <ul class="equipped-list">
@@ -71,7 +69,7 @@
     <label for="specialDefenses">Special Defenses</label>
     <input
       name="system.specialDefenses"
-      value="{{data.specialDefenses}}"
+      value="{{actor.system.specialDefenses}}"
       type="text"
       data-dtype="String" />
   </div>
@@ -80,7 +78,7 @@
     <label for="magicResistance">Magic Resistance</label>
     <input
       name="system.magicResistance"
-      value="{{data.magicResistance}}"
+      value="{{actor.system.magicResistance}}"
       type="text"
       data-dtype="String" />
   </div>
@@ -96,10 +94,10 @@
     </button>
   </h2>
   <ul class="move-options">
-    {{#each data.move as |move key|}}
+    {{#each actor.system.move as |move key|}}
       <li class="move-option">
-        <select name="system.move.{{key}}.type" data-dtype="String">
-          {{#select move.type}}
+        <select name="actor.system.move.{{key}}.type" data-dtype="String">
+          {{#select actor.system.move.type}}
             {{#each ../moveTypes as |type key|}}
               <option value="{{key}}">{{type}}</option>
             {{/each}}
@@ -125,12 +123,12 @@
   </ul>
 </div>
 
-{{#if data.monsterVariant}}
+{{#if actor.system.monsterVariant}}
   <div class="stat-region stat-region--variant">
-    <h2>Variant: {{data.monsterVariant.name}}</h2>
+    <h2>Variant: {{actor.system.monsterVariant.name}}</h2>
     <ul>
-      <li>+{{data.monsterVariant.hitDice}} HD</li>
-      <li>{{data.monsterVariant.description}}</li>
+      <li>+{{actor.system.monsterVariant.hitDice}} HD</li>
+      <li>{{actor.system.monsterVariant.description}}</li>
     </ul>
   </div>
 {{/if}}
@@ -141,7 +139,7 @@
     <label for="numberAppearing">Number Appearing</label>
     <input
       name="system.numberAppearing"
-      value="{{data.numberAppearing}}"
+      value="{{actor.system.numberAppearing}}"
       type="text"
       data-dtype="String" />
   </div>
@@ -150,7 +148,7 @@
     <label for="numberAppearing">Number In Lair</label>
     <input
       name="system.numberInLair"
-      value="{{data.numberInLair}}"
+      value="{{actor.system.numberInLair}}"
       type="text"
       data-dtype="String" />
   </div>

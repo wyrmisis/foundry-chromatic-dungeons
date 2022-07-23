@@ -6,23 +6,23 @@
       <input
         name="system.canAutocalculateHP"
         type="checkbox"
-        {{checked data.canAutocalculateHP}} />
+        {{checked actor.system.canAutocalculateHP}} />
     </div>
 
   <div class="configuration__field configuration__field--hit-dice">
     <label for="hitDice">Base Hit Dice</label>
     <input
       name="system.hitDice"
-      value="{{data.hitDice}}"
+      value="{{actor.system.hitDice}}"
       type="text"
       data-dtype="Number" />
   </div>
 
-  {{#if data.canAutocalculateHP}}
+  {{#if actor.system.canAutocalculateHP}}
     <div class="configuration__field configuration__field--hit-dice">
       <label for="hitDieSize">Hit Die Size</label>
       <select name="system.hitDieSize" data-dtype="Number">
-        {{#select data.hitDieSize}}
+        {{#select actor.system.hitDieSize}}
           {{#each hitDieSizes as |size key|}}
             <option value="{{key}}">d{{size}}</option>
           {{/each}}
@@ -34,7 +34,7 @@
       <label for="hitDiceBonus">HP Bonus</label>
       <input
         name="system.hitDiceBonus"
-        value="{{data.hitDiceBonus}}"
+        value="{{actor.system.hitDiceBonus}}"
         type="text"
         data-dtype="Number" />
     </div>
@@ -44,7 +44,7 @@
     <label for="variant">Variant</label>
     <select name="system.variant" data-dtype="String">
       <option value="">None</option>
-      {{#select data.variant}}
+      {{#select actor.system.variant}}
         {{#each variants as |variant key|}}
           <option value="{{key}}">{{variant.name}} (+{{variant.hitDice}}HD)</option>
         {{/each}}
@@ -56,8 +56,8 @@
 <div class="stat-region stat-region--xp">
   <h2>
     <span>XP</span>
-    {{#if data.canAutocalculateXP}}
-      <span>{{data.calculatedXP}}</span>
+    {{#if actor.system.canAutocalculateXP}}
+      <span>{{actor.system.calculatedXP}}</span>
     {{/if}}
   </h2>
 
@@ -66,15 +66,15 @@
     <input
       name="system.canAutocalculateXP"
       type="checkbox"
-      {{checked data.canAutocalculateXP}} />
+      {{checked actor.system.canAutocalculateXP}} />
   </div>
 
-  {{#unless data.canAutocalculateXP}}
+  {{#unless actor.system.canAutocalculateXP}}
     <div class="configuration__field configuration__field--xp">
       <label for="xp">XP</label>
       <input
         name="system.xp"
-        value="{{data.xp}}"
+        value="{{actor.system.xp}}"
         type="text"
         data-dtype="Number" />
     </div>
@@ -84,7 +84,7 @@
       <input
         name="system.hasSpecialAbility"
         type="checkbox"
-        {{checked data.hasSpecialAbility}} />
+        {{checked actor.system.hasSpecialAbility}} />
     </div>
 
     <div class="configuration__field configuration__field--is-exceptional">
@@ -92,7 +92,7 @@
       <input
         name="system.isExceptional"
         type="checkbox"
-        {{checked data.isExceptional}} />
+        {{checked actor.system.isExceptional}} />
     </div>
   {{/unless}}
 </div>
@@ -102,7 +102,7 @@
   <div class="configuration__field configuration__field--size">
     <label for="size">Size</label>
     <select name="system.size" data-dtype="String">
-      {{#select data.size}}
+      {{#select actor.system.size}}
         {{#each sizes as |size key|}}
           <option value="{{key}}">{{size}}</option>
         {{/each}}
@@ -114,7 +114,7 @@
     <label for="alignment">Alignment</label>
     <select name="system.alignment" data-dtype="String">
       <option value="">Unaligned</option>
-      {{#select data.alignment}}
+      {{#select actor.system.alignment}}
         {{#each alignments as |alignment key|}}
           <option value="{{key}}">{{alignment}}</option>
         {{/each}}
@@ -126,7 +126,7 @@
     <label for="senses.infravision">Base Infravision</label>
     <input
       name="system.senses.infravision"
-      value="{{data.senses.infravision}}"
+      value="{{actor.system.senses.infravision}}"
       type="number"
       data-dtype="Number" />
   </div>
@@ -135,7 +135,7 @@
     <label for="senses.blindvision">Base Blindvision</label>
     <input
       name="system.senses.blindvision"
-      value="{{data.senses.blindvision}}"
+      value="{{actor.system.senses.blindvision}}"
       type="number"
       data-dtype="Number" />
   </div>
@@ -144,7 +144,7 @@
     <label for="perceptionMod">Perception Mod</label>
     <input
       name="system.perceptionMod"
-      value="{{data.perceptionMod}}"
+      value="{{actor.system.perceptionMod}}"
       type="number"
       data-dtype="Number" />
   </div>

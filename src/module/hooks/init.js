@@ -2,8 +2,13 @@
 import ChromaticActor from "../documents/actor.mjs";
 import ChromaticItem from "../documents/item.mjs";
 
+// Import DataModel classes
+import PCDataModel from "../dataModels/actors/data-model-pc.mjs";
+import NPCDataModel from "../dataModels/actors/data-model-npc.mjs";
+
 // Import sheet classes.
-import ChromaticActorSheet from "../sheets/actor-sheet.mjs";
+import ChromaticActorPCSheet from "../sheets/actor-pc-sheet.mjs";
+import ChromaticActorNPCSheet from "../sheets/actor-npc-sheet.mjs";
 import ChromaticItemSheet from "../sheets/item-sheet.mjs";
 import CDAncestrySheet from "../sheets/ancestry-sheet.mjs";
 import CDClassSheet from "../sheets/class-sheet.mjs";
@@ -18,7 +23,6 @@ import setupHandlebarsHelpers from '../helpers/handlebarsHelpers.mjs';
 import { rollItemMacro } from '../macros/rollItem.js';
 import attributeRollMacro from '../macros/attributeRoll.js';
 import saveRollMacro from '../macros/saveRoll.js';
-import ChromaticActorProxy from "../documents/proxy-actor.mjs";
 
 Hooks.once('init', async function() {
   // Add utility classes to the global game object so that they're more easily
@@ -48,14 +52,34 @@ Hooks.once('init', async function() {
     decimals: 2
   };
 
-  // Define custom Document classes
-  // CONFIG.Actor.documentClass = ChromaticActor;
-  CONFIG.Actor.documentClass = ChromaticActorProxy;
+  // ACTOR STUFF
+  CONFIG.Actor.documentClass = ChromaticActor;
+  CONFIG.Actor.systemDataModels['pc'] = PCDataModel;
+  CONFIG.Actor.systemDataModels['npc'] = NPCDataModel;
+
+  Actors.unregisterSheet("core", ActorSheet);
+  Actors.registerSheet(
+    "foundry-chromatic-dungeons",
+    ChromaticActorPCSheet,
+    {
+      label: 'SHEET.names.pc',
+      types: ['pc'],
+      makeDefault: true
+    }
+  );
+  Actors.registerSheet(
+    "foundry-chromatic-dungeons",
+    ChromaticActorNPCSheet,
+    {
+      label: 'SHEET.names.npc',
+      types: ['npc'],
+      makeDefault: true
+    }
+  );
+
+  // ITEM STUFF
   CONFIG.Item.documentClass = ChromaticItem;
 
-  // Register sheet application classes
-  Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("chromatic-dungeons", ChromaticActorSheet, '', { makeDefault: true });
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("chromatic-dungeons", ChromaticItemSheet, '', {
     types: ['weapon', 'armor', 'goods', 'gear', 'treasure', "heritage"],

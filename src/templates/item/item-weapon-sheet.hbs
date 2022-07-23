@@ -29,7 +29,7 @@
 
             <div class="damage-container">
               {{> (partial "item/parts/item-attribute.hbs")
-                key="data.damage"
+                key="system.damage"
                 value=data.damage
                 label="Damage"
                 type="text"
@@ -55,7 +55,7 @@
 
             <div class="modifier-container">
               {{> (partial "item/parts/item-attribute.hbs")
-                key="data.modDamage"
+                key="system.modDamage"
                 value=data.modDamage
                 label="Damage"
                 type="number"
@@ -64,7 +64,7 @@
               }}
 
               {{> (partial "item/parts/item-attribute.hbs")
-                key="data.modToHit"
+                key="system.modToHit"
                 value=data.modToHit
                 label="To Hit"
                 type="number"
@@ -73,7 +73,7 @@
               }}
 
               {{> (partial "item/parts/item-attribute.hbs")
-                key="data.speedFactor"
+                key="system.speedFactor"
                 value=data.speedFactor
                 label="Speed Factor"
                 type="number"
@@ -89,7 +89,7 @@
             {{#unless (equals data.weaponType "ammunition")}}
               {{#unless (equals data.weaponType "ranged")}}
                 {{> (partial "item/parts/item-attribute.hbs")
-                  key="data.reach"
+                  key="system.reach"
                   value=data.reach
                   label="Reach (ft)"
                   type="number"
@@ -100,7 +100,7 @@
 
               {{#unless (equals data.weaponType "melee")}}
                 {{> (partial "item/parts/item-attribute.hbs")
-                  key="data.range"
+                  key="system.range"
                   value=data.range
                   label="Range (ft)"
                   type="number"

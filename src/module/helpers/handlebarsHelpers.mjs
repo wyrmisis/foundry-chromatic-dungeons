@@ -72,8 +72,9 @@ const setupHandlebarsHelpers = () => {
       const total = values
         .filter(v => typeof v === 'number')
         .reduce((prev, curr) => prev + curr, 0);
+      if (total === 0) return '+0';
 
-      return total >= 0 ? `+${total}` : `${total}`
+      return total > 0 ? `+${total}` : `${total}`
     }
    );
 

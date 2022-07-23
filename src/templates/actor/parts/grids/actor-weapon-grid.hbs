@@ -45,15 +45,34 @@
       <div class="items__list-column items__list-column--damage">
         {{#if item.system.damage}}
           {{item.system.damage}}
-          {{#if (ne data.modDamage 0)}}
-            {{signedString item.system.modDamage}}
-          {{/if}}
+        {{/if}}
+
+        {{#if (equals item.system.weaponType "thrown") }}
+          {{#unless (eq (sum item.system.modDamage ../actor.system.damageMods.thrown) 0)}}
+            {{signedString (sum item.system.modDamage ../actor.system.damageMods.thrown)}}
+          {{/unless}}
+        {{else if (equals item.system.weaponType "ranged")}}
+          {{#unless (eq (sum item.system.modDamage ../actor.system.damageMods.ranged) 0)}}
+            {{signedString (sum item.system.modDamage ../actor.system.damageMods.ranged)}}
+          {{/unless}}
+        {{else}}
+          {{#unless (eq (sum item.system.modDamage ../actor.system.damageMods.melee) 0)}}
+            {{signedString (sum item.system.modDamage ../actor.system.damageMods.melee)}}
+          {{/unless}}
         {{/if}}
       </div>
 
       <div class="items__list-column items__list-column--to-hit">
-        {{#if (ne item.system.modToHit 0)}}
-          {{signedString item.system.modToHit}}
+        {{#if (equals item.system.weaponType "thrown") }}
+          {{signedString (sum item.system.modToHit ../actor.system.toHitMods.melee)}}/{{signedString (sum item.system.modToHit ../actor.system.toHitMods.thrown)}}
+        {{else if (equals item.system.weaponType "ranged")}}
+          {{#unless (eq (sum item.system.modToHit ../actor.system.toHitMods.ranged) 0)}}
+            {{signedString (sum item.system.modToHit ../actor.system.toHitMods.ranged)}}
+          {{/unless}}
+        {{else}}
+          {{#unless (eq (sum item.system.modToHit ../actor.system.toHitMods.melee) 0)}}
+            {{signedString (sum item.system.modToHit ../actor.system.toHitMods.melee)}}
+          {{/unless}}
         {{/if}}
       </div>
 
@@ -61,24 +80,24 @@
         </li>
         {{#each (lookup ../ammunition item.system.ammunitionType)}}
           <li
-            class="items__list-item items__list-item--{{#if data.quantity.value}}ammunition{{else}}empty{{/if}}"
+            class="items__list-item items__list-item--{{#if item.system.quantity.value}}ammunition{{else}}empty{{/if}}"
             data-item-id="{{_id}}">
             <div class="items__list-column items__list-column--name">
-              &bull; {{name}} x{{data.quantity.value}}
+              &bull; {{name}} x{{system.quantity.value}}
             </div>
 
             <div class="items__list-column items__list-column--damage">
-              {{#if data.damage}}
-                {{data.damage}}
-                {{#if (ne data.modDamage 0)}}
-                  {{signedString data.modDamage}}
+              {{#if system.damage}}
+                {{system.damage}}
+                {{#if (ne system.modDamage 0)}}
+                  {{signedString system.modDamage}}
                 {{/if}}
               {{/if}}
             </div>
 
             <div class="items__list-column items__list-column--to-hit">
-              {{#if (ne data.modToHit 0)}}
-                {{signedString data.modToHit}}
+              {{#if (ne system.modToHit 0)}}
+                {{signedString system.modToHit}}
               {{/if}}
             </div>
           </li>

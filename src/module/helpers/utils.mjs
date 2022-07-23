@@ -15,30 +15,6 @@ const getSelf = () => game.users.find(user => user.id === game.userId);
 
 const getFirstTargetOfSelf = () => getSelf()?.targets?.values()?.next()?.value?.actor;
 
-const getMonsterXP = (
-  hd = 0,
-  isSpecial,
-  isExceptional
-) => {
-  const {base, special, exceptional} = 
-    CONFIG.CHROMATIC.monsterXP[(hd < 25) ? hd : 25];
-
-  if (isExceptional) return base + exceptional;
-  if (isSpecial) return base + special;
-  return base;
-}
-
-const getMonsterVariant = (variant) =>
-  CONFIG.CHROMATIC.monsterVariants[variant]
-
-const getMonsterHD = (hitDice = 0, variantKey = '') => {
-  if (!variantKey) return hitDice;
-
-  const variant = getMonsterVariant(variantKey);
-
-  return parseInt(hitDice) + parseInt(variant.hitDice);
-}
-
 const get20thLevelXP = () => CONFIG.CHROMATIC
   .xp.find(({level}) => level === 20).xp
 
@@ -60,7 +36,7 @@ const getLevelFromXP = (xp) =>
 
 const getClassGroupAtLevel = (classGroup, level) => {
   if (level > 20) level = 20;
-  if (level < 1) level = 1;
+  if (level < 0) level = 0;
 
   let group = {
     ... CONFIG.CHROMATIC.classGroups[classGroup]
@@ -184,16 +160,19 @@ const getAllItemsOfType = async (itemType, compendiumName) => {
   ];
 }
 
+const getItemsOfActorOfType = (actor, filterType, filterFn = null) =>
+  actor.items
+    .filter(({type}) => type === filterType)
+    .filter(filterFn ? filterFn : () => true);
+
 export {
-  getMonsterHD,
-  getMonsterVariant,
-  getMonsterXP,
   getLevelFromXP,
   getNextLevelXP,
   getClassGroupAtLevel,
   getDerivedStat,
   getDerivedStatWithContext,
   getAllItemsOfType,
+  getItemsOfActorOfType,
   reportAndQuit,
   hasThisAlready,
   range,

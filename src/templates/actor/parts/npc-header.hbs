@@ -19,8 +19,8 @@
       <label 
         for="hp.value"
         class="hp__label"
-        title="HP: {{data.hp.value}}/{{data.hp.max}}
-({{data.calculatedHitDice}}d{{data.hitDieSize}}{{#if data.hitDiceBonus}}+{{data.hitDiceBonus}}{{/if}})">
+        title="HP: {{actor.system.hp.value}}/{{actor.system.hp.max}}
+({{actor.system.calculatedHitDice}}d{{actor.system.hitDieSize}}{{#if actor.system.hitDiceBonus}}+{{actor.system.hitDiceBonus}}{{/if}})">
         <i class="fa fa-heart">
           <span class="sr-only">
             {{localize "SHEET.hp"}}
@@ -28,42 +28,42 @@
         </i>
       </label>
 
-      {{#if data.canAutocalculateHP}}
+      {{#if actor.system.canAutocalculateHP}}
         {{#if actor.isToken}}
           <input
             class="min-hp"
             type="number"
             name="system.hp.value"
-            value="{{data.hp.value}}"
-            max="{{data.hp.max}}"
+            value="{{actor.system.hp.value}}"
+            max="{{actor.system.hp.max}}"
             data-dtype="Number"/>
           <span>/</span>
           <input
             type="number"
             name="system.hp.max"
-            min="{{data.hp.value}}"
-            value="{{data.hp.max}}"
+            min="{{actor.system.hp.value}}"
+            value="{{actor.system.hp.max}}"
             data-dtype="Number" />
         {{else}}
           <input
             type="text"
             readonly
-            value="{{data.calculatedHitDice}}d{{data.hitDieSize}}" />
+            value="{{actor.system.calculatedHitDice}}d{{actor.system.hitDieSize}}" />
         {{/if}}
       {{else}}
         <input
             type="number"
             class="min-hp"
             name="system.hp.value"
-            value="{{data.hp.value}}"
-            max="{{data.hp.max}}"
+            value="{{actor.system.hp.value}}"
+            max="{{actor.system.hp.max}}"
             data-dtype="Number"/>
           <span>/</span>
           <input
             type="number"
             name="system.hp.max"
-            min="{{data.hp.value}}"
-            value="{{data.hp.max}}"
+            min="{{actor.system.hp.value}}"
+            value="{{actor.system.hp.max}}"
             data-dtype="Number" />
       {{/if}}
       
@@ -72,7 +72,7 @@
 
     <div class="ac">
       <label 
-        for="ac"
+        for="system.ac"
         class="ac__label">
         <i class="fa fa-shield-alt">
           <span class="sr-only">
@@ -82,15 +82,15 @@
       </label>
       <input
         type="number"
-        name="ac"
-        value="{{data.ac}}"
+        name="system.ac"
+        value="{{actor.system.ac}}"
         readonly
         data-dtype="Number"/>
     </div>
 
     <div class="xp">
       <label 
-        for="xp"
+        for="system.xp"
         class="xp__label">
         <i class="fa fa-level-up-alt">
           <span class="sr-only">
@@ -98,18 +98,18 @@
           </span>
         </i>
       </label>
-      {{#if data.canAutocalculateXP}}
+      {{#if actor.system.canAutocalculateXP}}
         <input
           type="number"
-          name="xp"
-          value="{{data.calculatedXP}}"
+          name="system.xp"
+          value="{{actor.system.calculatedXP}}"
           readonly
           data-dtype="Number"/>
       {{else}}
         <input
           type="number"
-          name="xp"
-          value="{{data.xp}}"
+          name="system.xp"
+          value="{{actor.system.xp}}"
           readonly
           data-dtype="Number"/>
       {{/if}}
