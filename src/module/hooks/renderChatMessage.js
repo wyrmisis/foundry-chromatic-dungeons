@@ -157,7 +157,7 @@ const formatArmorRoll = async (message, html, data) => {
     img         = message.getFlag('foundry-chromatic-dungeons', 'img'),
     type        = message.getFlag('foundry-chromatic-dungeons', 'type');
 
-  const context = {ac, img, type, description, ...data };
+  const context = {ac, img, type, ...data };
 
   const updatedTemplate = await renderTemplate(
     `${CONFIG.CHROMATIC.templateDir}/chat/armor.hbs`,
