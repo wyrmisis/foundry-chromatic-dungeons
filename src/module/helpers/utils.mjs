@@ -165,6 +165,9 @@ const getItemsOfActorOfType = (actor, filterType, filterFn = null) =>
     .filter(({type}) => type === filterType)
     .filter(filterFn ? filterFn : () => true);
 
+const withOrdinalSuffix = (n) =>
+  `${n}${[,'st','nd','rd'][n/10%10^1&&n%10]||'th'}`
+
 export {
   getLevelFromXP,
   getNextLevelXP,
@@ -182,5 +185,6 @@ export {
   getWisBonusSlots,
   getStatus,
   rollMessageOptions,
-  getVisionAndLight
+  getVisionAndLight,
+  withOrdinalSuffix
 };

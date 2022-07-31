@@ -28,7 +28,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
       callback: (node) => {
         const {itemId: id} = node.closest('[data-item-id]').data();
         const item = actorSheet.actor.items.get(id);
-        item.roll({showWeapon: true})
+        item.roll({isDescribing: true})
       }
     },
     edit: { 
@@ -162,7 +162,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
         }, {
           parent: actorSheet.actor
         }); break;
-      case 'share': item.roll({showWeapon: true}); break;
+      case 'share': item.roll({isDescribing: true}); break;
       case 'edit': item.sheet.render(true); break;
       case 'delete': item.delete(); break;
     }

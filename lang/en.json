@@ -60,6 +60,11 @@
   "SHEET.save.spell": "Magic Item/&#8203;Spell",
   "SHEET.save.morale": "Morale",
 
+  "SHEET.Spell.range": "Range",
+  "SHEET.Spell.duration": "Duration",
+  "SHEET.Spell.areaOfEffect": "Area of Effect",
+  "SHEET.Spell.components": "Components",
+
   "ATTRIBUTE.StrAbbr": "str",
   "ATTRIBUTE.ConAbbr": "con",
   "ATTRIBUTE.DexAbbr": "dex",

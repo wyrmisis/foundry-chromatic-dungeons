@@ -12,8 +12,12 @@
 
     &__item {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 3fr 4fr;
       margin: 0;
+
+      i {
+        text-align: center;
+      }
 
       &__detail {
         &--term {

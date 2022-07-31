@@ -1,5 +1,6 @@
 import attackSequence from '../helpers/rollSequences/attackSequence.mjs';
 import weaponDialog from '../dialogs/attack.mjs';
+import { withOrdinalSuffix } from '../helpers/utils.mjs';
 
 /**
  * A data object reflecting the speaker for a chat message from `ChromaticItem.roll()`.
@@ -11,7 +12,7 @@ import weaponDialog from '../dialogs/attack.mjs';
 /**
  * The options for ChromaticItem.roll()
  * @typedef RollOptions
- * @property {Boolean} showWeapon If this is a weapon roll, should it output facts about the weapon or make an attack?
+ * @property {Boolean} isDescribing Should the roll output facts about the item or use the item?
  */
 
 /**
@@ -37,16 +38,17 @@ class ChromaticItem extends Item {
    * The roll handler for this item, which delegates based on item type.
    * @param {RollOptions} rollOptions The options for this roll
    */
-  async roll({showWeapon} = {}) {
+  async roll({isDescribing} = {}) {
     switch (this.type) {
       case 'weapon':
-        showWeapon
+        isDescribing
           ? this.#defaultRoll()
           : weaponDialog(this.parent, this, this.#weaponRoll.bind(this))?.render(true);
         break;
-      case 'class': this.#classRoll();    break;
-      case 'armor': this.#armorRoll();    break;
-      default:      this.#defaultRoll();  break;
+      case 'spell': this.#spellRoll(isDescribing);  break;
+      case 'class': this.#classRoll();              break;
+      case 'armor': this.#armorRoll();              break;
+      default:      this.#defaultRoll();            break;
     }
   }
 
@@ -136,6 +138,33 @@ class ChromaticItem extends Item {
         xp: this.system.xp,
         previous: this.system.xpToPrevLevel,
         next: this.system.xpToNextLevel
+      })
+    });
+  }
+
+  /**
+   * Render a spell to chat
+   * 
+   * @todo implement the following:
+   * ```
+      flavor: `${!isDescribing ? 'Casting' : 'Describing'} ${this.name} (${withOrdinalSuffix(parseInt(this.system.level))} level ${this.system.school})`,
+   * ```
+   * @param {Boolean} isDescribing Is this roll showing the item to chat or using it?
+   * @returns 
+   */
+  #spellRoll(isDescribing) {
+    return ChatMessage.create({
+      ...this.#getRollMessageOptions(),
+      flavor: `${!isDescribing ? 'Casting' : 'Describing'} ${this.name} (${this.system.school})`,
+      content: this.system.description ?? '',
+      flags: this.#prepareFlags({
+        range: this.system.range,
+        duration: this.system.duration,
+        areaOfEffect: this.system.areaOfEffect,
+        castingTime: this.system.castingTime,
+        hasVerbalComponent: this.system.hasVerbalComponent,
+        hasMaterialComponent: this.system.hasMaterialComponent,
+        hasSomaticComponent: this.system.hasSomaticComponent
       })
     });
   }

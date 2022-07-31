@@ -169,6 +169,41 @@ const formatArmorRoll = async (message, html, data) => {
     .replaceWith(updatedTemplate);
 }
 
+const formatSpellRoll = async (message, html, data) => {
+  const
+    img           = message.getFlag('foundry-chromatic-dungeons', 'img'),
+    range         = message.getFlag('foundry-chromatic-dungeons', 'range'),
+    duration      = message.getFlag('foundry-chromatic-dungeons', 'duration'),
+    areaOfEffect  = message.getFlag('foundry-chromatic-dungeons', 'areaOfEffect'),
+    castingTime   = message.getFlag('foundry-chromatic-dungeons', 'castingTime'),
+    components    = {
+      verbal      : message.getFlag('foundry-chromatic-dungeons', 'hasVerbalComponent'),
+      material    : message.getFlag('foundry-chromatic-dungeons', 'hasMaterialComponent'),
+      somatic     : message.getFlag('foundry-chromatic-dungeons', 'hasSomaticComponent')
+    },
+    hasComponents = ~foundry.utils.isEmpty(components);
+
+  const context = {
+    img,
+    range,
+    duration,
+    areaOfEffect,
+    castingTime,
+    components,
+    hasComponents,
+    ...data
+  };
+
+  const updatedTemplate = await renderTemplate(
+    `${CONFIG.CHROMATIC.templateDir}/chat/spell.hbs`,
+    context
+  );
+
+  html
+    .find('.message-content')
+    .replaceWith(updatedTemplate);
+}
+
 /**
  * ======== TEMPLATES TO ADD ========
  *
@@ -200,8 +235,8 @@ const messageFormattingDelegator = (message, html, data) => {
   switch (message.getFlag('foundry-chromatic-dungeons', 'rollType')) {
     case 'armor':     formatter = formatArmorRoll;     break;
     case 'class':     formatter = formatClassRoll;     break;
-    case 'treasure':  formatter = noOp; break;
-    case 'spell':     formatter = noOp; break;
+    // case 'treasure':  formatter = noOp; break;
+    case 'spell':     formatter = formatSpellRoll;     break;
     case 'attribute': formatter = formatAttributeRoll; break;
     case 'attack':    formatter = formatAttackRoll;    break;
     case 'save':      formatter = formatSaveRoll;      break;

@@ -5,15 +5,17 @@
     <img class="message-item-stats__item message-item-stats__item--icon" src="{{img}}" />
 
     <dl class="message-item-stats__item message-item-stats__item--armor-stats">
+      <i class="fa fa-shield-alt"></i> 
       <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--ac">
-        <i class="fa fa-shield-alt"></i> {{localize "SHEET.ac"}}
+        {{localize "SHEET.ac"}}
       </dt>
       <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--ac">
         {{ac}}
       </dd>
 
+      <i class="fa-solid fa-hand"></i>
       <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--type">
-        <i class="fa-solid fa-hand"></i> Armor Type
+        Armor Type
       </dt>
       <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--type">
         {{localize (concat 'ITEM.Armor.type.' type)}}
@@ -23,6 +25,6 @@
 
   {{#if message.content}}
     <h3>Description</h3>
-    {{{firstParagraph message.content}}}
+    {{{message.content}}}
   {{/if}}
 </div>
