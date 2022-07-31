@@ -5,6 +5,7 @@ import ChromaticItem from "../documents/item.mjs";
 // Import DataModel classes
 import PCDataModel from "../dataModels/actors/data-model-pc.mjs";
 import NPCDataModel from "../dataModels/actors/data-model-npc.mjs";
+import ClassDataModel from '../dataModels/items/data-model-class.mjs';
 
 // Import sheet classes.
 import ChromaticActorPCSheet from "../sheets/actor-pc-sheet.mjs";
@@ -79,6 +80,7 @@ Hooks.once('init', async function() {
 
   // ITEM STUFF
   CONFIG.Item.documentClass = ChromaticItem;
+  CONFIG.Item.systemDataModels['class'] = ClassDataModel;
 
   Items.unregisterSheet("core", ItemSheet);
   Items.registerSheet("chromatic-dungeons", ChromaticItemSheet, '', {

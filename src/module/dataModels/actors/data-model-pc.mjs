@@ -264,18 +264,16 @@ class PCDataModel extends foundry.abstract.DataModel {
   }
 
   get spellcasting() {
-    const slotsFormat = (classname) => ({
-      id: classname.id,
-      sourceId: sourceId(classname),
+    const slotsFormat = (pcClass) => ({
+      id: pcClass.id,
+      sourceId: sourceId(pcClass),
       slots: getWisBonusSlots(
-        classname.system.spellSlots[
-          getLevelFromXP(classname.system.xp)
-        ],
-        classname.system.hasWisdomBonusSlots,
+        pcClass.system.spellSlotsAtLevel,
+        pcClass.system.hasWisdomBonusSlots,
         this.attributes.wis
       ),
-      name: classname.name,
-      preparedSpells: classname.system.preparedSpells
+      name: pcClass.name,
+      preparedSpells: pcClass.system.preparedSpellObjects
     });
 
     const slotsTemplate = ({id, sourceId, name, slots, preparedSpells}) => ({
@@ -361,11 +359,11 @@ class PCDataModel extends foundry.abstract.DataModel {
   }
 
   get skills() {
-    const skillSets = getItemsOfActorOfType(
-      this.parent,
-      'class',
-      ({system}) => !!system.skills
-    ).map(({name, system}) => ({
+    const skillSets = this.classes.filter(
+      ({system}) => !!system.skills && 
+                    !foundry.utils.isEmpty(system.skills)
+    )
+    .map(({name, system}) => ({
       name,
       skills: Object.keys(system.skills).map(skill => {
         const skillObj = system.skills[skill];
@@ -438,6 +436,18 @@ class PCDataModel extends foundry.abstract.DataModel {
 
   get initiative() {
     return (this.modInitiative || 0) + getDerivedStatWithContext('dex', 'modInitiative', this)
+  }
+
+  get ancestry() {
+    return this.parent.items.find(({type}) => type === 'ancestry');
+  }
+
+  get heritage() {
+    return this.parent.items.filter(({type}) => type === 'heritage');
+  }
+
+  get classes() {
+    return this.parent.items.filter(({type}) => type === 'class');
   }
 }
 

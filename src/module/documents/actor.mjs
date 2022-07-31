@@ -179,7 +179,7 @@ class ChromaticActor extends Actor {
       const rollResult = await roll.roll({ async: true });
       saveSequence(this, name, rollResult, target)
     }
-    return rollModal(this, name, 'save', callback).render(true);
+    return rollModal(this.name, name, 'save', callback).render(true);
   }
 
   attributeRoll(key, progModifier = 0) {
@@ -190,7 +190,7 @@ class ChromaticActor extends Actor {
       const rollResult = await roll.roll({ async: true });
       attributeSequence(this, name, rollResult, target)
     }
-    return rollModal(this, name, 'attribute', callback).render(true);
+    return rollModal(this.name, name, 'attribute', callback).render(true);
   }
 
   moraleRoll(progModifier = 0) {
@@ -200,7 +200,7 @@ class ChromaticActor extends Actor {
       const rollResult = await roll.roll({ async: true });
       saveSequence(this, name, rollResult, this.system.morale)
     }
-    return rollModal(this, name, 'save', callback).render(true);
+    return rollModal(this.name, name, 'save', callback).render(true);
   }
 }
 

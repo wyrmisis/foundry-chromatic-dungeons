@@ -19,7 +19,7 @@
           data-spell-level="{{key}}">
           <h4>Prepared Spells</h4>
           <ul class="prepared-spells">
-            {{#each (paddedTo (getClassPreparedSpellsAtLevel ../../classes classKey key) slot.max) as |spell spellKey|}}
+            {{#each (paddedTo (getClassPreparedSpellsAtLevel ../this key) slot.max) as |spell spellKey|}}
               {{#if spell}}
                 <li
                   class="spell"

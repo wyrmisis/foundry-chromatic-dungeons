@@ -18,15 +18,15 @@
           <div class="item-attributes__item-range">
             <input
               type="number"
-              value="{{data.xp}}"
+              value="{{item.system.xp}}"
               data-dtype="Number"
               name="system.xp" />
             <span class="item-attributes__item-range-separator">/</span>
             <input
               type="number"
-              value="{{xpToNextLevel}}"
+              value="{{item.system.xpToNextLevel}}"
               data-dtype="Number"
-              name="xpToNextLevel"
+              name="system.xpToNextLevel"
               readonly />
           </div>
         </div>
@@ -38,13 +38,13 @@
   <nav class="sheet-tabs tabs" data-group="primary">
     <a class="item" data-tab="description">Description</a>
     <a class="item" data-tab="features">Features</a>
-    {{#if data.classGroup}}
+    {{#if item.system.classGroup}}
       <a class="item" data-tab="levels">Levels</a>
     {{/if}}
-    {{#if data.hasSkills}}
+    {{#if item.system.hasSkills}}
       <a class="item" data-tab="skills">Skills</a>
     {{/if}}
-    {{#if data.hasSpellcasting}}
+    {{#if item.system.hasSpellcasting}}
       <a class="item" data-tab="spellcasting">Spellcasting</a>
     {{/if}}
     <a class="item" data-tab="effects">Effects</a>
@@ -60,8 +60,8 @@
     {{!-- Description Tab --}}
     <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
-      {{editor data.description
-        target="description"
+      {{editor item.system.description
+        target="system.description"
         rollData=rollData
         button=true
         owner=owner
@@ -89,11 +89,11 @@
           <div class="skills__cell">Bonus</div>
           <div class="skills__cell">Actions</div>
         </li>
-        {{#each data.skills as |skill key|}}
+        {{#each item.system.skills as |skill key|}}
           <li class="skills__row skill" data-item-id="{{key}}">
             <div class="skills__cell">
               {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.skills." key ".name")
+                key=(concat "item.system.skills." key ".name")
                 value=skill.name
                 type="text"
                 dataType="String"
@@ -110,7 +110,7 @@
             </div>
             <div class="skills__cell">
               {{> (partial "item/parts/item-attribute.hbs")
-                key=(concat "data.skills." key ".bonus")
+                key=(concat "item.system.skills." key ".bonus")
                 value=skill.bonus
                 type="number"
                 dataType="Number"
@@ -147,7 +147,7 @@
       </div>
 
       <div class="features__list">
-        {{#each data.features as |feature key|}}
+        {{#each item.system.features as |feature key|}}
           {{> (partial 'item/parts/class-feature.hbs')
             key=key
             rollData=../rollData
@@ -180,7 +180,7 @@
           <span class="level-table-cell level-table-cell--mod">To Hit</span>
         </li>
 
-        {{#each classGroupAll.levels as |level key|}}
+        {{#each item.system.classGroupProps.levels as |level key|}}
           {{> (partial 'item/parts/class-levels.hbs')
             level=level
             key=key
@@ -191,7 +191,7 @@
 
     {{!-- Spellcasting Tab --}}
     <div class="tab sheet-tab sheet-tab--spellcasting" data-group="primary" data-tab="spellcasting">
-      {{#if data.hasSpellPoints}}
+      {{#if item.system.hasSpellPoints}}
         <ul class="spellcasting-table spellcasting-table--points">
           <li class="spellcasting-table__row spellcasting-table__row--header">
             <div class="spellcasting-table__cell spellcasting-table__cell--level">Level</div>
@@ -199,7 +199,7 @@
             <div class="spellcasting-table__cell">Max Spell Level</div>
             <div class="spellcasting-table__cell">Max Spell Points</div>
           </li>
-          {{#each data.spellPoints as |pointLevel key|}}
+          {{#each item.system.spellPoints as |pointLevel key|}}
             {{#if (equals levelKey (concat ../level '')) }}
               <li class="spellcasting-table__row current-level">
             {{else}}
@@ -236,12 +236,12 @@
         <ul class="spellcasting-table">
           <li class="spellcasting-table__row spellcasting-table__row--header">
             <div class="spellcasting-table__cell spellcasting-table__cell--level">Level</div>
-            {{#each data.spellSlots.[1] as |slots key|}}
+            {{#each item.system.spellSlots.[1] as |slots key|}}
               <div class="spellcasting-table__cell">{{key}}</div>
             {{/each}}
           </li>
           
-          {{#each data.spellSlots as |level levelKey|}}
+          {{#each item.system.spellSlots as |level levelKey|}}
             {{#if (equals levelKey (concat ../level '')) }}
               <li class="spellcasting-table__row current-level">
             {{else}}

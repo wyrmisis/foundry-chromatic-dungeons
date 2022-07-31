@@ -229,7 +229,7 @@ class ChromaticActorPCSheet extends ActorSheet {
     if (!this._canPrepareSpell(itemNode)) return;
 
     const [classItem, spellLevel, spellId, spellItem] = this._getSpellPropsFromNode(itemNode);
-    classItem.prepareSpell(spellItem, spellLevel);
+    classItem.system.prepareSpell(spellItem, spellLevel);
   }
 
   async _castSpell(itemNode) {
@@ -240,7 +240,7 @@ class ChromaticActorPCSheet extends ActorSheet {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    classItem.castSpell(spellId, spellLevel)
+    classItem.system.castSpell(spellId, spellLevel)
   }
 
   async _clearSpell(itemNode) {
@@ -251,12 +251,12 @@ class ChromaticActorPCSheet extends ActorSheet {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
     
-    classItem.clearSpell(spellId, spellLevel)
+    classItem.system.clearSpell(spellId, spellLevel)
   }
 
   async _deleteSpell(itemNode) {
     const [classItem, spellLevel, spellId] = this._getSpellPropsFromNode(itemNode);
-    if (classItem.hasSpellAsPrepared(spellId, spellLevel))
+    if (classItem.system.hasSpellAsPrepared(spellId, spellLevel))
       reportAndQuit('You cannot delete this spell, because you have it prepared.')
     else {
       itemNode.addClass('spell--removing');

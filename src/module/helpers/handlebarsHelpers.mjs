@@ -153,7 +153,7 @@ const setupHandlebarsHelpers = () => {
   Handlebars.registerHelper('getFeatureContentKey', (key) => `data.features.${key}.content`);
 
   Handlebars.registerHelper('getClassPreparedSpellsAtLevel',
-    (classes, key, level) => classes.find( ({id}) => id === key)?.preparedSpellSlots?.[parseInt(level) - 1]
+    (castingClass, index) => castingClass.slots[index].preparedSpells
   );
 };
 

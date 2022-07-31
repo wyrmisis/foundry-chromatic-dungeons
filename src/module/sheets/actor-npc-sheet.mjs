@@ -1,12 +1,6 @@
 import {
   prepareActiveEffectCategories
 } from "../helpers/effects.mjs";
-import {
-  getLevelFromXP,
-  getWisBonusSlots,
-  reportAndQuit
-} from '../helpers/utils.mjs';
-
 import commonActorSheetBehaviors from './helpers/commonActorSheetBehaviors.mjs';
 import prepareItems from './helpers/prepareItems.mjs';
 
@@ -127,7 +121,6 @@ class ChromaticActorNPCSheet extends ActorSheet {
 
   async _castSpell(node) {
     const {itemId} = node.data();
-    console.info(this.actor.items.get(itemId).system)
     this.actor.items.get(itemId).roll();
   }
 
