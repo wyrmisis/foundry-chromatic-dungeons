@@ -5,22 +5,6 @@
 
   .quick-access__equipment {
     grid-column: 1/4;
-
-    .equipped-list {
-      margin: 0;
-      padding: 0;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-gap: 1em;
-    }
-  
-    .equipped-tile {
-      @extends %icon-card;
-    }
-  
-    .equipped-tile.rollable {
-      @extends %icon-card-button;
-    }
   }
 
   .quick-access__class {

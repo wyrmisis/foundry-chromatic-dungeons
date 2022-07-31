@@ -64,6 +64,7 @@
   {{/if}}
 </div>
 
+{{#if equippedItems.length}}
 <div class="quick-access__equipment">
   <h2>Equipped Items</h2>
     <ul class="equipped-list">
@@ -91,6 +92,7 @@
     {{/each}}
     </ul>
 </div>
+{{/if}}
 
 {{#if actor.system.skills}}
 <div class="quick-access__class-skills">

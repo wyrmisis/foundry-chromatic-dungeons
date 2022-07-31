@@ -77,6 +77,13 @@
       .equipped-tile {
         @extends %icon-card;
       }
+
+      .empty {
+        text-decoration: line-through;
+        color: #666;
+        font-style: italic;
+        list-style: none;
+      }
     
       .equipped-tile.rollable {
         @extends %icon-card-button;
