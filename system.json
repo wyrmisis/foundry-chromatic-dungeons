@@ -21,16 +21,14 @@
       "path": "lang/en.json"
     }
   ],
+  "compatibility": {
+    "minimum": 10,
+    "verified": "10.272"
+  },
   "relationships": {
     "requires": [
       {
-        "id": "compendium-folders",
-        "type": "module",
-        "compatibility": {}
-      },
-      {
-        "id": "fvtt-lib-wrapper",
-        "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+        "id": "lib-wrapper",
         "type": "module",
         "compatibility": {}
       },
@@ -46,86 +44,86 @@
     {
       "name": "weapon",
       "label": "Weapons",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/weapons.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "armor",
       "label": "Armor",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/armor.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "gear",
       "label": "Adventuring Gear",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/gear.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "goods",
       "label": "Trade Goods",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/trade-goods.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "treasure",
       "label": "Treasure",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/treasure.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "spell",
       "label": "Spellbook",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/spellbook.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "ancestry",
       "label": "Ancestries",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/ancestries.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "heritage",
       "label": "Heritage Options",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/heritages.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "class",
       "label": "Classes",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/classes.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     },
     {
       "name": "bestiary",
       "label": "Bestiary",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/bestiary.db",
-      "type": "Actor",
-      "private": false
+      "type": "Actor"
     },
     {
       "name": "commonmacros",
       "label": "Common Macros",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/macros.db",
-      "type": "Macro",
-      "private": false
+      "type": "Macro"
     },
     {
       "name": "kits",
       "label": "Starting Kits",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/kits.db",
-      "type": "Item",
-      "private": false
+      "type": "Item"
     }
   ],
   "gridDistance": 5,
@@ -135,9 +133,5 @@
   "version": "auto-replaced",
   "url": "auto-replaced",
   "manifest": "auto-replaced",
-  "download": "auto-replaced",
-  "compatibility": {
-    "minimum": 10,
-    "verified": "10.272"
-  }
+  "download": "auto-replaced"
 }
