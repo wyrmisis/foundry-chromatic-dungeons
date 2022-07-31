@@ -15,6 +15,11 @@
   "ITEM.TypeSpell": "Spell",
   "ITEM.TypeStarterkit": "Starting Kit",
 
+  "ITEM.Armor.type.armor":    "Armor",
+  "ITEM.Armor.type.barding":  "Barding",
+  "ITEM.Armor.type.helmet":   "Helmet",
+  "ITEM.Armor.type.shield":   "Shield",
+
   "ATTRIBUTE.str": "Strength",
   "ATTRIBUTE.con": "Constitution",
   "ATTRIBUTE.dex": "Dexterity",

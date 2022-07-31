@@ -26,7 +26,7 @@
 </div>
 
 <div class="quick-access__class">
-  {{#if classes.length}}
+  {{#if actor.system.classes.length}}
     <h2 class="action-header">
       Classes
 
@@ -41,9 +41,9 @@
         <li>
           <h3 class="action-header">
             <span>Lv. {{system.level}} {{name}}</span>
-            <button type="button" data-item-action="edit" data-item-id="{{id}}">
-              <i class="fa fa-edit">
-                <span class="sr-only">Edit the {{name}} class</span>
+            <button type="button" data-item-action="share" data-item-id="{{id}}">
+              <i class="fa fa-eye">
+                <span class="sr-only">Share the {{name}} class with chat</span>
               </i>
             </button>
           </h3>

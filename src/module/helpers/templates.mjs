@@ -53,9 +53,16 @@
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/classgroup.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/ancestry.hbs`,
 
-    // Chat cards
+    // Roll chat cards
     `${CONFIG.CHROMATIC.templateDir}/chat/attack.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/chat/save.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/chat/attribute.hbs`,
+
+    // Item chat cards
+    `${CONFIG.CHROMATIC.templateDir}/chat/armor.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/class.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/gear.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/treasure.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/spell.hbs`,
   ]);
 };

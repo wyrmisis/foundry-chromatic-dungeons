@@ -22,3 +22,6 @@
 @import url('./item/weapon.css');
 /* @import url('./heritage-sheet.css'); */
 /* @import url('./spell-sheet.css'); */
+
+/* Chat Cards */
+@import url('./chat/chat-shared.css');

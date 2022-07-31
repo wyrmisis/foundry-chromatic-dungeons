@@ -149,7 +149,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
   
   html.find('[data-item-action]').click(ev => {
     const {itemId, itemAction, itemType} = ev.currentTarget.dataset;
-    const updateActions = ['edit', 'delete', 'update-xp'];
+    const updateActions = ['edit', 'delete', 'update-xp', 'share'];
     let item;
 
     if (updateActions.includes(itemAction))
@@ -162,6 +162,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
         }, {
           parent: actorSheet.actor
         }); break;
+      case 'share': item.roll({showWeapon: true}); break;
       case 'edit': item.sheet.render(true); break;
       case 'delete': item.delete(); break;
     }

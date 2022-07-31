@@ -1,0 +1,28 @@
+<div class="message-content mesage-content--armor">
+  <h3>Stats</h3>
+
+  <div class="message-item-stats message-item-stats--armor">
+    <img class="message-item-stats__item message-item-stats__item--icon" src="{{img}}" />
+
+    <dl class="message-item-stats__item message-item-stats__item--armor-stats">
+      <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--ac">
+        <i class="fa fa-shield-alt"></i> {{localize "SHEET.ac"}}
+      </dt>
+      <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--ac">
+        {{ac}}
+      </dd>
+
+      <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--type">
+        <i class="fa-solid fa-hand"></i> Armor Type
+      </dt>
+      <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--type">
+        {{localize (concat 'ITEM.Armor.type.' type)}}
+      </dd>
+    </dl>
+  </div>
+
+  {{#if message.content}}
+    <h3>Description</h3>
+    {{{firstParagraph message.content}}}
+  {{/if}}
+</div>

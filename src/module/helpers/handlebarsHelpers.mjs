@@ -155,6 +155,13 @@ const setupHandlebarsHelpers = () => {
   Handlebars.registerHelper('getClassPreparedSpellsAtLevel',
     (castingClass, index) => castingClass.slots[index].preparedSpells
   );
+
+  Handlebars.registerHelper('firstParagraph', html => {
+    const parent = document.createElement('div');
+    parent.innerHTML = html;
+
+    return parent.firstChild.innerHTML || `<p>${html}</p>`;
+  })
 };
 
 export default setupHandlebarsHelpers;

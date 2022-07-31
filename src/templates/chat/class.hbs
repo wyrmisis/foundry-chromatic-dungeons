@@ -1,0 +1,20 @@
+<div class="message-content mesage-content--class">
+  <div class="message-item-stats message-item-stats--class">
+    <img class="message-item-stats__item message-item-stats__item--icon" src="{{img}}" />
+
+    <div class="message-item__progress">
+      <div class="message-item__progress-labels">
+        <span class="message-item__progress-label message-item__progress-label--start">{{previous}}</span>
+        <span class="message-item__progress-label message-item__progress-label--end">{{next}}</span>
+      </div>
+      <progress
+        class="message-item__progress-bar"
+        min="0"
+        value="{{xp}}"
+        max="{{next}}"
+        title="{{xp}}/{{next}}"></progress>
+    </div>
+  </div>
+  
+  {{{firstParagraph message.content}}}
+</div>

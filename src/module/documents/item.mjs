@@ -44,9 +44,9 @@ class ChromaticItem extends Item {
           ? this.#defaultRoll()
           : weaponDialog(this.parent, this, this.#weaponRoll.bind(this))?.render(true);
         break;
-      default:
-        this.#defaultRoll();
-        break;
+      case 'class': this.#classRoll();    break;
+      case 'armor': this.#armorRoll();    break;
+      default:      this.#defaultRoll();  break;
     }
   }
 
@@ -114,17 +114,58 @@ class ChromaticItem extends Item {
     );
   }
 
+  #armorRoll() {
+    return ChatMessage.create({
+      ...this.#getRollMessageOptions(),
+      flavor: `Showing off their ${this.name}`,
+      content: this.system.description ?? '',
+      flags: this.#prepareFlags({
+        ac: this.system.ac,
+        description: this.system.description,
+        type: this.system.armorType
+      })
+    });
+  }
+
+  #classRoll() {
+    return ChatMessage.create({
+      ...this.#getRollMessageOptions(),
+      flavor: `Level ${this.system.level} ${this.name}`,
+      content: this.system.description ?? '',
+      flags: this.#prepareFlags({
+        xp: this.system.xp,
+        previous: this.system.xpToPrevLevel,
+        next: this.system.xpToNextLevel
+      })
+    });
+  }
+
   /**
    * 
    * @returns 
    * @private
    */
-  #defaultRoll() {
+  #defaultRoll(flags = null) {
     return ChatMessage.create({
       ...this.#getRollMessageOptions(),
       flavor: `[${this.type}] ${this.name}`,
-      content: this.system.description ?? ''
+      content: this.system.description ?? '',
+      flags: flags && this.#prepareFlags(flags)
     });
+  }
+
+  /**
+   * @param {Object} flags The flags to prepare for a ChatMessage
+   * @returns {Object} The prepared flags
+   */
+  #prepareFlags (flags) {
+    return {
+      'foundry-chromatic-dungeons': {
+        img: this.img,
+        ...flags,
+        rollType: this.type
+      }
+    };
   }
 
   /**
