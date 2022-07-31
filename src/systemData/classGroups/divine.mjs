@@ -1,5 +1,5 @@
 const divine = {
-  "hitDie": "d8",
+  "hitDie": 8,
   "levels": [
     {
       "hitDieCount": 1,
@@ -10,7 +10,7 @@ const divine = {
         "creature": 17,
         "spell": 19
       },
-      "addsFullConModToHP": false
+      "addsFullConModToHP": true
     },
     {
       "hitDieCount": 1,
@@ -21,7 +21,7 @@ const divine = {
         "creature": 13,
         "spell": 15
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 0,
     },
     {
@@ -33,7 +33,7 @@ const divine = {
         "creature": 13,
         "spell": 15
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 0
     },
     {
@@ -45,7 +45,7 @@ const divine = {
         "creature": 13,
         "spell": 15
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 1
     },
     {
@@ -57,7 +57,7 @@ const divine = {
         "creature": 12,
         "spell": 14
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 1
     },
     {
@@ -69,7 +69,7 @@ const divine = {
         "creature": 12,
         "spell": 14
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 2
     },
     {
@@ -81,7 +81,7 @@ const divine = {
         "creature": 12,
         "spell": 14
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 2
     },
     {
@@ -93,7 +93,7 @@ const divine = {
         "creature": 10,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 3
     },
     {
@@ -105,7 +105,7 @@ const divine = {
         "creature": 10,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 3
     },
     {
@@ -117,7 +117,7 @@ const divine = {
         "creature": 10,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 4
     },
     {

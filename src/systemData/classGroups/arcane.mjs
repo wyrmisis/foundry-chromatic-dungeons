@@ -1,5 +1,5 @@
 const arcane = {
-  "hitDie": "d4",
+  "hitDie": 4,
   "levels": [
     {
       "hitDieCount": 1,
@@ -10,7 +10,7 @@ const arcane = {
         "creature": 13,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 0
     },
     {
@@ -22,7 +22,7 @@ const arcane = {
         "creature": 13,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 0
     },
     {
@@ -34,7 +34,7 @@ const arcane = {
         "creature": 13,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 0
     },
     {
@@ -46,7 +46,7 @@ const arcane = {
         "creature": 13,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 0
     },
     {
@@ -58,7 +58,7 @@ const arcane = {
         "creature": 13,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 1
     },
     {
@@ -70,7 +70,7 @@ const arcane = {
         "creature": 13,
         "spell": 12
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 1
     },
     {
@@ -82,7 +82,7 @@ const arcane = {
         "creature": 11,
         "spell": 10
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 1
     },
     {
@@ -94,7 +94,7 @@ const arcane = {
         "creature": 11,
         "spell": 10
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 2
     },
     {
@@ -106,7 +106,7 @@ const arcane = {
         "creature": 11,
         "spell": 10
       },
-      "addsFullConModToHP": false,
+      "addsFullConModToHP": true,
       "modToHit": 2
     },
     {
@@ -123,7 +123,7 @@ const arcane = {
     },
     {
       "hitDieCount": 10,
-      "hitDieMod": 3,
+      "hitDieMod": 0,
       "saves": {
         "reflex": 12,
         "poison": 13,
@@ -135,7 +135,7 @@ const arcane = {
     },
     {
       "hitDieCount": 11,
-      "hitDieMod": 6,
+      "hitDieMod": 0,
       "saves": {
         "reflex": 12,
         "poison": 13,
@@ -182,7 +182,7 @@ const arcane = {
       "modToHit": 4
     },
     {
-      "hitDieCount": 9,
+      "hitDieCount": 11,
       "hitDieMod": 4,
       "saves": {
         "reflex": 9,

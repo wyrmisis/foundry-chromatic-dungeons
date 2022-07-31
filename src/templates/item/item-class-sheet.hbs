@@ -158,7 +158,7 @@
       </div>
     </div>
 
-    {{!-- Saves Tab --}}
+    {{!-- Levels Tab --}}
     <div class="tab sheet-tab sheet-tab--levels" data-group="primary" data-tab="levels">
       <ul class="level-table">
         <li class="level-table-row level-table-row--header level-table-row--category-header">
@@ -184,6 +184,7 @@
           {{> (partial 'item/parts/class-levels.hbs')
             level=level
             key=key
+            hitDie=../item.system.classGroupProps.hitDie
           }}
         {{/each}}
       </ul>
