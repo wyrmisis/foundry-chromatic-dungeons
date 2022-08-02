@@ -2,13 +2,12 @@ import {
   hasThisAlready,
   reportAndQuit,
   getDerivedStatWithContext,
-  getLevelFromXP,
   getAllItemsOfType,
   getItemsOfActorOfType
 } from '../helpers/utils.mjs';
 
 export const filterStartingKit = async (kit) => {
-  const { contents } = kit.data;
+  const { contents } = kit.system;
   const gear = await getAllItemsOfType('gear', 'foundry-chromatic-dungeons.gear');
   const selectedKeys = Object.keys(contents);
   const selectedItems = gear

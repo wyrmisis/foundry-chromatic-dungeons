@@ -35,6 +35,7 @@
     // Item partials
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-header.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-value.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/parts/item-value-view.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-attribute.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-description.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-effects.hbs`,

@@ -168,7 +168,7 @@
       "type": "JournalEntry"
     },
     {
-      "name": "treasure",
+      "name": "treasure-tables",
       "label": "Treasure",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/treasure-tables.db",

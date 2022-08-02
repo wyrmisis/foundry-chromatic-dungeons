@@ -1,0 +1,41 @@
+<div class="item-attributes__group">
+  <h2>Value</h2>
+
+  <dl class="item-value">
+    {{#if item.system.cost.pp}}
+      <dt>{{localize 'SHEET.Item.value.platinum'}}</dt>
+      <dd>{{item.system.cost.pp}}</dd>
+    {{/if}}
+
+    {{#if item.system.cost.gp}}
+      <dt>{{localize 'SHEET.Item.value.gold'}}</dt>
+      <dd>{{item.system.cost.gp}}</dd>
+    {{/if}}
+
+    {{#if item.system.cost.sp}}
+      <dt>{{localize 'SHEET.Item.value.silver'}}</dt>
+      <dd>{{item.system.cost.sp}}</dd>
+    {{/if}}
+
+    {{#if item.system.cost.ep}}
+      <dt>{{localize 'SHEET.Item.value.electrum'}}</dt>
+      <dd>{{item.system.cost.ep}}</dd>
+    {{/if}}
+
+    {{#if item.system.cost.cp}}
+      <dt>{{localize 'SHEET.Item.value.copper'}}</dt>
+      <dd>{{item.system.cost.cp}}</dd>
+    {{/if}}
+  </dl>
+</div>
+
+{{#if item.system.xp}}
+<div class="item-attributes__group">
+  <h2>XP</h2>
+
+  <dl class="item-value">
+    <dt>{{localize 'SHEET.Item.value.xp'}}</dt>
+    <dd>{{item.system.xp}}</dd>
+  </dl>
+</div>
+{{/if}}

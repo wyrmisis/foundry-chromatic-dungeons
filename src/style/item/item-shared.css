@@ -104,6 +104,18 @@
     }
   }
 
+  .item-value {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    grid-column-gap: 1em;
+    grid-row-gap: .5em;
+    
+    dt, dd {
+      margin: 0;
+      padding: 0;
+    }
+  }
+
   &-description {
     flex: 3;
     margin: 0;

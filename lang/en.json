@@ -52,7 +52,14 @@
   "SHEET.movement": "Movement",
   "SHEET.xp": "Experience Points",
   "SHEET.ac": "Armor Class",
-  
+
+  "SHEET.Item.value.platinum": "PP",
+  "SHEET.Item.value.gold": "GP",
+  "SHEET.Item.value.silver": "SP",
+  "SHEET.Item.value.electrum": "EP",
+  "SHEET.Item.value.copper": "CP",
+  "SHEET.Item.value.xp": "XP",
+
   "SHEET.saves": "Saving Throws",
   "SHEET.save.reflex": "Reflex",
   "SHEET.save.poison": "Poison/&#8203;Venom/&#8203;Disease",
@@ -76,7 +83,6 @@
   "CLASSGROUP.arcane": "Arcane",
   "CLASSGROUP.divine": "Divine",
   "CLASSGROUP.rogue": "Rogue",
-
 
   "BOILERPLATE.AbilityStr": "Strength",
   "BOILERPLATE.AbilityCon": "Constitution",
