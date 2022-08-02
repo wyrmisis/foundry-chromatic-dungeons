@@ -99,22 +99,18 @@ export const filterSpell = async (droppedItem, actor) => {
       }
 
       const classAlreadyHasSpell = caster => {
-        const casterId = caster.getFlag('core', 'sourceId');
+        const casterId = caster.uuid;
         const hasCasterSpell = getItemsOfActorOfType(
           actor,
           'spell',
-          ({system}) => {
-            const spellKeys = Object.keys(system.spellLevels);
-
-            return spellKeys.find(key => system.spellLevels[key].sourceId === casterId);
-          })
-          .some(spell => spell.getFlag('core', 'sourceId') === droppedItem.flags.core.sourceId);
+          ({system}) =>  system.class === casterId
+        )
+          .some(spell => spell.uuid === droppedItem.uuid);
 
         return !hasCasterSpell;
       }
 
       const getMaxSpellLevel = caster => {
-        let casterLevel = getLevelFromXP(caster.system.xp);
         let maxSpellLevelFromAttributes;
         let maxSpellLevel;
         
@@ -130,9 +126,9 @@ export const filterSpell = async (droppedItem, actor) => {
         }
 
         if (caster.system.hasSpellPoints) {
-          maxSpellLevel = caster.system.spellPoints[casterLevel].maxSpellLevel;
+          maxSpellLevel = caster.system.spellPointsAtLevel.maxSpellLevel;
         } else {
-          const casterSlotLevels = caster.system.spellSlots[casterLevel];
+          const casterSlotLevels = caster.system.spellSlotsAtLevel;
           maxSpellLevel = Object.keys(casterSlotLevels)
             .reduce( (level, key) =>
               (casterSlotLevels[key] > 0) ? key : level
@@ -142,42 +138,23 @@ export const filterSpell = async (droppedItem, actor) => {
         if (maxSpellLevel > maxSpellLevelFromAttributes)
           maxSpellLevel = maxSpellLevelFromAttributes;
 
-        return maxSpellLevel;
-      }
-
-      const addSpellToCaster = (caster) => {
-        const updatedSpell = { ...droppedItem };
-        const {spellLevels} = updatedSpell.system;
-        const key = Object
-          .keys(spellLevels)
-          .find(key => 
-            spellLevels[key].sourceId === caster.getFlag('core', 'sourceId')
-          );
-        const level = spellLevels[key];
-
-        updatedSpell.system.spellLevels = { [key]: level };
-
-        resolve(updatedSpell);
+        return parseInt(maxSpellLevel);
       }
 
       const eligibleCasterClasses = spellcastingClasses
         .filter(classAlreadyHasSpell)
         .filter(caster => {
-          const casterId = caster.getFlag('core', 'sourceId');
-
-          let maxSpellLevel = getMaxSpellLevel(caster);
+          let casterSourceId = caster.getFlag('core', 'sourceId').split('.');
+              casterSourceId = casterSourceId[casterSourceId.length - 1];
           
-          return Object
-            .keys(droppedItem.system.spellLevels)
-            .filter(key => droppedItem.system.spellLevels[key].level <= maxSpellLevel)
-            .reduce(
-              (arr, key) => [...arr, droppedItem.system.spellLevels[key].sourceId], []
-            )
-            .includes(casterId);
+          return (
+            droppedItem.system.level <= getMaxSpellLevel(caster) &&
+            droppedItem.system.class.includes(casterSourceId)
+          );
         });
 
       if (eligibleCasterClasses.length === 1) {
-        addSpellToCaster(eligibleCasterClasses[0]);
+        resolve(droppedItem);
         return;
       }
 
@@ -194,7 +171,7 @@ export const filterSpell = async (droppedItem, actor) => {
           [caster.uuid]: {
             icon: '<i class="fa fa-star"></i>',
             label: caster.name,
-            callback: () => addSpellToCaster(caster)
+            callback: () => resolve(droppedItem)
           }
         }), {});
 

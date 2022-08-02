@@ -134,21 +134,13 @@ const setupHandlebarsHelpers = () => {
       : Array.from({...arr, length: minimum})
   );
 
-  Handlebars.registerHelper('spellsAtLevel', (spells, classname, level) => {
-    const filtered = spells
-      .filter(spell => {
-        const { spellLevels } = spell.system;
-        const spellClasses = Object.keys(spellLevels);
-
-        // @todo Do this with source IDs
-        return !!spellClasses.find(spellClass => 
-          spellLevels[spellClass].class === classname.name &&
-          spellLevels[spellClass].level === parseInt(level)
-        );
-      })
-
-    return filtered;
-  });
+  Handlebars.registerHelper('spellsAtLevel', (spells, classname, level) =>
+    spells.filter(spell =>
+      spell.system.class.includes(
+        classname.sourceId.split('.')[1]
+      ) && spell.system.level === parseInt(level)
+    )
+  );
 
   Handlebars.registerHelper('getFeatureContentKey', (key) => `data.features.${key}.content`);
 

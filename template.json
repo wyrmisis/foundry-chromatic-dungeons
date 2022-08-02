@@ -250,11 +250,11 @@
       "duration": "",
       "areaOfEffect": "",
       "castingTime": "",
-      "save": "",
       "hasVerbalComponent": false,
       "hasMaterialComponent": false,
       "hasSomaticComponent": false,
-      "spellLevels": {},
+      "level": 1,
+      "class": "",
       "description": ""
     },
     "ancestry": {

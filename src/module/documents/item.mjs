@@ -145,17 +145,13 @@ class ChromaticItem extends Item {
   /**
    * Render a spell to chat
    * 
-   * @todo implement the following:
-   * ```
-      flavor: `${!isDescribing ? 'Casting' : 'Describing'} ${this.name} (${withOrdinalSuffix(parseInt(this.system.level))} level ${this.system.school})`,
-   * ```
    * @param {Boolean} isDescribing Is this roll showing the item to chat or using it?
    * @returns 
    */
   #spellRoll(isDescribing) {
     return ChatMessage.create({
       ...this.#getRollMessageOptions(),
-      flavor: `${!isDescribing ? 'Casting' : 'Describing'} ${this.name} (${this.system.school})`,
+      flavor: `${!isDescribing ? 'Casting' : 'Describing'} ${this.name} (${withOrdinalSuffix(parseInt(this.system.level))} level ${this.system.school})`,
       content: this.system.description ?? '',
       flags: this.#prepareFlags({
         range: this.system.range,

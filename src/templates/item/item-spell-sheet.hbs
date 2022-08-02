@@ -12,6 +12,22 @@
         type="text"
         value="{{item.name}}"
         placeholder="Name"/>
+      <div class="allowed-class">
+        <select
+          data-dtype="String"
+          name="system.class">
+          {{#select item.system.class }}
+            {{#each castingClasses as |class classkey|}}
+              <option value="{{classkey}}">{{class}}</option>
+            {{/each}}
+          {{/select}}
+        </select>
+        <input
+          type="number"
+          data-dtype="Number"
+          name="system.level"
+          value="{{item.system.level}}" />
+      </div>
     </div>
   </header>
 
@@ -20,30 +36,63 @@
     <div class="attributes">
       <section class="item-attributes">
         <div class="item-attributes__group">
-          <h2>Information</h2>
-
-          <div class="item-attributes__item item-attributes__item--compact">
-            <label for="school">School</label>
+          <h2>Spell Details</h2>
+          <div class="item-attributes__item">
+            <label for="system.school">School</label>
             <select
               data-dtype="String"
               name="system.school">
-              {{#select data.school}}
+              {{#select item.system.school}}
                 {{#each spellSchools as |school key|}}
                   <option value="{{key}}">{{school}}</option>
                 {{/each}}
               {{/select}}
             </select>
           </div>
-          
 
-          <h3>Components</h3>
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="system.range"
+            value=item.system.range
+            label="Range (ft)"
+            type="text"
+            dataType="String"
+          }}
 
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="system.duration"
+            value=item.system.duration
+            label="Duration"
+            type="text"
+            dataType="String"
+          }}
+
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="system.areaOfEffect"
+            value=item.system.areaOfEffect
+            label="Area of Effect"
+            type="text"
+            dataType="String"
+          }}
+
+          {{> (partial "item/parts/item-attribute.hbs")
+            key="system.castingTime"
+            value=item.system.castingTime
+            label="Casting Time"
+            type="text"
+            dataType="String"
+          }}
+        </div>
+      </section>
+
+      <section class="item-description">
+        <h2>Components</h2>
+        <div class="item-attributes item-attributes--components">
           <div class="item-attributes__item item-attributes__item--compact">
             <label for="hasVerbalComponent">Verbal</label>
             <input
               name="system.hasVerbalComponent"
               type="checkbox"
-              {{checked data.hasVerbalComponent}} />
+              {{checked item.system.hasVerbalComponent}} />
           </div>
 
           <div class="item-attributes__item item-attributes__item--compact">
@@ -51,7 +100,7 @@
             <input
               name="system.hasSomaticComponent"
               type="checkbox"
-              {{checked data.hasSomaticComponent}} />
+              {{checked item.system.hasSomaticComponent}} />
           </div>
 
           <div class="item-attributes__item item-attributes__item--compact">
@@ -59,98 +108,11 @@
             <input
               name="system.hasMaterialComponent"
               type="checkbox"
-              {{checked data.hasMaterialComponent}} />
-          </div>
-
-          <h2 class="action-header">
-            <span>Spell Levels</span>
-            <span>
-              <button type="button" data-action="add-spell-level">
-                <i class="fa fa-plus">
-                  <span class="sr-only">Add Casting Class</span>
-                </i>
-              </button>
-            </span>
-          </h2>
-
-          {{#each data.spellLevels as |levelItem key| }}
-            <div class="item-attributes__item item-attributes__item--grid item-attributes__item--spell-levels">
-              <select
-                data-dtype="String"
-                name="system.spellLevels.{{key}}.sourceId">
-                {{#select levelItem.sourceId }}
-                  {{#each ../castingClasses as |class classkey|}}
-                    <option value="{{classkey}}">{{class}}</option>
-                  {{/each}}
-                {{/select}}
-              </select>
-
-              <input
-                type="number"
-                data-dtype="Number"
-                name="system.spellLevels.{{key}}.level"
-                value="{{levelItem.level}}" />
-
-              <button type="button" data-class="{{key}}" data-action="delete-spell-level">
-                <i class="fa fa-trash">
-                  <span class="sr-only">Remove {{key}}</span>
-                </i>
-              </button>
-            </div>
-          {{/each}}
-        </div>
-
-        <div class="item-attributes__group">
-          <h2>Spell Details</h2>
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.range"
-            value=data.range
-            label="Range (ft)"
-            type="text"
-            dataType="String"
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.castingTime"
-            value=data.castingTime
-            label="Casting Time"
-            type="text"
-            dataType="String"
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.duration"
-            value=data.duration
-            label="Duration"
-            type="text"
-            dataType="String"
-          }}
-
-          {{> (partial "item/parts/item-attribute.hbs")
-            key="data.areaOfEffect"
-            value=data.areaOfEffect
-            label="Area of Effect"
-            type="text"
-            dataType="String"
-          }}
-
-          <div class="item-attributes__item">
-            <label for="save">Save Type</label>
-            <select
-              data-dtype="String"
-              name="system.save">
-              {{#select data.save}}
-                <option value="none">N/A</option>                  
-                {{#each saves as |save key|}}
-                  <option value="{{key}}">{{save}}</option>
-                {{/each}}
-              {{/select}}
-            </select>
+              {{checked item.system.hasMaterialComponent}} />
           </div>
         </div>
-      </section>
+        
 
-      <section class="item-description">
         <h2>Description</h2>
         {{editor item.system.description
           target="system.description"

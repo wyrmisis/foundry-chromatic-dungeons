@@ -21,7 +21,7 @@
 @import url('./item/starterkit.css');
 @import url('./item/weapon.css');
 /* @import url('./heritage-sheet.css'); */
-/* @import url('./spell-sheet.css'); */
+@import url('./item/spell.css');
 
 /* Chat Cards */
 @import url('./chat/chat-shared.css');

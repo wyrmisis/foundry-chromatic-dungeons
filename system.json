@@ -43,63 +43,98 @@
   "packs": [
     {
       "name": "weapon",
-      "label": "Weapons",
+      "label": "Items: Weapons",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/weapons.db",
       "type": "Item"
     },
     {
       "name": "armor",
-      "label": "Armor",
+      "label": "Items: Armor",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/armor.db",
       "type": "Item"
     },
     {
       "name": "gear",
-      "label": "Adventuring Gear",
+      "label": "Items: Adventuring Gear",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/gear.db",
       "type": "Item"
     },
     {
-      "name": "goods",
-      "label": "Trade Goods",
-      "system": "foundry-chromatic-dungeons",
-      "path": "packs/trade-goods.db",
-      "type": "Item"
-    },
-    {
       "name": "treasure",
-      "label": "Treasure",
+      "label": "Items: Treasure",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/treasure.db",
       "type": "Item"
     },
     {
-      "name": "spell",
-      "label": "Spellbook",
+      "name": "spell-list-wizard",
+      "label": "Spellbook: Wizard",
       "system": "foundry-chromatic-dungeons",
-      "path": "packs/spellbook.db",
+      "path": "packs/spell-list-wizard.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-sorcerer",
+      "label": "Spellbook: Sorcerer",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-sorcerer.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-cleric2",
+      "label": "Spellbook: Cleric",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-cleric2.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-druid",
+      "label": "Spellbook: Druid",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-druid.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-paladin",
+      "label": "Spellbook: Paladin",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-paladin.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-ranger",
+      "label": "Spellbook: Ranger",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-ranger.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-Bard",
+      "label": "Spellbook: Bard",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-cleric.db",
       "type": "Item"
     },
     {
       "name": "ancestry",
-      "label": "Ancestries",
+      "label": "Character Options: Ancestries",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/ancestries.db",
       "type": "Item"
     },
     {
       "name": "heritage",
-      "label": "Heritage Options",
+      "label": "Character Options: Heritage Options",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/heritages.db",
       "type": "Item"
     },
     {
       "name": "class",
-      "label": "Classes",
+      "label": "Character Options: Classes",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/classes.db",
       "type": "Item"
@@ -120,10 +155,24 @@
     },
     {
       "name": "kits",
-      "label": "Starting Kits",
+      "label": "Items: Starting Kits",
       "system": "foundry-chromatic-dungeons",
       "path": "packs/kits.db",
       "type": "Item"
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/rules.db",
+      "type": "JournalEntry"
+    },
+    {
+      "name": "treasure",
+      "label": "Treasure",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/treasure-tables.db",
+      "type": "RollTable"
     }
   ],
   "gridDistance": 5,
