@@ -1,7 +1,7 @@
 <div class="feature{{#if hasResource}} feature--has-resource{{/if}}" data-item-id="{{key}}">
   <header>
     {{> (partial "item/parts/item-attribute.hbs")
-      key=(concat "data.features." key ".level")
+      key=(concat "system.features." key ".level")
       value=level
       label="Level"
       type="number"
@@ -9,7 +9,7 @@
     }}
 
     {{> (partial "item/parts/item-attribute.hbs")
-      key=(concat "data.features." key ".title")
+      key=(concat "system.features." key ".title")
       value=title
       label="Title"
       type="text"
@@ -18,7 +18,7 @@
 
     {{#if hasResource}}
       {{> (partial "item/parts/item-attribute.hbs")
-        key=(concat "data.features." key ".resources." resourceKey ".value")
+        key=(concat "system.features." key ".resources." resourceKey ".value")
         value=level
         label="Current"
         type="number"
@@ -48,9 +48,8 @@
   </header>
   <main>
     <label for="features.{{key}}.content">Feature Content</label>
-    {{editor
-      content
-      target=(concat "data.features." key ".content")
+    {{editor content
+      target=(concat "system.features." key ".content")
       rollData=rollData
       button=true
       owner=owner
@@ -85,7 +84,7 @@
         {{#each resources as |resource resourceKey|}}
           <li class="feature-resource" data-item-id="{{resourceKey}}">
             {{> (partial "item/parts/item-attribute.hbs")
-              key=(concat "data.features." ../key ".resources." resourceKey ".level")
+              key=(concat "system.features." ../key ".resources." resourceKey ".level")
               value=resource.level
               label="Level"
               type="number"
@@ -93,7 +92,7 @@
             }}
           
             {{> (partial "item/parts/item-attribute.hbs")
-              key=(concat "data.features." ../key ".resources." resourceKey ".max")
+              key=(concat "system.features." ../key ".resources." resourceKey ".max")
               value=resource.max
               label="Max"
               type="number"

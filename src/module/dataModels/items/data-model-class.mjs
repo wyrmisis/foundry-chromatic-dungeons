@@ -71,6 +71,9 @@ class ClassDataModel extends foundry.abstract.DataModel {
   get spellSlotsAtLevel() {
     return this?.spellSlots?.[this.level] || null;
   }
+  get spellPointsAtLevel() {
+    return this?.spellPoints?.[this.level] || null;
+  }
 
   get classGroupProps() {
     return this.#classGroup;
