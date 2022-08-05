@@ -11,11 +11,7 @@ const attributeRollMacro = (key) => {
   if (!actor)
     return ui.notifications.warn('No actor selected for this roll!');
 
-  actor.attributeRoll(
-    game.i18n.localize(`ATTRIBUTE.${key}`),
-    `1d20-${actor.data.data.attributeMods[key]}`,
-    actor.data.data.attributes[key]
-  );
+  actor.attributeRoll(key);
 }
 
 export default attributeRollMacro;

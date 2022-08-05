@@ -1,19 +1,18 @@
-{{#each data.attributes as |attribute key|}}
+{{#each actor.system.attributes as |attribute key|}}
   <div class="attributes__item">
     <input
       type="number"
       min="0"
-      name="data.attributes.{{key}}"
+      name="system.attributes.{{key}}"
       value="{{attribute}}"
       data-dtype="Number"/>
-    <label
+    <button
       class="rollable rollable--no-icon"
-      for="data.attributes.{{key}}"
-      data-roll="1d20-{{lookup ../this.data.attributeMods key}}"
-      data-target="{{attribute}}"
-      data-roll-type="Attribute"
-      data-label="{{localizeAttr key}}">
-      {{localizeAttr key}}
-    </label>
+      data-roll="attribute"
+      data-key="{{key}}">
+      <label for="system.attributes.{{key}}">
+        {{localizeAttr key}}
+      </label>
+    </button>
   </div>
 {{/each}}

@@ -17,6 +17,9 @@
         <a class="item" data-tab="description">Description</a>
         <a class="item" data-tab="treasure">Treasure</a>
         <a class="item" data-tab="items">Items</a>
+        {{#if spells.length}}
+          <a class="item" data-tab="spells">Spells</a>
+        {{/if}}
         <a class="item" data-tab="effects">Effects</a>
         <a class="item" data-tab="configuration" title="Configuration">
           <i class="fa fa-cog">
@@ -33,9 +36,8 @@
         <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
           <div class="description">
             <h2>Description</h2>
-            {{ editor
-              content=data.description
-              target="data.description"
+            {{ editor actor.system.description
+              target="system.description"
               rollData=rollData
               button=true
               owner=owner
@@ -47,9 +49,8 @@
         <div class="tab sheet-tab sheet-tab--treasure" data-group="primary" data-tab="treasure">
           <div class="treasure">
             <h2>Treasure</h2>
-            {{ editor
-              content=data.treasure
-              target="data.treasure"
+            {{ editor actor.system.treasure
+              target="system.treasure"
               rollData=rollData
               button=true
               owner=owner
@@ -61,6 +62,11 @@
         {{!-- Owned Items Tab --}}
         <div class="tab sheet-tab sheet-tab--items" data-group="primary" data-tab="items">
           {{> (partial "actor/parts/actor-items.hbs") }}
+        </div>
+
+        {{!-- Owned Items Tab --}}
+        <div class="tab sheet-tab sheet-tab--items" data-group="primary" data-tab="spells">
+          {{> (partial "actor/parts/grids/npc-spell-grid.hbs") }}
         </div>
 
         {{!-- Active Effects Tab --}}

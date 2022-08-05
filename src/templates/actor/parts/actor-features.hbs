@@ -1,5 +1,5 @@
 <h2 class="features__title">Alignment</h2>
-<select name="data.alignment" data-dtype="String">
+<select name="system.alignment" data-dtype="String">
   {{!--
     We're only defaulting to unaligned to make sure
     that players pick an alignment, rather than
@@ -8,30 +8,25 @@
     Once an alignment is selected, there's no going
     back to unaligned.
   --}}
-  {{#unless data.alignment}}
+  {{#unless actor.system.alignment}}
     <option value="">Unaligned</option>
   {{/unless}}
-  {{#select data.alignment}}
-    {{#each alignments as |alignment key|}}
-      <option value="{{key}}">{{alignment}}</option>
-    {{/each}}
-  {{/select}}
+  {{selectOptions alignments
+    selected=actor.system.alignment
+  }}
 </select>
-
-
-
 
 <h2 class="features__title">Languages</h2>
 
-{{#if data.maxLanguages}}
+{{#if actor.system.maxLanguages}}
   <ul class="features features--languages">
-    {{#each (paddedTo data.languages data.maxLanguages) }}
+    {{#each (paddedTo actor.system.languages actor.system.maxLanguages) }}
       <li class="feature__item">
         <input
           type="text"
           data-dtype="String"
-          name="data.languages.[{{@index}}]"
-          value="{{lookup ../data.languages (concat '[' @index ']') }}"/>
+          name="system.languages.[{{@index}}]"
+          value="{{lookup ../actor.system.languages (concat '[' @index ']') }}"/>
       </li>
     {{/each}}
   </ul>
@@ -58,7 +53,7 @@
 </h2>
 
 <ul class="features features--ancestry">
-  {{#each ancestry.data.features as |feature|}}
+  {{#each ancestry.system.features as |feature|}}
     <li class="feature__item">{{{markdown feature}}}</li>
   {{else}}
     <li class="feature__item feature__item--empty">No ancestry selected</li>
@@ -84,8 +79,8 @@
   </h3>
 
   <div class="features features--heritage">
-    {{#if heritage.data.description}}
-      {{{markdown heritage.data.description}}}
+    {{#if heritage.system.description}}
+      {{{markdown heritage.system.description}}}
     {{else}}
       <p>This heritage does not have a description</p>
     {{/if}}
@@ -95,25 +90,25 @@
 {{/each}}
 
 <h2>Classes</h2>
-{{#each classes as |class classkey|}}
+{{#each actor.system.classes}}
   <h3 class="features__title">
-    <span>Lv. {{class.level}} {{class.name}} ({{class.xp}}/{{class.xpNext}})</span>
+    <span>Lv. {{system.level}} {{name}} ({{system.xp}}/{{system.xpNext}})</span>
     <span>
-      <button type="button" data-item-id="{{class.id}}" data-item-action="edit">
+      <button type="button" data-item-id="{{id}}" data-item-action="edit">
         <i class="fa fa-edit">
-          <span class="sr-only">Edit Heritage</span>
+          <span class="sr-only">Edit Class</span>
         </i>
       </button>
-      <button type="button" data-item-id="{{class.id}}" data-item-action="delete">
+      <button type="button" data-item-id="{{id}}" data-item-action="delete">
         <i class="fa fa-trash">
-          <span class="sr-only">Remove Heritage</span>
+          <span class="sr-only">Remove Class</span>
         </i>
       </button>
     </span>
   </h3>
 
   <ul class="features features--class">
-    {{#each class.features as |feature featurekey|}}
+    {{#each system.features as |feature featurekey|}}
       <li class="feature__item">
         <h4>{{feature.title}}</h4>
         {{{markdown feature.content}}}

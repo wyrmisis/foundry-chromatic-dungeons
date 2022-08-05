@@ -1,6 +1,15 @@
-.CodeMirror {
-  box-shadow: inset var(--elevation-1-shadow);
+.editor {
+  min-height: 40px;
+
+  & > .tox.tox-tinymce {
+    min-height: 210px;
+    resize: vertical;
+  }
 }
+
+/* .CodeMirror {
+  box-shadow: inset var(--elevation-1-shadow);
+} */
 
 /**
  * The template for this looks like...
@@ -14,7 +23,7 @@
  *   }
  * }
  */
-
+/* 
 %editorSize {
   .CodeMirror-scroll {
     min-height: calc(var(--height, 100) - 30) !important;
@@ -59,4 +68,4 @@
     --height: 100px;
     @extends %editorSize;
   }
-}
+} */

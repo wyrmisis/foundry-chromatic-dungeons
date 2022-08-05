@@ -16,11 +16,11 @@
     <li
       class="
         items__list-item items__list-item
-        {{#if item.data.equipped}}
+        {{#if item.system.equipped}}
           items__list-item--equipped
         {{/if}}
       "
-      data-armor-type="{{item.data.armorType}}"
+      data-armor-type="{{item.system.armorType}}"
       data-item-id="{{item._id}}">
       <img
         class="items__list-column items__list-column--icon"
@@ -30,12 +30,12 @@
       </div>
 
       <div class="items__list-column items__list-column--type">
-        {{dynamicProp ../armorTypes item.data.armorType}}
+        {{dynamicProp ../armorTypes item.system.armorType}}
       </div>
 
       <div class="items__list-column items__list-column--ac">
-        {{#if (ne item.data.ac 0)}}
-          {{signedString item.data.ac}}
+        {{#if (ne item.system.ac 0)}}
+          {{signedString item.system.ac}}
         {{/if}}
       </div>
     </li>

@@ -1,10 +1,16 @@
 // Import document classes.
-import { BoilerplateActor } from "../documents/actor.mjs";
-import { BoilerplateItem } from "../documents/item.mjs";
+import ChromaticActor from "../documents/actor.mjs";
+import ChromaticItem from "../documents/item.mjs";
+
+// Import DataModel classes
+import PCDataModel from "../dataModels/actors/data-model-pc.mjs";
+import NPCDataModel from "../dataModels/actors/data-model-npc.mjs";
+import ClassDataModel from '../dataModels/items/data-model-class.mjs';
 
 // Import sheet classes.
-import { BoilerplateActorSheet } from "../sheets/actor-sheet.mjs";
-import { BoilerplateItemSheet } from "../sheets/item-sheet.mjs";
+import ChromaticActorPCSheet from "../sheets/actor-pc-sheet.mjs";
+import ChromaticActorNPCSheet from "../sheets/actor-npc-sheet.mjs";
+import ChromaticItemSheet from "../sheets/item-sheet.mjs";
 import CDAncestrySheet from "../sheets/ancestry-sheet.mjs";
 import CDClassSheet from "../sheets/class-sheet.mjs";
 import CDClassgroupSheet from "../sheets/classgroup-sheet.mjs";
@@ -23,8 +29,8 @@ Hooks.once('init', async function() {
   // Add utility classes to the global game object so that they're more easily
   // accessible in global contexts.
   game.boilerplate = {
-    BoilerplateActor,
-    BoilerplateItem,
+    ChromaticActor,
+    ChromaticItem,
     rollItemMacro,
     attributeRollMacro,
     saveRollMacro,
@@ -47,15 +53,37 @@ Hooks.once('init', async function() {
     decimals: 2
   };
 
-  // Define custom Document classes
-  CONFIG.Actor.documentClass = BoilerplateActor;
-  CONFIG.Item.documentClass = BoilerplateItem;
+  // ACTOR STUFF
+  CONFIG.Actor.documentClass = ChromaticActor;
+  CONFIG.Actor.systemDataModels['pc'] = PCDataModel;
+  CONFIG.Actor.systemDataModels['npc'] = NPCDataModel;
 
-  // Register sheet application classes
   Actors.unregisterSheet("core", ActorSheet);
-  Actors.registerSheet("chromatic-dungeons", BoilerplateActorSheet, '', { makeDefault: true });
+  Actors.registerSheet(
+    "foundry-chromatic-dungeons",
+    ChromaticActorPCSheet,
+    {
+      label: 'SHEET.names.pc',
+      types: ['pc'],
+      makeDefault: true
+    }
+  );
+  Actors.registerSheet(
+    "foundry-chromatic-dungeons",
+    ChromaticActorNPCSheet,
+    {
+      label: 'SHEET.names.npc',
+      types: ['npc'],
+      makeDefault: true
+    }
+  );
+
+  // ITEM STUFF
+  CONFIG.Item.documentClass = ChromaticItem;
+  CONFIG.Item.systemDataModels['class'] = ClassDataModel;
+
   Items.unregisterSheet("core", ItemSheet);
-  Items.registerSheet("chromatic-dungeons", BoilerplateItemSheet, '', {
+  Items.registerSheet("chromatic-dungeons", ChromaticItemSheet, '', {
     types: ['weapon', 'armor', 'goods', 'gear', 'treasure', "heritage"],
     makeDefault: true
   });

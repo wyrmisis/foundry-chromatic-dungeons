@@ -15,12 +15,20 @@
   "ITEM.TypeSpell": "Spell",
   "ITEM.TypeStarterkit": "Starting Kit",
 
+  "ITEM.Armor.type.armor":    "Armor",
+  "ITEM.Armor.type.barding":  "Barding",
+  "ITEM.Armor.type.helmet":   "Helmet",
+  "ITEM.Armor.type.shield":   "Shield",
+
   "ATTRIBUTE.str": "Strength",
   "ATTRIBUTE.con": "Constitution",
   "ATTRIBUTE.dex": "Dexterity",
   "ATTRIBUTE.int": "Intelligence",
   "ATTRIBUTE.wis": "Wisdom",
   "ATTRIBUTE.cha": "Charisma",
+
+  "SHEET.names.pc": "Player Character sheet",
+  "SHEET.names.npc": "NPC/Monster sheet",
 
   "SHEET.listheadings.saves.value": "Value",
   "SHEET.listheadings.saves.target": "Target",
@@ -44,12 +52,25 @@
   "SHEET.movement": "Movement",
   "SHEET.xp": "Experience Points",
   "SHEET.ac": "Armor Class",
-  
+
+  "SHEET.Item.value.platinum": "PP",
+  "SHEET.Item.value.gold": "GP",
+  "SHEET.Item.value.silver": "SP",
+  "SHEET.Item.value.electrum": "EP",
+  "SHEET.Item.value.copper": "CP",
+  "SHEET.Item.value.xp": "XP",
+
   "SHEET.saves": "Saving Throws",
   "SHEET.save.reflex": "Reflex",
   "SHEET.save.poison": "Poison/&#8203;Venom/&#8203;Disease",
   "SHEET.save.creature": "Creature Ability",
   "SHEET.save.spell": "Magic Item/&#8203;Spell",
+  "SHEET.save.morale": "Morale",
+
+  "SHEET.Spell.range": "Range",
+  "SHEET.Spell.duration": "Duration",
+  "SHEET.Spell.areaOfEffect": "Area of Effect",
+  "SHEET.Spell.components": "Components",
 
   "ATTRIBUTE.StrAbbr": "str",
   "ATTRIBUTE.ConAbbr": "con",
@@ -62,7 +83,6 @@
   "CLASSGROUP.arcane": "Arcane",
   "CLASSGROUP.divine": "Divine",
   "CLASSGROUP.rogue": "Rogue",
-
 
   "BOILERPLATE.AbilityStr": "Strength",
   "BOILERPLATE.AbilityCon": "Constitution",

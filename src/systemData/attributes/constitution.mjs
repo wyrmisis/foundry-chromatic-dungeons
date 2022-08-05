@@ -7,7 +7,7 @@ const constitution = {
     8: { modHP: 0, systemShockChance: 60, resurrectionChance: 65, },
     9: { modHP: 0, systemShockChance: 65, resurrectionChance: 70, },
     10: { modHP: 0, systemShockChance: 70, resurrectionChance: 75, },
-    11: { modHP: 0, systemShockChance: 75, resurrectionChance: 8, },
+    11: { modHP: 0, systemShockChance: 75, resurrectionChance: 80, },
     12: { modHP: 0, systemShockChance: 80, resurrectionChance: 85, },
     13: { modHP: 1, systemShockChance: 85, resurrectionChance: 90, },
     14: { modHP: 1, systemShockChance: 88, resurrectionChance: 92, },

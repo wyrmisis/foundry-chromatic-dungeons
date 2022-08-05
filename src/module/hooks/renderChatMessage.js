@@ -132,11 +132,117 @@ const formatSaveRoll = async (message, html) => {
     .replaceWith(updatedTemplate);
 }
 
-Hooks.on('renderChatMessage', (message, html) => {
+const formatClassRoll = async (message, html, data) => {
+  const
+    img         = message.getFlag('foundry-chromatic-dungeons', 'img'),
+    xp          = message.getFlag('foundry-chromatic-dungeons', 'xp'),
+    previous    = message.getFlag('foundry-chromatic-dungeons', 'previous'),
+    next        = message.getFlag('foundry-chromatic-dungeons', 'next');
+
+  const context = { img, xp, previous, next, ...data };
+
+  const updatedTemplate = await renderTemplate(
+    `${CONFIG.CHROMATIC.templateDir}/chat/class.hbs`,
+    context
+  );
+
+  html
+    .find('.message-content')
+    .replaceWith(updatedTemplate);
+}
+
+const formatArmorRoll = async (message, html, data) => {
+  const
+    ac          = message.getFlag('foundry-chromatic-dungeons', 'ac'),
+    img         = message.getFlag('foundry-chromatic-dungeons', 'img'),
+    type        = message.getFlag('foundry-chromatic-dungeons', 'type');
+
+  const context = {ac, img, type, ...data };
+
+  const updatedTemplate = await renderTemplate(
+    `${CONFIG.CHROMATIC.templateDir}/chat/armor.hbs`,
+    context
+  );
+
+  html
+    .find('.message-content')
+    .replaceWith(updatedTemplate);
+}
+
+const formatSpellRoll = async (message, html, data) => {
+  const
+    img           = message.getFlag('foundry-chromatic-dungeons', 'img'),
+    range         = message.getFlag('foundry-chromatic-dungeons', 'range'),
+    duration      = message.getFlag('foundry-chromatic-dungeons', 'duration'),
+    areaOfEffect  = message.getFlag('foundry-chromatic-dungeons', 'areaOfEffect'),
+    castingTime   = message.getFlag('foundry-chromatic-dungeons', 'castingTime'),
+    components    = {
+      verbal      : message.getFlag('foundry-chromatic-dungeons', 'hasVerbalComponent'),
+      material    : message.getFlag('foundry-chromatic-dungeons', 'hasMaterialComponent'),
+      somatic     : message.getFlag('foundry-chromatic-dungeons', 'hasSomaticComponent')
+    },
+    hasComponents = ~foundry.utils.isEmpty(components);
+
+  const context = {
+    img,
+    range,
+    duration,
+    areaOfEffect,
+    castingTime,
+    components,
+    hasComponents,
+    ...data
+  };
+
+  const updatedTemplate = await renderTemplate(
+    `${CONFIG.CHROMATIC.templateDir}/chat/spell.hbs`,
+    context
+  );
+
+  html
+    .find('.message-content')
+    .replaceWith(updatedTemplate);
+}
+
+/**
+ * ======== TEMPLATES TO ADD ========
+ *
+ * -------- Class --------
+ * * Current Level
+ * * XP / Next (with progress bar?)
+ * 
+ * -------- Treasure --------
+ * * Value
+ * * Quantity
+ * * Description (if any)
+ * 
+ * -------- Spell --------
+ * * (Spell School), (Spell Level)th level
+ * * Table containing: range, duration, AoE, save type (if any)
+ * * Description
+ */
+
+/**
+ * 
+ * @param {ChatMessage} message   The ChatMessage document being rendered
+ * @param {jQuery} html           The pending HTML as a jQuery object
+ * @param {object} data           The input data provided for template rendering 
+ */
+const messageFormattingDelegator = (message, html, data) => {
+  let formatter;
+  const noOp = console.info;
+
   switch (message.getFlag('foundry-chromatic-dungeons', 'rollType')) {
-    case 'attribute': formatAttributeRoll(message, html); break;
-    case 'attack':    formatAttackRoll(message, html);    break;
-    case 'save':      formatSaveRoll(message, html);      break;
-    default:          return;
+    case 'armor':     formatter = formatArmorRoll;     break;
+    case 'class':     formatter = formatClassRoll;     break;
+    // case 'treasure':  formatter = noOp; break;
+    case 'spell':     formatter = formatSpellRoll;     break;
+    case 'attribute': formatter = formatAttributeRoll; break;
+    case 'attack':    formatter = formatAttackRoll;    break;
+    case 'save':      formatter = formatSaveRoll;      break;
   }
-})
+
+  if (formatter) formatter(message, html, data);
+}
+
+Hooks.on('renderChatMessage', messageFormattingDelegator)

@@ -21,6 +21,7 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-gear-cards.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/actor-wealth-grid.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/item-grid-actions.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/grids/npc-spell-grid.hbs`,
 
     // NPC-specific Partials
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/npc-header.hbs`,
@@ -34,6 +35,7 @@
     // Item partials
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-header.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-value.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/item/parts/item-value-view.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-attribute.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-description.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-effects.hbs`,
@@ -52,9 +54,16 @@
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/classgroup.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/configuration/ancestry.hbs`,
 
-    // Chat cards
+    // Roll chat cards
     `${CONFIG.CHROMATIC.templateDir}/chat/attack.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/chat/save.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/chat/attribute.hbs`,
+
+    // Item chat cards
+    `${CONFIG.CHROMATIC.templateDir}/chat/armor.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/class.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/gear.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/treasure.hbs`,
+    `${CONFIG.CHROMATIC.templateDir}/chat/spell.hbs`,
   ]);
 };

@@ -1,11 +1,10 @@
-import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/effects.mjs";
 import {getAllItemsOfType} from '../helpers/utils.mjs';
 
 /**
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export default class ClassgroupSheet extends ItemSheet {
+export default class StarterKitSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -25,7 +24,7 @@ export default class ClassgroupSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.hbs`;
+    return `${path}/item-${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -34,25 +33,20 @@ export default class ClassgroupSheet extends ItemSheet {
   async getData() {
     // Retrieve base data structure.
     const context = super.getData();
+    const selectedKeys = Object.keys()
 
-    context.effects = prepareActiveEffectCategories(this.item.effects);
+    // context.gear = await this._getGear();
+    // context.selectedGear = await this._getSelectedGear(this.item.system.contents)
 
-    // Use a safe clone of the item data for further operations.
-    const itemData = context.item.data;
-
-    // Retrieve the roll data for TinyMCE editors.
-    context.rollData = {};
-    let actor = this.object?.parent ?? null;
-    if (actor) {
-      context.rollData = actor.getRollData();
-    }
-
-    // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = itemData.data;
-    context.flags = itemData.flags;
-
-    context.gear = await this._getGear();
-    context.selectedGear = await this._getSelectedGear(this.item.data.data.contents)
+    context.gear = await getAllItemsOfType('gear', 'foundry-chromatic-dungeons.gear');
+    context.selectedGear = context.gear
+      .filter(({ id }) => Object.keys(this.item.system.contents).includes(id))
+      .map(item => ({
+        id: item.id,
+        img: item.img,
+        name: item.name,
+        quantity: this.item.system.contents[item.id]
+      }))
 
     return context;
   }
@@ -100,35 +94,35 @@ export default class ClassgroupSheet extends ItemSheet {
     const {itemId} = ev.currentTarget.dataset;
     const gearlist = await this._getGear();
     const itemToAdd = gearlist.find(item => item.id === itemId);
-    let {contents} = this.item.data.data;
+    let {contents} = this.item.system;
 
     if (contents[itemId] !== undefined)
       this.item.update({
-        'data.contents': {
-          [itemId]: contents[itemId] + itemToAdd.data.data.quantity.value
+        'system.contents': {
+          [itemId]: contents[itemId] + itemToAdd.system.quantity.value
         }
       });
     else
       this.item.update({
-        'data.contents': {
-          [itemId]: itemToAdd.data.data.quantity.value
+        'system.contents': {
+          [itemId]: itemToAdd.system.quantity.value
         }
       });
   }
 
   async _removeFromKit(ev) {
     const {itemId} = ev.currentTarget.dataset;
-    const newQuantity = this.item.data.data.contents[itemId] - 1;
+    const newQuantity = this.item.system.contents[itemId] - 1;
 
     if (newQuantity <= 0)
       this.item.update({
-        'data.contents': {
+        'system.contents': {
           [`-=${itemId}`]: null
         }
       });
     else
       this.item.update({
-        'data.contents': {
+        'system.contents': {
           [itemId]: newQuantity
         }
       });

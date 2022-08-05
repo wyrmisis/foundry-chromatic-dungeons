@@ -11,11 +11,7 @@
   if (!actor)
     return ui.notifications.warn('No actor selected for this roll!');
 
-  actor.saveRoll(
-    game.i18n.localize(`SHEET.save.${key}`),
-    `1d20+${actor.data.data.saves.mods[key]}`,
-    actor.data.data.saves.targets[key]
-  );
+  actor.saveRoll(key);
 }
 
 export default saveRollMacro;

@@ -32,9 +32,9 @@
           <div class="effects-list__icon">
             <img
               class="item-image"
-              src="{{effect.data.icon}}"/>
+              src="{{effect.icon}}"/>
           </div>
-          <div class="effects-list__name">{{localize effect.data.label}}</div>
+          <div class="effects-list__name">{{localize effect.label}}</div>
           <div class="effects-list__source">{{localize effect.sourceName}}</div>
           <div class="effects-list__duration">{{localize effect.duration.label}}</div>
           <div class="effects-list__controls">
@@ -43,7 +43,7 @@
               class="effect-control"
               data-action="toggle"
               title="{{localize 'BOILERPLATE.EffectToggle'}}">
-              <i class="fas {{#if effect.data.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
+              <i class="fas {{#if effect.disabled}}fa-check{{else}}fa-times{{/if}}"></i>
             </button>
             <button
               type="button"

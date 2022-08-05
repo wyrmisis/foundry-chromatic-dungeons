@@ -45,7 +45,9 @@ header.sheet-header {
     border:  none;
     border-bottom: 1px solid var(--sheet-body-color);
     background-color:  transparent;
+  }
 
+  input {
     &:read-only {
       border: none;
     }

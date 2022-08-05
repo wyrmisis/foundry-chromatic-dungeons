@@ -214,4 +214,37 @@
       }
     }
   }
+
+  .items__list--npc-spells {
+    .items__list {
+      &-item {
+        grid-template-columns: 1fr 8fr 1fr 1fr 1fr;
+
+        &--header {
+          .items__list-column {
+            &--verbal {
+              &:before { content: 'V'; }
+            }
+            &--somatic {
+              &:before { content: 'S'; }
+            }
+            &--material {
+              &:before { content: 'M'; }
+            }
+          }
+        }
+      }
+
+      &-column {
+        &--component-type {
+          text-align: center;
+        }
+
+        &--verbal {}
+        &--somatic {}
+        &--material {}
+      }
+    }
+  }
 }
+

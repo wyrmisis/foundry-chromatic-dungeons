@@ -1,5 +1,5 @@
 const warrior = {
-  "hitDie": "d10",
+  "hitDie": 10,
   "levels": [
     {
       "hitDieCount": 1,

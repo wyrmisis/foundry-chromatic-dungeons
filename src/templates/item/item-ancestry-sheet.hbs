@@ -28,14 +28,20 @@
     {{!-- Description Tab --}}
     <div class="tab sheet-tab sheet-tab--description" data-group="primary" data-tab="description">
       <h2>Description</h2>
-      {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+      {{editor item.system.description
+        target="system.description"
+        rollData=rollData
+        button=true
+        owner=owner
+        editable=editable
+      }}
     </div>
 
     {{!-- Attributes Tab --}}
     <div class="tab sheet-tab sheet-tab--attributes" data-group="primary" data-tab="attributes">
       <h2>Mechanical Information</h2>
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.movement"
+        key="movement"
         value=data.movement
         label="Base Move Speed (ft)"
         type="Number"
@@ -43,7 +49,7 @@
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.infravision"
+        key="infravision"
         value=data.infravision
         label="Infravision (ft)"
         type="Number"
@@ -52,7 +58,7 @@
 
       <h2>Biographical Information</h2>
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.height"
+        key="height"
         value=data.height
         label="Height Range (in)"
         type="Number"
@@ -60,7 +66,7 @@
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.weight"
+        key="weight"
         value=data.weight
         label="Weight Range (lbs)"
         type="Number"
@@ -68,7 +74,7 @@
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.lifespan"
+        key="lifespan"
         value=data.lifespan
         label="Lifespan (years)"
         type="Number"
@@ -82,9 +88,8 @@
           {{#each data.features as |feature id|}}
             <li class="feature__list-item" data-id="{{id}}">
               <div class="feature">
-                {{editor
-                  content=feature
-                  target=(concat "data.features." id)
+                {{editor feature
+                  target=(concat "features." id)
                   rollData=../rollData
                   button=true
                   owner=../owner

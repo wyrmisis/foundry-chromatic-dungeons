@@ -23,7 +23,13 @@
 
       <section class="item-description">
         <h2>Description</h2>
-        {{editor content=data.description target="data.description" rollData=rollData button=true owner=owner editable=editable}}
+        {{editor item.system.description
+          target="system.description"
+          rollData=rollData
+          button=true
+          owner=owner
+          editable=editable
+        }}
       </section>
     </div>
   </main>

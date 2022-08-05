@@ -26,21 +26,21 @@
     </button>
   </h3>
   {{> (partial "actor/parts/grids/actor-weapon-grid.hbs") }}
-  {{#if isNPC}}
+  {{#if (eq actor.type 'npc')}}
     <div class="attack-settings">
       <h4>Attack Settings</h4>
 
-      <label for="data.attacks">Attacks per turn</label>
+      <label for="attacks">Attacks per turn</label>
       <input
-        name="data.attacks"
-        value="{{data.attacks}}"
+        name="system.attacks"
+        value="{{actor.system.attacks}}"
         type="text"
         data-dtype="String" />
 
-      <label for="data.specialAttacks">Special Attacks</label>
+      <label for="specialAttacks">Special Attacks</label>
       <input
-        name="data.specialAttacks"
-        value="{{data.specialAttacks}}"
+        name="system.specialAttacks"
+        value="{{actor.system.specialAttacks}}"
         type="text"
         data-dtype="String" />
     </div>
@@ -80,16 +80,16 @@
   </h3>
   {{> (partial "actor/parts/grids/actor-wealth-grid.hbs") }}
 
-  {{#if data.wealth}}
+  {{#if actor.system.wealth}}
     <h3>Currency</h3>
     <div class="items__currency">
-      {{#each data.wealth as |value key|}}
+      {{#each actor.system.wealth as |value key|}}
         <div class="items__currency-item items__currency-item--{{key}}">
-          <label for="data.wealth.{{key}}">{{key}}</label>
+          <label for="wealth.{{key}}">{{key}}</label>
           <input
             type="number"
             data-dtype="Number"
-            name="data.wealth.{{key}}"
+            name="system.wealth.{{key}}"
             value={{value}} />
         </div>
       {{/each}}

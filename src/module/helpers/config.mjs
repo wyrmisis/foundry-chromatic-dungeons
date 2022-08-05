@@ -134,14 +134,16 @@ CHROMATIC.moveTypes = {
 };
 
 CHROMATIC.damageTypes = {
-  "nonmagical":   'Nonmagical',
   "magical":      'Magical',
   "slashing":     'Slashing',
   "piercing":     'Piercing',
   "bludgeoning":  'Bludgeoning',
   "fire":         'Fire',
   "cold":         'Cold',
-  "lightning":    'Lightning'
+  "lightning":    'Lightning',
+  "radiant":      'Radiant',
+  "necrotic":     'Necrotic',
+  "force":        'Force'
 };
 
 CHROMATIC.damageModifiers = {
@@ -150,6 +152,13 @@ CHROMATIC.damageModifiers = {
   0:    'Normal',
   1:    'Resist',
   2:    'Immune'
+};
+
+CHROMATIC.worstSaves = {
+  reflex: 18,
+  poison: 16,
+  creature: 17,
+  spell: 19
 };
 
 CHROMATIC.ascii = `

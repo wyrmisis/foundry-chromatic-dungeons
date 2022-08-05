@@ -1,5 +1,9 @@
-import {marked} from 'marked';
+import showdown from 'showdown';
 import {getDerivedStat} from './utils.mjs';
+
+const mdParser = new showdown.Converter({
+  tables: true
+});
 
 /* -------------------------------------------- */
 /*  Handlebars Helpers                          */
@@ -16,7 +20,7 @@ const setupHandlebarsHelpers = () => {
    */
   Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}));
   Handlebars.registerHelper('sum', (...args) => parseInt(args.reduce((total, add) => total + add, 0)));
-  Handlebars.registerHelper('markdown', (input) => marked(input));
+  Handlebars.registerHelper('markdown', (input) => mdParser.makeHtml(input));
   Handlebars.registerHelper('default', (value, defaultValue) => 
     [null, undefined].includes(value) 
       ? defaultValue
@@ -68,8 +72,9 @@ const setupHandlebarsHelpers = () => {
       const total = values
         .filter(v => typeof v === 'number')
         .reduce((prev, curr) => prev + curr, 0);
+      if (total === 0) return '+0';
 
-      return total >= 0 ? `+${total}` : `${total}`
+      return total > 0 ? `+${total}` : `${total}`
     }
    );
 
@@ -129,27 +134,26 @@ const setupHandlebarsHelpers = () => {
       : Array.from({...arr, length: minimum})
   );
 
-  Handlebars.registerHelper('spellsAtLevel', (spells, classname, level) => {
-    const filtered = spells
-      .filter(spell => {
-        const { spellLevels } = spell.data;
-        const spellClasses = Object.keys(spellLevels);
-
-        // @todo Do this with source IDs
-        return !!spellClasses.find(spellClass => 
-          spellLevels[spellClass].class === classname.name &&
-          spellLevels[spellClass].level === parseInt(level)
-        );
-      })
-
-    return filtered;
-  });
+  Handlebars.registerHelper('spellsAtLevel', (spells, classname, level) =>
+    spells.filter(spell =>
+      spell.system.class.includes(
+        classname.sourceId.split('.')[1]
+      ) && spell.system.level === parseInt(level)
+    )
+  );
 
   Handlebars.registerHelper('getFeatureContentKey', (key) => `data.features.${key}.content`);
 
   Handlebars.registerHelper('getClassPreparedSpellsAtLevel',
-    (classes, key, level) => classes.find( ({id}) => id === key)?.preparedSpellSlots?.[parseInt(level) - 1]
+    (castingClass, index) => castingClass.slots[index].preparedSpells
   );
+
+  Handlebars.registerHelper('firstParagraph', html => {
+    const parent = document.createElement('div');
+    parent.innerHTML = html;
+
+    return parent.firstChild.innerHTML || `<p>${html}</p>`;
+  })
 };
 
 export default setupHandlebarsHelpers;

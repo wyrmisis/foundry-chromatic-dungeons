@@ -1,0 +1,48 @@
+<div class="message-content mesage-content--spell">
+  <h3>Spell Details</h3>
+
+  <div class="message-item-stats message-item-stats--spell">
+    <img class="message-item-stats__item message-item-stats__item--icon" src="{{img}}" />
+
+    <dl class="message-item-stats__item message-item-stats__item--spell-stats">
+      <i class="fa-solid fa-ruler"></i>
+      <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--range">
+        {{localize "SHEET.Spell.range"}}
+      </dt>
+      <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--range">
+        {{range}}
+      </dd>
+
+      <i class="fa-regular fa-hourglass"></i> 
+      <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--duration">
+        {{localize "SHEET.Spell.duration"}}
+      </dt>
+      <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--duration">
+        {{duration}}
+      </dd>
+
+      <i class="fa-solid fa-ruler-combined"></i>
+      <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--aoe">
+        {{localize "SHEET.Spell.areaOfEffect"}}
+      </dt>
+      <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--aoe">
+        {{areaOfEffect}}
+      </dd>
+
+      <i class="fa-solid fa-box"></i>
+      <dt class="message-item-stats__item__detail message-item-stats__item__detail--term message-item-stats__item__detail--aoe">
+        {{localize "SHEET.Spell.components"}}
+      </dt>
+      <dd class="message-item-stats__item__detail message-item-stats__item__detail--definition message-item-stats__item__detail--aoe">
+        {{#if components.verbal}}V{{/if}}
+        {{#if components.somatic}}S{{/if}}
+        {{#if components.material}}M{{/if}}
+      </dd>
+    </dl>
+  </div>
+
+  {{#if message.content}}
+    <h3>Description</h3>
+    {{{firstParagraph message.content}}}
+  {{/if}}
+</div>

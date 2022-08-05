@@ -15,19 +15,19 @@
   <h2>Equipment</h2>
 
   <div class="item-attributes__item item-attributes__item--compact">
-    <label for="data.equippable">Can be equipped</label>
+    <label for="equippable">Can be equipped</label>
     <input
       type="checkbox"
-      name="data.equippable"
+      name="system.equippable"
       {{checked data.equippable}} />
   </div>
 
   {{#if data.equippable}}
     <div class="item-attributes__item item-attributes__item--compact">
-      <label for="data.equipped">Must be held</label>
+      <label for="equipped">Must be held</label>
       <input
         type="checkbox"
-        name="data.equipped"
+        name="system.equipped"
         {{checked data.equipped}} />
     </div>
   {{/if}}
@@ -37,10 +37,10 @@
   <h2>Consumable</h2>
 
   <div class="item-attributes__item item-attributes__item--compact">
-    <label for="data.equippable">Is consumable</label>
+    <label for="equippable">Is consumable</label>
     <input
       type="checkbox"
-      name="data.equippable"
+      name="system.equippable"
       {{checked data.equippable}} />
   </div>
 </div>
@@ -49,10 +49,10 @@
   <h2>Illumination</h2>
 
   <div class="item-attributes__item item-attributes__item--compact">
-    <label for="data.isLightSource">Is a light source</label>
+    <label for="isLightSource">Is a light source</label>
     <input
       type="checkbox"
-      name="data.isLightSource"
+      name="system.isLightSource"
       {{checked data.isLightSource}} />
   </div>
 </div> --}}

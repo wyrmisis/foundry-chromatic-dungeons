@@ -9,7 +9,7 @@
 
       <div class="hp">
         <label 
-          for="data.hp.value"
+          for="system.hp.value"
           class="hp__label">
           <i class="fa fa-heart">
             <span class="sr-only">
@@ -17,19 +17,18 @@
             </span>
           </i>
         </label>
-        
         <input
           type="number"
-          name="data.hp.value"
-          value="{{data.hp.value}}"
-          max="{{data.hp.max}}"
+          name="system.hp.value"
+          value="{{actor.system.hp.value}}"
+          max="{{hp.max}}"
           data-dtype="Number"/>
         <span>/</span>
         <input
           type="number"
-          name="data.hp.max"
-          min="{{data.hp.value}}"
-          value="{{data.hp.max}}"
+          name="system.hp.max"
+          min="{{actor.system.hp.value}}"
+          value="{{actor.system.hp.max}}"
           data-dtype="Number" />
       </div>
 
@@ -45,8 +44,8 @@
         </label>
         <input
           type="number"
-          name="ac"
-          value="{{ac}}"
+          name="system.ac"
+          value="{{actor.system.ac}}"
           readonly
           data-dtype="Number"/>
       </div>
@@ -63,8 +62,8 @@
         </label>
         <input
           type="number"
-          name="move"
-          value="{{move}}"
+          name="system.move"
+          value="{{actor.system.move}}"
           readonly
           data-dtype="Number"/>
       </div>

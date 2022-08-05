@@ -1,0 +1,33 @@
+.sheet--spell {
+  .sheet-header__container {
+    grid-template-columns: 1fr 5fr 3fr;
+  }
+
+  .allowed-class {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    input {
+      width: 2em;
+      margin-left: .25em;
+    }
+    select {
+      width: auto;
+      text-align: left;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      background-color: transparent;
+    }
+  }
+
+  .item-attributes--components {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 1em;
+    align-items: center;
+    .item-attributes__item {
+      margin: 0;
+    }
+  }
+}

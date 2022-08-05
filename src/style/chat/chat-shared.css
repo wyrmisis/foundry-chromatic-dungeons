@@ -1,0 +1,43 @@
+.message-item {
+  &-stats {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    grid-column-gap: 1em;
+    margin-bottom: .5em;
+    
+    &--armor,
+    &--class {
+      align-items: center;
+    }
+
+    &__item {
+      display: grid;
+      grid-template-columns: 1fr 3fr 4fr;
+      margin: 0;
+
+      i {
+        text-align: center;
+      }
+
+      &__detail {
+        &--term {
+          margin: 0;
+        }
+        &--definition {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  &__progress {
+    &-labels {
+      display: flex;
+      justify-content: space-between;
+    }
+    &-bar {
+      width: 100%;
+      height: 1.5em;
+    }
+  }
+}

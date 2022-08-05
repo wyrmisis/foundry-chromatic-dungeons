@@ -1,4 +1,4 @@
-{{#each data.spellcasting as |class classKey|}}
+{{#each actor.system.spellcasting as |class classKey|}}
   <h2 class="features__title">
     <span>{{class.name}}</span>
     <span>
@@ -19,7 +19,7 @@
           data-spell-level="{{key}}">
           <h4>Prepared Spells</h4>
           <ul class="prepared-spells">
-            {{#each (paddedTo (getClassPreparedSpellsAtLevel ../../classes classKey key) slot.max) as |spell spellKey|}}
+            {{#each (paddedTo (getClassPreparedSpellsAtLevel ../this key) slot.max) as |spell spellKey|}}
               {{#if spell}}
                 <li
                   class="spell"
@@ -54,7 +54,7 @@
         <input
           data-edit-item
           data-item-id="{{classKey}}"
-          data-item-field="data.currentSpellPoints"
+          data-item-field="currentSpellPoints"
           value="{{class.value}}"
           min="{{class.min}}"
           max="{{class.max}}"

@@ -8,7 +8,9 @@
   }
 
   .attributes {
-    display: flex;
+    display: grid;
+    grid-template-columns: 2fr 5fr;
+    grid-column-gap: 1em;
   }
 
   .profile-img {
@@ -18,8 +20,7 @@
   }
 
   &-attributes {
-    flex: 1;
-    margin-right:  1.5rem;
+    
 
     &__group {
       margin-bottom: 1rem;
@@ -100,6 +101,18 @@
       &--damage {
 
       }
+    }
+  }
+
+  .item-value {
+    display: grid;
+    grid-template-columns: 1fr 7fr;
+    grid-column-gap: 1em;
+    grid-row-gap: .5em;
+    
+    dt, dd {
+      margin: 0;
+      padding: 0;
     }
   }
 

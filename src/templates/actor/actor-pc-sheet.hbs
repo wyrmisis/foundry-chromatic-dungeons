@@ -21,7 +21,7 @@
         {{!-- Default tab is specified in actor-sheet.mjs --}}
         <a class="item" data-tab="summary">Summary</a>
         <a class="item" data-tab="items">Items</a>
-        {{#if hasSpellcasting}}
+        {{#if actor.system.spellcasting}}
           <a class="item" data-tab="spells">Spells</a>
         {{/if}}
         <a class="item" data-tab="effects">Effects</a>
@@ -58,7 +58,7 @@
            {{> (partial "actor/parts/actor-items.hbs") }}
         </div>
 
-        {{#if hasSpellcasting}}
+        {{#if actor.system.spellcasting}}
           {{!-- Owned Spells Tab --}}
           <div class="tab sheet-tab sheet-tab--spells" data-group="primary" data-tab="spells">
             {{> (partial "actor/parts/actor-spells.hbs") }}

@@ -4,7 +4,7 @@ import {onManageActiveEffect, prepareActiveEffectCategories} from "../helpers/ef
  * Extend the basic ItemSheet with some very simple modifications
  * @extends {ItemSheet}
  */
-export class BoilerplateItemSheet extends ItemSheet {
+class ChromaticItemSheet extends ItemSheet {
 
   /** @override */
   static get defaultOptions() {
@@ -24,7 +24,7 @@ export class BoilerplateItemSheet extends ItemSheet {
 
     // Alternatively, you could use the following return statement to do a
     // unique item sheet by type, like `weapon-sheet.html`.
-    return `${path}/item-${this.item.data.type}-sheet.hbs`;
+    return `${path}/item-${this.item.type}-sheet.hbs`;
   }
 
   /* -------------------------------------------- */
@@ -37,7 +37,7 @@ export class BoilerplateItemSheet extends ItemSheet {
     context.effects = prepareActiveEffectCategories(this.item.effects);
 
     // Use a safe clone of the item data for further operations.
-    const itemData = context.item.data;
+    const itemData = context.item;
 
     // Retrieve the roll data for TinyMCE editors.
     context.rollData = {};
@@ -47,7 +47,7 @@ export class BoilerplateItemSheet extends ItemSheet {
     }
 
     // Add the actor's data to context.data for easier access, as well as flags.
-    context.data = itemData.data;
+    context.data = itemData.system;
     context.flags = itemData.flags;
 
     // Add some constants for easier lookup
@@ -91,3 +91,5 @@ export class BoilerplateItemSheet extends ItemSheet {
     html.find(".effect-control").click(ev => onManageActiveEffect(ev, this.item));
   }
 }
+
+export default ChromaticItemSheet;

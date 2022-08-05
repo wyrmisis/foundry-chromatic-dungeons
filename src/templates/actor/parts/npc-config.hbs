@@ -2,27 +2,27 @@
   <h2>HP</h2>
 
   <div class="configuration__field configuration__field--can-autocalculate-hp">
-      <label for="data.canAutocalculateHP">Auto-Calculate</label>
+      <label for="canAutocalculateHP">Auto-Calculate</label>
       <input
-        name="data.canAutocalculateHP"
+        name="system.canAutocalculateHP"
         type="checkbox"
-        {{checked data.canAutocalculateHP}} />
+        {{checked actor.system.canAutocalculateHP}} />
     </div>
 
   <div class="configuration__field configuration__field--hit-dice">
-    <label for="data.hitDice">Base Hit Dice</label>
+    <label for="hitDice">Base Hit Dice</label>
     <input
-      name="data.hitDice"
-      value="{{data.hitDice}}"
+      name="system.hitDice"
+      value="{{actor.system.hitDice}}"
       type="text"
       data-dtype="Number" />
   </div>
 
-  {{#if data.canAutocalculateHP}}
+  {{#if actor.system.canAutocalculateHP}}
     <div class="configuration__field configuration__field--hit-dice">
-      <label for="data.hitDieSize">Hit Die Size</label>
-      <select name="data.hitDieSize" data-dtype="Number">
-        {{#select data.hitDieSize}}
+      <label for="hitDieSize">Hit Die Size</label>
+      <select name="system.hitDieSize" data-dtype="Number">
+        {{#select actor.system.hitDieSize}}
           {{#each hitDieSizes as |size key|}}
             <option value="{{key}}">d{{size}}</option>
           {{/each}}
@@ -31,20 +31,20 @@
     </div>
 
     <div class="configuration__field configuration__field--hit-dice-bonus">
-      <label for="data.hitDiceBonus">HP Bonus</label>
+      <label for="hitDiceBonus">HP Bonus</label>
       <input
-        name="data.hitDiceBonus"
-        value="{{data.hitDiceBonus}}"
+        name="system.hitDiceBonus"
+        value="{{actor.system.hitDiceBonus}}"
         type="text"
         data-dtype="Number" />
     </div>
   {{/if}}
 
   <div class="configuration__field configuration__field--variant">
-    <label for="data.variant">Variant</label>
-    <select name="data.variant" data-dtype="String">
+    <label for="variant">Variant</label>
+    <select name="system.variant" data-dtype="String">
       <option value="">None</option>
-      {{#select data.variant}}
+      {{#select actor.system.variant}}
         {{#each variants as |variant key|}}
           <option value="{{key}}">{{variant.name}} (+{{variant.hitDice}}HD)</option>
         {{/each}}
@@ -56,43 +56,43 @@
 <div class="stat-region stat-region--xp">
   <h2>
     <span>XP</span>
-    {{#if data.canAutocalculateXP}}
-      <span>{{data.calculatedXP}}</span>
+    {{#if actor.system.canAutocalculateXP}}
+      <span>{{actor.system.calculatedXP}}</span>
     {{/if}}
   </h2>
 
   <div class="configuration__field configuration__field--can-autocalculate-xp">
-    <label for="data.canAutocalculateXP">Auto-Calculate</label>
+    <label for="canAutocalculateXP">Auto-Calculate</label>
     <input
-      name="data.canAutocalculateXP"
+      name="system.canAutocalculateXP"
       type="checkbox"
-      {{checked data.canAutocalculateXP}} />
+      {{checked actor.system.canAutocalculateXP}} />
   </div>
 
-  {{#unless data.canAutocalculateXP}}
+  {{#unless actor.system.canAutocalculateXP}}
     <div class="configuration__field configuration__field--xp">
-      <label for="data.xp">XP</label>
+      <label for="xp">XP</label>
       <input
-        name="data.xp"
-        value="{{data.xp}}"
+        name="system.xp"
+        value="{{actor.system.xp}}"
         type="text"
         data-dtype="Number" />
     </div>
   {{else}}
     <div class="configuration__field configuration__field--has-special-ability">
-      <label for="data.hasSpecialAbility">Has Special Ability?</label>
+      <label for="hasSpecialAbility">Has Special Ability?</label>
       <input
-        name="data.hasSpecialAbility"
+        name="system.hasSpecialAbility"
         type="checkbox"
-        {{checked data.hasSpecialAbility}} />
+        {{checked actor.system.hasSpecialAbility}} />
     </div>
 
     <div class="configuration__field configuration__field--is-exceptional">
-      <label for="data.isExceptional">Is Exceptional?</label>
+      <label for="isExceptional">Is Exceptional?</label>
       <input
-        name="data.isExceptional"
+        name="system.isExceptional"
         type="checkbox"
-        {{checked data.isExceptional}} />
+        {{checked actor.system.isExceptional}} />
     </div>
   {{/unless}}
 </div>
@@ -100,9 +100,9 @@
 <div class="stat-region stat-region--configuration">
   <h2>Configuration</h2>
   <div class="configuration__field configuration__field--size">
-    <label for="data.size">Size</label>
-    <select name="data.size" data-dtype="String">
-      {{#select data.size}}
+    <label for="size">Size</label>
+    <select name="system.size" data-dtype="String">
+      {{#select actor.system.size}}
         {{#each sizes as |size key|}}
           <option value="{{key}}">{{size}}</option>
         {{/each}}
@@ -111,10 +111,10 @@
   </div>
 
   <div class="configuration__field configuration__field--alignment">
-    <label for="data.alignment">Alignment</label>
-    <select name="data.alignment" data-dtype="String">
+    <label for="alignment">Alignment</label>
+    <select name="system.alignment" data-dtype="String">
       <option value="">Unaligned</option>
-      {{#select data.alignment}}
+      {{#select actor.system.alignment}}
         {{#each alignments as |alignment key|}}
           <option value="{{key}}">{{alignment}}</option>
         {{/each}}
@@ -123,28 +123,28 @@
   </div>
 
   <div class="configuration__field configuration__field--alignment">
-    <label for="data.senses.infravision">Base Infravision</label>
+    <label for="senses.infravision">Base Infravision</label>
     <input
-      name="data.senses.infravision"
-      value="{{data.senses.infravision}}"
+      name="system.senses.infravision"
+      value="{{actor.system.senses.infravision}}"
       type="number"
       data-dtype="Number" />
   </div>
 
   <div class="configuration__field configuration__field--alignment">
-    <label for="data.senses.blindvision">Base Blindvision</label>
+    <label for="senses.blindvision">Base Blindvision</label>
     <input
-      name="data.senses.blindvision"
-      value="{{data.senses.blindvision}}"
+      name="system.senses.blindvision"
+      value="{{actor.system.senses.blindvision}}"
       type="number"
       data-dtype="Number" />
   </div>
 
   <div class="configuration__field configuration__field--perception-mod">
-    <label for="data.perceptionMod">Perception Mod</label>
+    <label for="perceptionMod">Perception Mod</label>
     <input
-      name="data.perceptionMod"
-      value="{{data.perceptionMod}}"
+      name="system.perceptionMod"
+      value="{{actor.system.perceptionMod}}"
       type="number"
       data-dtype="Number" />
   </div>

@@ -2,14 +2,11 @@
   <h2>{{localize 'SHEET.saves'}}</h2>
   <ul class="saves-list">
     
-    {{#each saves as |save key|}}
+    {{#each actor.system.saves as |save key|}}
       <li
         class="saves-list__item rollable rollable--no-icon"
-        data-label="{{localize (concat 'SHEET.save.' key)}}"
-        data-roll-type="Save"
-        data-target="{{save}}"
-        data-roll="1d20{{signedString (lookup ../saveMods key)}}"
-        title="{{{localize (concat 'SHEET.save.' key)}}}">
+        data-roll="save"
+        data-key="{{key}}">
         <h4 class="saves-list__name">
           {{{localize (concat 'SHEET.save.' key)}}}
         </h4>
@@ -17,19 +14,19 @@
           {{localize 'SHEET.listheadings.saves.target'}}: {{save}}
         </div>
         <div class="saves-list__modifier">
-          ({{signedString (lookup ../saveMods key)}})
+          ({{signedString (lookup ../actor.system.saveMods key)}})
         </div>
       </li>
     {{/each}}
     
   </ul>
-  {{#if (ne (derivedStat 'wis' data.attributes.wis 'modMentalSave') 0)}}
-    <p>Reminder: you have a {{signedString (derivedStat 'wis' data.attributes.wis 'modMentalSave')}} to mental saves.</p>
+  {{#if (ne (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave') 0)}}
+    <p>Reminder: you have a {{signedString (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave')}} to mental saves.</p>
   {{/if}}
 </div>
 
 <div class="quick-access__class">
-  {{#if classes.length}}
+  {{#if actor.system.classes.length}}
     <h2 class="action-header">
       Classes
 
@@ -40,72 +37,79 @@
       </button>
     </h2>
     <ul>
-      {{#each classes}}
+      {{#each actor.system.classes}}
         <li>
           <h3 class="action-header">
-            <span>Lv. {{level}} {{name}}</span>
-            <button type="button" data-item-action="edit" data-item-id="{{id}}">
-              <i class="fa fa-edit">
-                <span class="sr-only">Edit the {{name}} class</span>
+            <span>Lv. {{system.level}} {{name}}</span>
+            <button type="button" data-item-action="share" data-item-id="{{id}}">
+              <i class="fa fa-eye">
+                <span class="sr-only">Share the {{name}} class with chat</span>
               </i>
             </button>
           </h3>
-          {{#with (classXpProgress this)}}
-            <progress
-              min="{{min}}"
-              value="{{value}}"
-              max="{{max}}"
-              title="{{value}}/{{max}}"></progress>
-          {{/with}}
+
+          <progress
+            min="0"
+            value="{{system.xp}}"
+            max="{{system.xpToNextLevel}}"
+            title="{{system.xp}}/{{system.xpToNextLevel}}"></progress>
         </li>
       {{/each}}
+    </ul>
+  {{else}}
+    <h2>Classes</h2>
+    <ul>
+      <li class="empty">No class assigned</li>
     </ul>
   {{/if}}
 </div>
 
+{{#if equippedItems.length}}
 <div class="quick-access__equipment">
-  {{#if equippedItems.length}}
-    <h2>Equipped Items</h2>
+  <h2>Equipped Items</h2>
     <ul class="equipped-list">
     {{#each equippedItems}}
       <li
+        data-quick-item
         data-item-id="{{_id}}"
-        data-roll-type="item"
-        data-label="{{item.name}}"
         class="equipped-tile {{#if (equals type "weapon")}}rollable rollable--no-icon{{/if}}"
       >
         <img src="{{this.img}}" />
         <span>
           {{name}}
         </span>
+        {{#if (equals this.system.weaponType 'thrown')}}
+          <input
+            class="item-card__quantity"
+            type="number"
+            data-dtype="Number"
+            readonly
+            value="{{this.system.quantity.value}}" />
+        {{/if}}
       </li>
+    {{else}}
+      <li class="empty">Nothing equipped</li>
     {{/each}}
     </ul>
-  {{/if}}
 </div>
+{{/if}}
 
-{{#if skills.length}}
+{{#if actor.system.skills}}
 <div class="quick-access__class-skills">
   <h2>Skills</h2>
-  {{#each skills}}
-    <h3 class="action-header">
-      <span>{{name}}</span>
-      {{#if @index}}
-      <button type="button" data-item-action="edit" data-item-id="{{id}}">
-        <i class="fa fa-edit">
-          <span class="sr-only">Edit the {{name}} class</span>
-        </i>
-      </button>
-      {{/if}}
-    </h3>
+  {{#each actor.system.skills}}
+    {{#if (gt ../actor.system.skills.length 1)}}
+      <h3 class="action-header">
+        <span>{{name}}</span>
+      </h3>
+    {{/if}}
     <ul class="skills-list">
       {{#each skills}}
       <li
         class="skills-list__item rollable rollable--no-icon"
-        data-label="{{localize (concat 'ATTRIBUTE.' attribute)}} ({{name}})"
-        data-target="{{lookup ../../data.attributes attribute}}"
-        data-roll-type="Attribute"
-        data-roll="1d20-{{bonus}}-{{lookup ../../data.attributeMods attribute}}">
+        data-roll="attribute"
+        data-key="{{attribute}}"
+        data-bonus="{{bonus}}">
         <img src="systems/foundry-chromatic-dungeons/dist/assets/stat-icons/{{attribute}}.svg" />
         <span>
           {{name}}

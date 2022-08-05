@@ -1,14 +1,14 @@
-<div class="attributes">
+<div class="configuration">
   <section class="item-attributes">
     <div class="item-attributes__group">
       <h2>Configuration</h2>
 
       <div class="item-attributes__item item-attributes__item--compact">
-        <label for="data.classGroup">Class Group</label>
+        <label for="system.classGroup">Class Group</label>
         <select
           data-dtype="String"
-          name="data.classGroup">
-          {{#select data.classGroup}}
+          name="system.classGroup">
+          {{#select item.system.classGroup}}
             <option value="warrior">{{localize "CLASSGROUP.warrior"}}</option>
             <option value="rogue">{{localize "CLASSGROUP.rogue"}}</option>
             <option value="arcane">{{localize "CLASSGROUP.arcane"}}</option>
@@ -18,8 +18,8 @@
       </div>
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.statBonus"
-        value=data.statBonus
+        key="system.statBonus"
+        value=item.system.statBonus
         label="Stat Bonus"
         type="text"
         dataType="String"
@@ -27,19 +27,19 @@
       }}
 
       <div class="item-attributes__item item-attributes__item--compact">
-        <label for="data.isPrimary">Character's primary class</label>
+        <label for="isPrimary">Character's primary class</label>
         <input
           type="checkbox"
-          name="data.isPrimary"
-          {{checked data.isPrimary}} />
+          name="system.isPrimary"
+          {{checked item.system.isPrimary}} />
       </div>
 
       <div class="item-attributes__item item-attributes__item--compact">
-        <label for="data.isSelectedSaveTable">Use this class's save table</label>
+        <label for="isSelectedSaveTable">Use this class's save table</label>
         <input
           type="checkbox"
-          name="data.isSelectedSaveTable"
-          {{checked data.isSelectedSaveTable}} />
+          name="system.isSelectedSaveTable"
+          {{checked item.system.isSelectedSaveTable}} />
       </div>
     </div>
 
@@ -47,36 +47,36 @@
       <h2>Spellcasting</h2>
 
       <div class="item-attributes__item item-attributes__item--compact">
-        <label for="data.hasSpellcasting">Has Spellcasting</label>
+        <label for="hasSpellcasting">Has Spellcasting</label>
         <input
           type="checkbox"
-          name="data.hasSpellcasting"
-          {{checked data.hasSpellcasting}} />
+          name="system.hasSpellcasting"
+          {{checked item.system.hasSpellcasting}} />
       </div>
 
-      {{#if data.hasSpellcasting}}
+      {{#if item.system.hasSpellcasting}}
         <div class="item-attributes__item item-attributes__item--compact">
-          <label for="data.hasSpellPoints">Uses Spell Points</label>
+          <label for="hasSpellPoints">Uses Spell Points</label>
           <input
             type="checkbox"
-            name="data.hasSpellPoints"
-            {{checked data.hasSpellPoints}} />
+            name="system.hasSpellPoints"
+            {{checked item.system.hasSpellPoints}} />
         </div>
 
         <div class="item-attributes__item item-attributes__item--compact">
-          <label for="data.hasFullSpellList">Already knows its full spell list</label>
+          <label for="hasFullSpellList">Already knows its full spell list</label>
           <input
             type="checkbox"
-            name="data.hasFullSpellList"
-            {{checked data.hasFullSpellList}} />
+            name="system.hasFullSpellList"
+            {{checked item.system.hasFullSpellList}} />
         </div>
 
         <div class="item-attributes__item item-attributes__item--compact">
-          <label for="data.hasWisdomBonusSlots">Gets bonus slots from Wisdom</label>
+          <label for="hasWisdomBonusSlots">Gets bonus slots from Wisdom</label>
           <input
             type="checkbox"
-            name="data.hasWisdomBonusSlots"
-            {{checked data.hasWisdomBonusSlots}} />
+            name="system.hasWisdomBonusSlots"
+            {{checked item.system.hasWisdomBonusSlots}} />
         </div>
       {{/if}}
     </div>
@@ -84,8 +84,8 @@
     <div class="item-attributes__group">
       <h2>Proficiencies</h2>
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.weaponProf"
-        value=data.weaponProf
+        key="system.weaponProf"
+        value=item.system.weaponProf
         label="Weapons"
         type="text"
         dataType="String"
@@ -93,8 +93,8 @@
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="data.armorProf"
-        value=data.armorProf
+        key="system.armorProf"
+        value=item.system.armorProf
         label="Armor"
         type="text"
         dataType="String"
@@ -102,24 +102,24 @@
       }}
 
       <div class="item-attributes__item item-attributes__item--compact">
-        <label for="data.hasSkills">Has class skills</label>
+        <label for="hasSkills">Has class skills</label>
         <input
           type="checkbox"
-          name="data.hasSkills"
-          {{checked data.hasSkills}} />
+          name="system.hasSkills"
+          {{checked item.system.hasSkills}} />
       </div>
     </div>
 
     <div class="item-attributes__group item-attributes__group--requirements">
       <h2>Requirements</h2>
 
-      {{#each data.requirements as |requirement key|}}
+      {{#each item.system.requirements as |requirement key|}}
         <div class="requirement">
-          <label for="{{concat "data.requirement" key}}">{{localizeAttr key}}</label>
+          <label for="{{concat "system.requirement" key}}">{{localizeAttr key}}</label>
           <input
             type="number"
             data-dtype="Number"
-            name="{{concat "data.requirements." key}}"
+            name="{{concat "system.requirements." key}}"
             value="{{requirement}}" />
         </div>
       {{/each}}

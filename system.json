@@ -1,121 +1,178 @@
 {
-  "manifestPlusVersion": "1.2.0",
-  "name": "foundry-chromatic-dungeons",
+  "id": "foundry-chromatic-dungeons",
   "title": "Chromatic Dungeons",
   "description": "An implementation of Izegrim Creations' Chromatic Dungeons (https://izegrimcreations.com/gaming-related)",
-  "templateVersion": 1,
-  "minimumCoreVersion": "0.8.8",
-  "compatibleCoreVersion": "9.245",
-  "author": "wyrmisis",
   "authors": [
-    {"name": "wyrmisis", "discord": "wyrmisis#8136"}
-  ],
-  "esmodules": ["dist/js/bundle.min.js"],
-  "styles": ["dist/css/bundle.css"],
-  "languages": [{
-    "lang": "en",
-    "name": "English",
-    "path": "lang/en.json"
-  }],
-  "dependencies": [
     {
-      "name": "markdown-editor",
-      "manifest": "https://raw.githubusercontent.com/Moerill/fvtt-markdown-editor/master/module.json"
-    },
-    { "name": "compendium-folders" },
-    {
-      "name": "fvtt-lib-wrapper",
-      "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
-    },
-    {
-      "name": "fvtt-rolldata-aware-active-effects",
-      "manifest": "https://github.com/wyrmisis/fvtt-rolldata-aware-active-effects/releases/latest/download/module.json"
+      "name": "wyrmisis",
+      "discord": "wyrmisis#8136"
     }
   ],
+  "esmodules": [
+    "dist/js/bundle.min.js"
+  ],
+  "styles": [
+    "dist/css/bundle.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "compatibility": {
+    "minimum": 10,
+    "verified": "10.272"
+  },
+  "relationships": {
+    "requires": [
+      {
+        "id": "lib-wrapper",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "fvtt-rolldata-aware-active-effects",
+        "manifest": "https://github.com/wyrmisis/fvtt-rolldata-aware-active-effects/releases/latest/download/module.json",
+        "type": "module",
+        "compatibility": {}
+      }
+    ]
+  },
   "packs": [
     {
       "name": "weapon",
-      "label": "Weapons",
+      "label": "Items: Weapons",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/weapons.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
       "name": "armor",
-      "label": "Armor",
+      "label": "Items: Armor",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/armor.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
       "name": "gear",
-      "label": "Adventuring Gear",
+      "label": "Items: Adventuring Gear",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/gear.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
-    },
-    {
-      "name": "goods",
-      "label": "Trade Goods",
-      "path": "packs/trade-goods.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
       "name": "treasure",
-      "label": "Treasure",
+      "label": "Items: Treasure",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/treasure.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
-      "name": "spell",
-      "label": "Spellbook",
-      "path": "packs/spellbook.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "name": "spell-list-wizard",
+      "label": "Spellbook: Wizard",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-wizard.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-sorcerer",
+      "label": "Spellbook: Sorcerer",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-sorcerer.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-cleric2",
+      "label": "Spellbook: Cleric",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-cleric2.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-druid",
+      "label": "Spellbook: Druid",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-druid.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-paladin",
+      "label": "Spellbook: Paladin",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-paladin.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-ranger",
+      "label": "Spellbook: Ranger",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-ranger.db",
+      "type": "Item"
+    },
+    {
+      "name": "spell-list-Bard",
+      "label": "Spellbook: Bard",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/spell-list-cleric.db",
+      "type": "Item"
     },
     {
       "name": "ancestry",
-      "label": "Ancestries",
+      "label": "Character Options: Ancestries",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/ancestries.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
       "name": "heritage",
-      "label": "Heritage Options",
+      "label": "Character Options: Heritage Options",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/heritages.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
       "name": "class",
-      "label": "Classes",
+      "label": "Character Options: Classes",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/classes.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
     },
     {
       "name": "bestiary",
       "label": "Bestiary",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/bestiary.db",
-      "type": "Actor",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Actor"
     },
     {
       "name": "commonmacros",
       "label": "Common Macros",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/macros.db",
-      "type": "Macro",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Macro"
     },
     {
       "name": "kits",
-      "label": "Starting Kits",
+      "label": "Items: Starting Kits",
+      "system": "foundry-chromatic-dungeons",
       "path": "packs/kits.db",
-      "type": "Item",
-      "module": "foundry-chromatic-dungeons"
+      "type": "Item"
+    },
+    {
+      "name": "rules",
+      "label": "Rules",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/rules.db",
+      "type": "JournalEntry"
+    },
+    {
+      "name": "treasure-tables",
+      "label": "Treasure",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/treasure-tables.db",
+      "type": "RollTable"
     }
   ],
   "gridDistance": 5,
