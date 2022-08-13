@@ -2,7 +2,7 @@ import {
   getDerivedStatWithContext
 } from '../../helpers/utils.mjs';
 
-const { NumberField, SchemaField } = foundry.data.fields;
+const { NumberField, SchemaField, StringField } = foundry.data.fields;
 
 export const numberFieldsFromKeys = (obj) =>
   obj && Object.keys(obj).reduce(
@@ -14,6 +14,7 @@ export const numberFieldsFromKeys = (obj) =>
   );
 
 export const sharedSchemaKeys = () => ({
+  alignment: new StringField(),
   attributes: new SchemaField({
     ...numberFieldsFromKeys(CONFIG?.CHROMATIC?.attributes)
   }),
