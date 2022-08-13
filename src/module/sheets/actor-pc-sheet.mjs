@@ -1,3 +1,4 @@
+import Tagify from '@yaireo/tagify';
 import {
   prepareActiveEffectCategories
 } from "../helpers/effects.mjs";
@@ -58,6 +59,20 @@ class ChromaticActorPCSheet extends ActorSheet {
   /** @override */
   activateListeners(html) {
     super.activateListeners(html);
+
+    const languageTags = new Tagify(
+      document.querySelector('[name="languages"]'),
+      {
+        maxTags: this.actor.system.maxLanguages,
+        originalInputValueFormat: valuesArr => valuesArr.map(item => item.value)
+      }
+    );
+
+    languageTags.on('change', async (e) => {
+      this.actor.update({
+        'system.languages': e.detail.value ? e.detail.value.split(',') : []
+      })
+    })
 
     /**
      * COMMON EVENTS

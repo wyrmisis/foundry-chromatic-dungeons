@@ -1,3 +1,7 @@
+/* stylelint-disable */
+@import url('@yaireo/tagify/dist/tagify.css');
+/* stylelint-enable */
+
 /* Shared */
 @import url('./shared/_vars.css');
 @import url('./shared/_shared.css');

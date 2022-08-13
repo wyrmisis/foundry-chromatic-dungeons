@@ -175,3 +175,27 @@ label[title] {
 .tox .tox-edit-area {
   padding: 0 8px;
 }
+
+.tag-list {
+  width: 100%;
+
+  &.tagify--hasMaxTags {
+    cursor: default;
+
+    .tagify__input {
+      display: none;
+    }
+  }
+}
+
+.chromatic-dungeons {
+  .features__languages-list {
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+    align-items: baseline;
+
+    & > span {
+      text-align: center;
+    }
+  }
+}

@@ -201,5 +201,5 @@ CHROMATIC.critTypes = {
 }
 
 CHROMATIC.dataKeys = {
-  language: 'data.languages'
+  language: 'system.languages'
 }

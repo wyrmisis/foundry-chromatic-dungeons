@@ -19,17 +19,10 @@
 <h2 class="features__title">Languages</h2>
 
 {{#if actor.system.maxLanguages}}
-  <ul class="features features--languages">
-    {{#each (paddedTo actor.system.languages actor.system.maxLanguages) }}
-      <li class="feature__item">
-        <input
-          type="text"
-          data-dtype="String"
-          name="system.languages.[{{@index}}]"
-          value="{{lookup ../actor.system.languages (concat '[' @index ']') }}"/>
-      </li>
-    {{/each}}
-  </ul>
+  <div class="features__languages-list">
+    <input name="languages" class="tag-list" value="{{actor.system.languages}}" />
+    <span>{{actor.system.languages.length}}/{{actor.system.maxLanguages}}</span>
+  </div>
 {{else}}
   <p class="feature__item--empty">You cannot speak any languages.</p>
 {{/if}}
