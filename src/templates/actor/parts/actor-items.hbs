@@ -1,19 +1,21 @@
 <section class="items">
-  {{#if carryWeight}}
+  {{#if actor.system.carryWeight}}
   <div class="items__carry-weight">
     <h4>Carry weight</h4>
+    {{#with actor.system.carryWeight}}
     <meter
       class="items__carry-weight-bar"
-      value="{{carryWeight.value}}"
+      value="{{value}}"
       min="0"
-      optimum="{{carryWeight.oneQuarter}}"
-      low="{{carryWeight.half}}"
-      high="{{carryWeight.threeQuarters}}"
-      max="{{carryWeight.max}}"
-      title="Carrying {{carryWeight.value}}/{{carryWeight.max}}"
+      optimum="{{oneQuarter}}"
+      low="{{half}}"
+      high="{{threeQuarters}}"
+      max="{{max}}"
+      title="Carrying {{value}}/{{max}}"
     >
-      <span>{{carryWeight.value}}/{{carryWeight.max}}</span>
+      <span>{{value}}/{{max}}</span>
     </meter>
+    {{/with}}
   </div>
   {{/if}}
 
