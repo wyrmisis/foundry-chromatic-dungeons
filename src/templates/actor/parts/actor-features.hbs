@@ -105,10 +105,12 @@
 
   <ul class="features features--class">
     {{#each system.features}}
-      <li class="feature__item">
-        <h4>{{title}}</h4>
-        {{{content}}}
-      </li>
+      {{#if (eq ../system.level level)}}
+        <li class="feature__item">
+          <h4>{{title}}</h4>
+          {{{content}}}
+        </li>
+      {{/if}}
     {{else}}
       <li class="feature__item feature__item--empty">This class does not have any features at this level.</li>
     {{/each}}
