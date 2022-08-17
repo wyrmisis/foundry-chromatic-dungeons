@@ -59,30 +59,30 @@
    },
  }
  
- getAllItemsOfType('spell', 'foundry-chromatic-dungeons.spell').then(spells => {
-   const spellList = formatV9Spells(spells);;
+ getAllItemsOfType('spell', 'foundry-chromatic-dungeons.spellbook').then(spells => {
+   const spellList = formatV9Spells(spells);
    
-   // const spellListsPerClassSchoolAndLevel = {
-   //   Wizard: sortBySchoolAndLevel(classListFromList(wizardUUID, spellList)),
-   //   Cleric: sortBySchoolAndLevel(classListFromList(clericUUID, spellList)),
-   //   Paladin: sortBySchoolAndLevel(classListFromList(paladinUUID, spellList)),
-   //   Druid: sortBySchoolAndLevel(classListFromList(druidUUID, spellList)),
-   //   Ranger: sortBySchoolAndLevel(classListFromList(rangerUUID, spellList)),
-   //   Sorcerer: sortBySchoolAndLevel(classListFromList(sorcererUUID, spellList)),
-   //   Bard: sortBySchoolAndLevel(classListFromList(bardUUID, spellList)),
-   // };
-   // buildClassSchoolLevelFolders(spellListsPerClassSchoolAndLevel);
- 
-   const spellListsPerClass = {
-    //  Wizard: classListFromList(wizardUUID, spellList),
-     Cleric: classListFromList(clericUUID, spellList),
-    //  Paladin: classListFromList(paladinUUID, spellList),
-    //  Druid: classListFromList(druidUUID, spellList),
-    //  Ranger: classListFromList(rangerUUID, spellList),
-    //  Sorcerer: classListFromList(sorcererUUID, spellList),
-    //  Bard: classListFromList(bardUUID, spellList),
+   const spellListsPerClassSchoolAndLevel = {
+     Wizard: sortBySchoolAndLevel(classListFromList(wizardUUID, spellList)),
+     Cleric: sortBySchoolAndLevel(classListFromList(clericUUID, spellList)),
+     Paladin: sortBySchoolAndLevel(classListFromList(paladinUUID, spellList)),
+     Druid: sortBySchoolAndLevel(classListFromList(druidUUID, spellList)),
+     Ranger: sortBySchoolAndLevel(classListFromList(rangerUUID, spellList)),
+     Sorcerer: sortBySchoolAndLevel(classListFromList(sorcererUUID, spellList)),
+     Bard: sortBySchoolAndLevel(classListFromList(bardUUID, spellList)),
    };
-   buildClassFolders(spellListsPerClass);
+   buildClassSchoolLevelFolders(spellListsPerClassSchoolAndLevel);
+ 
+  //  const spellListsPerClass = {
+  //    Wizard: classListFromList(wizardUUID, spellList),
+  //    Cleric: classListFromList(clericUUID, spellList),
+  //    Paladin: classListFromList(paladinUUID, spellList),
+  //    Druid: classListFromList(druidUUID, spellList),
+  //    Ranger: classListFromList(rangerUUID, spellList),
+  //    Sorcerer: classListFromList(sorcererUUID, spellList),
+  //    Bard: classListFromList(bardUUID, spellList),
+  //  };
+  //  buildClassFolders(spellListsPerClass);
  });
  
  const buildClassSchoolLevelFolders = async (spellListsPerClassSchoolAndLevel) => {
