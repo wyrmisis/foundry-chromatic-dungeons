@@ -134,16 +134,17 @@ CHROMATIC.moveTypes = {
 };
 
 CHROMATIC.damageTypes = {
-  "magical":      'Magical',
-  "slashing":     'Slashing',
-  "piercing":     'Piercing',
-  "bludgeoning":  'Bludgeoning',
-  "fire":         'Fire',
-  "cold":         'Cold',
-  "lightning":    'Lightning',
-  "radiant":      'Radiant',
-  "necrotic":     'Necrotic',
-  "force":        'Force'
+  "Slashing":     'Slashing',
+  "Piercing":     'Piercing',
+  "Bludgeoning":  'Bludgeoning',
+  "Magical":      'Magical',
+  "Acid":         'Acid',
+  "Fire":         'Fire',
+  "Cold":         'Cold',
+  "Lightning":    'Lightning',
+  "Radiant":      'Radiant',
+  "Necrotic":     'Necrotic',
+  "Force":        'Force'
 };
 
 CHROMATIC.damageModifiers = {

@@ -51,7 +51,10 @@ class ChromaticItemSheet extends ItemSheet {
     context.flags = itemData.flags;
 
     // Add some constants for easier lookup
-    if (context.item.type === 'weapon') context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
+    if (context.item.type === 'weapon') {
+      context.weaponTypes = CONFIG.CHROMATIC.weaponTypes;
+      context.damageTypes = CONFIG.CHROMATIC.damageTypes;
+    }
     if (context.item.type === 'armor') context.armorTypes = CONFIG.CHROMATIC.armorTypes;
 
     return context;

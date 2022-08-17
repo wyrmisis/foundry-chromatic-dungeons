@@ -1,9 +1,4 @@
-import showdown from 'showdown';
 import {getDerivedStat} from './utils.mjs';
-
-const mdParser = new showdown.Converter({
-  tables: true
-});
 
 /* -------------------------------------------- */
 /*  Handlebars Helpers                          */
@@ -19,14 +14,9 @@ const setupHandlebarsHelpers = () => {
    * template, but we don't have an array for it.
    */
   Handlebars.registerHelper('arbitraryLoop', (length) => Array.from({length}));
+  
   Handlebars.registerHelper('sum', (...args) => parseInt(args.reduce((total, add) => total + add, 0)));
-  Handlebars.registerHelper('markdown', (input) => mdParser.makeHtml(input));
-  Handlebars.registerHelper('default', (value, defaultValue) => 
-    [null, undefined].includes(value) 
-      ? defaultValue
-      : value
-  );
-
+  
   // If you need to add Handlebars helpers, here are a few useful examples:
   Handlebars.registerHelper('concat', function() {
     var outStr = '';
@@ -38,19 +28,6 @@ const setupHandlebarsHelpers = () => {
     return outStr;
   });
 
-  Handlebars.registerHelper('itemIndexFromId', (actor, itemId) =>
-    actor.items.findIndex((i) => i._id === itemId)
-  );
-
-  Handlebars.registerHelper(
-    'equals',
-    (...args) => args.every(val => val === args[0]) 
-  );
-
-  Handlebars.registerHelper('toLowerCase', function(str) {
-    return str.toLowerCase();
-  });
-  
   /**
    * localizeAttr
    * 
@@ -76,15 +53,6 @@ const setupHandlebarsHelpers = () => {
 
       return total > 0 ? `+${total}` : `${total}`
     }
-   );
-
-   Handlebars.registerHelper(
-      'classXpProgress',
-      ({level, xp, xpNext}) => ({
-        min: level === 1 ? 0 : CONFIG.CHROMATIC.xp[level - 2].xp,
-        max: xpNext,
-        value: xp
-      })
    );
 
   /**
@@ -123,11 +91,6 @@ const setupHandlebarsHelpers = () => {
    */
   Handlebars.registerHelper('dynamicProp', (obj, key) => obj[key]);
 
-  /**
-   * stringify
-   */
-  Handlebars.registerHelper('stringify', (obj) => JSON.stringify(obj));
-
   Handlebars.registerHelper('paddedTo', (arr = [], minimum) =>
     (arr.length >= minimum)
       ? arr
@@ -141,8 +104,6 @@ const setupHandlebarsHelpers = () => {
       ) && spell.system.level === parseInt(level)
     )
   );
-
-  Handlebars.registerHelper('getFeatureContentKey', (key) => `data.features.${key}.content`);
 
   Handlebars.registerHelper('getClassPreparedSpellsAtLevel',
     (castingClass, index) => castingClass.slots[index].preparedSpells

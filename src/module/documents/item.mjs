@@ -85,14 +85,14 @@ class ChromaticItem extends Item {
     const rollData = this.getRollData();
     const {weaponType} = this.system;
 
-    let toHitMod = this.system.modToHit + circumstantialAttackMod,
-        damageMod = this.system.modDamage + circumstantialDamageMod,
+    let toHitMod = actor.system.toHitMods[weaponType] + this.system.modToHit + circumstantialAttackMod,
+        damageMod = actor.system.damageMods[weaponType] + this.system.modDamage + circumstantialDamageMod,
         baseDamage = (useAmmoDamage ? ammoItem : this).system.damage;
 
     if (isVersatile) damageMod += 1;
 
-    let attackRoll = new Roll(`1d20+@toHitMods.${weaponType}+${toHitMod}`, rollData);
-    let damageRoll = new Roll(`${baseDamage}+@damageMods.${weaponType}+${damageMod}`, rollData);
+    let attackRoll = new Roll(`1d20+${toHitMod}`, rollData);
+    let damageRoll = new Roll(`${baseDamage}+${damageMod}`, rollData);
     
     attackRoll = await attackRoll.roll({ async: true });
     damageRoll = await damageRoll.roll({ async: true });
