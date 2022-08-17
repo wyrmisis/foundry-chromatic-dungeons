@@ -28,6 +28,11 @@
   "relationships": {
     "requires": [
       {
+        "id": "compendium-folders",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
         "id": "lib-wrapper",
         "type": "module",
         "compatibility": {}
@@ -63,6 +68,13 @@
       "type": "Item"
     },
     {
+      "name": "kits",
+      "label": "Items: Starting Kits",
+      "system": "foundry-chromatic-dungeons",
+      "path": "packs/kits.db",
+      "type": "Item"
+    },
+    {
       "name": "treasure",
       "label": "Items: Treasure",
       "system": "foundry-chromatic-dungeons",
@@ -84,10 +96,10 @@
       "type": "Item"
     },
     {
-      "name": "spell-list-cleric2",
+      "name": "spell-list-cleric",
       "label": "Spellbook: Cleric",
       "system": "foundry-chromatic-dungeons",
-      "path": "packs/spell-list-cleric2.db",
+      "path": "packs/spell-list-cleric.db",
       "type": "Item"
     },
     {
@@ -112,10 +124,10 @@
       "type": "Item"
     },
     {
-      "name": "spell-list-Bard",
+      "name": "spell-list-bard",
       "label": "Spellbook: Bard",
       "system": "foundry-chromatic-dungeons",
-      "path": "packs/spell-list-cleric.db",
+      "path": "packs/spell-list-bard.db",
       "type": "Item"
     },
     {
@@ -152,13 +164,6 @@
       "system": "foundry-chromatic-dungeons",
       "path": "packs/macros.db",
       "type": "Macro"
-    },
-    {
-      "name": "kits",
-      "label": "Items: Starting Kits",
-      "system": "foundry-chromatic-dungeons",
-      "path": "packs/kits.db",
-      "type": "Item"
     },
     {
       "name": "rules",
