@@ -2,8 +2,8 @@
   <h2>Attributes</h2>
 
   {{> (partial "item/parts/item-attribute.hbs")
-    key="data.weight.value"
-    value=data.weight.value
+    key="system.weight.value"
+    value=item.system.weight.value
     label="Weight"
     type="number"
     compact=true
@@ -15,13 +15,17 @@
   <h2>Weapon Type</h2>
 
   <div class="type-container">
-    {{radioBoxes "data.weaponType" weaponTypes checked=data.weaponType localize=true}}
+    {{radioBoxes "system.weaponType"
+      weaponTypes
+      checked=item.system.weaponType
+      localize=true
+    }}
   </div>
 
-  {{#if (equals data.weaponType "ammunition")}}
+  {{#if (equals item.system.weaponType "ammunition")}}
     {{> (partial "item/parts/item-attribute.hbs")
-      key="data.ammunitionType"
-      value=data.ammunitionType
+      key="system.ammunitionType"
+      value=item.system.ammunitionType
       label="Ammunition type"
       type="string"
       dataType="String"
@@ -29,10 +33,10 @@
     }}
   {{/if}}
 
-  {{#if (equals data.weaponType "ranged") }}
+  {{#if (equals item.system.weaponType "ranged") }}
     {{> (partial "item/parts/item-attribute.hbs")
-      key="data.ammunitionType"
-      value=data.ammunitionType
+      key="system.ammunitionType"
+      value=item.system.ammunitionType
       label="Ammunition type"
       type="string"
       dataType="String"

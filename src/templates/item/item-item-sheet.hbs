@@ -6,11 +6,11 @@
       <div class="grid grid-2col">
         <div class="resource">
           <label class="resource-label">Quantity</label>
-          <input type="text" name="system.quantity" value="{{data.quantity}}" data-dtype="Number"/>
+          <input type="text" name="system.quantity" value="{{item.system.quantity}}" data-dtype="Number"/>
         </div>
         <div class="resource">
           <label class="resource-label">Weight</label>
-          <input type="text" name="system.weight" value="{{data.weight}}" data-dtype="Number"/>
+          <input type="text" name="system.weight" value="{{item.system.weight}}" data-dtype="Number"/>
         </div>
       </div>
     </div>
@@ -42,7 +42,7 @@
       {{!-- As you add new fields, add them in here! --}}
       <div class="resource">
         <label class="resource-label">Roll Formula</label>
-        <input type="text" name="system.formula" value="{{data.formula}}" data-dtype="String"/>
+        <input type="text" name="system.formula" value="{{item.system.formula}}" data-dtype="String"/>
       </div>
     </div>
   </section>

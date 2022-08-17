@@ -30,7 +30,7 @@
             <div class="damage-container">
               {{> (partial "item/parts/item-attribute.hbs")
                 key="system.damage"
-                value=data.damage
+                value=item.system.damage
                 label="Damage"
                 type="text"
                 dataType="String"
@@ -42,11 +42,9 @@
                 <select
                   data-dtype="String"
                   name="system.damageType">
-                  {{#select data.damageType}}
-                  <option value="Slashing">Slashing</option>
-                  <option value="Piercing">Piercing</option>
-                  <option value="Bludgeoning">Bludgeoning</option>
-                  {{/select}}
+                  {{selectOptions damageTypes
+                    selected=item.system.damageType
+                  }}
                 </select>
               </div>
             </div>
@@ -56,7 +54,7 @@
             <div class="modifier-container">
               {{> (partial "item/parts/item-attribute.hbs")
                 key="system.modDamage"
-                value=data.modDamage
+                value=item.system.modDamage
                 label="Damage"
                 type="number"
                 dataType="Number"
@@ -65,7 +63,7 @@
 
               {{> (partial "item/parts/item-attribute.hbs")
                 key="system.modToHit"
-                value=data.modToHit
+                value=item.system.modToHit
                 label="To Hit"
                 type="number"
                 dataType="Number"
@@ -74,7 +72,7 @@
 
               {{> (partial "item/parts/item-attribute.hbs")
                 key="system.speedFactor"
-                value=data.speedFactor
+                value=item.system.speedFactor
                 label="Speed Factor"
                 type="number"
                 dataType="Number"
@@ -86,11 +84,11 @@
           <div class="item-attributes__group">
             <h2>Range</h2>
 
-            {{#unless (equals data.weaponType "ammunition")}}
-              {{#unless (equals data.weaponType "ranged")}}
+            {{#unless (equals item.system.weaponType "ammunition")}}
+              {{#unless (equals item.system.weaponType "ranged")}}
                 {{> (partial "item/parts/item-attribute.hbs")
                   key="system.reach"
-                  value=data.reach
+                  value=item.system.reach
                   label="Reach (ft)"
                   type="number"
                   dataType="Number"
@@ -98,10 +96,10 @@
                 }}
               {{/unless}}
 
-              {{#unless (equals data.weaponType "melee")}}
+              {{#unless (equals item.system.weaponType "melee")}}
                 {{> (partial "item/parts/item-attribute.hbs")
                   key="system.range"
-                  value=data.range
+                  value=item.system.range
                   label="Range (ft)"
                   type="number"
                   dataType="Number"
@@ -120,35 +118,35 @@
                 <input
                   name="system.light"
                   type="checkbox"
-                  {{checked data.light}} />
+                  {{checked item.system.light}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
                 <label for="versatile">+1 damage with two hands</label>
                 <input
                   name="system.versatile"
                   type="checkbox"
-                  {{checked data.versatile}} />
+                  {{checked item.system.versatile}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
                 <label for="twoHanded">Two Handed</label>
                 <input
                   name="system.twoHanded"
                   type="checkbox"
-                  {{checked data.twoHanded}} />
+                  {{checked item.system.twoHanded}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
                 <label for="silvered">Silvered</label>
                 <input
                   name="system.silvered"
                   type="checkbox"
-                  {{checked data.silvered}} />
+                  {{checked item.system.silvered}} />
               </div>
               <div class="item-attributes__item item-attributes__item--compact">
                 <label for="magical">Magical</label>
                 <input
                   name="system.magical"
                   type="checkbox"
-                  {{checked data.magical}} />
+                  {{checked item.system.magical}} />
               </div>
             </div>
           </div>

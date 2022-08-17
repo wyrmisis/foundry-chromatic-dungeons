@@ -41,16 +41,16 @@
     <div class="tab sheet-tab sheet-tab--attributes" data-group="primary" data-tab="attributes">
       <h2>Mechanical Information</h2>
       {{> (partial "item/parts/item-attribute.hbs")
-        key="movement"
-        value=data.movement
+        key="system.movement"
+        value=item.system.movement
         label="Base Move Speed (ft)"
         type="Number"
         compact=true
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="infravision"
-        value=data.infravision
+        key="system.infravision"
+        value=item.system.infravision
         label="Infravision (ft)"
         type="Number"
         compact=true
@@ -58,24 +58,24 @@
 
       <h2>Biographical Information</h2>
       {{> (partial "item/parts/item-attribute.hbs")
-        key="height"
-        value=data.height
+        key="system.height"
+        value=item.system.height
         label="Height Range (in)"
         type="Number"
         isRange=true
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="weight"
-        value=data.weight
+        key="system.weight"
+        value=item.system.weight
         label="Weight Range (lbs)"
         type="Number"
         isRange=true
       }}
 
       {{> (partial "item/parts/item-attribute.hbs")
-        key="lifespan"
-        value=data.lifespan
+        key="system.lifespan"
+        value=item.system.lifespan
         label="Lifespan (years)"
         type="Number"
         compact=true
@@ -85,7 +85,7 @@
     <div class="tab sheet-tab sheet-tab--features" data-group="primary" data-tab="features">
       <div class="feature__container">
         <ul class="feature__list">
-          {{#each data.features as |feature id|}}
+          {{#each item.system.features as |feature id|}}
             <li class="feature__list-item" data-id="{{id}}">
               <div class="feature">
                 {{editor feature

@@ -2,8 +2,8 @@
   <h2>Attributes</h2>
 
   {{> (partial "item/parts/item-attribute.hbs")
-    key="weight.value"
-    value=data.weight.value
+    key="system.weight.value"
+    value=item.system.weight.value
     label="Weight"
     type="number"
     compact=true
@@ -11,8 +11,8 @@
   }}
 
   {{> (partial "item/parts/item-attribute.hbs")
-    key="stealthPenalty"
-    value=data.stealthPenalty
+    key="system.stealthPenalty"
+    value=item.system.stealthPenalty
     label="Stealth Penalty"
     type="number"
     compact=true
@@ -20,8 +20,8 @@
   }}
 
   {{> (partial "item/parts/item-attribute.hbs")
-    key="encumbrancePenalty"
-    value=data.encumbrancePenalty
+    key="system.encumbrancePenalty"
+    value=item.system.encumbrancePenalty
     label="Speed Penalty (%)"
     type="number"
     compact=true
@@ -32,16 +32,16 @@
     <label for="swimPenalty">Swim Penalty</label>
     <input
       type="checkbox"
-      name="swimPenalty"
-      {{checked data.swimPenalty}} />
+      name="system.swimPenalty"
+      {{checked item.system.swimPenalty}} />
   </div>
 
   <div class="item-attributes__item item-attributes__item--compact">
     <label for="armorType">Type</label>
     <select
       data-dtype="String"
-      name="armorType">
-      {{#select data.armorType}}
+      name="system.armorType">
+      {{#select item.system.armorType}}
         {{#each armorTypes as |type key|}}
           <option value="{{key}}">{{type}}</option>
         {{/each}}

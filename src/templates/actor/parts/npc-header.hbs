@@ -8,7 +8,7 @@
       placeholder="Name"/>
       
     <select name="system.type" data-dtype="string">
-      {{#select data.type}}
+      {{#select actor.system.type}}
         {{#each monsterTypes as |name key|}}
           <option value="{{key}}">{{name}}</option>
         {{/each}}
