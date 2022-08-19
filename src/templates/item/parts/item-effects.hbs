@@ -6,6 +6,7 @@
     data-effect-type="{{section.type}}">
     <h3 class="action-header">
       <span>{{localize section.label}}</span>
+      {{#if ../editable}}
       <button
         type="button"
         class="effect-control"
@@ -17,6 +18,7 @@
           </span>
         </i>
       </button>
+      {{/if}}
     </h3>
 
     <ul class="effects-list">
@@ -37,6 +39,7 @@
           <div class="effects-list__name">{{effect.label}}</div>
           <div class="effects-list__source">{{effect.sourceName}}</div>
           <div class="effects-list__duration">{{effect.duration.label}}</div>
+          {{#if ../../editable}}
           <div class="effects-list__controls">
             <button
               type="button"
@@ -60,6 +63,7 @@
               <i class="fas fa-trash"></i>
             </button>
           </div>
+          {{/if}}
         </li>
       {{else}}
         <li class="effects-list__list-item effects-list__list-item--empty">
