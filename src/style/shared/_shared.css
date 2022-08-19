@@ -2,19 +2,38 @@
  * Set some defaults
  */
 .chromatic-dungeons .window-content {
-  background: var(--sheet-bg-color);
+  @media (prefers-color-scheme: light) {
+    --bg-color: var(--sheet-bg-color);
+    --body-color: var(--sheet-body-color);
+    --heading-color: var(--sheet-heading-color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --bg-color: var(--sheet-bg-color-dark);
+    --body-color: var(--sheet-body-color-dark);
+    --heading-color: var(--sheet-heading-color-dark);
+  }
+
+  --color-underline-header: var(--heading-color);
+  backdrop-filter: blur(3px) contrast(1.25);
+
+  background: var(--bg-color);
   font-family: var(--sheet-body-font);
-  color: var(--sheet-body-color);
+  color: var(--body-color);
 
   h1, h2, h3 {
     font-family:  var(--sheet-heading-font);
-    color: var(--sheet-heading-color);
+    color: var(--heading-color);
     margin-bottom: .5em;
+  }
+
+  h3 {
+    border-bottom: none;
   }
 
   h4, h5, h6 {
     font-family: var(--sheet-body-font);
-    color: var(--sheet-body-color);
+    color: var(--body-color);
     font-weight: 600;
     margin-bottom: .25em;
   }
@@ -36,10 +55,13 @@
     background: rgba(0, 0, 0, 0.05);
     padding: 1px 3px;
     margin: 0;
-    color: #191813;
     border: 1px solid #7a7971;
     border-radius: 3px;
     user-select: text;
+  }
+
+  input, select {
+    color: inherit;
   }
 
   input:not([type="checkbox"]), select {
@@ -49,19 +71,16 @@
       appearance: none;
     }
   }
-}
 
-/**
- *  Default button styles
- */
-
-.chromatic-dungeons button {
-  padding: 0;
-  margin: 0;
-  min-width: 0;
-  width: auto;
-  background: transparent;
-  border: none;
+  button {
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    width: auto;
+    background: transparent;
+    border: none;
+    color: var(--body-color);
+  }
 }
 
 /**

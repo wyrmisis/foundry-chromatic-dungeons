@@ -2,8 +2,11 @@
 
 body {
   --sheet-bg-color: #fff;
-  --sheet-body-color: #444;
+  --sheet-bg-color-dark: url(../ui/denim75.png);
+  --sheet-body-color: var(--color-text-dark-primary);
+  --sheet-body-color-dark: var(--color-text-light-highlight);
   --sheet-heading-color: #DB1C1C;
+  --sheet-heading-color-dark: var(--color-text-light-heading);
 
   --sheet-heading-font: 'Crimson Pro', serif;
   --sheet-body-font: 'Roboto', sans-serif;
