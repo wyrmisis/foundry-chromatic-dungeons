@@ -61,7 +61,7 @@ class ChromaticActorPCSheet extends ActorSheet {
     super.activateListeners(html);
 
     const languageTags = new Tagify(
-      document.querySelector('[name="languages"]'),
+      document.querySelector(`#actor-${this.actor.id} [name="languages"]`),
       {
         maxTags: this.actor.system.maxLanguages,
         originalInputValueFormat: valuesArr => valuesArr.map(item => item.value)
