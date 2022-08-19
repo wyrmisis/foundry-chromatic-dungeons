@@ -60,7 +60,9 @@ class ChromaticActorNPCSheet extends ActorSheet {
     /**
      * COMMON EVENTS
      */
-     const {share, edit, remove} = commonActorSheetBehaviors(this, html);
+     const commonActions = (this.isEditable)
+       ? commonActorSheetBehaviors(this, html)
+       : null;
 
     this.spellMenu = new ContextMenu(
       $('.items__list--npc-spells'),
@@ -71,8 +73,8 @@ class ChromaticActorNPCSheet extends ActorSheet {
           icon: '<i class="fa fa-star"></i>',
           callback: this._castSpell.bind(this)
         },
-        edit,
-        remove
+        commonActions?.edit,
+        commonActions?.delete
       ]
     );
 

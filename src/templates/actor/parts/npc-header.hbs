@@ -90,7 +90,7 @@
 
     <div class="xp">
       <label 
-        for="system.xp"
+        for="system.displayedXP"
         class="xp__label">
         <i class="fa fa-level-up-alt">
           <span class="sr-only">
@@ -98,21 +98,12 @@
           </span>
         </i>
       </label>
-      {{#if actor.system.canAutocalculateXP}}
-        <input
-          type="number"
-          name="system.xp"
-          value="{{actor.system.calculatedXP}}"
-          readonly
-          data-dtype="Number"/>
-      {{else}}
-        <input
-          type="number"
-          name="system.xp"
-          value="{{actor.system.xp}}"
-          readonly
-          data-dtype="Number"/>
-      {{/if}}
+      <input
+        type="number"
+        name="system.displayedXP"
+        value="{{actor.system.displayedXP}}"
+        readonly
+        data-dtype="Number"/>
     </div>
   </div>
 </header>

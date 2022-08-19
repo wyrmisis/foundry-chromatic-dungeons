@@ -195,6 +195,11 @@ class NPCDataModel extends foundry.abstract.DataModel {
     return base;
   }
 
+  get displayedXP() {
+    if (this.canAutocalculateXP) return this.calculatedXP;
+    else return this.xp;
+  }
+
   get calculatedHitDice() {
     return (!this.variant)
       ? this.hitDice
