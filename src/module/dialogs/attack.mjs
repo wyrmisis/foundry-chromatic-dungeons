@@ -1,7 +1,7 @@
 const generateWeaponDialog = (actor, item, callback) => {
   let buttons = {};
 
-  const actorAmmunitionForWeapon = actor.items.filter(isItemAmmoAndAboveZeroQty);
+  const actorAmmunitionForWeapon = actor.items.filter((ammo) => isItemAmmoAndAboveZeroQty(ammo, item));
   const weaponIsVersatile = item.system.versatile;
   const basicAttack = {
     label: 'Attack',
@@ -107,7 +107,7 @@ const doCallback = (callback, html, ammoItem, useDamage) => {
   });
 }
 
-const isItemAmmoAndAboveZeroQty = (ammo) => {
+const isItemAmmoAndAboveZeroQty = (ammo, item) => {
   if (ammo.type !== 'weapon') return false;
 
   return  ammo.system.quantity.value > 0 &&
