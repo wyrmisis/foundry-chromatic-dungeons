@@ -1,5 +1,8 @@
-<form class="{{cssClass}} sheet--npc sheet--actor {{actor.type}} {{#if horizontalAttributes}}sheet--horizontal-attributes{{/if}}" autocomplete="off">
-
+<form
+  class="{{cssClass}}"
+  autocomplete="off"
+  id="actor-{{actor.id}}"
+>
   {{!-- Sheet Header --}}
   {{> (partial "actor/parts/npc-header.hbs") }}
   

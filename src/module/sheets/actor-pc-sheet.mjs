@@ -20,8 +20,13 @@ class ChromaticActorPCSheet extends ActorSheet {
 
   /** @override */
   static get defaultOptions() {
+    const sheetClasses = ["chromatic-dungeons", "sheet", "sheet--actor", "sheet--pc"];
+
+    if (game.settings.get('foundry-chromatic-dungeons', 'horizontal-attributes'))
+      sheetClasses.push('sheet--horizontal-attributes')
+
     return mergeObject(super.defaultOptions, {
-      classes: ["chromatic-dungeons", "sheet", "actor"],
+      classes: sheetClasses,
       template: `${CONFIG.CHROMATIC.templateDir}/actor/actor-pc-sheet.hbs`,
       width: 600,
       height: 600,
