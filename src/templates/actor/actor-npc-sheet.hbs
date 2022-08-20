@@ -18,7 +18,6 @@
         {{!-- Default tab is specified in actor-sheet.mjs --}}
         <a class="item" data-tab="summary">Summary</a>
         <a class="item" data-tab="description">Description</a>
-        <a class="item" data-tab="treasure">Treasure</a>
         <a class="item" data-tab="items">Items</a>
         {{#if spells.length}}
           <a class="item" data-tab="spells">Spells</a>
@@ -46,11 +45,7 @@
               owner=owner
               editable=editable
             }}
-          </div>
-        </div>
 
-        <div class="tab sheet-tab sheet-tab--treasure" data-group="primary" data-tab="treasure">
-          <div class="treasure">
             <h2>Treasure</h2>
             {{ editor actor.system.treasure
               target="system.treasure"
