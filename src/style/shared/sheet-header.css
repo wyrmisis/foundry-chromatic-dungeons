@@ -1,7 +1,7 @@
 header.sheet-header {
   flex: 0 0 32px;
   flex-direction: column;
-  margin: -8px -8px 1rem -8px;
+  margin: -8px -8px .5rem -8px;
   padding: .5rem;
   box-shadow: var(--elevation-1-shadow);
 

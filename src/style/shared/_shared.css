@@ -2,19 +2,6 @@
  * Set some defaults
  */
 .chromatic-dungeons .window-content {
-  @media (prefers-color-scheme: light) {
-    --bg-color: var(--sheet-bg-color);
-    --body-color: var(--sheet-body-color);
-    --heading-color: var(--sheet-heading-color);
-  }
-
-  @media (prefers-color-scheme: dark) {
-    --bg-color: var(--sheet-bg-color-dark);
-    --body-color: var(--sheet-body-color-dark);
-    --heading-color: var(--sheet-heading-color-dark);
-  }
-
-  --color-underline-header: var(--heading-color);
   backdrop-filter: blur(3px) contrast(1.25);
 
   background: var(--bg-color);
@@ -25,6 +12,7 @@
     font-family:  var(--sheet-heading-font);
     color: var(--heading-color);
     margin-bottom: .5em;
+    line-height: 1em;
   }
 
   h3 {
@@ -36,6 +24,7 @@
     color: var(--body-color);
     font-weight: 600;
     margin-bottom: .25em;
+    line-height: 1em;
   }
 
   input {
@@ -55,7 +44,6 @@
     background: rgba(0, 0, 0, 0.05);
     padding: 1px 3px;
     margin: 0;
-    border: 1px solid #7a7971;
     border-radius: 3px;
     user-select: text;
   }
@@ -80,6 +68,11 @@
     background: transparent;
     border: none;
     color: var(--body-color);
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 1em;
   }
 }
 
@@ -142,7 +135,7 @@
 
   &:hover {
     cursor: pointer;
-    color: var(--sheet-heading-color);
+    color: var(--heading-color);
   }
 
   &:not(.rollable--no-icon)::before {
@@ -156,13 +149,13 @@
     font-variant: normal;
     text-rendering: auto;
     line-height: 1;
-    color: var(--sheet-heading-color);
+    color: var(--heading-color);
     content: "\f6cf";
   }
 }
 
 label[title] {
-  border-bottom: 1px dotted var(--sheet-heading-color);
+  border-bottom: 1px dotted var(--heading-color);
 }
 
 .sheet-body {
@@ -187,12 +180,8 @@ label[title] {
   margin: 0;
 }
 
-.tox .tox-editor-container {
-  background: var(--sheet-bg-color);
-}
-
-.tox .tox-edit-area {
-  padding: 0 8px;
+.editor-content {
+  line-height: 1.4;
 }
 
 .tag-list {
@@ -203,18 +192,6 @@ label[title] {
 
     .tagify__input {
       display: none;
-    }
-  }
-}
-
-.chromatic-dungeons {
-  .features__languages-list {
-    display: grid;
-    grid-template-columns: 7fr 1fr;
-    align-items: baseline;
-
-    & > span {
-      text-align: center;
     }
   }
 }

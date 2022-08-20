@@ -1,12 +1,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@300&family=Roboto&display=swap');
 
-body {
+:root {
   --sheet-bg-color: #fff;
-  --sheet-bg-color-dark: url(../ui/denim75.png);
   --sheet-body-color: var(--color-text-dark-primary);
-  --sheet-body-color-dark: var(--color-text-light-highlight);
   --sheet-heading-color: #DB1C1C;
+
+  --sheet-bg-color-dark: url(../ui/denim75.png);
+  --sheet-body-color-dark: var(--color-text-light-highlight);
   --sheet-heading-color-dark: var(--color-text-light-heading);
+
+  @media (prefers-color-scheme: light) {
+    --bg-color: var(--sheet-bg-color);
+    --body-color: var(--sheet-body-color);
+    --heading-color: var(--sheet-heading-color);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    --bg-color: var(--sheet-bg-color-dark);
+    --body-color: var(--sheet-body-color-dark);
+    --heading-color: var(--sheet-heading-color-dark);
+  }
+
+  --color-underline-header: var(--heading-color);
 
   --sheet-heading-font: 'Crimson Pro', serif;
   --sheet-body-font: 'Roboto', sans-serif;

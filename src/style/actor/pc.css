@@ -8,7 +8,6 @@
   }
 
   .quick-access__class {
-  
     ul {
       list-style: none;
       margin: 0;
@@ -37,6 +36,16 @@
 
     .biography__portrait {
       @extends %inset-image;
+    }
+  }
+
+  .features__languages-list {
+    display: grid;
+    grid-template-columns: 7fr 1fr;
+    align-items: baseline;
+
+    & > span {
+      text-align: center;
     }
   }
 }
