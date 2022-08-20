@@ -2,46 +2,20 @@ import { getVisionAndLight } from '../helpers/utils';
 
 Hooks.once("ready", async function() {
   Hooks.on('createToken', async (token, options, userId) => {
-    const tokenActor = getTokenActor(token);
-
-    if (tokenActor.type === 'npc' && tokenActor.data.canAutocalculateHP) {
-      const hp = await getRolledHP(tokenActor);
+    if (token.actor.type === 'npc' && token.actor.system.canAutocalculateHP) {
+      const hp = await getRolledHP(token.actor.system);
 
       token.modifyActorDocument({
-        ['data.hp.value']: hp,
-        ['data.hp.max']: hp
+        ['system.hp.value']: hp,
+        ['system.hp.max']: hp
       });
     }
 
-    await doLightingUpdates(token, tokenActor);
-
-    const {width, height} = getDimensionsForSize(token);
-
-    await token.update({ width, height });
+    await token.update(
+      getDimensionsForSize(token)
+    );
   });
-
-  // @todo Get this working at some point to make encounters easier to set up
-  // Hooks.on('dropCanvasData', async (canvas, {type, id, pack, ...data}) => {
-  //   const uuid = (pack)
-  //     ? `Compendium.${pack}.${id}`
-  //     : `${type}.${id}`; 
-
-  //   console.info(uuid);
-
-  //   const actor = await fromUuid(uuid);
-
-  //   console.info(canvas, data, actor);
-
-  //   const quantityRoll = new Roll(`${actor.system.numberAppearing}-1`);
-  //   const { total } = await quantityRoll.roll({async: true});
-
-  //   console.info(total);
-
-  //   const t = new Token(actor.name, actor)
-  // })
 });
-
-const getTokenActor = (token) => token.actor.system;
 
 const getRolledHP = ({calculatedHitDice, hitDieSize, hitDiceBonus}) => {
   const hitDice = parseInt(calculatedHitDice);
@@ -56,12 +30,8 @@ const getRolledHP = ({calculatedHitDice, hitDieSize, hitDiceBonus}) => {
     .then(({total}) => total);
 }
 
-
-const doLightingUpdates = (token, actor) =>
-  getVisionAndLight(token, actor);
-
 const getDimensionsForSize = (token) => {
-  switch (getTokenActor(token).size) {
+  switch (token.actor.system.size) {
     case 'tiny':        return {width: .5,  height: .5};
     case 'small':       return {width: .75, height: .75};
     case 'large':       return {width: 2,   height: 2};
