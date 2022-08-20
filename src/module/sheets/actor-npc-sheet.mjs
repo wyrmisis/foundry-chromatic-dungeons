@@ -64,18 +64,25 @@ class ChromaticActorNPCSheet extends ActorSheet {
        ? commonActorSheetBehaviors(this, html)
        : null;
 
+    let spellMenuActions = [ 
+      {
+        name: 'Cast',
+        icon: '<i class="fa fa-star"></i>',
+        callback: this._castSpell.bind(this)
+      }
+    ];
+
+    if (commonActions)
+      spellMenuActions = [
+        ...spellMenuActions,
+        commonActions?.edit,
+        commonActions?.delete
+      ];
+
     this.spellMenu = new ContextMenu(
       $('.items__list--npc-spells'),
       '.items__list-item:not(.items__list-item--header)',
-      [ 
-        {
-          name: 'Cast',
-          icon: '<i class="fa fa-star"></i>',
-          callback: this._castSpell.bind(this)
-        },
-        commonActions?.edit,
-        commonActions?.delete
-      ]
+      spellMenuActions.filter(action => !!action)
     );
 
     html.find('.known-spells .spell:not(.spell--empty)').click(async (ev) => {
