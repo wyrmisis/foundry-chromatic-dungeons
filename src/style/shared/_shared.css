@@ -215,6 +215,7 @@ label[title] {
   @media (prefers-color-scheme: light) {
     --tag-bg: var(--highlight-bg-color);
     --tag-hover: rgba(var(--highlight-color-base), .5);
+    border: 1px solid rgba(0, 0, 0, .4);
   }
 
   --tag-text-color: var(--body-color);
