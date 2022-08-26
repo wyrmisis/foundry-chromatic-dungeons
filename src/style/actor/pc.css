@@ -18,8 +18,12 @@
       }
     }
 
-    progress {
+    meter {
       @extends %progress-bar;
+
+      &::-webkit-meter-optimum-value {
+        background-color: var(--highlight-color);
+      }
     }
   }
   

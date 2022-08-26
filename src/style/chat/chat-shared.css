@@ -1,4 +1,36 @@
+.chat-message {
+  margin-bottom: .5em;
+
+  @media (prefers-color-scheme: dark) {
+    background: var(--bg-color);
+    color: var(--body-color);
+    backdrop-filter: blur(3px) contrast(1.25);
+
+    .message-header {
+      color: var(--body-color);
+      margin-bottom: .5em;
+    }
+  }
+}
+
+.message-content {
+  @media (prefers-color-scheme: dark) {
+    h1, h2, h3 {
+      border-bottom: none;
+      font-weight: 600;
+      margin-bottom: .25em;
+      line-height: 1;
+    }
+  }
+
+  .dice-roll__attack {
+    margin-bottom: .75em;
+  }
+}
+
 .message-item {
+  line-height: 1.4;
+
   &-stats {
     display: grid;
     grid-template-columns: 1fr 7fr;

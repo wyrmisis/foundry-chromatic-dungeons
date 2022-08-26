@@ -1,9 +1,25 @@
 .editor {
   min-height: 40px;
 
+  .editor-content {
+    line-height: 1.4;
+  }
+
   & > .tox.tox-tinymce {
     min-height: 210px;
     resize: vertical;
+
+    .tox-edit-area {
+      margin: 0 .5em;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      background-color: var(--color-text-light-highlight);
+
+      .tox-tbtn--bespoke .tox-tbtn__select-label {
+        color: var(--color-text-dark-primary)
+      }
+    }
   }
 }
 

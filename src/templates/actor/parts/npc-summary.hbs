@@ -32,7 +32,7 @@
     </li>
   </ul>
   {{#if (ne (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave') 0)}}
-    <p>Reminder: you have a {{signedString (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave')}} to mental saves.</p>
+    <span>Reminder: you have a {{signedString (derivedStat 'wis' actor.system.attributes.wis 'modMentalSave')}} to mental saves.</span>
   {{/if}}
 </div>
 

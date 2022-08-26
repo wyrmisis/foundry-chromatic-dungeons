@@ -4,7 +4,9 @@
 .chromatic-dungeons .window-content {
   backdrop-filter: blur(3px) contrast(1.25);
 
-  background: var(--bg-color);
+  @media (prefers-color-scheme: dark) {
+    background: var(--bg-color);
+  }
   font-family: var(--sheet-body-font);
   color: var(--body-color);
 
@@ -13,6 +15,11 @@
     color: var(--heading-color);
     margin-bottom: .5em;
     line-height: 1em;
+
+    @media (prefers-color-scheme: dark) {
+      border: none;
+      font-weight: 600;
+    }
   }
 
   h3 {
@@ -73,6 +80,10 @@
   p {
     margin-top: 0;
     margin-bottom: 1em;
+  }
+
+  p, dd {
+    line-height: 1.4;
   }
 }
 
@@ -176,15 +187,42 @@ label[title] {
 /**
  * Tabs
  */
-.tab.description {
-  margin: 0;
+.sheet nav.sheet-tabs {
+  border: 0;
+  margin-bottom: .5em;
+
+  .item {
+    padding: .25em .5em;
+    &.active {
+      border-bottom: 2px solid var(--color-underline-header)
+    }
+  }
 }
 
-.editor-content {
-  line-height: 1.4;
+.tab {
+  &.description {
+    margin: 0;
+  }
 }
 
 .tag-list {
+  @media (prefers-color-scheme: dark) {
+    --tag-bg: rgba(var(--highlight-color-base), .5);
+    --tag-hover: var(--highlight-bg-color);
+    border: 1px solid rgba(255, 255, 255, .2);
+  }
+
+  @media (prefers-color-scheme: light) {
+    --tag-bg: var(--highlight-bg-color);
+    --tag-hover: rgba(var(--highlight-color-base), .5);
+  }
+
+  --tag-text-color: var(--body-color);
+  --tag-text-color--edit: var(--body-color);
+  
+  --tag-remove-bg: transparent;
+  --tag-remove-btn-bg--hover: rgba(var(--highlight-color-base), .5);
+
   width: 100%;
 
   &.tagify--hasMaxTags {

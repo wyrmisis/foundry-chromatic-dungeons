@@ -1,12 +1,13 @@
 .effects-list {
+  @extends %panel;
+
+  .effects-list__list-item {
+    @extends %panel-grid;
+  }
+
   &__list-item {
-    display: grid;
-    grid-template-columns: 1fr 5fr 2fr 2fr 2fr;
-    grid-column-gap: .5em;
-    margin-bottom: .5em;
-    align-items: center;
-    padding: .5rem;
-   
+    grid-template-columns: 32px 5fr 2fr 2fr 2fr;
+    
     &--header {
       font-weight: 600;
   
@@ -15,12 +16,8 @@
       }
     } 
 
-    &:not(&--header) {
-      box-shadow: var(--elevation-1-shadow);
-    }
-
     &--empty {
-      color: #666;
+      color: var(--empty-color);
       font-style: italic;
   
       span {

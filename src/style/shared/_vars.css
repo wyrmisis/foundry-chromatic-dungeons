@@ -5,7 +5,7 @@
   --sheet-body-color: var(--color-text-dark-primary);
   --sheet-heading-color: #DB1C1C;
 
-  --sheet-bg-color-dark: url(../ui/denim75.png);
+  --sheet-bg-color-dark: #44444400;
   --sheet-body-color-dark: var(--color-text-light-highlight);
   --sheet-heading-color-dark: var(--color-text-light-heading);
 
@@ -13,12 +13,31 @@
     --bg-color: var(--sheet-bg-color);
     --body-color: var(--sheet-body-color);
     --heading-color: var(--sheet-heading-color);
+    --empty-color: var(--color-text-dark-5);
+    --highlight-color-base: 102, 93, 201;
+    --highlight-color: rgb(var(--highlight-color-base));
+    --highlight-bg-color: rgba(var(--highlight-color-base), .27);
+
+    --progress-bar-foreground: var(--highlight-color);
+    --progress-bar-background: var(--color-text-light-secondary);
+
+
+    --panel-border: 1px solid rgba(0,0,0,.05);
   }
 
   @media (prefers-color-scheme: dark) {
     --bg-color: var(--sheet-bg-color-dark);
     --body-color: var(--sheet-body-color-dark);
     --heading-color: var(--sheet-heading-color-dark);
+    --empty-color: var(--color-text-light-5);
+    --highlight-color-base: 181, 175, 248;
+    --highlight-color: rgb(var(--highlight-color-base));
+    --highlight-bg-color: rgba(var(--highlight-color-base), .2);
+
+    --progress-bar-foreground: var(--highlight-color);
+    --progress-bar-background: var(--color-text-dark-secondary);
+    
+    --panel-border: 1px solid rgba(255, 255, 255, .2);
   }
 
   --color-underline-header: var(--heading-color);

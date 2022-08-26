@@ -4,6 +4,7 @@ header.sheet-header {
   margin: -8px -8px .5rem -8px;
   padding: .5rem;
   box-shadow: var(--elevation-1-shadow);
+  border-bottom: var(--panel-border);
 
   /*
       Foundry's image header CSS is pretty aggressive,

@@ -1,10 +1,8 @@
-<h2>Effects</h2>
-
 {{#each effects as |section sid|}}
   <div
     class="effects effects--{{section.type}}"
     data-effect-type="{{section.type}}">
-    <h3 class="action-header">
+    <h2 class="action-header">
       <span>{{localize section.label}}</span>
       {{#if ../editable}}
       <button
@@ -19,7 +17,7 @@
         </i>
       </button>
       {{/if}}
-    </h3>
+    </h2>
 
     <ul class="effects-list">
       <li class="effects-list__list-item effects-list__list-item--header">

@@ -15,18 +15,19 @@
     >
       <span>{{value}}/{{max}}</span>
     </meter>
+    <span>{{value}}/{{max}}</span>
     {{/with}}
   </div>
   {{/if}}
 
-  <h3 class="action-header">
+  <h2 class="action-header">
     <span>Weapons</span>
     <button type="button" data-item-action="create" data-item-type="weapon">
       <i class="fa fa-plus">
         <span class="sr-only">Add New Weapon</span>
       </i>
     </button>
-  </h3>
+  </h2>
   {{> (partial "actor/parts/grids/actor-weapon-grid.hbs") }}
   {{#if (eq actor.type 'npc')}}
     <div class="attack-settings">
@@ -48,42 +49,42 @@
     </div>
   {{/if}}
 
-  <h3 class="action-header">
+  <h2 class="action-header">
     <span>Armor</span>
     <button type="button" data-item-action="create" data-item-type="armor">
       <i class="fa fa-plus">
         <span class="sr-only">Add New Armor</span>
       </i>
     </button>
-  </h3>
+  </h2>
   {{> (partial "actor/parts/grids/actor-armor-grid.hbs") }}
 
-  <h3 class="action-header">
+  <h2 class="action-header">
     <span>Gear</span>
     <button type="button" data-item-action="create" data-item-type="gear">
       <i class="fa fa-plus">
         <span class="sr-only">Add New Gear Item</span>
       </i>
     </button>
-  </h3>
+  </h2>
   {{#if useGearCards}}
     {{> (partial "actor/parts/grids/actor-gear-cards.hbs") }}
   {{else}}
     {{> (partial "actor/parts/grids/actor-gear-grid.hbs") }}
   {{/if}}
 
-  <h3 class="action-header">
+  <h2 class="action-header">
     <span>Wealth</span>
     <button type="button" data-item-action="create" data-item-type="treasure">
       <i class="fa fa-plus">
         <span class="sr-only">Add New Treasure Item</span>
       </i>
     </button>
-  </h3>
+  </h2>
   {{> (partial "actor/parts/grids/actor-wealth-grid.hbs") }}
 
   {{#if actor.system.wealth}}
-    <h3>Currency</h3>
+    <h2>Currency</h2>
     <div class="items__currency">
       {{#each actor.system.wealth as |value key|}}
         <div class="items__currency-item items__currency-item--{{key}}">
