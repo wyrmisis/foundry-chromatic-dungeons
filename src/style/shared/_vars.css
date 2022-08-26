@@ -21,7 +21,6 @@
     --progress-bar-foreground: var(--highlight-color);
     --progress-bar-background: var(--color-text-light-secondary);
 
-
     --panel-border: 1px solid rgba(0,0,0,.05);
   }
 

@@ -11,6 +11,18 @@
       margin-bottom: .5em;
     }
   }
+
+  &.whisper {
+    @media (prefers-color-scheme: dark) {
+      background: var(--highlight-bg-color)
+    }
+  }
+
+  &.blind {
+    @media (prefers-color-scheme: dark) {
+      background: rgba(var(--highlight-color-base), .45)
+    }
+  }
 }
 
 .message-content {
