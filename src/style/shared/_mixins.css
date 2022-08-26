@@ -9,13 +9,21 @@
   box-shadow: inset var(--elevation-05-shadow);
 }
 
-%card {
-  &:not(&--empty) {
+%panel {
     padding: .5rem;
     box-shadow: var(--elevation-05-shadow);
-    border: 1px solid rgba(0, 0, 0, .1);
     border-radius: 2px;
+  
+  border: var(--panel-border);
+
+  @media (prefers-color-scheme: light) {
+    background-color: rgba(255, 255, 255, .2);    
   }
+
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(0,0,0,.05);
+  }
+}
 
   &--empty {
     color: #666;

@@ -115,6 +115,8 @@ const setupHandlebarsHelpers = () => {
 
     return parent.firstChild.innerHTML || `<p>${html}</p>`;
   })
+
+  Handlebars.registerHelper('lte', (a, b) => (a <= b));
 };
 
 export default setupHandlebarsHelpers;

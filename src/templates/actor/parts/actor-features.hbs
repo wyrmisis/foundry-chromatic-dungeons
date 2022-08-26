@@ -1,32 +1,37 @@
-<h2 class="features__title">Alignment</h2>
-<select name="system.alignment" data-dtype="String">
-  {{!--
-    We're only defaulting to unaligned to make sure
-    that players pick an alignment, rather than
-    defaulting to any specific alignment.
+<section class="pc-feature pc-feature--alignment">
+  <h2 class="features__title">Alignment</h2>
+  <select name="system.alignment" data-dtype="String">
+    {{!--
+      We're only defaulting to unaligned to make sure
+      that players pick an alignment, rather than
+      defaulting to any specific alignment.
 
-    Once an alignment is selected, there's no going
-    back to unaligned.
-  --}}
-  {{#unless actor.system.alignment}}
-    <option value="">Unaligned</option>
-  {{/unless}}
-  {{selectOptions alignments
-    selected=actor.system.alignment
-  }}
-</select>
+      Once an alignment is selected, there's no going
+      back to unaligned.
+    --}}
+    {{#unless actor.system.alignment}}
+      <option value="">Unaligned</option>
+    {{/unless}}
+    {{selectOptions alignments
+      selected=actor.system.alignment
+    }}
+  </select>
+</section>
 
-<h2 class="features__title">Languages</h2>
+<section class="pc-feature pc-feature--language">
+  <h2 class="features__title">Languages</h2>
 
-{{#if actor.system.maxLanguages}}
-  <div class="features__languages-list">
-    <input name="languages" class="tag-list" value="{{actor.system.languages}}" />
-    <span>{{actor.system.languages.length}}/{{actor.system.maxLanguages}}</span>
-  </div>
-{{else}}
-  <p class="feature__item--empty">You cannot speak any languages.</p>
-{{/if}}
+  {{#if actor.system.maxLanguages}}
+    <div class="features__languages-list">
+      <input name="languages" class="tag-list" value="{{actor.system.languages}}" />
+      <span>{{actor.system.languages.length}}/{{actor.system.maxLanguages}}</span>
+    </div>
+  {{else}}
+    <p class="feature__item--empty">You cannot speak any languages.</p>
+  {{/if}}
+</section>
 
+<section class="pc-feature pc-feature--ancestry">
 {{#if actor.system.ancestry}}
   {{#with actor.system.ancestry}}
     <h2 class="features__title">
@@ -55,66 +60,73 @@
   <h2 class="features__title">Ancestry</h2>
   <p class="feature__item--empty">No ancestry selected</p>
 {{/if}}
+</section>
 
-<h2>Heritages</h2>
-{{#each actor.system.heritage}}
-  <h3 class="features__title">
-    <span>{{name}}</span>
-    <span>
-      <button type="button" data-item-id="{{id}}" data-item-action="edit">
-        <i class="fa fa-edit">
-          <span class="sr-only">Edit Heritage</span>
-        </i>
-      </button>
-      <button type="button" data-item-id="{{id}}" data-item-action="delete">
-        <i class="fa fa-trash">
-          <span class="sr-only">Remove Heritage</span>
-        </i>
-      </button>
-    </span>
-  </h3>
+<section class="pc-feature pc-feature--heritage">
+  <h2>Heritages</h2>
+  {{#each actor.system.heritage}}
+    <article class="pc-feature__item">
+      <h3 class="features__title">
+        <span>{{name}}</span>
+        <span>
+          <button type="button" data-item-id="{{id}}" data-item-action="edit">
+            <i class="fa fa-edit">
+              <span class="sr-only">Edit Heritage</span>
+            </i>
+          </button>
+          <button type="button" data-item-id="{{id}}" data-item-action="delete">
+            <i class="fa fa-trash">
+              <span class="sr-only">Remove Heritage</span>
+            </i>
+          </button>
+        </span>
+      </h3>
 
-  <div class="features features--heritage">
-    {{#if system.description}}
-      {{{system.enrichedDescription}}}
-    {{else}}
-      <p>This heritage does not have a description</p>
-    {{/if}}
-  </div>
-{{else}}
-    <p class="feature__item--empty">No heritages selected</p>
-{{/each}}
+      <div class="features features--heritage">
+        {{#if system.description}}
+          {{{system.enrichedDescription}}}
+        {{else}}
+          <p>This heritage does not have a description</p>
+        {{/if}}
+      </div>
+    </article>
+  {{else}}
+      <p class="feature__item--empty">No heritages selected</p>
+  {{/each}}
+</section>
 
-<h2>Classes</h2>
-{{#each actor.system.classes}}
-  <h3 class="features__title">
-    <span>Lv. {{system.level}} {{name}} ({{system.xp}}/{{system.xpToNextLevel}})</span>
-    <span>
-      <button type="button" data-item-id="{{id}}" data-item-action="edit">
-        <i class="fa fa-edit">
-          <span class="sr-only">Edit Class</span>
-        </i>
-      </button>
-      <button type="button" data-item-id="{{id}}" data-item-action="delete">
-        <i class="fa fa-trash">
-          <span class="sr-only">Remove Class</span>
-        </i>
-      </button>
-    </span>
-  </h3>
+<section class="pc-feature pc-feature--class">
+  <h2>Classes</h2>
+  {{#each actor.system.classes}}
+    <article class="pc-feature__item">
+      <h3 class="features__title">
+        <span>Lv. {{system.level}} {{name}} ({{system.xp}}/{{system.xpToNextLevel}})</span>
+        <span>
+          <button type="button" data-item-id="{{id}}" data-item-action="edit">
+            <i class="fa fa-edit">
+              <span class="sr-only">Edit Class</span>
+            </i>
+          </button>
+          <button type="button" data-item-id="{{id}}" data-item-action="delete">
+            <i class="fa fa-trash">
+              <span class="sr-only">Remove Class</span>
+            </i>
+          </button>
+        </span>
+      </h3>
 
-  <ul class="features features--class">
-    {{#each system.features}}
-      {{#if (eq ../system.level level)}}
-        <li class="feature__item">
-          <h4>{{title}}</h4>
-          {{{content}}}
-        </li>
-      {{/if}}
-    {{else}}
-      <li class="feature__item feature__item--empty">This class does not have any features at this level.</li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p class="feature__item--empty">No classes selected</p>
-{{/each}}
+      <dl class="features features--class">
+        {{#each system.features}}
+          {{#if (lte level ../system.level)}}
+            <dt class="feature__item">{{title}}</dt>
+            <dd>{{{content}}}</dd>
+          {{/if}}
+        {{else}}
+          <span class="feature__item feature__item--empty">This class does not have any features at this level.</span>
+        {{/each}}
+      </dl>
+    </article>
+  {{else}}
+    <p class="feature__item--empty">No classes selected</p>
+  {{/each}}
+</section>
