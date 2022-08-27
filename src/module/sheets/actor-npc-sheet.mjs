@@ -186,70 +186,70 @@ class ChromaticActorNPCSheet extends ActorSheet {
     return canEquip();
   }
 
-  // _toggleEquippedState(node, newState) {
-  //   const isWeapon    = (i) => i.type === 'weapon';
-  //   const isArmor     = (i) => i.type === 'armor';
-  //   const isShield    = (i) => i.system.armorType === 'shield';
-  //   const isTwoHanded = (i) => !!i.system.twoHanded;
-  //   const isEquipped  = (i) => !!i.system.equipped;
-  //   const hasTwoHanded= (i) => isWeapon(i) && isEquipped(i) && isTwoHanded(i);
+  _toggleEquippedState(node, newState) {
+    const isWeapon    = (i) => i.type === 'weapon';
+    const isArmor     = (i) => i.type === 'armor';
+    const isShield    = (i) => i.system.armorType === 'shield';
+    const isTwoHanded = (i) => !!i.system.twoHanded;
+    const isEquipped  = (i) => !!i.system.equipped;
+    const hasTwoHanded= (i) => isWeapon(i) && isEquipped(i) && isTwoHanded(i);
     
-  //   const handsFullMessage = `${this.actor.name}'s hands are full! Unequip something and try again.`;
+    const handsFullMessage = `${this.actor.name}'s hands are full! Unequip something and try again.`;
 
-  //   const {itemId: id} = node.closest('[data-item-id]').data();
+    const {itemId: id} = node.closest('[data-item-id]').data();
 
-  //   const item = this.actor.items.get(id);
+    const item = this.actor.items.get(id);
 
-  //   // Weapon/shield validation
-  //   if (newState && (isWeapon(item) || isShield(item))) {
-  //     // Validate only being allowed two weapons
-  //     if (
-  //       this.actor.items.filter(
-  //         i => isWeapon(i) && isEquipped(i)
-  //       ).length >= this.actor.system.hands
-  //     ) return reportAndQuit(handsFullMessage);
+    // Weapon/shield validation
+    if (newState && (isWeapon(item) || isShield(item))) {
+      // Validate only being allowed two weapons
+      if (
+        this.actor.items.filter(
+          i => isWeapon(i) && isEquipped(i)
+        ).length >= this.actor.system.hands
+      ) return reportAndQuit(handsFullMessage);
 
-  //     // Validate only being allowed one two-handed weapon
-  //     if (
-  //       !!this.actor.items.find(hasTwoHanded)
-  //     ) return reportAndQuit(handsFullMessage);
+      // Validate only being allowed one two-handed weapon
+      if (
+        !!this.actor.items.find(hasTwoHanded)
+      ) return reportAndQuit(handsFullMessage);
 
-  //     // Validate not being able to equip a two handed weapon 
-  //     // when you don't have both hands free
-  //     if (
-  //       isTwoHanded(item) &&
-  //       !!this.actor.items.find(i => isEquipped(i) && (
-  //         isWeapon(i) || isShield(i)
-  //       ))
-  //     ) return reportAndQuit(handsFullMessage);
+      // Validate not being able to equip a two handed weapon 
+      // when you don't have both hands free
+      if (
+        isTwoHanded(item) &&
+        !!this.actor.items.find(i => isEquipped(i) && (
+          isWeapon(i) || isShield(i)
+        ))
+      ) return reportAndQuit(handsFullMessage);
 
-  //     // Validate only being allowed one weapon with a shield equipped
-  //     if (
-  //       !!this.actor.items.find(i => isWeapon(i) && isEquipped(i)) &&
-  //       !!this.actor.items.find(i => isShield(i) && isEquipped(i))
-  //     ) return reportAndQuit(handsFullMessage);
-  //   }
+      // Validate only being allowed one weapon with a shield equipped
+      if (
+        !!this.actor.items.find(i => isWeapon(i) && isEquipped(i)) &&
+        !!this.actor.items.find(i => isShield(i) && isEquipped(i))
+      ) return reportAndQuit(handsFullMessage);
+    }
 
-  //   // Helmet/Barding/Armor validation
-  //   if (newState && (isArmor(item) && !isShield(item))) {
-  //     const { armorType } = item.system;
+    // Helmet/Barding/Armor validation
+    if (newState && (isArmor(item) && !isShield(item))) {
+      const { armorType } = item.system;
 
-  //     if (this.actor.type === 'pc' && armorType === 'barding')
-  //       return reportAndQuit(`${this.actor.name} cannot equip ${item.name}, because it is barding, and they are not a horse.`);
+      if (this.actor.type === 'pc' && armorType === 'barding')
+        return reportAndQuit(`${this.actor.name} cannot equip ${item.name}, because it is barding, and they are not a horse.`);
 
-  //     const equippedItemsInSlot = this.actor.items.filter(
-  //       i => i.system.armorType === armorType && isEquipped(i)
-  //     );
+      const equippedItemsInSlot = this.actor.items.filter(
+        i => i.system.armorType === armorType && isEquipped(i)
+      );
 
-  //     equippedItemsInSlot.forEach(i => i.update({
-  //       'system.equipped': false
-  //     }));
-  //   }
+      equippedItemsInSlot.forEach(i => i.update({
+        'system.equipped': false
+      }));
+    }
     
-  //   item.update({
-  //     'system.equipped': newState
-  //   });
-  // }
+    item.update({
+      'system.equipped': newState
+    });
+  }
 
   // _validateEquippedArmor(li, item, ev) {
   //   const siblings = li
