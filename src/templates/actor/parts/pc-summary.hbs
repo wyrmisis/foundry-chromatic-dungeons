@@ -74,7 +74,7 @@
         data-item-id="{{_id}}"
         class="equipped-tile {{#if (equals type "weapon")}}rollable rollable--no-icon{{/if}}"
       >
-        <img src="{{this.img}}" />
+        <img src="{{this.img}}" class="inset" />
         <span>
           {{name}}
         </span>
@@ -110,7 +110,7 @@
         data-roll="attribute"
         data-key="{{attribute}}"
         data-bonus="{{bonus}}">
-        <img src="systems/foundry-chromatic-dungeons/dist/assets/stat-icons/{{attribute}}.svg" />
+        <img class="inset" src="systems/foundry-chromatic-dungeons/dist/assets/stat-icons/{{attribute}}.svg" />
         <span>
           {{name}}
         </span>

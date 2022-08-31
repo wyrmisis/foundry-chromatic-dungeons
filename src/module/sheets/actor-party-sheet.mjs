@@ -76,8 +76,8 @@ class ChromaticActorPartySheet extends ActorSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
-    const partySelector = `#actor-${this.actor.id} .card-group--party`;
-    const partyItemSelector = `#actor-${this.actor.id} .card-group--party-items`;
+    const partySelector = `.card-group--party`;
+    const partyItemSelector = `.card-group--party-items`;
 
     this.partyMenu = new ContextMenu(
       html.find(partySelector),

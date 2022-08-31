@@ -22,9 +22,9 @@
             {{#each (paddedTo (getClassPreparedSpellsAtLevel ../this key) slot.max) as |spell spellKey|}}
               {{#if spell}}
                 <li
-                  class="spell"
+                  class="spell inset"
                   data-item-id="{{spell.id}}">
-                  <img src="{{img}}">
+                  <img src="{{img}}" class="inset" />
                   <span class="spell__spell-name">{{spell.name}}</span>
                 </li>
               {{else}}
@@ -37,7 +37,7 @@
           <ul class="known-spells known-spells--slot-caster">
             {{#each (spellsAtLevel ../../spells class key)}}
               <li class="spell" data-item-id="{{_id}}">
-                <img src="{{img}}">
+                <img src="{{img}}" class="inset" />
                 <span class="spell__spell-name">{{name}}</span>
               </li>
             {{else}}
@@ -74,7 +74,7 @@
         <ul class="known-spells known-spells--points-caster">
           {{#each (spellsAtLevel ../../spells class (sum @index 1))}}
             <li class="spell" data-item-id="{{_id}}">
-              <img src="{{img}}">
+              <img src="{{img}} class="inset" />
               <span class="spell__spell-name">{{name}}</span>
             </li>
           {{else}}

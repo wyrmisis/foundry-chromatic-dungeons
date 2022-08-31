@@ -111,11 +111,11 @@
   align-items: center;
   justify-content: space-between;
 
-  img {
+  .inset {
+    @extends %inset-image;
+
     width: var(--card-icon-size, 32px);
     height: var(--card-icon-size, 32px);
-
-    @extends %inset-image;
   }
 
   & > span {
