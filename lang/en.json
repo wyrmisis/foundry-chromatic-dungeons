@@ -1,6 +1,7 @@
 {
   "ACTOR.TypePc": "Player Character",
   "ACTOR.TypeNpc": "NPC/Monster",
+  "ACTOR.TypeParty": "Party",
 
   "ITEM.TypeWeapon": "Weapon or Ammunition",
   "ITEM.TypeArmor": "Armor",
