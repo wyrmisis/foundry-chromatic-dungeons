@@ -100,7 +100,7 @@ class ChromaticActorPCSheet extends ActorSheet {
      */
 
     this.knownSlotSpellMenu = new ContextMenu(
-      $('.known-spells--slot-caster'),
+      html.find('.known-spells--slot-caster'),
       '.spell:not(.spell--empty)',
       [
         {
@@ -119,7 +119,7 @@ class ChromaticActorPCSheet extends ActorSheet {
     );
 
     this.knownPointSpellMenu = new ContextMenu(
-      $('.known-spells--points-caster'),
+      html.find('.known-spells--points-caster'),
       '.spell:not(.spell--empty)',
       [ 
         {
@@ -134,7 +134,7 @@ class ChromaticActorPCSheet extends ActorSheet {
     );
 
     this.preparedSpellMenu = new ContextMenu(
-      $('.prepared-spells'),
+      html.find('.prepared-spells'),
       '.spell:not(.spell--empty)',
       [
         {
@@ -183,6 +183,19 @@ class ChromaticActorPCSheet extends ActorSheet {
    */
   _prepareItems(context) {
     prepareItems(context);
+  }
+
+  /**
+   * @overrides
+   */
+   async _onDropItem(event, data) {
+    const item = await Item.implementation.fromDropData(data);
+    const result = await super._onDropItem(event, data);
+    
+    if (item.parent)
+      await item.delete();
+
+    return result;
   }
 
 

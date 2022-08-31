@@ -13,6 +13,7 @@ import {
   filterClasses,
   filterHeritages,
   filterPCOnlyData,
+  filterCharacterOnlyData,
   filterSpell,
   filterStartingKit
 } from './actorItemFilters.mjs';
@@ -23,24 +24,12 @@ import {
  */
 class ChromaticActor extends Actor {
 
-  // /**
-  //  * @override
-  //  * Augment the basic actor data with additional dynamic data. Typically,
-  //  * you'll want to handle most of your calculated/derived data in this step.
-  //  * Data calculated in this step should generally not exist in template.json
-  //  * (such as ability modifiers rather than ability scores) and should be
-  //  * available both inside and outside of character sheets (such as if an actor
-  //  * is queried and has a roll executed directly from it).
-  //  */
-  // prepareDerivedData() {
-  //   if (this.name.includes('#[CF_tempEntity]')) return;
-  // }
-
   /**
    * Override getRollData() that's supplied to rolls.
    */
   getRollData() {
-    // const data = super.getRollData();
+    if (this.type === 'party') return; // Party doesn't use any of this
+
     const rollData = {
       attributes: {},
       saves: {}
@@ -135,6 +124,8 @@ class ChromaticActor extends Actor {
         if (this.type === 'npc' && droppedItem.type === 'spell')
           return droppedItem;
 
+        const passCharaacterOnlyData =
+                                filterCharacterOnlyData(droppedItem, this);
         const passPCOnlyData  = filterPCOnlyData(droppedItem, this);
         const passHeritages   = filterHeritages(droppedItem, this);
         const passAncestries  = filterAncestries(droppedItem, this);
@@ -152,6 +143,7 @@ class ChromaticActor extends Actor {
         }
 
         if (
+          !passCharaacterOnlyData ||
           !passPCOnlyData ||
           !passHeritages  ||
           !passAncestries ||

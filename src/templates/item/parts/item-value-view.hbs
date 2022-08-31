@@ -12,14 +12,14 @@
       <dd>{{item.system.cost.gp}}</dd>
     {{/if}}
 
-    {{#if item.system.cost.sp}}
-      <dt>{{localize 'SHEET.Item.value.silver'}}</dt>
-      <dd>{{item.system.cost.sp}}</dd>
-    {{/if}}
-
     {{#if item.system.cost.ep}}
       <dt>{{localize 'SHEET.Item.value.electrum'}}</dt>
       <dd>{{item.system.cost.ep}}</dd>
+    {{/if}}
+
+    {{#if item.system.cost.sp}}
+      <dt>{{localize 'SHEET.Item.value.silver'}}</dt>
+      <dd>{{item.system.cost.sp}}</dd>
     {{/if}}
 
     {{#if item.system.cost.cp}}

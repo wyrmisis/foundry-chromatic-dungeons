@@ -49,9 +49,11 @@ export const filterAncestries = (droppedItem, {items, name}) => {
   return true;
 };
 
-export const filterClasses = (droppedItem, {items, name, system}) => {
+export const filterClasses = (droppedItem, {items, name, system, type}) => {
   // @todo Add a setting for class stat requirements
   if (droppedItem.type === 'class') {
+    if (type === 'party') return false;
+
     const actorClasses = items.filter(item => item.type === 'class');
 
     if (hasThisAlready('class', droppedItem, actorClasses))
@@ -82,6 +84,16 @@ export const filterPCOnlyData = (droppedItem, {type}) => {
     droppedItem.type === 'class'
   ))
     return reportAndQuit('Only PCs can have an ancestry, heritage, or class');
+  return true;
+};
+
+export const filterCharacterOnlyData = (droppedItem, {type}) => {
+  if (
+    (type !== 'pc' && type !== 'npc') && (
+    droppedItem.type === 'spell' ||
+    droppedItem.type === 'starterkit'
+  ))
+    return reportAndQuit('Only PCs and NPCs can can have spells or starter kits');
   return true;
 };
 

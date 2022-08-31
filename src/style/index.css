@@ -16,6 +16,7 @@
 @import url('./actor/actor-shared.css');
 @import url('./actor/pc.css');
 @import url('./actor/npc.css');
+@import url('./actor/party.css');
 
 /* Items */
 @import url('./item/item-shared.css');

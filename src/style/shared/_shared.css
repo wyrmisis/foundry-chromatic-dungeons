@@ -234,3 +234,22 @@ label[title] {
     }
   }
 }
+
+.card-group {
+  @extends %card-group;
+
+  .card:not(.card--icon) {
+    @extends %card;
+  }
+
+  .card--icon {
+    @extends %icon-card;
+  }
+}
+
+a {
+  &.content-link,
+  &.inline-roll {
+    background: rgba(var(--highlight-color-base), .3)
+  }
+}

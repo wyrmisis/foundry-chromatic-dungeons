@@ -32,6 +32,9 @@
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/pc-header.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/actor/parts/pc-summary.hbs`,
 
+    // Party-specific Partials
+    `${CONFIG.CHROMATIC.templateDir}/actor/parts/party-header.hbs`,
+
     // Item partials
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-header.hbs`,
     `${CONFIG.CHROMATIC.templateDir}/item/parts/item-value.hbs`,

@@ -5,12 +5,14 @@ import ChromaticItem from "../documents/item.mjs";
 // Import DataModel classes
 import PCDataModel from "../dataModels/actors/data-model-pc.mjs";
 import NPCDataModel from "../dataModels/actors/data-model-npc.mjs";
+import PartyDataModel from "../dataModels/actors/data-model-party.mjs";
 import ClassDataModel from '../dataModels/items/data-model-class.mjs';
 import HeritageDataModel from '../dataModels/items/data-model-heritage.mjs';
 
 // Import sheet classes.
 import ChromaticActorPCSheet from "../sheets/actor-pc-sheet.mjs";
 import ChromaticActorNPCSheet from "../sheets/actor-npc-sheet.mjs";
+import ChromaticActorPartySheet from "../sheets/actor-party-sheet.mjs";
 import ChromaticItemSheet from "../sheets/item-sheet.mjs";
 import CDAncestrySheet from "../sheets/ancestry-sheet.mjs";
 import CDClassSheet from "../sheets/class-sheet.mjs";
@@ -58,6 +60,7 @@ Hooks.once('init', async function() {
   CONFIG.Actor.documentClass = ChromaticActor;
   CONFIG.Actor.systemDataModels['pc'] = PCDataModel;
   CONFIG.Actor.systemDataModels['npc'] = NPCDataModel;
+  CONFIG.Actor.systemDataModels['party'] = PartyDataModel;
 
   Actors.unregisterSheet("core", ActorSheet);
   Actors.registerSheet(
@@ -75,6 +78,15 @@ Hooks.once('init', async function() {
     {
       label: 'SHEET.names.npc',
       types: ['npc'],
+      makeDefault: true
+    }
+  );
+  Actors.registerSheet(
+    "foundry-chromatic-dungeons",
+    ChromaticActorPartySheet,
+    {
+      label: 'SHEET.names.party',
+      types: ['party'],
       makeDefault: true
     }
   );

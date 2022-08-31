@@ -2,7 +2,8 @@
   "Actor": {
     "types": [
       "pc",
-      "npc"
+      "npc",
+      "party"
     ],
     "templates": {
       "attributes": {
@@ -81,6 +82,15 @@
           "type": ""
         }
       }
+    },
+    "party": {
+      "templates": ["wealth"],
+      "party": [],
+      "hirelings": [],
+      "henchmen": [],
+      "pets": [],
+      "notes": "",
+      "gmNotes": ""
     },
     "pc": {
       "templates": [

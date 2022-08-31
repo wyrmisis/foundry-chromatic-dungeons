@@ -1,0 +1,198 @@
+<form
+  class="{{cssClass}}"
+  autocomplete="off"
+  id="actor-{{actor.id}}"
+>
+  {{!-- Sheet Header --}}
+  {{> (partial "actor/parts/party-header.hbs") }}
+  
+  {{!-- Sheet Body --}}
+  <main class="sheet-body">
+    <div class="tab-group">
+      {{!-- Sheet Tab Navigation --}}
+      <nav class="sheet-tabs tabs" data-group="primary">
+        {{!-- Default tab is specified in actor-party-sheet.mjs --}}
+        <a class="item" data-tab="pcs">PCs</a>
+        <a class="item" data-tab="npcs">NPCs</a>
+        <a class="item" data-tab="items">Treasury</a>
+        <a class="item" data-tab="notes">Notes</a>
+      </nav>
+
+      <div class="tab-group__container">
+        <div class="tab sheet-tab sheet-tab--pcs" data-group="primary" data-tab="pcs">
+
+          <ul class="card-group card-group--party card-group--pc" data-subtype="pcs">
+            {{#each pcs}}
+              <li
+                class="card card--icon card--party"
+                data-document-id="{{id}}"
+                data-id="{{uuid}}">
+                <img src="{{img}}">
+                <span class="card__name card__name--party card__name--unclamped" title="{{name}}">
+                  <h3>{{name}}</h3>
+                  {{{system.classList}}}
+                </span>
+              </li>
+            {{else}}
+              <li class="card card--empty">
+                <span>Drag player characters here</span>
+              </li>
+            {{/each}}
+          </ul>
+
+          {{#if deadPCs.length}}
+            <h3>Deceased</h3>
+            <ul class="card-group card-group--party card-group--pc" data-subtype="pcs">
+              {{#each deadPCs}}
+                <li
+                  class="card card--icon card--party card--dead"
+                  data-id="{{uuid}}">
+                  <img src="{{img}}">
+                  <span class="card__name card__name--party" title="{{name}}">
+                    {{name}}
+                  </span>
+                </li>
+              {{/each}}
+            </ul>
+          {{/if}}
+        </div>
+
+        <div class="tab sheet-tab sheet-tab--npcs" data-group="primary" data-tab="npcs">
+          <div class="npc-group npc-group--henchmen">
+            <h2>Henchpeople</h2>
+            <ul class="card-group card-group--party card-group--henchmen" data-subtype="henchmen">
+              {{#each henchpeople}}
+                <li
+                  class="card card--icon card--party"
+                  data-document-id="{{id}}"
+                  data-id="{{uuid}}">
+                  <img src="{{img}}">
+                  <span class="card__name card__name--party" title="{{name}}">
+                    {{name}}
+                  </span>
+                </li>
+              {{else}}
+                <li class="card--empty">
+                  <span>Drop henchpeople here</span>
+                </li>
+              {{/each}}
+            </ul>
+
+            {{#if deadHenchpeople.length}}
+              <h3>Deceased</h3>
+              <ul class="card-group card-group--party card-group--henchmen" data-subtype="henchmen">
+                {{#each deadHenchpeople}}
+                  <li
+                    class="card card--icon card--party"
+                    data-id="{{uuid}}">
+                    <img src="{{img}}">
+                    <span class="card__name card__name--party card--dead" title="{{name}}">
+                      {{name}}
+                    </span>
+                  </li>
+                {{/each}}
+              </ul>
+            {{/if}}
+          </div>
+
+          <div class="npc-group npc-group--hirelings">
+            <h2>Hirelings</h2>
+            <ul class="card-group card-group--party card-group--hirelings" data-subtype="hirelings">
+              {{#each hirelingActors}}
+                <li
+                  class="card card--icon card--party"
+                  data-document-id="{{id}}"
+                  data-id="{{uuid}}">
+                  <img src="{{img}}">
+                  <span class="card__name card__name--party" title="{{name}}">
+                    {{name}}
+                  </span>
+                  <input
+                    class="card__quantity"
+                    type="number"
+                    data-dtype="Number"
+                    data-action="quantity-update"
+                    min="0"
+                    value="{{count}}" />
+                </li>
+              {{else}}
+                <li class="card--empty">
+                  <span>Drop hirelings here</span>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+
+          <div class="npc-group npc-group--pets">
+            <h2>Mounts, Pets, and Companions</h2>
+            <ul class="card-group card-group--party card-group--pets" data-subtype="pets">
+              {{#each petActors}}
+                <li
+                  class="card card--icon card--party"
+                  data-document-id="{{id}}"
+                  data-id="{{uuid}}">
+                  <img src="{{img}}">
+                  <span class="card__name card__name--party" title="{{name}}">
+                    {{name}}
+                  </span>
+                </li>
+              {{else}}
+                <li class="card--empty">
+                  <span>Drop pets here</span>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
+
+        <div class="tab sheet-tab sheet-tab--treasury" data-group="primary" data-tab="items">
+          <div class="items__currency">
+            {{#each actor.system.wealth as |value key|}}
+              <div class="items__currency-item items__currency-item--{{key}}">
+                <label for="system.wealth.{{key}}">{{key}}</label>
+                <input
+                  type="number"
+                  data-dtype="Number"
+                  name="system.wealth.{{key}}"
+                  value={{value}} />
+              </div>
+            {{/each}}
+          </div>
+
+          <h2>Items</h2>
+          <ul class="card-group card-group--party-items" data-subtype="pets">
+            {{#each actor.items as |item|}}
+              <li
+                class="card card--icon"
+                data-item-id="{{item.id}}">
+                <img src="{{item.img}}">
+                <span class="card__name" title="{{item.name}}">
+                  {{item.name}}
+                </span>
+                <input
+                  class="item-card__quantity"
+                  type="number"
+                  data-dtype="Number"
+                  data-action="quantity-update"
+                  min="{{item.system.quantity.min}}"
+                  value="{{item.system.quantity.value}}" />
+              </li>
+            {{else}}
+              <li class="card--empty">
+                <span>Drop items here</span>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+
+        <div class="tab sheet-tab sheet-tab--notes" data-group="primary" data-tab="notes">
+          {{editor enrichedNotes
+            target="system.notes"
+            rollData=rollData
+            button=true
+            owner=owner
+            editable=editable
+          }}
+        </div>
+      </div>
+</form>

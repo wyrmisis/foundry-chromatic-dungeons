@@ -5,6 +5,8 @@ Hooks.once("ready", async function() {
 });
 
 const doDamageUpdates = async (actor, delta, options, user) => {
+  if (!['pc', 'npc'].includes(actor.type)) return;
+
   if (game.userId !== user) return; // This should only happen once!
 
   const [shouldBeUnconscious, shouldBeDead] = getActorDamageState(actor);

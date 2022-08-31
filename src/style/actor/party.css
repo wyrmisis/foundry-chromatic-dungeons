@@ -1,0 +1,30 @@
+.sheet-header--party {
+  .sheet-header__container {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-group--pc {
+  --card-group-columns: 1fr 1fr;
+  --card-icon-size: 48px;
+  font-size: 1.1em;
+
+  .card {
+    line-height: 1em;
+  }
+
+  h3 {
+    margin-bottom: .25em;
+  }
+}
+
+.npc-group {
+  margin-bottom: 1em;
+}
+
+.sheet-tab--treasury {
+  .items__currency {
+    @extends %panel;
+    margin-bottom: .5em;
+  }
+}

@@ -9,8 +9,10 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
  * @returns 
  */
  const commonActorSheetBehaviors = (actorSheet, html) => {
-  const itemClass = '.items__list-item';
-  const itemCardClass = '.item-card';
+  const itemClass = `.items__list-item`;
+  const itemListClass = `.items__list:not(.items__list--npc-spells)`;
+  const itemCardClass = `.item-card`;
+  const itemCardListClass = `.items__cards`;
 
   html.find('.class__name').click(ev => {
     const item = actorSheet.actor.items.get(ev.target.dataset.itemId);
@@ -46,7 +48,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
   };
 
   actorSheet.itemMenu = new ContextMenu(
-    $(itemClass).parent('ul:not(.items__list--npc-spells)'),
+    html.find(itemListClass),
     `${itemClass}:not(${itemClass}--header):not(${itemClass}--empty)`,
     [
       {
@@ -78,7 +80,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
   );
 
   actorSheet.itemCardMenu = new ContextMenu(
-    $(itemCardClass).parent('ul'),
+    html.find(itemCardListClass),
     itemCardClass,
     [
       commonContextOptions.share,
@@ -189,7 +191,7 @@ import { onManageActiveEffect } from "../../helpers/effects.mjs";
   // Drag events for macros.
   if (actorSheet.actor.isOwner) {
     let handler = ev => actorSheet._onDragStart(ev);
-    html.find(itemClass).each((i, li) => {
+    document.querySelectorAll(itemClass).forEach(li => {
       if (li.classList.contains("items__list-item--header")) return;
       li.setAttribute("draggable", true);
       li.addEventListener("dragstart", handler, false);

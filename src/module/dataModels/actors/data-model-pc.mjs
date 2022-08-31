@@ -449,6 +449,12 @@ class PCDataModel extends foundry.abstract.DataModel {
   get classes() {
     return this.parent.items.filter(({type}) => type === 'class');
   }
+
+  get classList() {
+    return this.classes
+      .map(({name, system}) => `${system.level} ${name}`)
+      .join('/&shy;')
+  }
 }
 
 export default PCDataModel;

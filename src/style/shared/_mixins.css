@@ -41,9 +41,18 @@
   }
 }
 
+%card-group {
+  list-style: none;
+  display: grid;
+  grid-template-columns: var(--card-group-columns, 1fr 1fr);
+  grid-gap: 1em;
+  margin: 0 0 .5em;
+  padding: 0;
+}
+
 %card {
   @extends %panel;
-  
+
   &--empty {
     color: var(--empty-color);
     font-style: italic;
@@ -103,14 +112,22 @@
   justify-content: space-between;
 
   img {
-    width: 32px;
-    height: 32px;
+    width: var(--card-icon-size, 32px);
+    height: var(--card-icon-size, 32px);
 
     @extends %inset-image;
   }
 
   & > span {
     flex: 1;
+    overflow: hidden;
+
+    &:not(.card__name--unclamped) {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
 
     &:last-of-type:not(:first-of-type) {
       flex: 0;

@@ -85,7 +85,7 @@ class ChromaticActorNPCSheet extends ActorSheet {
       ];
 
     this.spellMenu = new ContextMenu(
-      $('.items__list--npc-spells'),
+      html.find('.items__list--npc-spells'),
       '.items__list-item:not(.items__list-item--header)',
       spellMenuActions.filter(action => !!action)
     );
@@ -251,61 +251,18 @@ class ChromaticActorNPCSheet extends ActorSheet {
     });
   }
 
-  // _validateEquippedArmor(li, item, ev) {
-  //   const siblings = li
-  //     .siblings()
-  //     .filter((_, node) => node.dataset.armorType === item.system.armorType)
-  //     .not('.items__list-item--header');
+    /**
+   * @overrides
+   */
+  async _onDropItem(event, data) {
+    const item = await Item.implementation.fromDropData(data);
+    const result = await super._onDropItem(event, data);
 
-  //   const overlappingArmorTypes = !!siblings.filter((_, node) => {
-  //     const siblingItem = this.actor.items.get(node.dataset.itemId);
+    if (item.parent)
+      await item.delete();
 
-  //     return (siblingItem.system.armorType === item.system.armorType) &&
-  //       siblingItem.system.equipped
-  //   }).length;
-
-  //   if (overlappingArmorTypes) {
-  //     siblings
-  //       .children('.items__list-column--equipped input[type="checkbox"]')
-  //       .prop('checked', false);
-
-  //     siblings.each((_, node) => {
-  //       const siblingItem = this.actor.items.get(node.dataset.itemId);
-
-  //       siblingItem.update({
-  //         _id: siblingItem.id,
-  //         'system.equipped': false
-  //       });
-  //     });
-  //   }
-
-  //   return item.update({
-  //     _id: item.id,
-  //     'system.equipped': ev.target.checked
-  //   });
-  // }
-
-  // _validateEquippedWeapon(li, item, ev) {
-  //   ev.preventDefault();
-  //   ev.stopPropagation();
-    
-  //   const equippedItems = li
-  //     .parent('ul')
-  //     .children('li')
-  //     .not('.items__list-item--header')
-  //     .children('.items__list-column--equipped')
-  //     .find('input:checked')
-
-  //   if (equippedItems.length >= 3) {
-  //     ev.target.checked = false;
-  //     return false;
-  //   }
-
-  //   return item.update({
-  //     _id: item.id,
-  //     'system.equipped': ev.target.checked
-  //   });
-  // }
+    return result;
+  }
 
   /**
    * ---------------------- ITEM CRUD ---------------------- 

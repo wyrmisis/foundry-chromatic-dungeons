@@ -283,22 +283,17 @@
   }
 
   .items__cards {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 1em;
-    margin: 0 0 .5em;
-    padding: 0;
+    @extends %card-group;
 
     .item-card {
       @extends %icon-card;
     }
 
-    .sheet--horizontal-attributes& {
-      grid-template-columns: 1fr 1fr 1fr;
-    }
   }
-
+  .sheet--horizontal-attributes .items__cards {
+    --card-group-columns: 1fr 1fr 1fr;
+  }
+  
   .items__currency {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
@@ -355,4 +350,8 @@
   .spell{
     
   }
+}
+
+.card-group {
+  --card-group-columns: 1fr 1fr 1fr;
 }
